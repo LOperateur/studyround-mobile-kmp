@@ -33,7 +33,8 @@ kotlin {
                 implementation(compose.components.resources)
 
                 implementation(libs.kamel.image)
-                implementation(libs.napier)
+                implementation(libs.kermit)
+                implementation(libs.material3.window.size.multiplatform)
 
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.content.negotiation)
@@ -43,17 +44,15 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.datetime)
 
-                implementation(libs.sqlDelight.coroutine)
-//                implementation(libs.sqlDelight.runtime)
-//                implementation(libs.sqlDelight.primitive.adapters)
-
-                implementation(libs.material3.window.size.multiplatform)
-
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.bottomSheetNavigator)
                 implementation(libs.voyager.koin)
                 implementation(libs.voyager.transitions)
                 implementation(libs.voyager.tabNavigator)
+
+                implementation(libs.sqlDelight.coroutine)
+//                implementation(libs.sqlDelight.runtime)
+//                implementation(libs.sqlDelight.primitive.adapters)
             }
         }
         val androidMain by getting {
