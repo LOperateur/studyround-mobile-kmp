@@ -1,4 +1,4 @@
-package com.myapplication
+package com.studyround.app
 
 import MainView
 import android.os.Bundle
