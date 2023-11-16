@@ -4,19 +4,25 @@ agp="8.0.2"
 appcompat = "1.6.1"
 compose="1.5.10"
 core-ktx = "1.12.0"
+kamel = "0.8.3"
 koin="3.5.0"
 koin-compose="1.1.0"
 kotlin = "1.9.20"
 kotlinx-coroutines = "1.7.3"
 kotlinx-datetime = "0.4.1"
-kotlinx-serialization = "1.5.1"
+kotlinx-serialization = "1.6.0"
 ktor = "2.3.6"
+material-window-size="0.3.1"
+napier = "2.6.1"
+sqlDelight = "2.0.0"
+turbine="1.0.0"
 voyager = "1.0.0-rc10"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+kamel-image = { module = "media.kamel:kamel-image", version.ref = "kamel" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose"}
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin"}
@@ -30,6 +36,14 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+material3-window-size-multiplatform = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "material-window-size" }
+napier = { module = "io.github.aakira:napier", version.ref = "napier" }
+#sqlDelight-primitive-adapters = { module = "app.cash.sqldelight:primitive-adapters", version.ref = "sqlDelight" }
+#sqlDelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqlDelight" }
+sqlDelight-coroutine = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
+sqlDelight-driver-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
+sqlDelight-driver-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelight" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-bottomSheetNavigator = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
 voyager-tabNavigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
@@ -44,6 +58,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-
-[bundles]
-
+sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }

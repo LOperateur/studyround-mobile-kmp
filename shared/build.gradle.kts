@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -31,6 +32,9 @@ kotlin {
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
 
+                implementation(libs.kamel.image)
+                implementation(libs.napier)
+
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
@@ -38,6 +42,12 @@ kotlin {
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.datetime)
+
+                implementation(libs.sqlDelight.coroutine)
+//                implementation(libs.sqlDelight.runtime)
+//                implementation(libs.sqlDelight.primitive.adapters)
+
+                implementation(libs.material3.window.size.multiplatform)
 
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.bottomSheetNavigator)
@@ -53,6 +63,7 @@ kotlin {
                 api(libs.androidx.core.ktx)
                 implementation(libs.ktor.client.okhttp)
                 implementation(libs.kotlinx.coroutines.android)
+                implementation(libs.sqlDelight.driver.android)
             }
         }
         val iosX64Main by getting
@@ -66,6 +77,7 @@ kotlin {
 
             dependencies {
                 implementation(libs.ktor.client.darwin)
+                implementation(libs.sqlDelight.driver.native)
             }
         }
     }
