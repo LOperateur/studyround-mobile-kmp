@@ -1,10 +1,20 @@
 import SwiftUI
+import shared
 
 @main
 struct iOSApp: App {
-	var body: some Scene {
+
+	let iosBridge: IosPlatformBridge
+	let sampleComponent: SamplePlatformComponent
+
+    init() {
+        sampleComponent = SampleIOSComponent()
+        iosBridge = IosPlatformBridgeKt.providesIosPlatformBridge(samplePlatformComponent: sampleComponent)
+    }
+
+    var body: some Scene {
 		WindowGroup {
-			ContentView()
+			ContentView(iosBridge: iosBridge)
 		}
 	}
 }
