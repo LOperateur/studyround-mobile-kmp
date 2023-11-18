@@ -1,7 +1,9 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("org.jetbrains.compose")
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -21,18 +23,47 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(libs.koin.core)
+                implementation(libs.koin.compose)
+
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+
+                implementation(libs.kamel.image)
+                implementation(libs.kermit)
+                implementation(libs.material3.window.size.multiplatform)
+
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.serialization.kotlinx.json)
+
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.kotlinx.datetime)
+
+                implementation(libs.voyager.navigator)
+                implementation(libs.voyager.bottomSheetNavigator)
+                implementation(libs.voyager.koin)
+                implementation(libs.voyager.transitions)
+                implementation(libs.voyager.tabNavigator)
+
+                implementation(libs.sqlDelight.coroutine)
+//                implementation(libs.sqlDelight.runtime)
+//                implementation(libs.sqlDelight.primitive.adapters)
             }
         }
         val androidMain by getting {
             dependencies {
-                api("androidx.activity:activity-compose:1.7.2")
-                api("androidx.appcompat:appcompat:1.6.1")
-                api("androidx.core:core-ktx:1.10.1")
+                api(libs.androidx.activity.compose)
+                api(libs.androidx.appcompat)
+                api(libs.androidx.core.ktx)
+                api(libs.koin.android)
+                implementation(libs.ktor.client.okhttp)
+                implementation(libs.kotlinx.coroutines.android)
+                implementation(libs.sqlDelight.driver.android)
             }
         }
         val iosX64Main by getting
@@ -43,13 +74,18 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+
+            dependencies {
+                implementation(libs.ktor.client.darwin)
+                implementation(libs.sqlDelight.driver.native)
+            }
         }
     }
 }
 
 android {
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
-    namespace = "com.myapplication.common"
+    namespace = "com.studyround.app.common"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
