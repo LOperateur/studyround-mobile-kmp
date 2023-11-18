@@ -4,8 +4,9 @@ import android.os.Build
 import android.util.Log
 import com.studyround.app.platform.components.SampleComponent
 
-class AndroidPlatform : Platform {
-    override val sampleComponent: SampleComponent = SampleAndroidComponent()
+class AndroidPlatform(
+    override val sampleComponent: SampleComponent = SampleAndroidComponent(),
+) : Platform {
     override val deviceName: String = "Android ${Build.VERSION.SDK_INT}"
 }
 
