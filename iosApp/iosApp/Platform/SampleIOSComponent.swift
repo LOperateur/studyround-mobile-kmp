@@ -9,7 +9,7 @@
 import Foundation
 import shared
 
-class SampleIOSComponent : SamplePlatformComponent {
+class SampleIOSComponent : SampleComponent {
     func sayHello(name: String) {
         print("Hello from iOS \(name)")
     }

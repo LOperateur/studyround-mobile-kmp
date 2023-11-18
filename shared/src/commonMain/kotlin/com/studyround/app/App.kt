@@ -16,42 +16,47 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import co.touchlab.kermit.Logger
-import com.studyround.app.platform.PlatformBridge
-import com.studyround.app.platform.components.SamplePlatformComponent
+import com.studyround.app.platform.PlatformComponents
+import com.studyround.app.platform.components.SampleComponent
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.KoinContext
+import org.koin.compose.koinInject
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun App(platformBridge: PlatformBridge) {
-    SampleComposable(platformBridge.samplePlatformComponent)
-    MaterialTheme {
-        var greetingText by remember { mutableStateOf("Hello, World!") }
-        var showImage by remember { mutableStateOf(false) }
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = {
-                greetingText = "Hello, ${getPlatformName()}"
-                showImage = !showImage
-            }) {
-                Text(greetingText)
-            }
-            AnimatedVisibility(showImage) {
-                Image(
-                    painterResource("compose-multiplatform.xml"),
-                    null
-                )
+fun App(platform: PlatformComponents = koinInject()) {
+
+    KoinContext {
+        SampleComposable()
+        MaterialTheme {
+            var greetingText by remember { mutableStateOf("Hello, World!") }
+            var showImage by remember { mutableStateOf(false) }
+            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                Button(onClick = {
+                    greetingText = "Hello, ${platform.version}"
+                    showImage = !showImage
+                }) {
+                    Text(greetingText)
+                }
+                AnimatedVisibility(showImage) {
+                    Image(
+                        painterResource("compose-multiplatform.xml"),
+                        null
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-private fun SampleComposable(bridge: SamplePlatformComponent) {
+private fun SampleComposable(
+    component: SampleComponent = koinInject(),
+    platform: PlatformComponents = koinInject(),
+) {
     LaunchedEffect(Unit) {
-
-        bridge.sayHello("StudyRound")
-        Logger.d(tag = "Sample", messageString = bridge.returnGreeting("U-Learn"))
+        component.sayHello(platform.version)
+        Logger.d(tag = "Sample", messageString = component.returnGreeting("StudyRound"))
     }
 }
-
-expect fun getPlatformName(): String

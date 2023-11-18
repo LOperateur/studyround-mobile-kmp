@@ -24,7 +24,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(libs.koin.core)
-                api(libs.koin.compose)
+                implementation(libs.koin.compose)
 
                 implementation(compose.runtime)
                 implementation(compose.foundation)
@@ -60,6 +60,7 @@ kotlin {
                 api(libs.androidx.activity.compose)
                 api(libs.androidx.appcompat)
                 api(libs.androidx.core.ktx)
+                api(libs.koin.android)
                 implementation(libs.ktor.client.okhttp)
                 implementation(libs.kotlinx.coroutines.android)
                 implementation(libs.sqlDelight.driver.android)
