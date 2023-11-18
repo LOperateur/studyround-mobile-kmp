@@ -2,7 +2,7 @@ package com.studyround.app
 
 import android.app.Application
 import com.studyround.app.di.initKoin
-import com.studyround.app.platform.AndroidPlatformComponents
+import com.studyround.app.platform.AndroidPlatform
 import org.koin.android.ext.koin.androidContext
 
 class StudyRoundApp : Application() {
@@ -10,7 +10,7 @@ class StudyRoundApp : Application() {
         super.onCreate()
 
         initKoin(
-            platformComponents = AndroidPlatformComponents()
+            platform = AndroidPlatform()
         ) {
             androidContext(this@StudyRoundApp)
         }

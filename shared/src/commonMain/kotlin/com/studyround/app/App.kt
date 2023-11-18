@@ -16,7 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import co.touchlab.kermit.Logger
-import com.studyround.app.platform.PlatformComponents
+import com.studyround.app.platform.Platform
 import com.studyround.app.platform.components.SampleComponent
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
@@ -25,16 +25,14 @@ import org.koin.compose.koinInject
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun App(platform: PlatformComponents = koinInject()) {
-
+fun App(platform: Platform = koinInject()) {
     KoinContext {
-        SampleComposable()
         MaterialTheme {
             var greetingText by remember { mutableStateOf("Hello, World!") }
             var showImage by remember { mutableStateOf(false) }
             Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                 Button(onClick = {
-                    greetingText = "Hello, ${platform.version}"
+                    greetingText = "Hello, ${platform.deviceName}"
                     showImage = !showImage
                 }) {
                     Text(greetingText)
@@ -47,16 +45,5 @@ fun App(platform: PlatformComponents = koinInject()) {
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun SampleComposable(
-    component: SampleComponent = koinInject(),
-    platform: PlatformComponents = koinInject(),
-) {
-    LaunchedEffect(Unit) {
-        component.sayHello(platform.version)
-        Logger.d(tag = "Sample", messageString = component.returnGreeting("StudyRound"))
     }
 }

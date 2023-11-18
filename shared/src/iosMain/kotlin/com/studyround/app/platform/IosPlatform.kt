@@ -6,9 +6,9 @@ import platform.UIKit.UIDevice
 /**
  * Called from iOS App in Swift
  */
-class IosPlatformComponents(
+class IosPlatform(
     override val sampleComponent: SampleComponent,
-) : PlatformComponents {
-    override val version: String
+) : Platform {
+    override val deviceName: String
         get() = UIDevice.currentDevice.systemName() + " " + UIDevice.currentDevice.systemVersion
 }

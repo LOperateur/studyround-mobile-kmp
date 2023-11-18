@@ -1,11 +1,11 @@
 package com.studyround.app.di
 
-import com.studyround.app.platform.PlatformComponents
+import com.studyround.app.platform.Platform
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 
 fun initKoin(
-    platformComponents: PlatformComponents,
+    platform: Platform,
     appDeclaration: KoinAppDeclaration = {},
 ) {
     startKoin {
@@ -13,7 +13,7 @@ fun initKoin(
         modules(
             listOf(
                 commonModule,
-                platformModule(platformComponents),
+                platformModule(platform),
             )
         )
     }

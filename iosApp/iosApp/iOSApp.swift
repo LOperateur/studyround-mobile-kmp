@@ -6,7 +6,7 @@ struct iOSApp: App {
 
     init() {
         KoinInitKt.doInitKoin(
-            platformComponents: IosPlatformComponents(
+            platform: IosPlatform(
                 sampleComponent: SampleIOSComponent()
             ),
             appDeclaration: { _ in}

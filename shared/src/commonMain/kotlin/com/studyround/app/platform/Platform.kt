@@ -2,8 +2,8 @@ package com.studyround.app.platform
 
 import com.studyround.app.platform.components.SampleComponent
 
-interface PlatformComponents {
+interface Platform {
     val sampleComponent: SampleComponent
-    val version: String
+    val deviceName: String
     // Add more platform-specific values or components here...
 }
