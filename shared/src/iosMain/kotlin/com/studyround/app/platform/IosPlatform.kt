@@ -8,7 +8,7 @@ import platform.UIKit.UIDevice
  */
 class IosPlatform(
     override val sampleComponent: SampleComponent,
-) : Platform {
+) : SharedPlatform {
     override val deviceName: String
         get() = UIDevice.currentDevice.systemName() + " " + UIDevice.currentDevice.systemVersion
 }
