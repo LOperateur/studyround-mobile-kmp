@@ -15,6 +15,10 @@ class AndroidNetworkHelper(context: Context) : NetworkHelper {
                 onNetworkAvailable()
             }
 
+            override fun onUnavailable() {
+                onNetworkLost()
+            }
+
             override fun onLost(network: Network) {
                 onNetworkLost()
             }
