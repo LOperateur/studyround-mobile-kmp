@@ -1,3 +1,11 @@
+//
+//  IosNetworkHelper.swift
+//  iosApp
+//
+//  Created by Mofe Ejegi on 19/11/2023.
+//  Copyright © 2023 L'Operateur Ltd. All rights reserved.
+//
+
 import Foundation
 import Network
 import shared

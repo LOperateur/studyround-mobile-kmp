@@ -10,7 +10,6 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
-		F19BCA0FC7E2F797EB7D6901 /* SampleIOSComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19BCB397521C47FF8499F35 /* SampleIOSComponent.swift */; };
 		F19BCB5340D403E83A1206F5 /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19BC0AFCF06EE5E992809C0 /* iOSApp.swift */; };
 		F19BCDABADD21EFD76F04E96 /* IosNetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19BC63BC2FD8B2D1F64FEDA /* IosNetworkHelper.swift */; };
 /* End PBXBuildFile section */
@@ -24,7 +23,6 @@
 		AB3632DC29227652001CCB65 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		F19BC0AFCF06EE5E992809C0 /* iOSApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		F19BC63BC2FD8B2D1F64FEDA /* IosNetworkHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IosNetworkHelper.swift; sourceTree = "<group>"; };
-		F19BCB397521C47FF8499F35 /* SampleIOSComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleIOSComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +94,6 @@
 		B03665942B07DBFC00FA1E90 /* Platform */ = {
 			isa = PBXGroup;
 			children = (
-				F19BCB397521C47FF8499F35 /* SampleIOSComponent.swift */,
 				F19BC63BC2FD8B2D1F64FEDA /* IosNetworkHelper.swift */,
 			);
 			path = Platform;
@@ -207,7 +204,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
-				F19BCA0FC7E2F797EB7D6901 /* SampleIOSComponent.swift in Sources */,
 				F19BCB5340D403E83A1206F5 /* iOSApp.swift in Sources */,
 				F19BCDABADD21EFD76F04E96 /* IosNetworkHelper.swift in Sources */,
 			);
