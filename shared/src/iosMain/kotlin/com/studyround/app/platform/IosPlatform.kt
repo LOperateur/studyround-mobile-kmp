@@ -1,6 +1,7 @@
 package com.studyround.app.platform
 
 import com.studyround.app.platform.components.SampleComponent
+import com.studyround.app.platform.utils.NetworkHelper
 import platform.UIKit.UIDevice
 
 /**
@@ -8,6 +9,7 @@ import platform.UIKit.UIDevice
  */
 class IosPlatform(
     override val sampleComponent: SampleComponent,
+    override val networkHelper: NetworkHelper,
 ) : SharedPlatform {
     override val deviceName: String
         get() = UIDevice.currentDevice.systemName() + " " + UIDevice.currentDevice.systemVersion

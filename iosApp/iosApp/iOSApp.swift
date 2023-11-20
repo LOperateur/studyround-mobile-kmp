@@ -3,11 +3,11 @@ import shared
 
 @main
 struct iOSApp: App {
-
     init() {
         KoinInitKt.doInitKoin(
             platform: IosPlatform(
-                sampleComponent: SampleIOSComponent()
+                sampleComponent: SampleIOSComponent(),
+                networkHelper: IosNetworkHelper()
             ),
             appDeclaration: { _ in}
         )
