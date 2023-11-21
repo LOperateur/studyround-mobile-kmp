@@ -1,16 +1,16 @@
 package com.studyround.app
 
 import android.app.Application
-import com.studyround.app.di.initKoin
-import com.studyround.app.platform.AndroidPlatform
+import com.studyround.app.di.initKoinAndroid
+import com.studyround.app.platform.AndroidApplicationComponent
 import org.koin.android.ext.koin.androidContext
 
 class StudyRoundApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        initKoin(
-            platform = AndroidPlatform()
+        initKoinAndroid(
+            appComponent = AndroidApplicationComponent(this)
         ) {
             androidContext(this@StudyRoundApp)
         }

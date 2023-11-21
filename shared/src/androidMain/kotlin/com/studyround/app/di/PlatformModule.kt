@@ -1,11 +1,11 @@
 package com.studyround.app.di
 
-import com.studyround.app.platform.AndroidPlatform
-import com.studyround.app.platform.Platform
-import com.studyround.app.platform.components.SampleComponent
+import com.studyround.app.platform.AndroidApplicationComponent
+import com.studyround.app.platform.utils.NetworkListener
 import org.koin.dsl.module
 
-actual fun platformModule(platform: Platform) = module {
-    single { platform }
-    single<SampleComponent> { get<AndroidPlatform>().sampleComponent }
+actual val platformModule = module {
+    single { get<AndroidApplicationComponent>().platform }
+    single { get<AndroidApplicationComponent>().networkHelper }
+    single { NetworkListener(get()) }
 }
