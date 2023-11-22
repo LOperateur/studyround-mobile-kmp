@@ -1,27 +1,20 @@
-rootProject.name = "MyApplication"
+rootProject.name = "StudyRound"
 
-include(":androidApp")
-include(":shared")
+include(":composeApp")
 
 pluginManagement {
     repositories {
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        google()
         gradlePluginPortal()
         mavenCentral()
-        google()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
-}
-
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version("0.4.0")
 }
 
 dependencyResolutionManagement {
     repositories {
-        mavenCentral()
         google()
+        mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
-
-rootProject.name = "StudyRound"
