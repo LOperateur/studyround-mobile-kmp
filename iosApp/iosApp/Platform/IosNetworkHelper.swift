@@ -8,7 +8,7 @@
 
 import Foundation
 import Network
-import shared
+import composeApp
 
 class IosNetworkHelper : NetworkHelper {
     private let monitor: NWPathMonitor = NWPathMonitor()

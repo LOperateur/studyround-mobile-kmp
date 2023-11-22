@@ -1,10 +1,10 @@
 import SwiftUI
-import shared
+import composeApp
 
 @main
 struct iOSApp: App {
     init() {
-        KoinInitIosKt.doInitKoinIos(
+        KoinInit_iosKt.doInitKoinIos(
             appComponent: IosApplicationComponent(
                 networkHelper: IosNetworkHelper()
             )
