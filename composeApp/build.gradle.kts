@@ -49,7 +49,7 @@ kotlin {
             implementation(libs.voyager.transitions)
             implementation(libs.voyager.tabNavigator)
 
-            implementation(libs.sqlDelight.coroutine)
+//            implementation(libs.sqlDelight.coroutine)
 //            implementation(libs.sqlDelight.runtime)
 //            implementation(libs.sqlDelight.primitive.adapters)
         }
@@ -63,12 +63,12 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
-            implementation(libs.sqlDelight.driver.android)
+//            implementation(libs.sqlDelight.driver.android)
         }
 
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
-            implementation(libs.sqlDelight.driver.native)
+//            implementation(libs.sqlDelight.driver.native)
         }
     }
 }
