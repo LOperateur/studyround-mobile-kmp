@@ -1,10 +1,10 @@
 package com.studyround.app.platform
 
 import com.studyround.app.platform.utils.NetworkHelper
-import com.studyround.app.platform.utils.Platform
+import com.studyround.app.platform.utils.BuildTargetInfo
 
 interface SharedApplicationComponent {
-    val platform: Platform
+    val buildTargetInfo: BuildTargetInfo
     val networkHelper: NetworkHelper
     // Add more shared platform-specific components here...
 }
