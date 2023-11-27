@@ -34,6 +34,7 @@ kotlin {
             implementation(libs.kamel.image)
             implementation(libs.kermit)
             implementation(libs.material3.window.size.multiplatform)
+            implementation(libs.multiplatform.settings)
 
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
@@ -61,6 +62,7 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.security.crypto)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
 //            implementation(libs.sqlDelight.driver.android)

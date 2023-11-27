@@ -4,6 +4,7 @@ agp= "8.1.4"
 android-minSdk = "24"
 android-compileSdk = "34"
 android-targetSdk = "34"
+androidx-security = "1.0.0"
 appcompat = "1.6.1"
 compose="1.5.10"
 compose-compiler = "1.5.4"
@@ -18,6 +19,7 @@ kotlinx-datetime = "0.4.1"
 kotlinx-serialization = "1.6.0"
 ktor = "2.3.6"
 material-window-size="0.3.1"
+multiplatform-settings = "1.1.1"
 sqlDelight = "2.0.0"
 turbine="1.0.0"
 voyager = "1.0.0-rc10"
@@ -26,6 +28,7 @@ voyager = "1.0.0-rc10"
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "androidx-security" }
 
 # Compose UI
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-compiler" }
@@ -64,6 +67,9 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 
 # Window Size Class getter for MultiPlatform
 material3-window-size-multiplatform = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "material-window-size" }
+
+# Preferences
+multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
 
 # SQLite for local DB storage
 sqlDelight-driver-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
