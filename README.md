@@ -1,6 +1,6 @@
 # [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform) mobile application
 
-This is a [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) project that uses the Compose Multiplatform UI framework.
+This is the [StudyRound](https://studyround.com) mobile [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) app that uses the Compose Multiplatform UI framework.
 
 
 ## Set up the environment
@@ -55,7 +55,7 @@ Open the project in Android Studio and switch the view from **Android** to **Pro
 
 <img src="readme_images/open_project_view.png" height="300px">
 
-Your Compose Multiplatform project includes 3 modules:
+Your Compose Multiplatform project includes 2 modules:
 
 ### composeApp
 
@@ -65,7 +65,6 @@ This `composeApp` module is also where you’ll write your Compose Multiplatform
 In `composeApp/src/commonMain/kotlin/App.kt`, you can find the shared root `@Composable` function for your app.
 
 It uses Gradle as the build system. You can add dependencies and change settings in `composeApp/build.gradle.kts`.
-The `shared` module builds into an Android library and an iOS framework.
 
 ### iosApp
 
@@ -83,8 +82,6 @@ To run your application on an Android emulator:
 3. Choose your virtual device and click **Run**:
 
    <img src="readme_images/run_on_android.png" height="60px">
-
-   <img src="readme_images/android_app_running.png" height="200px">
 
 <details>
   <summary>Alternatively, use Gradle</summary>
@@ -110,11 +107,9 @@ To run your application on an iOS simulator in Android Studio, modify the `iosAp
 
 4. The `iosApp` run configuration is now available. Click **Run** next to your virtual device:
 
-<img src="readme_images/hello_world_ios.png" height="200px">
-
 #### Running on a real device
 
-You can run your Compose Multiplatform application on a real iOS device for free.
+You can run the StudyRound app on a real iOS device for free.
 To do so, you'll need the following:
 
 * The `TEAM_ID` associated with your [Apple ID](https://support.apple.com/en-us/HT204316)
@@ -123,7 +118,7 @@ To do so, you'll need the following:
 To run the application, set the `TEAM_ID`:
 
 1. In the template, navigate to the `iosApp/Configuration/Config.xcconfig` file.
-2. Set your `TEAM_ID`.
+2. Set your `TEAM_ID`. Ask @mofeejegi for this.
 3. Re-open the project in Android Studio. It should show the registered iOS device in the `iosApp` run configuration.
 
 ## How to configure the iOS application

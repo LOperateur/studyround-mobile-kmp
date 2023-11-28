@@ -40,8 +40,6 @@ fun App(
                 }) {
                     Text(greetingText)
                 }
-                val arr = listOf<Int>()
-                arr.lastIndex
                 AnimatedVisibility(showImage) {
                     Image(
                         painterResource("compose-multiplatform.xml"),
