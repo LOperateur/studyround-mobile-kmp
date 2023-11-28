@@ -9,6 +9,7 @@ import com.studyround.app.platform.utils.Credentials
 import com.studyround.app.platform.utils.NetworkHelper
 import com.studyround.app.storage.Preferences
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 actual val platformModule = module {
@@ -16,7 +17,7 @@ actual val platformModule = module {
 
     single<NetworkHelper> { AndroidNetworkHelper(androidContext()) }
 
-    single<Settings> { SharedPreferencesSettings(Preferences.createSettingsPrefs(androidContext()),true) }
+    single<Settings>(named(NAMED_SETTINGS)) { SharedPreferencesSettings(Preferences.createSettingsPrefs(androidContext()),true) }
 
-    single<Credentials> { SharedPreferencesSettings(Preferences.createCredentialsPrefs(androidContext()), true) }
+    single<Credentials>(named(NAMED_CREDENTIALS)) { SharedPreferencesSettings(Preferences.createCredentialsPrefs(androidContext()), true) }
 }

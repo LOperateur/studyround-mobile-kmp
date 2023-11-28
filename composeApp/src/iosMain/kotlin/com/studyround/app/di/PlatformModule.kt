@@ -9,6 +9,7 @@ import com.studyround.app.platform.utils.BuildTargetInfo
 import com.studyround.app.platform.utils.Credentials
 import com.studyround.app.platform.utils.IosBuildTargetInfo
 import com.studyround.app.platform.utils.NetworkHelper
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 @OptIn(ExperimentalSettingsImplementation::class)
@@ -17,7 +18,7 @@ actual val platformModule = module {
 
     single<NetworkHelper> { get<IosApplicationComponent>().networkHelper }
 
-    single<Settings> { NSUserDefaultsSettings(get<IosApplicationComponent>().userDefaults) }
+    single<Settings>(named(NAMED_SETTINGS)) { NSUserDefaultsSettings(get<IosApplicationComponent>().userDefaults) }
 
-    single<Credentials> { KeychainSettings("com.operator.studyround.secrets") }
+    single<Credentials>(named(NAMED_CREDENTIALS)) { KeychainSettings("com.operator.studyround.secrets") }
 }

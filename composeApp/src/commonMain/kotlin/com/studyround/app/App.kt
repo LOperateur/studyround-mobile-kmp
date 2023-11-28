@@ -15,9 +15,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.studyround.app.platform.utils.BuildTargetInfo
 import com.studyround.app.platform.utils.NetworkListener
 import com.studyround.app.platform.utils.NetworkStatus
-import com.studyround.app.platform.utils.BuildTargetInfo
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.KoinContext
