@@ -6,7 +6,8 @@ struct iOSApp: App {
     init() {
         KoinInit_iosKt.doInitKoinIos(
             appComponent: IosApplicationComponent(
-                networkHelper: IosNetworkHelper()
+                networkHelper: IosNetworkHelper(),
+                userDefaults: UserDefaults(suiteName: "com.operator.studyround.shared")!
             )
         )
     }

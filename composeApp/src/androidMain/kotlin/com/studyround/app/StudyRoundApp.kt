@@ -10,7 +10,7 @@ class StudyRoundApp : Application() {
         super.onCreate()
 
         initKoinAndroid(
-            appComponent = AndroidApplicationComponent(this)
+            appComponent = AndroidApplicationComponent()
         ) {
             androidContext(this@StudyRoundApp)
         }
