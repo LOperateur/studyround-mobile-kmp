@@ -88,7 +88,7 @@ voyager-tabNavigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", v
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 
-# TODO: Resources, Build Types, Shared Prefs.
+# TODO: Resources, Build Types
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
