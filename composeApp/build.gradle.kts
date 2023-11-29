@@ -102,7 +102,18 @@ android {
         }
     }
     buildTypes {
+        getByName("debug") {
+            applicationIdSuffix = ".debug"
+            isDebuggable = true
+        }
         getByName("release") {
+            isMinifyEnabled = false
+            isDebuggable = false
+        }
+
+        create("staging") {
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".staging"
             isMinifyEnabled = false
         }
     }
