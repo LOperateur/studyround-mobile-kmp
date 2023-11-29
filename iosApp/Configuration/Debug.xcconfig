@@ -11,3 +11,4 @@
 
 BUNDLE_ID=$(inherited).debug
 APP_NAME=$(inherited)Dev
+KOTLIN_FRAMEWORK_BUILD_TYPE=debug
