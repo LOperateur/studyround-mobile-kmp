@@ -10,3 +10,4 @@
 // https://help.apple.com/xcode/#/dev745c5c974
 
 KOTLIN_FRAMEWORK_BUILD_TYPE=release
+BASE_API_URL=https:/$()/backend.studyround.com
