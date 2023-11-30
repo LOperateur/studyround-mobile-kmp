@@ -15,7 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.studyround.app.platform.utils.BuildTargetInfo
+import com.studyround.app.platform.utils.Platform
 import com.studyround.app.platform.utils.NetworkListener
 import com.studyround.app.platform.utils.NetworkStatus
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -26,7 +26,7 @@ import org.koin.compose.koinInject
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App(
-    buildTargetInfo: BuildTargetInfo = koinInject(),
+    platform: Platform = koinInject(),
     networkListener: NetworkListener = koinInject(),
 ) {
     KoinContext {
@@ -35,7 +35,7 @@ fun App(
             var showImage by remember { mutableStateOf(false) }
             Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                 Button(onClick = {
-                    greetingText = "Hello, ${buildTargetInfo.deviceName}"
+                    greetingText = "Hello, ${platform.deviceName}"
                     showImage = !showImage
                 }) {
                     Text(greetingText)

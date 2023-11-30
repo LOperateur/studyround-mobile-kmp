@@ -5,16 +5,16 @@ import com.russhwolf.settings.KeychainSettings
 import com.russhwolf.settings.NSUserDefaultsSettings
 import com.russhwolf.settings.Settings
 import com.studyround.app.platform.IosApplicationComponent
-import com.studyround.app.platform.utils.BuildTargetInfo
+import com.studyround.app.platform.utils.Platform
 import com.studyround.app.platform.utils.Credentials
-import com.studyround.app.platform.utils.IosBuildTargetInfo
+import com.studyround.app.platform.utils.IosPlatform
 import com.studyround.app.platform.utils.NetworkHelper
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 @OptIn(ExperimentalSettingsImplementation::class)
 actual val platformModule = module {
-    single<BuildTargetInfo> { IosBuildTargetInfo() }
+    single<Platform> { IosPlatform() }
 
     single<NetworkHelper> { get<IosApplicationComponent>().networkHelper }
 

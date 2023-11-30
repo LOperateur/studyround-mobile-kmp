@@ -2,9 +2,9 @@ package com.studyround.app.di
 
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.SharedPreferencesSettings
-import com.studyround.app.platform.utils.AndroidBuildTargetInfo
+import com.studyround.app.platform.utils.AndroidPlatform
 import com.studyround.app.platform.utils.AndroidNetworkHelper
-import com.studyround.app.platform.utils.BuildTargetInfo
+import com.studyround.app.platform.utils.Platform
 import com.studyround.app.platform.utils.Credentials
 import com.studyround.app.platform.utils.NetworkHelper
 import com.studyround.app.storage.Preferences
@@ -13,7 +13,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 actual val platformModule = module {
-    single<BuildTargetInfo> { AndroidBuildTargetInfo() }
+    single<Platform> { AndroidPlatform() }
 
     single<NetworkHelper> { AndroidNetworkHelper(androidContext()) }
 

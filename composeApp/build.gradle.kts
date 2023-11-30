@@ -92,6 +92,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
@@ -102,8 +103,25 @@ android {
         }
     }
     buildTypes {
+        getByName("debug") {
+            applicationIdSuffix = ".debug"
+            isDebuggable = true
+
+            buildConfigField("String", "BASE_API_URL", "\"http://staging-backend.studyround.com\"")
+
+        }
+
+        create("staging") {
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".staging"
+            isMinifyEnabled = false
+        }
+
         getByName("release") {
             isMinifyEnabled = false
+            isDebuggable = false
+
+            buildConfigField("String", "BASE_API_URL", "\"https://backend.studyround.com\"")
         }
     }
     compileOptions {

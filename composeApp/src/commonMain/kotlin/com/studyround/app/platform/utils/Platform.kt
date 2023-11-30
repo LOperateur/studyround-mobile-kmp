@@ -1,6 +1,7 @@
 package com.studyround.app.platform.utils
 
-interface BuildTargetInfo {
+interface Platform {
     val deviceName: String
+    val baseApiUrl: String
     // Add more platform-specific build target values here...
 }
