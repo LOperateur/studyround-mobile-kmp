@@ -5,6 +5,7 @@ import com.russhwolf.settings.KeychainSettings
 import com.russhwolf.settings.NSUserDefaultsSettings
 import com.russhwolf.settings.Settings
 import com.studyround.app.platform.IosApplicationComponent
+import com.studyround.app.platform.auth.GoogleAuthProvider
 import com.studyround.app.platform.utils.Platform
 import com.studyround.app.platform.utils.Credentials
 import com.studyround.app.platform.utils.IosPlatform
@@ -21,4 +22,6 @@ actual val platformModule = module {
     single<Settings>(named(NAMED_SETTINGS)) { NSUserDefaultsSettings(get<IosApplicationComponent>().userDefaults) }
 
     single<Credentials>(named(NAMED_CREDENTIALS)) { KeychainSettings("com.operator.studyround.secrets") }
+
+    single<GoogleAuthProvider> { TODO() }
 }

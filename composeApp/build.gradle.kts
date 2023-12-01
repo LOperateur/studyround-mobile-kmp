@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.kotlin.serialization)
+//    alias(libs.plugins.google.services)
     alias(libs.plugins.sqlDelight)
 }
 
@@ -59,6 +60,12 @@ kotlin {
             api(libs.androidx.appcompat)
             api(libs.androidx.core.ktx)
             api(libs.koin.android)
+
+            implementation(libs.androidx.credentials)
+            implementation(libs.androidx.credentials.play.services.auth)
+            implementation(libs.googleid)
+            implementation(project.dependencies.platform(libs.firebase.bom))
+
             implementation(libs.compose.ui)
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
@@ -76,6 +83,11 @@ kotlin {
 }
 
 android {
+    val proguardAndroid = "proguard-android-optimize.txt"
+    val proguardConsumerRules = "proguard-rules.pro"
+    val releaseUrl = "\"https://backend.studyround.com\""
+    val stagingUrl = "\"http://staging-backend.studyround.com\""
+
     namespace = "com.studyround.app"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
@@ -107,7 +119,7 @@ android {
             applicationIdSuffix = ".debug"
             isDebuggable = true
 
-            buildConfigField("String", "BASE_API_URL", "\"http://staging-backend.studyround.com\"")
+            buildConfigField("String", "BASE_API_URL", stagingUrl)
 
         }
 
@@ -121,7 +133,12 @@ android {
             isMinifyEnabled = false
             isDebuggable = false
 
-            buildConfigField("String", "BASE_API_URL", "\"https://backend.studyround.com\"")
+            proguardFiles(
+                getDefaultProguardFile(proguardAndroid),
+                proguardConsumerRules
+            )
+
+            buildConfigField("String", "BASE_API_URL", releaseUrl)
         }
     }
     compileOptions {

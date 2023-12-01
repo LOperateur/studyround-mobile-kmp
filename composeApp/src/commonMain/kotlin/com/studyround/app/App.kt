@@ -12,12 +12,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import co.touchlab.kermit.Logger
+import com.studyround.app.platform.auth.GoogleAuthProvider
 import com.studyround.app.platform.utils.Platform
 import com.studyround.app.platform.utils.NetworkListener
 import com.studyround.app.platform.utils.NetworkStatus
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.KoinContext
@@ -28,7 +32,9 @@ import org.koin.compose.koinInject
 fun App(
     platform: Platform = koinInject(),
     networkListener: NetworkListener = koinInject(),
+    authProvider: GoogleAuthProvider = koinInject(),
 ) {
+    val scope = rememberCoroutineScope()
     KoinContext {
         MaterialTheme {
             var greetingText by remember { mutableStateOf("Hello, World!") }
@@ -37,6 +43,16 @@ fun App(
                 Button(onClick = {
                     greetingText = "Hello, ${platform.deviceName}"
                     showImage = !showImage
+                    scope.launch {
+                        authProvider.login(
+                            onAuthResult = {
+                                Logger.d(tag = "TAG", messageString = it.toString())
+                            },
+                            onAuthError = {
+                                Logger.e(tag = "TAG", throwable = it, messageString = "")
+                            }
+                        )
+                    }
                 }) {
                     Text(greetingText)
                 }
