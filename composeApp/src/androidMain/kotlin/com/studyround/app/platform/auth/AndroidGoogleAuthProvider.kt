@@ -1,6 +1,5 @@
 package com.studyround.app.platform.auth
 
-import android.app.Application
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
@@ -10,11 +9,10 @@ import androidx.credentials.exceptions.GetCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
-import com.studyround.app.StudyRoundApp
+import com.studyround.app.platform.utils.PlatformContext
 
 class AndroidGoogleAuthProvider(
     private val credentialManager: CredentialManager,
-    private val application: Application,
 ) : GoogleAuthProvider {
 
     private var googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
@@ -23,6 +21,7 @@ class AndroidGoogleAuthProvider(
         .build()
 
     override suspend fun login(
+        context: PlatformContext,
         onAuthResult: (GoogleAuthResult) -> Unit,
         onAuthError: (Throwable) -> Unit,
     ) {
@@ -30,16 +29,14 @@ class AndroidGoogleAuthProvider(
             .addCredentialOption(googleIdOption)
             .build()
 
-        (application as StudyRoundApp).currentActivity?.let {
-            try {
-                val result = credentialManager.getCredential(
-                    context = it,
-                    request = request,
-                )
-                handleSignIn(result, onAuthResult, onAuthError)
-            } catch (e: GetCredentialException) {
-                onAuthError(Throwable("Failure getting credentials", e))
-            }
+        try {
+            val result = credentialManager.getCredential(
+                context = context.androidContext,
+                request = request,
+            )
+            handleSignIn(result, onAuthResult, onAuthError)
+        } catch (e: GetCredentialException) {
+            onAuthError(Throwable("Failure getting credentials", e))
         }
     }
 

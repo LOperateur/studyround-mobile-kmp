@@ -21,6 +21,7 @@ import com.studyround.app.platform.auth.GoogleAuthProvider
 import com.studyround.app.platform.utils.Platform
 import com.studyround.app.platform.utils.NetworkListener
 import com.studyround.app.platform.utils.NetworkStatus
+import com.studyround.app.platform.utils.getPlatformContext
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
@@ -40,11 +41,13 @@ fun App(
             var greetingText by remember { mutableStateOf("Hello, World!") }
             var showImage by remember { mutableStateOf(false) }
             Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                val platformContext = getPlatformContext()
                 Button(onClick = {
                     greetingText = "Hello, ${platform.deviceName}"
                     showImage = !showImage
                     scope.launch {
                         authProvider.login(
+                            context = platformContext,
                             onAuthResult = {
                                 Logger.d(tag = "TAG", messageString = it.toString())
                             },
