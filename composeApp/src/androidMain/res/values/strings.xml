@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">My application</string>
+    <string name="app_name_release">StudyRound</string>
+    <string name="app_name_dev">StudyRound Dev</string>
 </resources>

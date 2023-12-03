@@ -119,8 +119,8 @@ android {
             applicationIdSuffix = ".debug"
             isDebuggable = true
 
+            resValue("string", "app_name", "@string/app_name_dev")
             buildConfigField("String", "BASE_API_URL", stagingUrl)
-
         }
 
         create("staging") {
@@ -138,6 +138,7 @@ android {
                 proguardConsumerRules
             )
 
+            resValue("string", "app_name", "@string/app_name_release")
             buildConfigField("String", "BASE_API_URL", releaseUrl)
         }
     }
