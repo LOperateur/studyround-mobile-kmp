@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.kotlin.serialization)
 //    alias(libs.plugins.google.services)
-    alias(libs.plugins.sqlDelight)
+//    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {

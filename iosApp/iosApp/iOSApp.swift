@@ -1,3 +1,4 @@
+import GoogleSignIn
 import SwiftUI
 import composeApp
 
@@ -7,7 +8,8 @@ struct iOSApp: App {
         KoinInit_iosKt.doInitKoinIos(
             appComponent: IosApplicationComponent(
                 networkHelper: IosNetworkHelper(),
-                userDefaults: UserDefaults(suiteName: "com.operator.studyround.shared")!
+                userDefaults: UserDefaults(suiteName: "com.operator.studyround.shared")!,
+                googleAuthProvider: IosGoogleAuthProvider()
             )
         )
     }
@@ -15,6 +17,14 @@ struct iOSApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                    .onOpenURL { url in
+                        GIDSignIn.sharedInstance.handle(url)
+                    }
+                    .onAppear {
+                        GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
+                            // Reconsider logging out here
+                        }
+                    }
         }
     }
 }

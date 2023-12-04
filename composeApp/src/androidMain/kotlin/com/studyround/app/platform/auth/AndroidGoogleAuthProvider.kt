@@ -55,6 +55,7 @@ class AndroidGoogleAuthProvider(
                             GoogleIdTokenCredential.createFrom(credential.data)
 
                         val googleAuthResult = GoogleAuthResult(
+                            token = googleIdTokenCredential.idToken,
                             email = googleIdTokenCredential.id,
                             firstName = googleIdTokenCredential.givenName,
                             lastName = googleIdTokenCredential.familyName,
