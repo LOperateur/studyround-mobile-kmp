@@ -15,10 +15,26 @@ class IosGoogleAuthProvider: GoogleAuthProvider {
 
         GIDSignIn.sharedInstance.signIn(withPresenting: context.rootViewController) { signInResult, error in
             guard error == nil else {
-                // TODO: Peform onAuthError
+                onAuthError(KotlinThrowable(message: error?.localizedDescription))
                 return
             }
-            // TODO: Perform onAuthResult
+            guard let signInResult = signInResult else {
+                onAuthError(KotlinThrowable(message: "Unable to obtain sign in details"))
+                return
+            }
+
+            let user = signInResult.user
+            if let idToken = user.idToken?.tokenString, let email = user.profile?.email {
+                let googleAuthResult = GoogleAuthResult(
+                    token: idToken,
+                    email: email,
+                    firstName: user.profile?.givenName,
+                    lastName: user.profile?.familyName
+                )
+                onAuthResult(googleAuthResult)
+            } else {
+                onAuthError(KotlinThrowable(message: "Missing token or email in Google sign in result"))
+            }
         }
     }
 

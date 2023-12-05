@@ -52,7 +52,7 @@ fun App(
                                 Logger.d(tag = "TAG", messageString = it.toString())
                             },
                             onAuthError = {
-                                Logger.e(tag = "TAG", throwable = it, messageString = "")
+                                Logger.e(tag = "TAG", throwable = it, messageString = it.message ?: "")
                             }
                         )
                     }

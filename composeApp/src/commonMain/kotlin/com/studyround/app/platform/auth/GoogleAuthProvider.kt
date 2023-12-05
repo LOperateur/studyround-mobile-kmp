@@ -17,5 +17,4 @@ data class GoogleAuthResult(
     val email: String,
     val firstName: String?,
     val lastName: String?,
-    val avatarUrl: String?,
 )

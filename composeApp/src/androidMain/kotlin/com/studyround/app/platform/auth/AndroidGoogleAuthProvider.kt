@@ -59,7 +59,6 @@ class AndroidGoogleAuthProvider(
                             email = googleIdTokenCredential.id,
                             firstName = googleIdTokenCredential.givenName,
                             lastName = googleIdTokenCredential.familyName,
-                            avatarUrl = googleIdTokenCredential.profilePictureUri?.toString(),
                         )
                         onAuthResult(googleAuthResult)
                     } catch (e: GoogleIdTokenParsingException) {

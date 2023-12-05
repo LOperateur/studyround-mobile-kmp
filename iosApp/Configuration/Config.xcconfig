@@ -1,3 +1,6 @@
-TEAM_ID=
+TEAM_ID=243368FFNK
 BUNDLE_ID=com.operator.studyround
 APP_NAME=StudyRound
+GOOGLE_IOS_CLIENT_ID=451827618190-s69tqh80ld2uotteohlrjr8govlftc4l.apps.googleusercontent.com
+GOOGLE_REVERSED_IOS_CLIENT_ID=com.googleusercontent.apps.451827618190-s69tqh80ld2uotteohlrjr8govlftc4l
+GOOGLE_SERVER_CLIENT_ID=451827618190-ojdu16l1s2pk46bad35qseddtej5ig76.apps.googleusercontent.com

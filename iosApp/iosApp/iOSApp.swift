@@ -20,11 +20,6 @@ struct iOSApp: App {
                     .onOpenURL { url in
                         GIDSignIn.sharedInstance.handle(url)
                     }
-                    .onAppear {
-                        GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-                            // Reconsider logging out here
-                        }
-                    }
         }
     }
 }
