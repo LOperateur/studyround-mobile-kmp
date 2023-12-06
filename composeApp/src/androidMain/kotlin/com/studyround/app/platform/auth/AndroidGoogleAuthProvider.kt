@@ -9,6 +9,7 @@ import androidx.credentials.exceptions.GetCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
+import com.studyround.app.BuildConfig
 import com.studyround.app.platform.utils.PlatformContext
 
 class AndroidGoogleAuthProvider(
@@ -17,7 +18,7 @@ class AndroidGoogleAuthProvider(
 
     private var googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
         .setFilterByAuthorizedAccounts(false)
-        .setServerClientId("451827618190-ojdu16l1s2pk46bad35qseddtej5ig76.apps.googleusercontent.com")
+        .setServerClientId(BuildConfig.GOOGLE_SERVER_CLIENT_ID)
         .build()
 
     override suspend fun login(

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.konan.properties.loadProperties
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.application)
@@ -88,6 +90,9 @@ android {
     val releaseUrl = "\"https://backend.studyround.com\""
     val stagingUrl = "\"http://staging-backend.studyround.com\""
 
+    val googleKeyProps = loadProperties("$rootDir/secrets/google-key.properties")
+    val googleClientServerId = googleKeyProps.getProperty("googleServerClientId")
+
     namespace = "com.studyround.app"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
@@ -121,6 +126,7 @@ android {
 
             resValue("string", "app_name", "@string/app_name_dev")
             buildConfigField("String", "BASE_API_URL", stagingUrl)
+            buildConfigField("String", "GOOGLE_SERVER_CLIENT_ID", googleClientServerId)
         }
 
         create("staging") {
@@ -140,6 +146,7 @@ android {
 
             resValue("string", "app_name", "@string/app_name_release")
             buildConfigField("String", "BASE_API_URL", releaseUrl)
+            buildConfigField("String", "GOOGLE_SERVER_CLIENT_ID", googleClientServerId)
         }
     }
     compileOptions {
