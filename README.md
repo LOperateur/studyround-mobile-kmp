@@ -85,11 +85,11 @@ First, you will need to [install git-crypt](https://github.com/AGWA/git-crypt/bl
 
 #### Download Decryption Key
 
-Ask @mofejeegi for this and save it to `.git/git-crypt/keys/git-crypt.key`
+Ask @mofejeegi for this and save it to `.git/git-crypt/keys/git-crypt-key`
 
 #### Unlock files
 
-Run `git-crypt unlock .git/git-crypt/keys/git-crypt.key` to unlock files in the directory. Files should automatically be encrypted / decrypted moving forward.
+Run `git-crypt unlock .git/git-crypt/keys/git-crypt-key` to unlock files in the directory. Files should automatically be encrypted / decrypted moving forward.
 
 ### On Android
 
