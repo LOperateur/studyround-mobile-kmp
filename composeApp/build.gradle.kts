@@ -1,9 +1,12 @@
+import org.jetbrains.kotlin.konan.properties.loadProperties
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.sqlDelight)
+//    alias(libs.plugins.google.services)
+//    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -59,6 +62,12 @@ kotlin {
             api(libs.androidx.appcompat)
             api(libs.androidx.core.ktx)
             api(libs.koin.android)
+
+            implementation(libs.androidx.credentials)
+            implementation(libs.androidx.credentials.play.services.auth)
+            implementation(libs.googleid)
+            implementation(project.dependencies.platform(libs.firebase.bom))
+
             implementation(libs.compose.ui)
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
@@ -76,6 +85,14 @@ kotlin {
 }
 
 android {
+    val proguardAndroid = "proguard-android-optimize.txt"
+    val proguardConsumerRules = "proguard-rules.pro"
+    val releaseUrl = "\"https://backend.studyround.com\""
+    val stagingUrl = "\"http://staging-backend.studyround.com\""
+
+    val googleKeyProps = loadProperties("$rootDir/secrets/google-key.properties")
+    val googleClientServerId = googleKeyProps.getProperty("googleServerClientId")
+
     namespace = "com.studyround.app"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
@@ -107,8 +124,9 @@ android {
             applicationIdSuffix = ".debug"
             isDebuggable = true
 
-            buildConfigField("String", "BASE_API_URL", "\"http://staging-backend.studyround.com\"")
-
+            resValue("string", "app_name", "@string/app_name_dev")
+            buildConfigField("String", "BASE_API_URL", stagingUrl)
+            buildConfigField("String", "GOOGLE_SERVER_CLIENT_ID", googleClientServerId)
         }
 
         create("staging") {
@@ -121,7 +139,14 @@ android {
             isMinifyEnabled = false
             isDebuggable = false
 
-            buildConfigField("String", "BASE_API_URL", "\"https://backend.studyround.com\"")
+            proguardFiles(
+                getDefaultProguardFile(proguardAndroid),
+                proguardConsumerRules
+            )
+
+            resValue("string", "app_name", "@string/app_name_release")
+            buildConfigField("String", "BASE_API_URL", releaseUrl)
+            buildConfigField("String", "GOOGLE_SERVER_CLIENT_ID", googleClientServerId)
         }
     }
     compileOptions {

@@ -1,0 +1,2 @@
+secrets/* filter=git-crypt diff=git-crypt
+iosApp/Configuration/* filter=git-crypt diff=git-crypt

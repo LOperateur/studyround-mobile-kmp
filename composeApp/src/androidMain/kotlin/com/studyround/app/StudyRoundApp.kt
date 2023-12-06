@@ -6,6 +6,7 @@ import com.studyround.app.platform.AndroidApplicationComponent
 import org.koin.android.ext.koin.androidContext
 
 class StudyRoundApp : Application() {
+
     override fun onCreate() {
         super.onCreate()
 
