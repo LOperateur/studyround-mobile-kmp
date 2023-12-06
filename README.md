@@ -71,7 +71,25 @@ It uses Gradle as the build system. You can add dependencies and change settings
 This is an Xcode project that builds into an iOS application.
 It depends on and uses the `composeApp` module as a CocoaPods dependency.
 
-## Run your application
+## Run the application
+
+### Git Crypt unlock
+
+This project uses git-crypt to hide sensitive data 
+
+#### Install git-crypt
+
+First, you will need to [install git-crypt](https://github.com/AGWA/git-crypt/blob/master/INSTALL.md).
+
+*Pro tip:* If you're on a mac, it's `brew install git-crypt`
+
+#### Download Decryption Key
+
+Ask @mofejeegi for this and save it to `.git/git-crypt/keys/git-crypt.key`
+
+#### Unlock files
+
+Run `git-crypt unlock .git/git-crypt/keys/git-crypt.key` to unlock files in the directory. Files should automatically be encrypted / decrypted moving forward.
 
 ### On Android
 
@@ -118,8 +136,7 @@ To do so, you'll need the following:
 To run the application, set the `TEAM_ID` in the Configuration files:
 
 1. In the codebase, navigate to the `iosApp/Configuration/` folder.
-2. Ask @mofeejegi for the iOS configuration files.
-3. Re-open the project in Android Studio. It should show the registered iOS device in the `iosApp` run configuration.
+2. Re-open the project in Android Studio. It should show the registered iOS device in the `iosApp` run configuration.
 
 ## How to configure the iOS application
 
