@@ -6,6 +6,5 @@ import platform.Foundation.NSUserDefaults
 
 class IosApplicationComponent(
     val networkHelper: NetworkHelper,
-    val userDefaults: NSUserDefaults,
     val googleAuthProvider: GoogleAuthProvider,
 ) : SharedApplicationComponent

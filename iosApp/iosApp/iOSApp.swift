@@ -8,7 +8,6 @@ struct iOSApp: App {
         KoinInit_iosKt.doInitKoinIos(
             appComponent: IosApplicationComponent(
                 networkHelper: IosNetworkHelper(),
-                userDefaults: UserDefaults(suiteName: "com.operator.studyround.shared")!,
                 googleAuthProvider: IosGoogleAuthProvider()
             )
         )
