@@ -2,10 +2,10 @@ package com.studyround.app
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -18,10 +18,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import co.touchlab.kermit.Logger
 import com.studyround.app.platform.auth.GoogleAuthProvider
-import com.studyround.app.platform.utils.Platform
 import com.studyround.app.platform.utils.NetworkListener
 import com.studyround.app.platform.utils.NetworkStatus
+import com.studyround.app.platform.utils.Platform
 import com.studyround.app.platform.utils.getPlatformContext
+import com.studyround.app.storage.SettingsWrapper
+import com.studyround.app.ui.theme.StudyRoundTheme
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
@@ -32,12 +34,13 @@ import org.koin.compose.koinInject
 @Composable
 fun App(
     platform: Platform = koinInject(),
+    settings: SettingsWrapper = koinInject(),
     networkListener: NetworkListener = koinInject(),
     authProvider: GoogleAuthProvider = koinInject(),
 ) {
     val scope = rememberCoroutineScope()
     KoinContext {
-        MaterialTheme {
+        StudyRoundTheme(darkTheme = settings.darkMode ?: isSystemInDarkTheme()) {
             var greetingText by remember { mutableStateOf("Hello, World!") }
             var showImage by remember { mutableStateOf(false) }
             Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -52,7 +55,11 @@ fun App(
                                 Logger.d(tag = "TAG", messageString = it.toString())
                             },
                             onAuthError = {
-                                Logger.e(tag = "TAG", throwable = it, messageString = it.message ?: "")
+                                Logger.e(
+                                    tag = "TAG",
+                                    throwable = it,
+                                    messageString = it.message ?: ""
+                                )
                             }
                         )
                     }
