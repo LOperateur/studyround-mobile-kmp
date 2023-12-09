@@ -6,7 +6,7 @@ import com.russhwolf.settings.set
 
 class SettingsWrapperImpl(private val settings: Settings): SettingsWrapper {
     override val darkMode: Boolean?
-        get() = settings[KEY_DARK_MODE]
+        get() = settings.getBooleanOrNull(KEY_DARK_MODE)
 
     override fun setDarkMode(isDarkMode: Boolean?) {
         settings[KEY_DARK_MODE] = isDarkMode

@@ -6,7 +6,6 @@ import com.russhwolf.settings.NSUserDefaultsSettings
 import com.russhwolf.settings.Settings
 import com.studyround.app.platform.IosApplicationComponent
 import com.studyround.app.platform.auth.GoogleAuthProvider
-import com.studyround.app.platform.utils.Credentials
 import com.studyround.app.platform.utils.IosPlatform
 import com.studyround.app.platform.utils.NetworkHelper
 import com.studyround.app.platform.utils.Platform

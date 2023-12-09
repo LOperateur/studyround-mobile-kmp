@@ -7,7 +7,6 @@ import com.studyround.app.platform.auth.AndroidGoogleAuthProvider
 import com.studyround.app.platform.auth.GoogleAuthProvider
 import com.studyround.app.platform.utils.AndroidNetworkHelper
 import com.studyround.app.platform.utils.AndroidPlatform
-import com.studyround.app.platform.utils.Credentials
 import com.studyround.app.platform.utils.NetworkHelper
 import com.studyround.app.platform.utils.Platform
 import com.studyround.app.storage.Preferences

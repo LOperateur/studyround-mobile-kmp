@@ -1,6 +1,9 @@
 package com.studyround.app.di
 
+import com.russhwolf.settings.Settings
 import org.koin.core.module.Module
+
+typealias Credentials = Settings
 
 expect val platformModule: Module
 
