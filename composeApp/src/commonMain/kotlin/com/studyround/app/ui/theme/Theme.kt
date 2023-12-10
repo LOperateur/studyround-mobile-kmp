@@ -5,6 +5,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
+import com.studyround.app.platform.ui.SystemBarColors
 
 /**
  * Dark Mode Composition Local for StudyRoundTheme.
@@ -25,6 +26,11 @@ fun StudyRoundTheme(
             darkTheme -> MaterialDarkColors
             else -> MaterialLightColors
         }
+
+        SystemBarColors(
+            statusBarColor = StudyRoundColors.getColors(darkTheme).deviation_primary3_primary0,
+            navBarColor = StudyRoundColors.getColors(darkTheme).deviation_primary3_primary0,
+        )
 
         MaterialTheme(
             colors = colors,
@@ -47,12 +53,3 @@ object StudyRoundTheme {
         @Composable
         get() = LocalIsDarkMode.current
 }
-
-//    val view = getPlatformContext()
-//    if (!view.isInEditMode) {
-//        SideEffect {
-//            val window = (view.context as Activity).window
-//            window.statusBarColor = colorScheme.primary.toArgb()
-//            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
-//        }
-//    }

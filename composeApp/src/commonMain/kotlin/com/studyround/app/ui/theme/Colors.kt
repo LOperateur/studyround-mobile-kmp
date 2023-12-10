@@ -61,10 +61,11 @@ interface Colors {
     val tertiary0: Color
     val tertiary1: Color
 
-    val deviation_primary1_white: Color // Icons and Contrast Text
+    val deviation_primary1_white: Color // Icons, Contrast Text
     val deviation_tone5_tone6: Color // Text
     val deviation_tone1_primary2: Color // Main Background
     val deviation_white_primary1: Color // TextField Background
+    val deviation_primary3_primary0: Color // System bars
     val deviation_white_dullWhite: Color
 }
 
@@ -116,6 +117,7 @@ internal object StudyRoundColors {
         override val deviation_tone5_tone6 = tone5
         override val deviation_tone1_primary2 = tone1
         override val deviation_white_primary1 = white
+        override val deviation_primary3_primary0 = primary3
         override val deviation_white_dullWhite = white
     }
 
@@ -140,7 +142,7 @@ internal object StudyRoundColors {
 
         override val primary0 = Color(0xFF_001B1C)
         override val primary1 = Color(0xFF_002E2F) // Primary
-        override val primary2 = Color(0xFF_055F5B)
+        override val primary2 = Color(0xFF_052E2F)
         override val primary3 = Color(0xFF_018184)
         override val primary4 = Color(0xFF_00ABB4)
 
@@ -157,6 +159,7 @@ internal object StudyRoundColors {
         override val deviation_tone5_tone6 = tone6
         override val deviation_tone1_primary2 = primary2
         override val deviation_white_primary1 = primary1
+        override val deviation_primary3_primary0 = primary0
         override val deviation_white_dullWhite = white.copy(alpha = 0.6f)
     }
 }
