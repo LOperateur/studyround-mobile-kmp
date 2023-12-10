@@ -1,6 +1,6 @@
 package com.studyround.app.di
 
-import com.studyround.app.platform.utils.NetworkListener
+import com.studyround.app.data.utils.NetworkListener
 import com.studyround.app.storage.SettingsWrapper
 import com.studyround.app.storage.SettingsWrapperImpl
 import org.koin.core.qualifier.named
