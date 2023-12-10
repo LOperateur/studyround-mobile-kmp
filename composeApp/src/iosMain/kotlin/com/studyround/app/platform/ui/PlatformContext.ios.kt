@@ -1,4 +1,4 @@
-package com.studyround.app.platform.utils
+package com.studyround.app.platform.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.interop.LocalUIViewController

@@ -1,4 +1,4 @@
-package com.studyround.app.platform.utils
+package com.studyround.app.platform.ui
 
 import android.content.Context
 import androidx.compose.runtime.Composable

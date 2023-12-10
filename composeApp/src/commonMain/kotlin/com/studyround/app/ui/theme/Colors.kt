@@ -1,0 +1,165 @@
+package com.studyround.app.ui.theme
+
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.ui.graphics.Color
+
+// Set Material Colors
+val MaterialLightColors = lightColors(
+    primary = StudyRoundColors.Light.primary,
+    secondary = StudyRoundColors.Light.secondary,
+    background = StudyRoundColors.Light.tone1,
+    surface = StudyRoundColors.Light.tone1,
+    onBackground = StudyRoundColors.Light.tone5, // Text
+    onSurface = StudyRoundColors.Light.tone5, // Text
+)
+
+val MaterialDarkColors = darkColors(
+    primary = StudyRoundColors.Dark.primary,
+    secondary = StudyRoundColors.Dark.secondary,
+    background = StudyRoundColors.Dark.primary2,
+    surface = StudyRoundColors.Dark.primary2,
+    onBackground = StudyRoundColors.Dark.tone6, // Text
+    onSurface = StudyRoundColors.Dark.tone6, // Text
+)
+
+@Suppress("PropertyName")
+interface Colors {
+    // Absolute colours
+    val white: Color
+    val black: Color
+    val gray: Color
+
+    // Variable colours
+    val primary: Color
+    val secondary: Color
+    val tertiary: Color
+    val danger: Color
+
+    val tone0: Color
+    val tone1: Color
+    val tone2: Color
+    val tone3: Color
+    val tone4: Color
+    val tone5: Color
+    val tone6: Color
+
+    val primary0: Color
+    val primary1: Color
+    val primary2: Color
+    val primary3: Color
+    val primary4: Color
+
+    val secondary0: Color
+    val secondary1: Color
+    val secondary2: Color
+    val secondary3: Color
+    val secondary4: Color
+
+    val tertiary0: Color
+    val tertiary1: Color
+
+    val deviation_primary1_white: Color // Icons, Contrast Text
+    val deviation_tone5_tone6: Color // Text
+    val deviation_tone1_primary2: Color // Main Background
+    val deviation_white_primary1: Color // TextField Background
+    val deviation_primary3_primary0: Color // System bars
+    val deviation_white_dullWhite: Color
+}
+
+internal object StudyRoundColors {
+    @Composable
+    fun getColors(
+        darkMode: Boolean
+    ) = if (darkMode) {
+        Dark
+    } else {
+        Light
+    }
+
+    @Immutable
+    object Light : Colors {
+        override val white = Color(0xFF_FFFFFF)
+        override val black = Color(0xFF_000F10)
+        override val gray = Color(0xFF_757575)
+
+        override val primary = Color(0xFF_018184)
+        override val secondary = Color(0xFF_FF8051)
+        override val tertiary = Color(0xFF_FFD45D)
+        override val danger = Color(0xFF_FF0000)
+
+        override val tone0 = white
+        override val tone1 = Color(0xFF_F6F6F6)
+        override val tone2 = Color(0xFF_C7C7C7)
+        override val tone3 = gray
+        override val tone4 = Color(0xFF_383838)
+        override val tone5 = Color(0xFF_0A0A0A)
+        override val tone6 = black
+
+        override val primary0 = Color(0xFF_00ABB4)
+        override val primary1 = Color(0xFF_018184) // Primary
+        override val primary2 = Color(0xFF_055F5B)
+        override val primary3 = Color(0xFF_002E2F)
+        override val primary4 = Color(0xFF_001B1C)
+
+        override val secondary0 = Color(0xFF_FFA483)
+        override val secondary1 = Color(0xFF_FF8051) // Secondary
+        override val secondary2 = Color(0xFF_F04000)
+        override val secondary3 = Color(0xFF_CF3800)
+        override val secondary4 = Color(0xFF_BC2300)
+
+        override val tertiary0 = Color(0xFF_FFD45D) // Tertiary
+        override val tertiary1 = Color(0xFF_FFB300)
+
+        override val deviation_primary1_white = primary1
+        override val deviation_tone5_tone6 = tone5
+        override val deviation_tone1_primary2 = tone1
+        override val deviation_white_primary1 = white
+        override val deviation_primary3_primary0 = primary3
+        override val deviation_white_dullWhite = white
+    }
+
+    @Immutable
+    object Dark : Colors {
+        override val white = Color(0xFF_FFFFFF)
+        override val black = Color(0xFF_000F10)
+        override val gray = Color(0xFF_757575)
+
+        override val primary = Color(0xFF_002E2F)
+        override val secondary = Color(0xFF_CF3800)
+        override val tertiary = Color(0xFF_FFB300)
+        override val danger = Color(0xFF_960000)
+
+        override val tone0 = black
+        override val tone1 = Color(0xFF_0A0A0A)
+        override val tone2 = Color(0xFF_383838)
+        override val tone3 = gray
+        override val tone4 = Color(0xFF_C7C7C7)
+        override val tone5 = Color(0xFF_F6F6F6)
+        override val tone6 = white
+
+        override val primary0 = Color(0xFF_001B1C)
+        override val primary1 = Color(0xFF_002E2F) // Primary
+        override val primary2 = Color(0xFF_052E2F)
+        override val primary3 = Color(0xFF_018184)
+        override val primary4 = Color(0xFF_00ABB4)
+
+        override val secondary0 = Color(0xFF_BC2300)
+        override val secondary1 = Color(0xFF_CF3800) // Secondary
+        override val secondary2 = Color(0xFF_F04000)
+        override val secondary3 = Color(0xFF_FF8051)
+        override val secondary4 = Color(0xFF_FFA483)
+
+        override val tertiary0 = Color(0xFF_FFB300) // Tertiary
+        override val tertiary1 = Color(0xFF_FFD45D)
+
+        override val deviation_primary1_white = white
+        override val deviation_tone5_tone6 = tone6
+        override val deviation_tone1_primary2 = primary2
+        override val deviation_white_primary1 = primary1
+        override val deviation_primary3_primary0 = primary0
+        override val deviation_white_dullWhite = white.copy(alpha = 0.6f)
+    }
+}
