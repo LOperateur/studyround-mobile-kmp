@@ -10,7 +10,7 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.studyround.app.BuildConfig
-import com.studyround.app.platform.utils.PlatformContext
+import com.studyround.app.platform.ui.PlatformContext
 
 class AndroidGoogleAuthProvider(
     private val credentialManager: CredentialManager,

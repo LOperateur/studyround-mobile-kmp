@@ -1,6 +1,6 @@
 package com.studyround.app.platform.auth
 
-import com.studyround.app.platform.utils.PlatformContext
+import com.studyround.app.platform.ui.PlatformContext
 
 interface GoogleAuthProvider {
     suspend fun login(

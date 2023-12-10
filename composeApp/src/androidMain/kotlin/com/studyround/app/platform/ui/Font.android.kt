@@ -1,4 +1,4 @@
-package com.studyround.app.platform.utils
+package com.studyround.app.platform.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
