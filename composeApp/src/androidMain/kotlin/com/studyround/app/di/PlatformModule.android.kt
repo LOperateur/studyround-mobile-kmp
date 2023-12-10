@@ -1,7 +1,7 @@
 package com.studyround.app.di
 
 import androidx.credentials.CredentialManager
-import com.russhwolf.settings.Settings
+import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.SharedPreferencesSettings
 import com.studyround.app.platform.auth.AndroidGoogleAuthProvider
 import com.studyround.app.platform.auth.GoogleAuthProvider
@@ -19,7 +19,7 @@ actual val platformModule = module {
 
     single<NetworkHelper> { AndroidNetworkHelper(androidContext()) }
 
-    single<Settings>(named(NAMED_SETTINGS)) {
+    single<ObservableSettings>(named(NAMED_SETTINGS)) {
         SharedPreferencesSettings(
             Preferences.createSettingsPrefs(
                 androidContext()

@@ -7,13 +7,10 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 
 /**
- * Composition Local used in StudyRoundTheme.
- *
- * The current system dark mode flag can be retrieved from [StudyRoundTheme.darkMode] provided that the
- * caller is within a [StudyRoundTheme] scoped composition.
+ * Dark Mode Composition Local for StudyRoundTheme.
  */
 private val LocalIsDarkMode = compositionLocalOf<Boolean> {
-    error("LocalIsDarkMode CompositionLocal not configured")
+    error("LocalIsDarkMode CompositionLocal not set")
 }
 
 @Composable
@@ -43,7 +40,8 @@ object StudyRoundTheme {
         get() = StudyRoundColors.getColors(LocalIsDarkMode.current)
 
     val typography: Typography
-        get() = StudyRoundTypography
+        @Composable
+        get() = StudyRoundTypography(Fonts.quicksand, Fonts.montserrat)
 
     val darkMode: Boolean
         @Composable

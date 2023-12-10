@@ -1,10 +1,9 @@
 package com.studyround.app.storage
 
-import com.russhwolf.settings.Settings
-import com.russhwolf.settings.get
+import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.set
 
-class SettingsWrapperImpl(private val settings: Settings): SettingsWrapper {
+class SettingsWrapperImpl(private val settings: ObservableSettings): SettingsWrapper {
     override val darkMode: Boolean?
         get() = settings.getBooleanOrNull(KEY_DARK_MODE)
 

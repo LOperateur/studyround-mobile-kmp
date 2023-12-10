@@ -1,32 +1,38 @@
 package com.studyround.app.ui.theme
 
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.studyround.app.platform.utils.font
 
 // Set of Material typography styles to start with
-val MaterialTypography = androidx.compose.material.Typography(
-    defaultFontFamily = StudyRoundTypography.defaultFont,
-    h1 = StudyRoundTypography.titleLarge,
-    h2 = StudyRoundTypography.titleLarge,
-    h3 = StudyRoundTypography.titleMedium,
-    h4 = StudyRoundTypography.titleMedium,
-    h5 = StudyRoundTypography.titleSmall,
-    h6 = StudyRoundTypography.titleSmall,
-    subtitle1 = StudyRoundTypography.titleSmall,
-    subtitle2 = StudyRoundTypography.titleSmall,
-    body1 = StudyRoundTypography.bodyMedium,
-    body2 = StudyRoundTypography.bodySmall,
-    button = StudyRoundTypography.bodySmall,
-    caption = StudyRoundTypography.labelMedium,
-    overline = StudyRoundTypography.labelMedium,
-)
+val MaterialTypography
+    @Composable get() = with(StudyRoundTypography(Fonts.quicksand, Fonts.montserrat)) {
+        androidx.compose.material.Typography(
+            defaultFontFamily = Fonts.quicksand,
+            h1 = titleLarge,
+            h2 = titleLarge,
+            h3 = titleMedium,
+            h4 = titleMedium,
+            h5 = titleSmall,
+            h6 = titleSmall,
+            subtitle1 = titleSmall,
+            subtitle2 = titleSmall,
+            body1 = bodyMedium,
+            body2 = bodySmall,
+            button = bodySmall,
+            caption = labelMedium,
+            overline = labelMedium,
+        )
+    }
 
 interface Typography {
-    val defaultFont: FontFamily
+    val quicksandFont: FontFamily
+    val montserratFont: FontFamily
+
     val titleLarge: TextStyle
     val titleMedium: TextStyle
     val titleSmall: TextStyle
@@ -38,22 +44,13 @@ interface Typography {
     val labelSmall: TextStyle
 }
 
-internal object StudyRoundTypography : Typography {
-    override val defaultFont = FontFamily(
-        Font(
-            resId = 0,
-            weight = FontWeight.Normal,
-            style = FontStyle.Normal,
-        ),
-        Font(
-            resId = 0,
-            weight = FontWeight.Bold,
-            style = FontStyle.Normal,
-        )
-    )
+internal class StudyRoundTypography(
+    override val quicksandFont: FontFamily,
+    override val montserratFont: FontFamily,
+) : Typography {
 
     private val baseStyle = TextStyle(
-        fontFamily = defaultFont,
+        fontFamily = quicksandFont,
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Normal,
     )
@@ -110,4 +107,44 @@ internal object StudyRoundTypography : Typography {
         fontSize = 12.sp,
         lineHeight = 16.sp,
     )
+}
+
+internal object Fonts {
+    val quicksand
+        @Composable get() = FontFamily(
+            font(
+                res = "quicksand_regular",
+                weight = FontWeight.Normal,
+                style = FontStyle.Normal,
+            ),
+            font(
+                res = "quicksand_semibold",
+                weight = FontWeight.SemiBold,
+                style = FontStyle.Normal,
+            ),
+            font(
+                res = "quicksand_bold",
+                weight = FontWeight.Bold,
+                style = FontStyle.Normal,
+            )
+        )
+
+    val montserrat
+        @Composable get() = FontFamily(
+            font(
+                res = "montserrat_regular",
+                weight = FontWeight.Normal,
+                style = FontStyle.Normal,
+            ),
+            font(
+                res = "montserrat_semibold",
+                weight = FontWeight.SemiBold,
+                style = FontStyle.Normal,
+            ),
+            font(
+                res = "montserrat_bold",
+                weight = FontWeight.Bold,
+                style = FontStyle.Normal,
+            )
+        )
 }
