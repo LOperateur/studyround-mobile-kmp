@@ -84,11 +84,13 @@ internal class StudyRoundTypography(
     override val bodyMedium = baseStyle.copy(
         fontSize = 24.sp,
         lineHeight = 28.sp,
+        fontWeight = FontWeight.SemiBold,
     )
 
     override val bodySmall = baseStyle.copy(
         fontSize = 16.sp,
         lineHeight = 24.sp,
+        fontWeight = FontWeight.SemiBold,
     )
 
     // Label
