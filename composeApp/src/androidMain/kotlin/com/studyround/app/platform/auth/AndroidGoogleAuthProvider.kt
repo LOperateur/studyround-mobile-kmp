@@ -12,7 +12,7 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingExcept
 import com.studyround.app.BuildConfig
 import com.studyround.app.platform.ui.PlatformContext
 
-class AndroidGoogleAuthProvider(
+internal class AndroidGoogleAuthProvider(
     private val credentialManager: CredentialManager,
 ) : GoogleAuthProvider {
 
