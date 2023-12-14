@@ -6,7 +6,7 @@ android-compileSdk = "34"
 android-targetSdk = "34"
 androidx-security = "1.0.0"
 appcompat = "1.6.1"
-compose = "1.5.10"
+compose = "1.5.11"
 compose-compiler = "1.5.4"
 core-ktx = "1.12.0"
 credentials = "1.2.0"
@@ -17,12 +17,13 @@ kamel = "0.8.3"
 kermit = "2.0.2"
 koin = "3.5.0"
 koin-compose = "1.1.0"
-kotlin = "1.9.20"
+kotlin = "1.9.21"
 kotlinx-coroutines = "1.7.3"
 kotlinx-datetime = "0.4.1"
 kotlinx-serialization = "1.6.0"
 ktor = "2.3.6"
 material-window-size = "0.3.1"
+moko-resources = "0.23.0"
 multiplatform-settings = "1.1.1"
 play-services-auth = "20.7.0"
 sqlDelight = "2.0.0"
@@ -80,6 +81,10 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 # Window Size Class getter for MultiPlatform
 material3-window-size-multiplatform = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "material-window-size" }
 
+# Moko resources
+moko-resources-compose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko-resources" }
+moko-resources-test = { module = "dev.icerock.moko:resources-test", version.ref = "moko-resources" }
+
 # Preferences
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
 
@@ -103,8 +108,6 @@ voyager-tabNavigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", v
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 
-# TODO: Text and Image Resource Management
-
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
@@ -114,4 +117,5 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+moko-multiplatform-resources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko-resources"}
 sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
