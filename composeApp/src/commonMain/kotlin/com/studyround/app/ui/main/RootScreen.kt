@@ -10,13 +10,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
+import com.studyround.app.MR
+import dev.icerock.moko.resources.compose.stringResource
 
 class RootScreen : Screen {
     @Composable
     override fun Content() {
         val rootViewModel = getScreenModel<RootViewModel>()
         val viewState by rootViewModel.viewState.collectAsState()
-
 
         RootScreen(viewState)
     }
@@ -27,7 +28,7 @@ class RootScreen : Screen {
             Box(modifier = Modifier.fillMaxSize()) { }
         } else {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = "Please update the app")
+                Text(text = stringResource(MR.strings.force_update_prompt))
             }
         }
     }

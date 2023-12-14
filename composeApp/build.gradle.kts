@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.moko.multiplatform.resources)
 //    alias(libs.plugins.google.services)
 //    alias(libs.plugins.sqlDelight)
 }
@@ -47,6 +48,9 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)
 
+            api(libs.moko.resources.compose)
+            implementation(libs.moko.resources.test)
+
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.bottomSheetNavigator)
             implementation(libs.voyager.koin)
@@ -82,6 +86,16 @@ kotlin {
 //            implementation(libs.sqlDelight.driver.native)
         }
     }
+
+    @Suppress("OPT_IN_USAGE")
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+}
+
+multiplatformResources {
+    multiplatformResourcesPackage = "com.studyround.app"
+    disableStaticFrameworkWarning = true
 }
 
 android {
@@ -131,6 +145,7 @@ android {
 
         create("staging") {
             initWith(getByName("debug"))
+            matchingFallbacks.add("debug") // For moko resources
             applicationIdSuffix = ".staging"
             isMinifyEnabled = false
         }
@@ -158,5 +173,14 @@ android {
     }
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
+    }
+
+
+    // Temporary fix for moko resources with Kotlin 1.9.0+
+    // Expected object 'MR' has no actual declaration in module... for JVM
+    // https://github.com/icerockdev/moko-resources/issues/510
+    // https://github.com/icerockdev/moko-resources/issues/531
+    sourceSets {
+        getByName("main").java.srcDirs("build/generated/moko/androidMain/src")
     }
 }
