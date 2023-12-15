@@ -6,13 +6,13 @@ import com.studyround.app.auth.model.EmailAuthProviderType
 import com.studyround.app.auth.model.GoogleAuthProviderType
 import com.studyround.app.platform.auth.GoogleAuthProvider
 import com.studyround.app.storage.CredentialsManager
-import com.studyround.app.storage.SettingsWrapper
+import com.studyround.app.storage.AppPreferences
 import kotlinx.coroutines.flow.StateFlow
 
 class SessionManagerImpl(
     private val googleAuthProvider: GoogleAuthProvider,
     private val emailAuthProvider: EmailAuthProvider,
-    private val settingsWrapper: SettingsWrapper,
+    private val appPreferences: AppPreferences,
     private val credentialsManager: CredentialsManager,
 ) : SessionManager {
 
@@ -25,7 +25,7 @@ class SessionManagerImpl(
                 emailAuthProvider.signup(
                     username = type.userIdentity,
                     password = type.password,
-                    passToken = settingsWrapper.lastSavedPassToken,
+                    passToken = appPreferences.lastSavedPassToken,
                     onAuthResult = {},
                     onAuthError = {},
                 )
@@ -70,7 +70,7 @@ class SessionManagerImpl(
     override fun reset(password: String) {
         emailAuthProvider.resetPassword(
             password = password,
-            passToken = settingsWrapper.lastSavedPassToken,
+            passToken = appPreferences.lastSavedPassToken,
             onAuthResult = {},
             onAuthError = {},
         )
