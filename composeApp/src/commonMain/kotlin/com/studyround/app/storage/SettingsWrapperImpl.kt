@@ -11,7 +11,15 @@ class SettingsWrapperImpl(private val settings: ObservableSettings): SettingsWra
         settings[KEY_DARK_MODE] = isDarkMode
     }
 
+    override val lastSavedPassToken: String?
+        get() = settings.getStringOrNull(KEY_LAST_PASS_TOKEN)
+
+    override fun setLastSavedPassToken(passToken: String?) {
+        settings[KEY_LAST_PASS_TOKEN] = passToken
+    }
+
     companion object {
         const val KEY_DARK_MODE = "key_dark_mode"
+        const val KEY_LAST_PASS_TOKEN = "key_last_pass_token"
     }
 }
