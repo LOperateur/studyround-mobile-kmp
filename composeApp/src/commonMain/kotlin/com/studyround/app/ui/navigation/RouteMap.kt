@@ -1,4 +1,4 @@
-package com.studyround.app.ui.route
+package com.studyround.app.ui.navigation
 
 import cafe.adriel.voyager.core.screen.Screen
 
