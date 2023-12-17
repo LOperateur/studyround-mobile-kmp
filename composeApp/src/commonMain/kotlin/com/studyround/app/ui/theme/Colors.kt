@@ -12,8 +12,8 @@ val MaterialLightColors = lightColors(
     secondary = StudyRoundColors.Light.secondary,
     background = StudyRoundColors.Light.tone1,
     surface = StudyRoundColors.Light.tone1,
-    onBackground = StudyRoundColors.Light.tone5, // Text
-    onSurface = StudyRoundColors.Light.tone5, // Text
+    onBackground = StudyRoundColors.Light.tone4, // Text
+    onSurface = StudyRoundColors.Light.tone4, // Text
 )
 
 val MaterialDarkColors = darkColors(
@@ -62,7 +62,7 @@ interface Colors {
     val tertiary1: Color
 
     val deviation_primary1_white: Color // Icons, Contrast Text
-    val deviation_tone5_tone6: Color // Text
+    val deviation_tone4_tone6: Color // Text
     val deviation_tone1_primary2: Color // Main Background
     val deviation_white_primary1: Color // TextField Background
     val deviation_primary3_primary0: Color // System bars
@@ -114,7 +114,7 @@ internal object StudyRoundColors {
         override val tertiary1 = Color(0xFF_FFB300)
 
         override val deviation_primary1_white = primary1
-        override val deviation_tone5_tone6 = tone5
+        override val deviation_tone4_tone6 = tone4
         override val deviation_tone1_primary2 = tone1
         override val deviation_white_primary1 = white
         override val deviation_primary3_primary0 = primary3
@@ -156,7 +156,7 @@ internal object StudyRoundColors {
         override val tertiary1 = Color(0xFF_FFD45D)
 
         override val deviation_primary1_white = white
-        override val deviation_tone5_tone6 = tone6
+        override val deviation_tone4_tone6 = tone6
         override val deviation_tone1_primary2 = primary2
         override val deviation_white_primary1 = primary1
         override val deviation_primary3_primary0 = primary0
