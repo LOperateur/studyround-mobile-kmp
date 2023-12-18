@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="force_update_prompt">Please update your app</string>
+    <string name="login">Login</string>
+    <string name="login_google">Login with Google</string>
+    <string name="login_arrow">← Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_up_google">Sign up with Google</string>
+    <string name="sign_up_arrow">Sign up →</string>
+    <string name="email_username">Email or username</string>
+    <string name="password">Password</string>
+    <string name="forgot_password_prompt">Forgot Password?</string>
 </resources>

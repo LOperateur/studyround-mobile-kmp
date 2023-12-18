@@ -57,6 +57,8 @@ kotlin {
             implementation(libs.voyager.transitions)
             implementation(libs.voyager.tabNavigator)
 
+//            implementation("org.jetbrains.skiko:skiko:0.7.90")
+
 //            implementation(libs.sqlDelight.coroutine)
 //            implementation(libs.sqlDelight.runtime)
 //            implementation(libs.sqlDelight.primitive.adapters)

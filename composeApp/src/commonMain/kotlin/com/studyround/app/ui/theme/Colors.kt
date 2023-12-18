@@ -35,6 +35,7 @@ interface Colors {
     val white: Color
     val black: Color
     val gray: Color
+    val shadow: Color
 
     // Variable colours
     val primary: Color
@@ -88,6 +89,7 @@ internal object StudyRoundColors {
         override val white = Color(0xFF_FFFFFF)
         override val black = Color(0xFF_000F10)
         override val gray = Color(0xFF_757575)
+        override val shadow = Color(0xFF_EBEBEB)
 
         override val primary = Color(0xFF_018184)
         override val secondary = Color(0xFF_FF8051)
@@ -95,7 +97,7 @@ internal object StudyRoundColors {
         override val danger = Color(0xFF_FF0000)
 
         override val tone0 = white
-        override val tone1 = Color(0xFF_F6F6F6)
+        override val tone1 = Color(0xFF_F5F5F5)
         override val tone2 = Color(0xFF_C7C7C7)
         override val tone3 = gray
         override val tone4 = Color(0xFF_383838)
@@ -130,6 +132,7 @@ internal object StudyRoundColors {
         override val white = Color(0xFF_FFFFFF)
         override val black = Color(0xFF_000F10)
         override val gray = Color(0xFF_757575)
+        override val shadow = Color.Unspecified // No shadow in dark mode
 
         override val primary = Color(0xFF_002E2F)
         override val secondary = Color(0xFF_CF3800)
@@ -141,7 +144,7 @@ internal object StudyRoundColors {
         override val tone2 = Color(0xFF_383838)
         override val tone3 = gray
         override val tone4 = Color(0xFF_C7C7C7)
-        override val tone5 = Color(0xFF_F6F6F6)
+        override val tone5 = Color(0xFF_F5F5F5)
         override val tone6 = white
 
         override val primary0 = Color(0xFF_001B1C)

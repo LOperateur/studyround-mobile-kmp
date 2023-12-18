@@ -29,11 +29,13 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.studyround.app.MR
 import com.studyround.app.ui.composables.buttons.GradientButton
 import com.studyround.app.ui.composables.common.StudyRoundBackground
 import com.studyround.app.ui.composables.common.TextLogo
 import com.studyround.app.ui.composables.input.InputField
 import com.studyround.app.ui.theme.StudyRoundTheme
+import dev.icerock.moko.resources.compose.stringResource
 
 class LoginScreen : Screen {
 
@@ -61,7 +63,7 @@ class LoginScreen : Screen {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Login",
+                text = stringResource(MR.strings.login),
                 fontFamily = StudyRoundTheme.typography.montserratFont,
                 color = StudyRoundTheme.colors.deviation_primary1_white,
                 style = StudyRoundTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal)
@@ -73,7 +75,7 @@ class LoginScreen : Screen {
 
             InputField(
                 text = emailText,
-                hint = "Email or username",
+                hint = stringResource(MR.strings.email_username),
                 singleLine = true,
                 maxLines = 1,
                 onValueChange = { emailText = it },
@@ -85,7 +87,7 @@ class LoginScreen : Screen {
 
             InputField(
                 text = passwordText,
-                hint = "Password",
+                hint = stringResource(MR.strings.password),
                 singleLine = true,
                 maxLines = 1,
                 onValueChange = { passwordText = it },
@@ -108,7 +110,7 @@ class LoginScreen : Screen {
                 onClick = {},
             ) {
                 Text(
-                    text = "Login",
+                    text = stringResource(MR.strings.login),
                     modifier = Modifier.padding(horizontal = 24.dp).padding(bottom = 4.dp),
                 )
             }
@@ -127,7 +129,7 @@ class LoginScreen : Screen {
                 onClick = {},
             ) {
                 Text(
-                    text = "Login with Google",
+                    text = stringResource(MR.strings.login_google),
                     modifier = Modifier.padding(horizontal = 24.dp).padding(bottom = 4.dp),
                 )
             }
@@ -137,7 +139,7 @@ class LoginScreen : Screen {
                     .padding(top = 24.dp, bottom = 24.dp, end = 16.dp),
                 horizontalArrangement = Arrangement.End
             ) {
-                Text(text = "Sign up  →", style = StudyRoundTheme.typography.bodySmall)
+                Text(text = stringResource(MR.strings.sign_up_arrow), style = StudyRoundTheme.typography.bodySmall)
             }
 
         }
