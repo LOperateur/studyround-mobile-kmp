@@ -21,16 +21,16 @@ fun TextLogo(modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         KamelImage(
-            modifier = Modifier.align(Alignment.CenterVertically).size(48.dp)
-                .padding(8.dp),
+            modifier = Modifier.align(Alignment.CenterVertically).size(56.dp),
             resource = Resource.Success(painterResource(MR.images.studyround_logo)),
             contentDescription = "Logo",
         )
 
         Text(
-            modifier = Modifier.align(Alignment.CenterVertically).padding(bottom = 4.dp),
+            modifier = Modifier.align(Alignment.CenterVertically)
+                .padding(start = 8.dp, bottom = 4.dp),
             text = "studyround",
-            style = StudyRoundTheme.typography.titleExtraSmall,
+            style = StudyRoundTheme.typography.titleSmall,
         )
     }
 }

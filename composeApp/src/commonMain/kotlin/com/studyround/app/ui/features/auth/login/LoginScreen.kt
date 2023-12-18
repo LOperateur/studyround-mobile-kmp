@@ -3,20 +3,37 @@ package com.studyround.app.ui.features.auth.login
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.studyround.app.ui.composables.buttons.GradientButton
 import com.studyround.app.ui.composables.common.StudyRoundBackground
 import com.studyround.app.ui.composables.common.TextLogo
+import com.studyround.app.ui.composables.input.InputField
+import com.studyround.app.ui.theme.StudyRoundTheme
 
 class LoginScreen : Screen {
 
@@ -24,9 +41,12 @@ class LoginScreen : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         StudyRoundBackground()
-        Box(modifier = Modifier.fillMaxSize().systemBarsPadding().padding(horizontal = 8.dp)) {
+        Box(
+            modifier = Modifier.fillMaxSize().systemBarsPadding()
+                .imePadding().padding(horizontal = 12.dp)
+        ) {
             Column(modifier = Modifier.matchParentSize()) {
-                TextLogo()
+                TextLogo(modifier = Modifier.padding(vertical = 8.dp))
                 LoginFormContent()
             }
         }
@@ -40,7 +60,86 @@ class LoginScreen : Screen {
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "Login")
+            Text(
+                text = "Login",
+                fontFamily = StudyRoundTheme.typography.montserratFont,
+                color = StudyRoundTheme.colors.deviation_primary1_white,
+                style = StudyRoundTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal)
+            )
+
+            Spacer(modifier = Modifier.height(52.dp))
+
+            var emailText by remember { mutableStateOf("") }
+
+            InputField(
+                text = emailText,
+                hint = "Email or username",
+                singleLine = true,
+                maxLines = 1,
+                onValueChange = { emailText = it },
+            )
+
+            Spacer(modifier = Modifier.height(28.dp))
+
+            var passwordText by remember { mutableStateOf("") }
+
+            InputField(
+                text = passwordText,
+                hint = "Password",
+                singleLine = true,
+                maxLines = 1,
+                onValueChange = { passwordText = it },
+            )
+
+            Spacer(modifier = Modifier.height(44.dp))
+
+            Text(text = "Forgot Password?", style = StudyRoundTheme.typography.bodySmall)
+
+            Spacer(modifier = Modifier.height(44.dp))
+
+            GradientButton(
+                shape = RoundedCornerShape(24.dp),
+                brush = Brush.horizontalGradient(
+                    colors = listOf(
+                        StudyRoundTheme.colors.secondary1,
+                        StudyRoundTheme.colors.secondary3,
+                    )
+                ),
+                onClick = {},
+            ) {
+                Text(
+                    text = "Login",
+                    modifier = Modifier.padding(horizontal = 24.dp).padding(bottom = 4.dp),
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                modifier = Modifier,
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = StudyRoundTheme.colors.primary,
+                    disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.75f),
+                    backgroundColor = StudyRoundTheme.colors.white,
+                    disabledBackgroundColor = StudyRoundTheme.colors.gray,
+                ),
+                shape = RoundedCornerShape(24.dp),
+                onClick = {},
+            ) {
+                Text(
+                    text = "Login with Google",
+                    modifier = Modifier.padding(horizontal = 24.dp).padding(bottom = 4.dp),
+                )
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(top = 24.dp, bottom = 24.dp, end = 16.dp),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Text(text = "Sign up  →", style = StudyRoundTheme.typography.bodySmall)
+            }
+
         }
     }
 }

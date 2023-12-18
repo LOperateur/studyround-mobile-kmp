@@ -12,6 +12,8 @@ val MaterialLightColors = lightColors(
     secondary = StudyRoundColors.Light.secondary,
     background = StudyRoundColors.Light.tone1,
     surface = StudyRoundColors.Light.tone1,
+    onPrimary = StudyRoundColors.Dark.tone4, // Text
+    onSecondary = StudyRoundColors.Dark.tone4, // Text
     onBackground = StudyRoundColors.Light.tone4, // Text
     onSurface = StudyRoundColors.Light.tone4, // Text
 )
@@ -19,8 +21,10 @@ val MaterialLightColors = lightColors(
 val MaterialDarkColors = darkColors(
     primary = StudyRoundColors.Dark.primary,
     secondary = StudyRoundColors.Dark.secondary,
-    background = StudyRoundColors.Dark.primary2,
-    surface = StudyRoundColors.Dark.primary2,
+    background = StudyRoundColors.Dark.primary1,
+    surface = StudyRoundColors.Dark.primary1,
+    onPrimary = StudyRoundColors.Dark.tone6, // Text
+    onSecondary = StudyRoundColors.Dark.tone6, // Text
     onBackground = StudyRoundColors.Dark.tone6, // Text
     onSurface = StudyRoundColors.Dark.tone6, // Text
 )
@@ -62,9 +66,9 @@ interface Colors {
     val tertiary1: Color
 
     val deviation_primary1_white: Color // Icons, Contrast Text
-    val deviation_tone4_tone6: Color // Text
+    val deviation_tone4_white: Color // Text
     val deviation_tone1_primary2: Color // Main Background
-    val deviation_white_primary1: Color // TextField Background
+    val deviation_white_primary0: Color // TextField Background
     val deviation_primary3_primary0: Color // System bars
     val deviation_white_dullWhite: Color
 }
@@ -114,9 +118,9 @@ internal object StudyRoundColors {
         override val tertiary1 = Color(0xFF_FFB300)
 
         override val deviation_primary1_white = primary1
-        override val deviation_tone4_tone6 = tone4
+        override val deviation_tone4_white = tone4
         override val deviation_tone1_primary2 = tone1
-        override val deviation_white_primary1 = white
+        override val deviation_white_primary0 = white
         override val deviation_primary3_primary0 = primary3
         override val deviation_white_dullWhite = white
     }
@@ -142,7 +146,7 @@ internal object StudyRoundColors {
 
         override val primary0 = Color(0xFF_001B1C)
         override val primary1 = Color(0xFF_002E2F) // Primary
-        override val primary2 = Color(0xFF_052E2F)
+        override val primary2 = Color(0xFF_055F5B)
         override val primary3 = Color(0xFF_018184)
         override val primary4 = Color(0xFF_00ABB4)
 
@@ -156,9 +160,9 @@ internal object StudyRoundColors {
         override val tertiary1 = Color(0xFF_FFD45D)
 
         override val deviation_primary1_white = white
-        override val deviation_tone4_tone6 = tone6
+        override val deviation_tone4_white = white
         override val deviation_tone1_primary2 = primary2
-        override val deviation_white_primary1 = primary1
+        override val deviation_white_primary0 = primary0
         override val deviation_primary3_primary0 = primary0
         override val deviation_white_dullWhite = white.copy(alpha = 0.6f)
     }
