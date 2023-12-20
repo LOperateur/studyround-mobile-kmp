@@ -4,5 +4,5 @@ import com.studyround.app.ui.main.RootViewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    factory { RootViewModel(get(), get()) }
+    factory { RootViewModel(get(), get(), get()) }
 }
