@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -78,6 +79,7 @@ class LoginScreen : Screen {
                 hint = stringResource(MR.strings.email_username),
                 singleLine = true,
                 maxLines = 1,
+                action = ImeAction.Next,
                 onValueChange = { emailText = it },
             )
 

@@ -32,7 +32,7 @@ class SplashScreen : PlaceholderScreen() {
             contentAlignment = Alignment.Center,
         ) {
             KamelImage(
-                modifier = Modifier.size(144.dp),
+                modifier = Modifier.size(138.dp),
                 resource = Resource.Success(painterResource(MR.images.studyround_logo)),
                 contentDescription = "Logo",
             )
