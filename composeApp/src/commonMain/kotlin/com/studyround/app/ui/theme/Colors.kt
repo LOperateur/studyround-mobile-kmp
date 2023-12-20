@@ -71,6 +71,7 @@ interface Colors {
     val deviation_tone1_primary2: Color // Main Background
     val deviation_white_primary0: Color // TextField Background
     val deviation_primary3_primary0: Color // System bars
+    val deviation_primary3_primary1: Color // Splash
     val deviation_white_dullWhite: Color
 }
 
@@ -124,6 +125,7 @@ internal object StudyRoundColors {
         override val deviation_tone1_primary2 = tone1
         override val deviation_white_primary0 = white
         override val deviation_primary3_primary0 = primary3
+        override val deviation_primary3_primary1 = primary3
         override val deviation_white_dullWhite = white
     }
 
@@ -167,6 +169,7 @@ internal object StudyRoundColors {
         override val deviation_tone1_primary2 = primary2
         override val deviation_white_primary0 = primary0
         override val deviation_primary3_primary0 = primary0
+        override val deviation_primary3_primary1 = primary1
         override val deviation_white_dullWhite = white.copy(alpha = 0.6f)
     }
 }

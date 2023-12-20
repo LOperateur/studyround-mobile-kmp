@@ -1,5 +1,6 @@
 package com.studyround.app.ui.main
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
@@ -14,11 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
-import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
 import com.studyround.app.MR
-import com.studyround.app.ui.navigation.PlaceholderScreen
+import com.studyround.app.ui.composables.transitions.FadeInTransition
+import com.studyround.app.ui.features.splash.SplashScreen
 import com.studyround.app.ui.navigation.navigate
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -30,12 +31,12 @@ class RootScreen : Screen {
         val viewState by viewModel.viewState.collectAsState()
         var rootNavigator by remember { mutableStateOf<Navigator?>(null) }
 
-        Navigator(screen = PlaceholderScreen()) {
+        Navigator(screen = SplashScreen()) {
             rootNavigator = it
-            if (it.lastItem is PlaceholderScreen)
-                CurrentScreen()
-            else
+            if (it.canPop)
                 SlideTransition(it)
+            else
+                FadeInTransition(it, animationSpec = tween(durationMillis = 500))
         }
 
         if (!viewState.showForceUpgradeScreen) {
