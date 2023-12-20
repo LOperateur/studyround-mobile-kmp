@@ -27,7 +27,7 @@ class RootViewModel(
 
     init {
         screenModelScope.launch {
-            delay(500)
+            delay(1_000) // Allow splash animation
             sessionManager.isSignedIn.collect { signedIn ->
                 if (signedIn) {
                     signedInNavigationPath()
