@@ -36,7 +36,7 @@ class RootScreen : Screen {
             if (it.canPop)
                 SlideTransition(it)
             else
-                FadeInTransition(it)
+                FadeInTransition(it, animationSpec = tween(500))
         }
 
         if (!viewState.showForceUpgradeScreen) {

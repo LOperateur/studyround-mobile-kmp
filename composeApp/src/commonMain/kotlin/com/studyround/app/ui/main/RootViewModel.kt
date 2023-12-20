@@ -6,6 +6,7 @@ import com.studyround.app.storage.AppPreferences
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import com.studyround.app.ui.viewmodel.WithEffects
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,6 +27,7 @@ class RootViewModel(
 
     init {
         screenModelScope.launch {
+            delay(500)
             sessionManager.isSignedIn.collect { signedIn ->
                 if (signedIn) {
                     signedInNavigationPath()
