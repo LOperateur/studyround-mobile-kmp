@@ -1,15 +1,18 @@
 package com.studyround.app.ui.features.auth.login
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,11 +34,14 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.studyround.app.MR
+import com.studyround.app.platform.ui.fontPadding
 import com.studyround.app.ui.composables.buttons.GradientButton
 import com.studyround.app.ui.composables.common.StudyRoundBackground
 import com.studyround.app.ui.composables.common.TextLogo
 import com.studyround.app.ui.composables.input.InputField
+import com.studyround.app.ui.composables.input.PasswordVisibilityToggleInputField
 import com.studyround.app.ui.theme.StudyRoundTheme
+import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
 
 class LoginScreen : Screen {
@@ -87,11 +93,9 @@ class LoginScreen : Screen {
 
             var passwordText by remember { mutableStateOf("") }
 
-            InputField(
+            PasswordVisibilityToggleInputField(
                 text = passwordText,
                 hint = stringResource(MR.strings.password),
-                singleLine = true,
-                maxLines = 1,
                 onValueChange = { passwordText = it },
             )
 
@@ -113,14 +117,14 @@ class LoginScreen : Screen {
             ) {
                 Text(
                     text = stringResource(MR.strings.login),
-                    modifier = Modifier.padding(horizontal = 24.dp).padding(bottom = 4.dp),
+                    modifier = Modifier.padding(horizontal = 24.dp).fontPadding(),
                 )
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Button(
-                modifier = Modifier,
+                modifier = Modifier.defaultMinSize(minHeight = 42.dp),
                 colors = ButtonDefaults.buttonColors(
                     contentColor = StudyRoundTheme.colors.primary,
                     disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.75f),
@@ -130,9 +134,14 @@ class LoginScreen : Screen {
                 shape = RoundedCornerShape(24.dp),
                 onClick = {},
             ) {
+                Image(
+                    painter = painterResource(MR.images.ic_google),
+                    modifier = Modifier.padding(end = 12.dp).size(24.dp),
+                    contentDescription = "Google"
+                )
                 Text(
-                    text = stringResource(MR.strings.login_google),
-                    modifier = Modifier.padding(horizontal = 24.dp).padding(bottom = 4.dp),
+                    text = stringResource(MR.strings.sign_in_google),
+                    modifier = Modifier.fontPadding(),
                 )
             }
 
@@ -141,9 +150,11 @@ class LoginScreen : Screen {
                     .padding(top = 24.dp, bottom = 24.dp, end = 16.dp),
                 horizontalArrangement = Arrangement.End
             ) {
-                Text(text = stringResource(MR.strings.sign_up_arrow), style = StudyRoundTheme.typography.bodySmall)
+                Text(
+                    text = stringResource(MR.strings.sign_up_arrow),
+                    style = StudyRoundTheme.typography.bodySmall
+                )
             }
-
         }
     }
 }

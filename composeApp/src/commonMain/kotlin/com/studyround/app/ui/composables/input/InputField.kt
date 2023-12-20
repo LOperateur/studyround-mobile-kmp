@@ -12,6 +12,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldColors
@@ -19,7 +21,10 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,9 +37,12 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.studyround.app.MR
 import com.studyround.app.ui.theme.StudyRoundTheme
+import dev.icerock.moko.resources.compose.painterResource
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -42,6 +50,7 @@ fun InputField(
     modifier: Modifier = Modifier,
     text: String,
     onValueChange: (String) -> Unit,
+    enabled: Boolean = true,
     hasError: Boolean = false,
     hint: String = "",
     action: ImeAction = ImeAction.Done,
@@ -59,13 +68,12 @@ fun InputField(
     errorColor: Color = StudyRoundTheme.colors.danger,
     hintColor: Color = StudyRoundTheme.colors.deviation_tone4_white.copy(alpha = 0.6f),
     backgroundColor: Color = StudyRoundTheme.colors.deviation_white_primary0,
+    disabledColor: Color = StudyRoundTheme.colors.tone1,
+    borderColor: Color = Color.Transparent,
+    readOnly: Boolean = false,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
-    readOnly: Boolean = false,
-    enabled: Boolean = true,
-    disabledColor: Color = StudyRoundTheme.colors.tone1,
-    borderColor: Color = Color.Transparent,
 ) {
     val customTextSelectionColors = TextSelectionColors(
         handleColor = handleColor,
@@ -143,85 +151,72 @@ fun InputField(
     }
 }
 
-///**
-// * Password InputField that can toggle the visibility of the password
-// * @param text [String] text on the inputText
-// * @param onValueChange callback service that updates when the input text is updated
-// * @param errorState [Boolean] to show the error state
-// * @param hint [String] hint to show on the inputText, default to an empty String
-// * @param action [ImeAction] defines the ImeAction, default to [ImeAction.Done]
-// * @param focusManager used to help with the imeActionNext
-// * @param defaultColor default color of outlined borders, default to [ZbColor.focus90]
-// * @param focusedColor focused color of outlined borders, default to [ZbColor.peaceActive]
-// * @param errorColor error color of outlined borders, default to [ZbColor.energy30]
-// * @param backgroundColor color for the background of the inputField, default to [ZbColor.focusDeviation_00_10]
-// */
-//@Composable
-//fun PasswordVisibilityToggleInputField(
-//    modifier: Modifier = Modifier,
-//    text: String,
-//    onValueChange: (String) -> Unit,
-//    errorState: Boolean = false,
-//    hint: String = "",
-//    action: ImeAction = ImeAction.Done,
-//    focusManager: FocusManager = LocalFocusManager.current,
-//    defaultColor: Color = ZbTheme.colors[ZbColor.focus90],
-//    focusedColor: Color = ZbTheme.colors[ZbColor.peaceActive],
-//    errorColor: Color = ZbTheme.colors[ZbColor.energy30],
-//    backgroundColor: Color = ZbTheme.colors[ZbColor.focusDeviation_00_10],
-//    borderColor: Color = ZbTheme.colors[ZbColor.focus90],
-//    hintColor: Color = ZbTheme.colors[ZbColor.focus40],
-//) {
-//    val showPassword = rememberSaveable { mutableStateOf(false) }
-//
-//    var iconId = R.drawable.ic_visibility_hidden
-//    var keyboardType = KeyboardType.Password
-//
-//    if (showPassword.value) {
-//        iconId = R.drawable.ic_visibility_visible
-//        keyboardType = KeyboardType.Text
-//    }
-//
-//    val visualTransformation =
-//        if (keyboardType == KeyboardType.Password) PasswordVisualTransformation() else VisualTransformation.None
-//
-//    val icon = @Composable {
-//        if (text.isNotEmpty()) {
-//            IconButton(
-//                onClick = {
-//                    showPassword.value = !showPassword.value
-//                },
-//                modifier = Modifier.testTag(tag = "eyeIcon"),
-//            ) {
-//                Icon(
-//                    painter = painterResource(iconId),
-//                    contentDescription = null,
-//                    tint = StudyRoundTheme.colors.tone1,
-//                )
-//            }
-//        }
-//    }
-//
-//    InputField(
-//        modifier = modifier,
-//        text = text,
-//        onValueChange = onValueChange,
-//        errorState = errorState,
-//        hint = hint,
-//        keyboardType = keyboardType,
-//        action = action,
-//        focusManager = focusManager,
-//        visualTransformation = visualTransformation,
-//        singleLine = true,
-//        trailingIcon = icon,
-//        defaultColor = defaultColor,
-//        focusedColor = focusedColor,
-//        errorColor = errorColor,
-//        backgroundColor = backgroundColor,
-//        borderColor = borderColor,
-//        hintColor = hintColor,
-//    )
-//}
+@Composable
+fun PasswordVisibilityToggleInputField(
+    modifier: Modifier = Modifier,
+    text: String,
+    onValueChange: (String) -> Unit,
+    errorState: Boolean = false,
+    hint: String = "",
+    action: ImeAction = ImeAction.Done,
+    focusManager: FocusManager = LocalFocusManager.current,
+    textColor: Color = StudyRoundTheme.colors.deviation_tone4_white,
+    focusedColor: Color = StudyRoundTheme.colors.primary2,
+    errorColor: Color = StudyRoundTheme.colors.danger,
+    hintColor: Color = StudyRoundTheme.colors.deviation_tone4_white.copy(alpha = 0.6f),
+    backgroundColor: Color = StudyRoundTheme.colors.deviation_white_primary0,
+    borderColor: Color = Color.Transparent,
+) {
+    var showPassword by rememberSaveable { mutableStateOf(false) }
+
+    var iconId = MR.images.ic_visibility_off
+    var keyboardType = KeyboardType.Password
+
+    if (showPassword) {
+        iconId = MR.images.ic_visibility_on
+        keyboardType = KeyboardType.Text
+    }
+
+    val visualTransformation =
+        if (keyboardType == KeyboardType.Password) PasswordVisualTransformation() else VisualTransformation.None
+
+    val icon = @Composable {
+        if (text.isNotEmpty()) {
+            IconButton(
+                onClick = {
+                    showPassword = !showPassword
+                },
+            ) {
+                Icon(
+                    painter = painterResource(iconId),
+                    contentDescription = null,
+                    tint = StudyRoundTheme.colors.deviation_tone4_white,
+                )
+            }
+        }
+    }
+
+    InputField(
+        modifier = modifier,
+        text = text,
+        onValueChange = onValueChange,
+        hasError = errorState,
+        hint = hint,
+        keyboardType = keyboardType,
+        action = action,
+        focusManager = focusManager,
+        visualTransformation = visualTransformation,
+        maxLines = 1,
+        singleLine = true,
+        trailingIcon = icon,
+        textColor = textColor,
+        focusedColor = focusedColor,
+        errorColor = errorColor,
+        backgroundColor = backgroundColor,
+        borderColor = borderColor,
+        hintColor = hintColor,
+    )
+}
 
 @Composable
 fun defineTextFieldColors(
