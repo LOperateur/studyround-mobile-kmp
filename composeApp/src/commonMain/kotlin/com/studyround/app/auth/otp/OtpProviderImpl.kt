@@ -1,8 +1,8 @@
 package com.studyround.app.auth.otp
 
-import com.studyround.app.storage.SettingsWrapper
+import com.studyround.app.storage.AppPreferences
 
-class OtpProviderImpl(private val settingsWrapper: SettingsWrapper) : OtpProvider {
+class OtpProviderImpl(private val appPreferences: AppPreferences) : OtpProvider {
     override fun requestOtp(
         email: String,
         type: String,
@@ -17,6 +17,6 @@ class OtpProviderImpl(private val settingsWrapper: SettingsWrapper) : OtpProvide
         otp: String,
         onResult: (passToken: String?, Throwable?) -> Unit
     ) {
-        settingsWrapper.setLastSavedPassToken("passToken")
+        appPreferences.setLastSavedPassToken("passToken")
     }
 }

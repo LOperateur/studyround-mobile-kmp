@@ -25,12 +25,14 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.studyround.app.ui.theme.StudyRoundTheme
 
 /**
  * Button that uses a [Brush] to specify a gradient,
  * while still able to maintain its disabled colour states.
+ * FIXME: This Composable is buggy, fix it
  */
 @Composable
 fun GradientButton(
@@ -65,7 +67,7 @@ fun GradientButton(
         Box(
             modifier = if (enabled) {
                 Modifier.background(brush)
-                    .requiredSizeIn(minWidth = buttonSize.width, minHeight = buttonSize.height)
+                    .requiredSizeIn(minWidth = buttonSize.width, minHeight = minOf(44.dp, buttonSize.height))
                     .padding(contentPadding)
             } else Modifier,
             contentAlignment = Alignment.Center,

@@ -86,6 +86,7 @@
 				7555FF8C242A565B00829871 /* Info.plist */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
 				F19BC0AFCF06EE5E992809C0 /* iOSApp.swift */,
+				F19BC952F80C5037216564D5 /* AppIcon.appiconset */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -116,6 +117,14 @@
 			);
 			name = xcschemes;
 			path = iosApp.xcodeproj/project.xcworkspace/xcuserdata/mofeejegi.xcuserdatad/xcschemes;
+			sourceTree = "<group>";
+		};
+		F19BC952F80C5037216564D5 /* AppIcon.appiconset */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = AppIcon.appiconset;
+			path = Assets.xcassets/AppIcon.appiconset;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

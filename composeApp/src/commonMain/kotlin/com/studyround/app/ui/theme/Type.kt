@@ -36,6 +36,7 @@ interface Typography {
     val titleLarge: TextStyle
     val titleMedium: TextStyle
     val titleSmall: TextStyle
+    val titleExtraSmall: TextStyle
     val bodyLarge: TextStyle
     val bodyMedium: TextStyle
     val bodySmall: TextStyle
@@ -71,6 +72,12 @@ internal class StudyRoundTypography(
     override val titleSmall = baseStyle.copy(
         fontSize = 24.sp,
         lineHeight = 28.sp,
+        fontWeight = FontWeight.Bold,
+    )
+
+    override val titleExtraSmall = baseStyle.copy(
+        fontSize = 20.sp,
+        lineHeight = 24.sp,
         fontWeight = FontWeight.Bold,
     )
 

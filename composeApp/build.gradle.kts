@@ -57,6 +57,8 @@ kotlin {
             implementation(libs.voyager.transitions)
             implementation(libs.voyager.tabNavigator)
 
+//            implementation("org.jetbrains.skiko:skiko:0.7.90")
+
 //            implementation(libs.sqlDelight.coroutine)
 //            implementation(libs.sqlDelight.runtime)
 //            implementation(libs.sqlDelight.primitive.adapters)
@@ -75,6 +77,7 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.core.splashscreen)
             implementation(libs.androidx.security.crypto)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
