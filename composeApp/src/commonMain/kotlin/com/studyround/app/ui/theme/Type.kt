@@ -7,6 +7,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.studyround.app.platform.ui.font
+import com.studyround.app.platform.ui.getPlatformTextStyle
 
 // Set of Material typography styles to start with
 val MaterialTypography
@@ -54,6 +55,7 @@ internal class StudyRoundTypography(
         fontFamily = quicksandFont,
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Normal,
+        platformStyle = getPlatformTextStyle(),
     )
 
     // Title

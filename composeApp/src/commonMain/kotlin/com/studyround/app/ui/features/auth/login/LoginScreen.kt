@@ -34,7 +34,6 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.studyround.app.MR
-import com.studyround.app.platform.ui.fontPadding
 import com.studyround.app.ui.composables.buttons.GradientButton
 import com.studyround.app.ui.composables.common.StudyRoundBackground
 import com.studyround.app.ui.composables.common.TextLogo
@@ -117,7 +116,7 @@ class LoginScreen : Screen {
             ) {
                 Text(
                     text = stringResource(MR.strings.login),
-                    modifier = Modifier.padding(horizontal = 24.dp).fontPadding(),
+                    modifier = Modifier.padding(horizontal = 24.dp),
                 )
             }
 
@@ -141,7 +140,6 @@ class LoginScreen : Screen {
                 )
                 Text(
                     text = stringResource(MR.strings.sign_in_google),
-                    modifier = Modifier.fontPadding(),
                 )
             }
 
