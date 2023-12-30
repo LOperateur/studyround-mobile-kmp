@@ -11,7 +11,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import com.studyround.app.MR
 import com.studyround.app.platform.ui.DynamicSystemBarColors
-import com.studyround.app.platform.ui.SplashAnimationAlpha
+import com.studyround.app.platform.ui.splashAnimationAlpha
 import com.studyround.app.ui.navigation.PlaceholderScreen
 import com.studyround.app.ui.theme.StudyRoundTheme
 import dev.icerock.moko.resources.compose.painterResource
@@ -22,10 +22,10 @@ class SplashScreen : PlaceholderScreen() {
     @Composable
     override fun Content() {
         DynamicSystemBarColors(
-            statusBarColor = StudyRoundTheme.colors.deviation_primary3_primary0,
-            navBarColor = StudyRoundTheme.colors.deviation_primary3_primary0,
             dynamicStatusBarColor = StudyRoundTheme.colors.deviation_primary3_primary1,
             dynamicNavBarColor = StudyRoundTheme.colors.deviation_primary3_primary1,
+            statusBarColor = StudyRoundTheme.colors.deviation_primary3_primary0,
+            navBarColor = StudyRoundTheme.colors.deviation_primary3_primary0,
         )
 
         Box(
@@ -35,7 +35,7 @@ class SplashScreen : PlaceholderScreen() {
         ) {
 
             KamelImage(
-                modifier = Modifier.size(138.dp).alpha(SplashAnimationAlpha()),
+                modifier = Modifier.size(138.dp).alpha(splashAnimationAlpha()),
                 resource = Resource.Success(painterResource(MR.images.studyround_logo)),
                 contentDescription = "Logo",
             )
