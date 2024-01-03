@@ -15,7 +15,7 @@ import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 
 @Composable
-fun TextLogo(modifier: Modifier = Modifier) {
+fun StudyRoundTextLogo(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
