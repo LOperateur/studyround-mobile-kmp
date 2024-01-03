@@ -289,7 +289,7 @@ private fun ButtonContent(
     iconEnd?.let {
         Image(
             painter = it,
-            modifier = Modifier.padding(end = 12.dp).size(24.dp),
+            modifier = Modifier.padding(start = 12.dp).size(24.dp),
             contentDescription = null,
         )
     }

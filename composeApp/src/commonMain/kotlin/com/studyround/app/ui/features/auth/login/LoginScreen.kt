@@ -113,7 +113,6 @@ class LoginScreen : Screen {
                 backgroundColor = StudyRoundTheme.colors.white,
                 text = stringResource(MR.strings.sign_in_google),
                 iconStart = painterResource(MR.images.ic_google),
-                iconEnd = painterResource(MR.images.ic_google),
             ) {
 
             }
