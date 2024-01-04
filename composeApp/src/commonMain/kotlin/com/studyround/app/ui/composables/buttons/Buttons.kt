@@ -1,5 +1,6 @@
 package com.studyround.app.ui.composables.buttons
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -226,16 +227,15 @@ private fun BasicOutlinedButton(
     iconEnd: Painter? = null,
     onClick: (text: String) -> Unit,
 ) {
-    // TODO: Inspect and work on this
     OutlinedButton(
         modifier = modifier.defaultMinSize(minHeight = 42.dp),
         shape = RoundedCornerShape(24.dp),
         enabled = enabled,
-        colors = ButtonDefaults.buttonColors(
+        border = BorderStroke(1.dp, if (enabled) color else StudyRoundTheme.colors.gray),
+        colors = ButtonDefaults.outlinedButtonColors(
             contentColor = color,
-            backgroundColor = color,
+            backgroundColor = Color.Transparent,
             disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.75f),
-            disabledBackgroundColor = StudyRoundTheme.colors.gray,
         ),
         onClick = { onClick(text) },
     ) {

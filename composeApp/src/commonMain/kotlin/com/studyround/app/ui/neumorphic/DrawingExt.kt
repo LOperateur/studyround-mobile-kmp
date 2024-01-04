@@ -97,7 +97,7 @@ private fun ContentDrawScope.drawForeground(
         if (elevation <= 0)
             return@drawIntoCanvas
 
-        val blurRadius = elevation * 0.6f
+        val blurRadius = elevation * 1.2f
         val strokeWidth = elevation * .95f
 
         val paint = Paint().also { p ->
