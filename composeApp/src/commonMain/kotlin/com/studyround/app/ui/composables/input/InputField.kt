@@ -1,12 +1,10 @@
 package com.studyround.app.ui.composables.input
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -30,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -41,6 +38,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.studyround.app.MR
+import com.studyround.app.ui.neumorphic.LightSource
+import com.studyround.app.ui.neumorphic.neumorphic
+import com.studyround.app.ui.neumorphic.shape.Pressed
+import com.studyround.app.ui.neumorphic.shape.RoundedCorner
 import com.studyround.app.ui.theme.StudyRoundTheme
 import dev.icerock.moko.resources.compose.painterResource
 
@@ -102,7 +103,8 @@ fun InputField(
                         ),
                         shape = RoundedCornerShape(28.dp),
                     )
-                    .clip(RoundedCornerShape(28.dp)),
+                    .clip(RoundedCornerShape(28.dp))
+                    .innerShadow(isFocus),
                 interactionSource = interactionSource,
                 isError = hasError,
                 visualTransformation = visualTransformation,
@@ -147,7 +149,7 @@ fun InputField(
                 readOnly = readOnly,
             )
         }
-        if (!isFocus) InnerShadow()
+//        if (!isFocus) InnerShadow()
     }
 }
 
@@ -240,19 +242,16 @@ fun defineTextFieldColors(
 }
 
 @Composable
-fun BoxScope.InnerShadow() {
-    if (!StudyRoundTheme.darkMode) {
-        Box(
-            modifier = Modifier.matchParentSize()
-                .clip(RoundedCornerShape(28.dp))
-                .background(
-                    brush = Brush.verticalGradient(
-                        colorStops = arrayOf(
-                            0f to StudyRoundTheme.colors.shadow,
-                            0.15f to Color.Transparent,
-                        ),
-                    )
-                )
+fun Modifier.innerShadow(hideShadow: Boolean = false): Modifier {
+    return if (hideShadow || StudyRoundTheme.darkMode) {
+        this
+    } else {
+        neumorphic(
+            lightShadowColor = Color.White,
+            darkShadowColor = Color.LightGray,
+            lightSource = LightSource.LEFT_TOP,
+            shadowElevation = 4.dp,
+            shape = Pressed(cornerShape = RoundedCorner(28.dp))
         )
     }
 }
