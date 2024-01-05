@@ -149,7 +149,6 @@ fun InputField(
                 readOnly = readOnly,
             )
         }
-//        if (!isFocus) InnerShadow()
     }
 }
 
@@ -251,7 +250,7 @@ fun Modifier.innerShadow(hideShadow: Boolean = false): Modifier {
             darkShadowColor = Color.LightGray,
             lightSource = LightSource.LEFT_TOP,
             shadowElevation = 4.dp,
-            shape = Pressed(cornerShape = RoundedCorner(28.dp))
+            shape = Pressed(cornerShape = RoundedCorner(28.dp)),
         )
     }
 }
