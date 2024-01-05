@@ -61,13 +61,13 @@ fun InputField(
     maxLines: Int = 5,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    textColor: Color = StudyRoundTheme.colors.deviation_tone4_white,
-    cursorColor: Color = StudyRoundTheme.colors.deviation_tone4_white,
+    textColor: Color = StudyRoundTheme.colors.deviation_tone4_tone5,
+    cursorColor: Color = StudyRoundTheme.colors.deviation_tone4_tone5,
     handleColor: Color = StudyRoundTheme.colors.deviation_primary1_white,
     selectionColor: Color = StudyRoundTheme.colors.deviation_primary1_white,
     focusedColor: Color = StudyRoundTheme.colors.primary2,
     errorColor: Color = StudyRoundTheme.colors.danger,
-    hintColor: Color = StudyRoundTheme.colors.deviation_tone4_white.copy(alpha = 0.6f),
+    hintColor: Color = StudyRoundTheme.colors.deviation_tone4_tone5.copy(alpha = 0.6f),
     backgroundColor: Color = StudyRoundTheme.colors.deviation_white_primary0,
     disabledColor: Color = StudyRoundTheme.colors.tone1,
     borderColor: Color = Color.Transparent,
@@ -162,10 +162,10 @@ fun PasswordVisibilityToggleInputField(
     hint: String = "",
     action: ImeAction = ImeAction.Done,
     focusManager: FocusManager = LocalFocusManager.current,
-    textColor: Color = StudyRoundTheme.colors.deviation_tone4_white,
+    textColor: Color = StudyRoundTheme.colors.deviation_tone4_tone5,
     focusedColor: Color = StudyRoundTheme.colors.primary2,
     errorColor: Color = StudyRoundTheme.colors.danger,
-    hintColor: Color = StudyRoundTheme.colors.deviation_tone4_white.copy(alpha = 0.6f),
+    hintColor: Color = StudyRoundTheme.colors.deviation_tone4_tone5.copy(alpha = 0.6f),
     backgroundColor: Color = StudyRoundTheme.colors.deviation_white_primary0,
     borderColor: Color = Color.Transparent,
 ) {
@@ -192,7 +192,7 @@ fun PasswordVisibilityToggleInputField(
                 Icon(
                     painter = painterResource(iconId),
                     contentDescription = null,
-                    tint = StudyRoundTheme.colors.deviation_tone4_white,
+                    tint = StudyRoundTheme.colors.deviation_tone4_tone5,
                 )
             }
         }

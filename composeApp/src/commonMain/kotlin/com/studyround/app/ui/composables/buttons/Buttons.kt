@@ -13,6 +13,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +21,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.studyround.app.ui.theme.StudyRoundTheme
 
@@ -133,13 +136,27 @@ fun SecondaryOutlinedButton(
 fun LinkTextButton(
     modifier: Modifier = Modifier,
     text: String,
-    showLoading: Boolean = false,
+    textStyle: TextStyle = StudyRoundTheme.typography.bodySmall,
+    textColor: Color = StudyRoundTheme.colors.deviation_tone4_tone5,
+    showUnderline: Boolean = true,
     enabled: Boolean = true,
-    iconStart: Int? = null,
-    iconEnd: Int? = null,
     onClick: (text: String) -> Unit,
 ) {
-
+    TextButton(
+        modifier = modifier,
+        enabled = enabled,
+        colors = ButtonDefaults.textButtonColors(
+            contentColor = textColor,
+            disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.5f),
+        ),
+        onClick = { onClick(text) },
+    ) {
+        Text(
+            text = text,
+            style = textStyle,
+            textDecoration = if (showUnderline) TextDecoration.Underline else null,
+        )
+    }
 }
 
 @Composable
@@ -162,7 +179,7 @@ fun PlainButton(
         colors = ButtonDefaults.buttonColors(
             contentColor = textColor,
             backgroundColor = backgroundColor,
-            disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.75f),
+            disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.5f),
             disabledBackgroundColor = StudyRoundTheme.colors.gray,
         ),
         onClick = { onClick(text) },
@@ -199,7 +216,7 @@ private fun BasicGradientButton(
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
             contentColor = StudyRoundTheme.colors.white,
-            disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.75f),
+            disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.5f),
             disabledBackgroundColor = StudyRoundTheme.colors.gray,
         ),
         onClick = { onClick(text) },
@@ -235,7 +252,7 @@ private fun BasicOutlinedButton(
         colors = ButtonDefaults.outlinedButtonColors(
             contentColor = color,
             backgroundColor = Color.Transparent,
-            disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.75f),
+            disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.5f),
         ),
         onClick = { onClick(text) },
     ) {

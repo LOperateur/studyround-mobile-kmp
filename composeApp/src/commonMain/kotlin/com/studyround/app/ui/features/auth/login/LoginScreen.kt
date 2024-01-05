@@ -28,6 +28,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.studyround.app.MR
+import com.studyround.app.ui.composables.buttons.LinkTextButton
 import com.studyround.app.ui.composables.buttons.PlainButton
 import com.studyround.app.ui.composables.buttons.PrimaryButton
 import com.studyround.app.ui.composables.common.StudyRoundBackground
@@ -95,7 +96,9 @@ class LoginScreen : Screen {
 
             Spacer(modifier = Modifier.height(44.dp))
 
-            Text(text = "Forgot Password?", style = StudyRoundTheme.typography.bodySmall)
+            LinkTextButton(text = stringResource(MR.strings.forgot_password_prompt)) {
+
+            }
 
             Spacer(modifier = Modifier.height(44.dp))
 
@@ -110,7 +113,7 @@ class LoginScreen : Screen {
 
             PlainButton(
                 textColor = StudyRoundTheme.colors.primary,
-                backgroundColor = StudyRoundTheme.colors.white,
+                backgroundColor = StudyRoundTheme.colors.deviation_white_tone5,
                 text = stringResource(MR.strings.sign_in_google),
                 iconStart = painterResource(MR.images.ic_google),
             ) {
@@ -122,10 +125,12 @@ class LoginScreen : Screen {
                     .padding(top = 24.dp, bottom = 24.dp, end = 16.dp),
                 horizontalArrangement = Arrangement.End
             ) {
-                Text(
+                LinkTextButton(
                     text = stringResource(MR.strings.sign_up_arrow),
-                    style = StudyRoundTheme.typography.bodySmall
-                )
+                    showUnderline = false,
+                ) {
+
+                }
             }
         }
     }
