@@ -1,24 +1,19 @@
 package com.studyround.app.ui.features.auth.login
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,7 +21,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -34,10 +28,11 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.studyround.app.MR
-import com.studyround.app.platform.ui.fontPadding
-import com.studyround.app.ui.composables.buttons.GradientButton
+import com.studyround.app.ui.composables.buttons.LinkTextButton
+import com.studyround.app.ui.composables.buttons.PlainButton
+import com.studyround.app.ui.composables.buttons.PrimaryButton
 import com.studyround.app.ui.composables.common.StudyRoundBackground
-import com.studyround.app.ui.composables.common.TextLogo
+import com.studyround.app.ui.composables.common.StudyRoundTextLogo
 import com.studyround.app.ui.composables.input.InputField
 import com.studyround.app.ui.composables.input.PasswordVisibilityToggleInputField
 import com.studyround.app.ui.theme.StudyRoundTheme
@@ -52,10 +47,10 @@ class LoginScreen : Screen {
         StudyRoundBackground()
         Box(
             modifier = Modifier.fillMaxSize().systemBarsPadding()
-                .imePadding().padding(horizontal = 12.dp)
+                .imePadding().padding(horizontal = 16.dp)
         ) {
             Column(modifier = Modifier.matchParentSize()) {
-                TextLogo(modifier = Modifier.padding(vertical = 8.dp))
+                StudyRoundTextLogo(modifier = Modifier.padding(vertical = 8.dp))
                 LoginFormContent()
             }
         }
@@ -81,6 +76,7 @@ class LoginScreen : Screen {
             var emailText by remember { mutableStateOf("") }
 
             InputField(
+                modifier = Modifier.fillMaxWidth(0.75f),
                 text = emailText,
                 hint = stringResource(MR.strings.email_username),
                 singleLine = true,
@@ -94,55 +90,36 @@ class LoginScreen : Screen {
             var passwordText by remember { mutableStateOf("") }
 
             PasswordVisibilityToggleInputField(
+                modifier = Modifier.fillMaxWidth(0.75f),
                 text = passwordText,
                 hint = stringResource(MR.strings.password),
                 onValueChange = { passwordText = it },
             )
 
-            Spacer(modifier = Modifier.height(44.dp))
+            Spacer(modifier = Modifier.height(36.dp))
 
-            Text(text = "Forgot Password?", style = StudyRoundTheme.typography.bodySmall)
+            LinkTextButton(text = stringResource(MR.strings.forgot_password_prompt)) {
 
-            Spacer(modifier = Modifier.height(44.dp))
+            }
 
-            GradientButton(
-                shape = RoundedCornerShape(24.dp),
-                brush = Brush.horizontalGradient(
-                    colors = listOf(
-                        StudyRoundTheme.colors.secondary1,
-                        StudyRoundTheme.colors.secondary3,
-                    )
-                ),
-                onClick = {},
+            Spacer(modifier = Modifier.height(36.dp))
+
+            PrimaryButton(
+                text = stringResource(MR.strings.login),
+                textPadding = PaddingValues(horizontal = 24.dp)
             ) {
-                Text(
-                    text = stringResource(MR.strings.login),
-                    modifier = Modifier.padding(horizontal = 24.dp).fontPadding(),
-                )
+
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Button(
-                modifier = Modifier.defaultMinSize(minHeight = 42.dp),
-                colors = ButtonDefaults.buttonColors(
-                    contentColor = StudyRoundTheme.colors.primary,
-                    disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.75f),
-                    backgroundColor = StudyRoundTheme.colors.white,
-                    disabledBackgroundColor = StudyRoundTheme.colors.gray,
-                ),
-                shape = RoundedCornerShape(24.dp),
-                onClick = {},
+            PlainButton(
+                textColor = StudyRoundTheme.colors.primary,
+                backgroundColor = StudyRoundTheme.colors.deviation_white_tone5,
+                text = stringResource(MR.strings.sign_in_google),
+                iconStart = painterResource(MR.images.ic_google),
             ) {
-                Image(
-                    painter = painterResource(MR.images.ic_google),
-                    modifier = Modifier.padding(end = 12.dp).size(24.dp),
-                    contentDescription = "Google"
-                )
-                Text(
-                    text = stringResource(MR.strings.sign_in_google),
-                    modifier = Modifier.fontPadding(),
-                )
+
             }
 
             Row(
@@ -150,10 +127,12 @@ class LoginScreen : Screen {
                     .padding(top = 24.dp, bottom = 24.dp, end = 16.dp),
                 horizontalArrangement = Arrangement.End
             ) {
-                Text(
+                LinkTextButton(
                     text = stringResource(MR.strings.sign_up_arrow),
-                    style = StudyRoundTheme.typography.bodySmall
-                )
+                    showUnderline = false,
+                ) {
+
+                }
             }
         }
     }

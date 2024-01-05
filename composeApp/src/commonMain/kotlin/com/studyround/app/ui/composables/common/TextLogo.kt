@@ -10,13 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.studyround.app.MR
 import com.studyround.app.ui.theme.StudyRoundTheme
-import com.studyround.app.platform.ui.fontPadding
 import dev.icerock.moko.resources.compose.painterResource
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 
 @Composable
-fun TextLogo(modifier: Modifier = Modifier) {
+fun StudyRoundTextLogo(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
@@ -29,7 +28,7 @@ fun TextLogo(modifier: Modifier = Modifier) {
 
         Text(
             modifier = Modifier.align(Alignment.CenterVertically)
-                .padding(start = 8.dp).fontPadding(),
+                .padding(start = 8.dp),
             text = "studyround",
             style = StudyRoundTheme.typography.titleSmall,
         )
