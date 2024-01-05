@@ -76,6 +76,7 @@ class LoginScreen : Screen {
             var emailText by remember { mutableStateOf("") }
 
             InputField(
+                modifier = Modifier.fillMaxWidth(0.75f),
                 text = emailText,
                 hint = stringResource(MR.strings.email_username),
                 singleLine = true,
@@ -89,18 +90,19 @@ class LoginScreen : Screen {
             var passwordText by remember { mutableStateOf("") }
 
             PasswordVisibilityToggleInputField(
+                modifier = Modifier.fillMaxWidth(0.75f),
                 text = passwordText,
                 hint = stringResource(MR.strings.password),
                 onValueChange = { passwordText = it },
             )
 
-            Spacer(modifier = Modifier.height(44.dp))
+            Spacer(modifier = Modifier.height(36.dp))
 
             LinkTextButton(text = stringResource(MR.strings.forgot_password_prompt)) {
 
             }
 
-            Spacer(modifier = Modifier.height(44.dp))
+            Spacer(modifier = Modifier.height(36.dp))
 
             PrimaryButton(
                 text = stringResource(MR.strings.login),

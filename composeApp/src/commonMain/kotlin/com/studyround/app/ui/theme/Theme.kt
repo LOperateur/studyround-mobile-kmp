@@ -1,6 +1,7 @@
 package com.studyround.app.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -31,12 +32,14 @@ fun StudyRoundTheme(
             statusBarColor = StudyRoundColors.getColors(darkTheme).deviation_primary3_primary0,
             navBarColor = StudyRoundColors.getColors(darkTheme).deviation_primary3_primary0,
         )
-
         MaterialTheme(
             colors = colors,
             typography = MaterialTypography,
-            content = content,
-        )
+        ) {
+            CompositionLocalProvider(LocalContentAlpha provides 1f) {
+                content()
+            }
+        }
     }
 }
 
