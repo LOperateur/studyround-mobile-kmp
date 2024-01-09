@@ -7,6 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.studyround.app.MR
 import com.studyround.app.ui.theme.StudyRoundTheme
@@ -15,7 +16,10 @@ import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 
 @Composable
-fun StudyRoundTextLogo(modifier: Modifier = Modifier) {
+fun StudyRoundTextLogo(
+    modifier: Modifier = Modifier,
+    textColor: Color = StudyRoundTheme.colors.deviation_tone4_tone5,
+) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
@@ -30,6 +34,7 @@ fun StudyRoundTextLogo(modifier: Modifier = Modifier) {
             modifier = Modifier.align(Alignment.CenterVertically)
                 .padding(start = 8.dp),
             text = "studyround",
+            color = textColor,
             style = StudyRoundTheme.typography.titleSmall,
         )
     }

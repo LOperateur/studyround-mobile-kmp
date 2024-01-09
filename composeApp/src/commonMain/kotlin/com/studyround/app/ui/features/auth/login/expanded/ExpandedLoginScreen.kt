@@ -1,6 +1,7 @@
 package com.studyround.app.ui.features.auth.login.expanded
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.studyround.app.ui.composables.common.StudyRoundBackground
@@ -124,6 +126,20 @@ fun ExpandedLoginScreen(
             }
         }
 
-        StudyRoundTextLogo(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp))
+        val animatedColor by animateColorAsState(
+            targetValue = if (viewState.isSignUp) StudyRoundTheme.colors.deviation_tone4_tone5 else StudyRoundTheme.colors.deviation_white_tone5,
+            animationSpec = tween(delayMillis = 300)
+        )
+
+        val logoTextColor = if (StudyRoundTheme.darkMode)
+            StudyRoundTheme.colors.deviation_tone4_tone5
+        else {
+            animatedColor
+        }
+
+        StudyRoundTextLogo(
+            modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+            textColor = logoTextColor
+        )
     }
 }
