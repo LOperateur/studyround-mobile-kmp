@@ -36,11 +36,14 @@ import dev.icerock.moko.resources.compose.stringResource
 fun LoginFormContent(
     modifier: Modifier = Modifier,
     eventProcessor: (LoginViewEvent) -> Unit,
+    emailText: String = "",
+    passwordText: String = "",
     hideSignupButton: Boolean = false,
+    contentPadding: PaddingValues = PaddingValues(),
 ) {
     Column(
-        modifier = modifier.verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Center
+        modifier = modifier.verticalScroll(rememberScrollState()).padding(contentPadding),
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             text = stringResource(MR.strings.login),
@@ -51,8 +54,6 @@ fun LoginFormContent(
 
         Spacer(modifier = Modifier.height(52.dp))
 
-        var emailText by remember { mutableStateOf("") }
-
         InputField(
             modifier = Modifier.fillMaxWidth(0.75f),
             text = emailText,
@@ -60,18 +61,16 @@ fun LoginFormContent(
             singleLine = true,
             maxLines = 1,
             action = ImeAction.Next,
-            onValueChange = { emailText = it },
+            onValueChange = { },
         )
 
         Spacer(modifier = Modifier.height(28.dp))
-
-        var passwordText by remember { mutableStateOf("") }
 
         PasswordVisibilityToggleInputField(
             modifier = Modifier.fillMaxWidth(0.75f),
             text = passwordText,
             hint = stringResource(MR.strings.password),
-            onValueChange = { passwordText = it },
+            onValueChange = { },
         )
 
         Spacer(modifier = Modifier.height(36.dp))

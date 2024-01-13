@@ -7,6 +7,7 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -55,8 +56,9 @@ fun CompactLoginScreen(
                 LoginFormContent(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(start = 16.dp, end = 16.dp, bottom = 24.dp),
-                    eventProcessor = eventProcessor
+                        .padding(horizontal = 16.dp),
+                    eventProcessor = eventProcessor,
+                    contentPadding = PaddingValues(bottom = 24.dp),
                 )
             }
 
@@ -80,8 +82,9 @@ fun CompactLoginScreen(
                 SignupFormContent(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(start = 16.dp, end = 16.dp, bottom = 24.dp),
-                    eventProcessor = eventProcessor
+                        .padding(horizontal = 16.dp),
+                    eventProcessor = eventProcessor,
+                    contentPadding = PaddingValues(bottom = 24.dp),
                 )
             }
         }

@@ -10,8 +10,11 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -49,7 +52,8 @@ fun ExpandedLoginScreen(
                     GoToSignupLayout(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(top = 72.dp, start = 64.dp, end = 64.dp, bottom = 24.dp),
+                            .padding(horizontal = 64.dp)
+                            .padding(top = 72.dp), // Adjust for StudyRound logo,
                         eventProcessor = eventProcessor
                     )
                 }
@@ -75,9 +79,11 @@ fun ExpandedLoginScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(color = StudyRoundTheme.colors.deviation_tone1_primary1)
-                            .padding(top = 72.dp, start = 64.dp, end = 64.dp, bottom = 24.dp),
+                            .padding(horizontal = 64.dp)
+                            .padding(top = 72.dp), // Adjust for StudyRound logo
                         eventProcessor = eventProcessor,
                         hideLoginButton = true,
+                        contentPadding = PaddingValues(bottom = 24.dp)
                     )
                 }
             }
@@ -92,7 +98,8 @@ fun ExpandedLoginScreen(
                     GoToLoginLayout(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(top = 72.dp, start = 64.dp, end = 64.dp, bottom = 24.dp),
+                            .padding(horizontal = 64.dp)
+                            .padding(top = 72.dp), // Match other side adjusting for StudyRound Logo
                         eventProcessor = eventProcessor
                     )
                 }
@@ -118,9 +125,10 @@ fun ExpandedLoginScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(color = StudyRoundTheme.colors.deviation_tone1_primary1)
-                            .padding(top = 24.dp, start = 64.dp, end = 64.dp, bottom = 24.dp),
+                            .padding(horizontal = 64.dp),
                         eventProcessor = eventProcessor,
                         hideSignupButton = true,
+                        contentPadding = PaddingValues(top = 72.dp, bottom = 24.dp), // 72.dp to Match other side adjusting for StudyRound Logo
                     )
                 }
             }

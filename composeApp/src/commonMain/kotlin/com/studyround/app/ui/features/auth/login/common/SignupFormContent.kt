@@ -41,11 +41,12 @@ import dev.icerock.moko.resources.compose.stringResource
 fun SignupFormContent(
     modifier: Modifier = Modifier,
     eventProcessor: (LoginViewEvent) -> Unit,
-//    emailText: String,
+    emailText: String = "",
     hideLoginButton: Boolean = false,
+    contentPadding: PaddingValues = PaddingValues(),
 ) {
     Column(
-        modifier = modifier.verticalScroll(rememberScrollState()),
+        modifier = modifier.verticalScroll(rememberScrollState()).padding(contentPadding),
         verticalArrangement = Arrangement.Center
     ) {
         Text(
@@ -57,8 +58,6 @@ fun SignupFormContent(
 
         Spacer(modifier = Modifier.height(52.dp))
 
-        var emailText by remember { mutableStateOf("") }
-
         InputField(
             modifier = Modifier.fillMaxWidth(0.75f),
             text = emailText,
@@ -66,7 +65,7 @@ fun SignupFormContent(
             singleLine = true,
             maxLines = 1,
             action = ImeAction.Done,
-            onValueChange = { emailText = it },
+            onValueChange = { },
         )
 
         Spacer(modifier = Modifier.height(32.dp))
