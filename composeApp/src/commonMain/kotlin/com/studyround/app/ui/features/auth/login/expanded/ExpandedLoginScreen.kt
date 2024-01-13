@@ -35,10 +35,18 @@ fun ExpandedLoginScreen(
     viewState: LoginViewState,
     eventProcessor: (LoginViewEvent) -> Unit,
 ) {
-    StudyRoundBackground(
-        modifier = Modifier.background(color = StudyRoundTheme.colors.deviation_primary2_primary0),
-        darkMode = true,
-    )
+    Row {
+        StudyRoundBackground(
+            modifier = Modifier.weight(0.5f)
+                .background(color = StudyRoundTheme.colors.deviation_primary2_primary0),
+            darkMode = true,
+        )
+        StudyRoundBackground(
+            modifier = Modifier.weight(0.5f)
+                .background(color = StudyRoundTheme.colors.deviation_primary2_primary0),
+            darkMode = true,
+        )
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Row {
@@ -128,7 +136,10 @@ fun ExpandedLoginScreen(
                             .padding(horizontal = 64.dp),
                         eventProcessor = eventProcessor,
                         hideSignupButton = true,
-                        contentPadding = PaddingValues(top = 72.dp, bottom = 24.dp), // 72.dp to Match other side adjusting for StudyRound Logo
+                        contentPadding = PaddingValues(
+                            top = 72.dp,
+                            bottom = 24.dp
+                        ), // 72.dp to Match other side adjusting for StudyRound Logo
                     )
                 }
             }
