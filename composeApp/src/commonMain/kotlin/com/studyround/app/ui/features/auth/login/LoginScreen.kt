@@ -24,12 +24,13 @@ class LoginScreen : Screen {
     override fun Content() {
         val vm = getScreenModel<LoginViewModel>()
         val viewState by vm.viewState.collectAsState()
+        val textFieldState = vm.loginTextFieldState
 //        val navigator = LocalNavigator.currentOrThrow
         val windowSizeClass = calculateWindowSizeClass()
 
+
         val isExpanded = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded &&
                 (windowSizeClass.heightSizeClass == WindowHeightSizeClass.Medium || windowSizeClass.heightSizeClass == WindowHeightSizeClass.Expanded)
-
 
         Box(
             modifier = Modifier.fillMaxSize().systemBarsPadding().imePadding()
@@ -37,11 +38,13 @@ class LoginScreen : Screen {
             if (isExpanded) {
                 ExpandedLoginScreen(
                     viewState = viewState,
+                    textFieldState = textFieldState,
                     eventProcessor = vm::processEvent,
                 )
             } else {
                 CompactLoginScreen(
                     viewState = viewState,
+                    textFieldState = textFieldState,
                     eventProcessor = vm::processEvent,
                 )
             }

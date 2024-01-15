@@ -12,10 +12,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -26,8 +22,10 @@ import com.studyround.app.ui.composables.buttons.PlainButton
 import com.studyround.app.ui.composables.buttons.PrimaryButton
 import com.studyround.app.ui.composables.input.InputField
 import com.studyround.app.ui.composables.input.PasswordVisibilityToggleInputField
+import com.studyround.app.ui.features.auth.login.EmailUsernameTextChanged
 import com.studyround.app.ui.features.auth.login.GoToSignupClicked
 import com.studyround.app.ui.features.auth.login.LoginViewEvent
+import com.studyround.app.ui.features.auth.login.PasswordTextChanged
 import com.studyround.app.ui.theme.StudyRoundTheme
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
@@ -36,8 +34,10 @@ import dev.icerock.moko.resources.compose.stringResource
 fun LoginFormContent(
     modifier: Modifier = Modifier,
     eventProcessor: (LoginViewEvent) -> Unit,
-    emailText: String = "",
-    passwordText: String = "",
+    emailUsernameText: String,
+    passwordText: String,
+    emailUsernameError: String?,
+    passwordError: String?,
     hideSignupButton: Boolean = false,
     contentPadding: PaddingValues = PaddingValues(),
 ) {
@@ -49,19 +49,20 @@ fun LoginFormContent(
             text = stringResource(MR.strings.login),
             fontFamily = StudyRoundTheme.typography.montserratFont,
             color = StudyRoundTheme.colors.deviation_primary1_white,
-            style = StudyRoundTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal)
+            style = StudyRoundTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal),
         )
 
         Spacer(modifier = Modifier.height(52.dp))
 
         InputField(
             modifier = Modifier.fillMaxWidth(0.75f),
-            text = emailText,
+            text = emailUsernameText,
             hint = stringResource(MR.strings.email_username),
             singleLine = true,
+            hasError = !emailUsernameError.isNullOrEmpty(),
             maxLines = 1,
             action = ImeAction.Next,
-            onValueChange = { },
+            onValueChange = { eventProcessor(EmailUsernameTextChanged(it)) },
         )
 
         Spacer(modifier = Modifier.height(28.dp))
@@ -69,8 +70,9 @@ fun LoginFormContent(
         PasswordVisibilityToggleInputField(
             modifier = Modifier.fillMaxWidth(0.75f),
             text = passwordText,
+            hasError = !passwordError.isNullOrEmpty(),
             hint = stringResource(MR.strings.password),
-            onValueChange = { },
+            onValueChange = { eventProcessor(PasswordTextChanged(it)) },
         )
 
         Spacer(modifier = Modifier.height(36.dp))
@@ -103,7 +105,7 @@ fun LoginFormContent(
             Row(
                 modifier = Modifier.fillMaxWidth()
                     .padding(top = 24.dp, end = 16.dp),
-                horizontalArrangement = Arrangement.End
+                horizontalArrangement = Arrangement.End,
             ) {
                 LinkTextButton(
                     text = stringResource(MR.strings.sign_up_arrow),

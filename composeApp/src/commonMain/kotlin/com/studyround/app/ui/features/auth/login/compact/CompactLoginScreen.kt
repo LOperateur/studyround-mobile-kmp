@@ -17,12 +17,14 @@ import com.studyround.app.ui.composables.common.StudyRoundBackground
 import com.studyround.app.ui.composables.common.StudyRoundTextLogo
 import com.studyround.app.ui.features.auth.login.LoginViewEvent
 import com.studyround.app.ui.features.auth.login.LoginViewState
+import com.studyround.app.ui.features.auth.login.LoginTextFieldState
 import com.studyround.app.ui.features.auth.login.common.LoginFormContent
 import com.studyround.app.ui.features.auth.login.common.SignupFormContent
 
 @Composable
 fun CompactLoginScreen(
     viewState: LoginViewState,
+    textFieldState: LoginTextFieldState,
     eventProcessor: (LoginViewEvent) -> Unit,
 ) {
     StudyRoundBackground()
@@ -57,6 +59,10 @@ fun CompactLoginScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(horizontal = 16.dp),
+                    emailUsernameText = textFieldState.emailUsernameText,
+                    passwordText = textFieldState.passwordText,
+                    emailUsernameError = viewState.emailUsernameError,
+                    passwordError = viewState.passwordError,
                     eventProcessor = eventProcessor,
                     contentPadding = PaddingValues(bottom = 24.dp),
                 )
@@ -83,6 +89,8 @@ fun CompactLoginScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(horizontal = 16.dp),
+                    emailText = textFieldState.emailText,
+                    emailError = viewState.emailError,
                     eventProcessor = eventProcessor,
                     contentPadding = PaddingValues(bottom = 24.dp),
                 )

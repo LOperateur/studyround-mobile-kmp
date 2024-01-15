@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,12 +25,14 @@ import com.studyround.app.ui.features.auth.login.common.GoToSignupLayout
 import com.studyround.app.ui.features.auth.login.common.LoginFormContent
 import com.studyround.app.ui.features.auth.login.LoginViewEvent
 import com.studyround.app.ui.features.auth.login.LoginViewState
+import com.studyround.app.ui.features.auth.login.LoginTextFieldState
 import com.studyround.app.ui.features.auth.login.common.SignupFormContent
 import com.studyround.app.ui.theme.StudyRoundTheme
 
 @Composable
 fun ExpandedLoginScreen(
     viewState: LoginViewState,
+    textFieldState: LoginTextFieldState,
     eventProcessor: (LoginViewEvent) -> Unit,
 ) {
     Row {
@@ -89,6 +89,8 @@ fun ExpandedLoginScreen(
                             .background(color = StudyRoundTheme.colors.deviation_tone1_primary1)
                             .padding(horizontal = 64.dp)
                             .padding(top = 72.dp), // Adjust for StudyRound logo
+                        emailText = textFieldState.emailText,
+                        emailError = viewState.emailUsernameError,
                         eventProcessor = eventProcessor,
                         hideLoginButton = true,
                         contentPadding = PaddingValues(bottom = 24.dp)
@@ -134,11 +136,15 @@ fun ExpandedLoginScreen(
                             .fillMaxSize()
                             .background(color = StudyRoundTheme.colors.deviation_tone1_primary1)
                             .padding(horizontal = 64.dp),
+                        emailUsernameText = textFieldState.emailUsernameText,
+                        passwordText = textFieldState.passwordText,
+                        emailUsernameError = viewState.emailUsernameError,
+                        passwordError = viewState.emailUsernameError,
                         eventProcessor = eventProcessor,
                         hideSignupButton = true,
                         contentPadding = PaddingValues(
                             top = 72.dp,
-                            bottom = 24.dp
+                            bottom = 24.dp,
                         ), // 72.dp to Match other side adjusting for StudyRound Logo
                     )
                 }
@@ -158,7 +164,7 @@ fun ExpandedLoginScreen(
 
         StudyRoundTextLogo(
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
-            textColor = logoTextColor
+            textColor = logoTextColor,
         )
     }
 }

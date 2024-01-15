@@ -31,6 +31,7 @@ import com.studyround.app.ui.composables.buttons.LinkTextButton
 import com.studyround.app.ui.composables.buttons.PlainButton
 import com.studyround.app.ui.composables.buttons.PrimaryButton
 import com.studyround.app.ui.composables.input.InputField
+import com.studyround.app.ui.features.auth.login.EmailTextChanged
 import com.studyround.app.ui.features.auth.login.GoToLoginClicked
 import com.studyround.app.ui.features.auth.login.LoginViewEvent
 import com.studyround.app.ui.theme.StudyRoundTheme
@@ -41,19 +42,20 @@ import dev.icerock.moko.resources.compose.stringResource
 fun SignupFormContent(
     modifier: Modifier = Modifier,
     eventProcessor: (LoginViewEvent) -> Unit,
-    emailText: String = "",
+    emailText: String,
+    emailError: String?,
     hideLoginButton: Boolean = false,
     contentPadding: PaddingValues = PaddingValues(),
 ) {
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()).padding(contentPadding),
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             text = stringResource(MR.strings.hello_greeting),
             fontFamily = StudyRoundTheme.typography.montserratFont,
             color = StudyRoundTheme.colors.deviation_primary1_white,
-            style = StudyRoundTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal)
+            style = StudyRoundTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal),
         )
 
         Spacer(modifier = Modifier.height(52.dp))
@@ -64,8 +66,9 @@ fun SignupFormContent(
             hint = stringResource(MR.strings.email_address_question),
             singleLine = true,
             maxLines = 1,
+            hasError = !emailError.isNullOrEmpty(),
             action = ImeAction.Done,
-            onValueChange = { },
+            onValueChange = { eventProcessor(EmailTextChanged(it)) },
         )
 
         Spacer(modifier = Modifier.height(32.dp))
