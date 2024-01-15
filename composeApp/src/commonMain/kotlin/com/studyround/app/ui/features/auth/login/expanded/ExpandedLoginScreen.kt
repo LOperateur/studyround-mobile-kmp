@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -35,7 +37,7 @@ fun ExpandedLoginScreen(
     textFieldState: LoginTextFieldState,
     eventProcessor: (LoginViewEvent) -> Unit,
 ) {
-    Row {
+    Row(modifier = Modifier.fillMaxSize()) {
         StudyRoundBackground(
             modifier = Modifier.weight(0.5f)
                 .background(color = StudyRoundTheme.colors.deviation_primary2_primary0),
@@ -48,7 +50,7 @@ fun ExpandedLoginScreen(
         )
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize().systemBarsPadding().imePadding()) {
         Row {
             // Left side
             Box(modifier = Modifier.weight(0.5f)) {

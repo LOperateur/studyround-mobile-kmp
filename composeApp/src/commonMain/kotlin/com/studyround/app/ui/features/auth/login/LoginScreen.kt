@@ -1,9 +1,6 @@
 package com.studyround.app.ui.features.auth.login
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -11,7 +8,6 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import com.studyround.app.ui.features.auth.login.compact.CompactLoginScreen
@@ -32,9 +28,7 @@ class LoginScreen : Screen {
         val isExpanded = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded &&
                 (windowSizeClass.heightSizeClass == WindowHeightSizeClass.Medium || windowSizeClass.heightSizeClass == WindowHeightSizeClass.Expanded)
 
-        Box(
-            modifier = Modifier.fillMaxSize().systemBarsPadding().imePadding()
-        ) {
+        Box {
             if (isExpanded) {
                 ExpandedLoginScreen(
                     viewState = viewState,
