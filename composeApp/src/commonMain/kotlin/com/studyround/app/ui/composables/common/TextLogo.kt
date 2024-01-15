@@ -25,7 +25,7 @@ fun StudyRoundTextLogo(
         verticalAlignment = Alignment.CenterVertically
     ) {
         KamelImage(
-            modifier = Modifier.align(Alignment.CenterVertically).size(56.dp),
+            modifier = Modifier.align(Alignment.CenterVertically).size(36.dp),
             resource = Resource.Success(painterResource(MR.images.studyround_logo)),
             contentDescription = "Logo",
         )

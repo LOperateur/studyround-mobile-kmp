@@ -63,7 +63,7 @@ fun ExpandedLoginScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(horizontal = 64.dp)
-                            .padding(top = 72.dp), // Adjust for StudyRound logo,
+                            .padding(top = 52.dp), // Adjust for StudyRound logo,
                         eventProcessor = eventProcessor
                     )
                 }
@@ -90,7 +90,7 @@ fun ExpandedLoginScreen(
                             .fillMaxSize()
                             .background(color = StudyRoundTheme.colors.deviation_tone1_primary1)
                             .padding(horizontal = 64.dp)
-                            .padding(top = 72.dp), // Adjust for StudyRound logo
+                            .padding(top = 52.dp), // Adjust for StudyRound logo
                         emailText = textFieldState.emailText,
                         emailError = viewState.emailUsernameError,
                         eventProcessor = eventProcessor,
@@ -111,7 +111,7 @@ fun ExpandedLoginScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(horizontal = 64.dp)
-                            .padding(top = 72.dp), // Match other side adjusting for StudyRound Logo
+                            .padding(top = 52.dp), // Match other side adjusting for StudyRound Logo
                         eventProcessor = eventProcessor
                     )
                 }
@@ -145,9 +145,9 @@ fun ExpandedLoginScreen(
                         eventProcessor = eventProcessor,
                         hideSignupButton = true,
                         contentPadding = PaddingValues(
-                            top = 72.dp,
+                            top = 52.dp,
                             bottom = 24.dp,
-                        ), // 72.dp to Match other side adjusting for StudyRound Logo
+                        ), // 52.dp to Match other side adjusting for StudyRound Logo
                     )
                 }
             }
