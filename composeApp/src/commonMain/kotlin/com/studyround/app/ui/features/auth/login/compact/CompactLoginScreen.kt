@@ -93,6 +93,7 @@ fun CompactLoginScreen(
                         .padding(horizontal = 16.dp),
                     emailText = textFieldState.emailText,
                     emailError = viewState.emailError,
+                    termsAccepted = viewState.termsAccepted,
                     eventProcessor = eventProcessor,
                     contentPadding = PaddingValues(bottom = 24.dp),
                 )

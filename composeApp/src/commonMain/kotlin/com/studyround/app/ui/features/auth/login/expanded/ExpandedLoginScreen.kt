@@ -93,6 +93,7 @@ fun ExpandedLoginScreen(
                             .padding(top = 52.dp), // Adjust for StudyRound logo
                         emailText = textFieldState.emailText,
                         emailError = viewState.emailError,
+                        termsAccepted = viewState.termsAccepted,
                         eventProcessor = eventProcessor,
                         hideLoginButton = true,
                         contentPadding = PaddingValues(bottom = 24.dp)

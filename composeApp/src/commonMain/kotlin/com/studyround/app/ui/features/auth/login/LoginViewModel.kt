@@ -75,6 +75,12 @@ class LoginViewModel : UdfViewModel<LoginViewState, LoginViewEvent>() {
 
                 }
             }
+
+            is TermsToggled -> {
+                _viewState.update {
+                    it.copy(termsAccepted = event.accepted)
+                }
+            }
         }
     }
 

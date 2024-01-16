@@ -15,3 +15,5 @@ data class EmailTextChanged(val email: String) : LoginViewEvent
 data object LoginClicked : LoginViewEvent
 
 data object SignupClicked : LoginViewEvent
+
+data class TermsToggled(val accepted: Boolean) : LoginViewEvent

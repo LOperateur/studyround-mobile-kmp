@@ -5,6 +5,7 @@ data class LoginViewState(
     val emailUsernameError: String? = null,
     val passwordError: String? = null,
     val emailError: String? = null,
+    val termsAccepted: Boolean = false,
 )
 
 data class LoginTextFieldState(
