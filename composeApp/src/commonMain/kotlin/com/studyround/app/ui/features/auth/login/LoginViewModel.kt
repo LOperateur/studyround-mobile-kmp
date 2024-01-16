@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.studyround.app.ui.utils.isValidEmail
+import com.studyround.app.ui.utils.isValidUsername
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,6 +23,9 @@ class LoginViewModel : UdfViewModel<LoginViewState, LoginViewEvent>() {
     var loginTextFieldState by mutableStateOf(LoginTextFieldState())
         private set
 
+    private var hasAttemptedLogin = false
+    private var hasAttemptedSignup = false
+
     init {
         displayLocalValidationErrors()
     }
@@ -29,13 +34,13 @@ class LoginViewModel : UdfViewModel<LoginViewState, LoginViewEvent>() {
         when (event) {
             GoToLoginClicked -> {
                 _viewState.update {
-                    it.copy(isSignUp = false)
+                    it.copy(isSignup = false)
                 }
             }
 
             GoToSignupClicked -> {
                 _viewState.update {
-                    it.copy(isSignUp = true)
+                    it.copy(isSignup = true)
                 }
             }
 
@@ -53,6 +58,23 @@ class LoginViewModel : UdfViewModel<LoginViewState, LoginViewEvent>() {
                 loginTextFieldState =
                     loginTextFieldState.copy(emailText = event.email)
             }
+
+            LoginClicked -> {
+                hasAttemptedLogin = true
+                val idValid = checkEmailUsernameValidity(loginTextFieldState.emailUsernameText)
+                val passwordValid = checkPasswordValidity(loginTextFieldState.passwordText)
+
+                if (idValid && passwordValid) {
+
+                }
+            }
+
+            SignupClicked -> {
+                hasAttemptedSignup = true
+                if (checkEmailValidity(loginTextFieldState.emailText)) {
+
+                }
+            }
         }
     }
 
@@ -62,14 +84,64 @@ class LoginViewModel : UdfViewModel<LoginViewState, LoginViewEvent>() {
                 .distinctUntilChanged()
                 .collect {
                     with(it) {
-                        // Todo: Validate all fields
-                        if (emailUsernameText.contains("%")) {
-                            _viewState.update { state -> state.copy(emailUsernameError = "Invalid email") }
-                        } else {
-                            _viewState.update { state -> state.copy(emailUsernameError = null) }
+                        if (hasAttemptedLogin) {
+                            checkEmailUsernameValidity(emailUsernameText)
+                            checkPasswordValidity(passwordText)
                         }
+                        if (hasAttemptedSignup) checkEmailValidity(emailText)
                     }
                 }
         }
+    }
+
+    private fun checkEmailUsernameValidity(emailUsername: String): Boolean {
+        if (emailUsername.contains("@")) {
+            if (!emailUsername.isValidEmail()) {
+                _viewState.update { state -> state.copy(emailUsernameError = "Invalid email") }
+            } else if (emailUsername.isBlank()) {
+                _viewState.update { state -> state.copy(emailUsernameError = "Email should not be blank") }
+            } else {
+                _viewState.update { state -> state.copy(emailUsernameError = null) }
+                return true
+            }
+            return false
+
+        } else {
+            if (!emailUsername.isValidUsername()) {
+                _viewState.update { state -> state.copy(emailUsernameError = "Invalid username") }
+            } else if (emailUsername.trim().length > 24) {
+                _viewState.update { state -> state.copy(emailUsernameError = "Username length is 24 characters max") }
+            } else if (emailUsername.isBlank()) {
+                _viewState.update { state -> state.copy(emailUsernameError = "Username must not be blank") }
+            } else {
+                _viewState.update { state -> state.copy(emailUsernameError = null) }
+                return true
+            }
+            return false
+        }
+    }
+
+    private fun checkPasswordValidity(password: String): Boolean {
+        if (password.isEmpty()) {
+            _viewState.update { state -> state.copy(passwordError = "Password must not be empty") }
+        } else if (password.length < 8) {
+            _viewState.update { state -> state.copy(passwordError = "Password must be at least 8 characters") }
+        } else {
+            _viewState.update { state -> state.copy(passwordError = null) }
+            return true
+        }
+        return false
+    }
+
+    private fun checkEmailValidity(email: String): Boolean {
+        if (!email.isValidEmail()) {
+            _viewState.update { state -> state.copy(emailError = "Invalid email") }
+        } else if (email.isBlank()) {
+            _viewState.update { state -> state.copy(emailError = "Email should not be blank") }
+        } else {
+            _viewState.update { state -> state.copy(emailError = null) }
+            return true
+        }
+        return false
     }
 }

@@ -34,6 +34,7 @@ import com.studyround.app.ui.composables.input.InputField
 import com.studyround.app.ui.features.auth.login.EmailTextChanged
 import com.studyround.app.ui.features.auth.login.GoToLoginClicked
 import com.studyround.app.ui.features.auth.login.LoginViewEvent
+import com.studyround.app.ui.features.auth.login.SignupClicked
 import com.studyround.app.ui.theme.StudyRoundTheme
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
@@ -92,7 +93,7 @@ fun SignupFormContent(
             text = stringResource(MR.strings.sign_up),
             textPadding = PaddingValues(horizontal = 24.dp)
         ) {
-
+            eventProcessor(SignupClicked)
         }
 
         Spacer(modifier = Modifier.height(8.dp))

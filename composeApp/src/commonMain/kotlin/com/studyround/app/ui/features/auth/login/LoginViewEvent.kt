@@ -11,3 +11,7 @@ data class EmailUsernameTextChanged(val emailUsername: String) : LoginViewEvent
 data class PasswordTextChanged(val password: String) : LoginViewEvent
 
 data class EmailTextChanged(val email: String) : LoginViewEvent
+
+data object LoginClicked : LoginViewEvent
+
+data object SignupClicked : LoginViewEvent

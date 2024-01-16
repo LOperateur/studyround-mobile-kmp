@@ -55,7 +55,7 @@ fun ExpandedLoginScreen(
             // Left side
             Box(modifier = Modifier.weight(0.5f)) {
                 this@Row.AnimatedVisibility(
-                    visible = !viewState.isSignUp,
+                    visible = !viewState.isSignup,
                     enter = fadeIn(),
                     exit = fadeOut(),
                 ) {
@@ -69,7 +69,7 @@ fun ExpandedLoginScreen(
                 }
 
                 this@Row.AnimatedVisibility(
-                    visible = viewState.isSignUp,
+                    visible = viewState.isSignup,
                     enter = slideInHorizontally(
                         animationSpec = tween(
                             durationMillis = 600,
@@ -92,7 +92,7 @@ fun ExpandedLoginScreen(
                             .padding(horizontal = 64.dp)
                             .padding(top = 52.dp), // Adjust for StudyRound logo
                         emailText = textFieldState.emailText,
-                        emailError = viewState.emailUsernameError,
+                        emailError = viewState.emailError,
                         eventProcessor = eventProcessor,
                         hideLoginButton = true,
                         contentPadding = PaddingValues(bottom = 24.dp)
@@ -103,7 +103,7 @@ fun ExpandedLoginScreen(
             // Right Side
             Box(modifier = Modifier.weight(0.5f)) {
                 this@Row.AnimatedVisibility(
-                    visible = viewState.isSignUp,
+                    visible = viewState.isSignup,
                     enter = fadeIn(),
                     exit = fadeOut(),
                 ) {
@@ -117,7 +117,7 @@ fun ExpandedLoginScreen(
                 }
 
                 this@Row.AnimatedVisibility(
-                    visible = !viewState.isSignUp,
+                    visible = !viewState.isSignup,
                     enter = slideInHorizontally(
                         animationSpec = tween(
                             durationMillis = 600,
@@ -141,7 +141,7 @@ fun ExpandedLoginScreen(
                         emailUsernameText = textFieldState.emailUsernameText,
                         passwordText = textFieldState.passwordText,
                         emailUsernameError = viewState.emailUsernameError,
-                        passwordError = viewState.emailUsernameError,
+                        passwordError = viewState.passwordError,
                         eventProcessor = eventProcessor,
                         hideSignupButton = true,
                         contentPadding = PaddingValues(
@@ -154,7 +154,7 @@ fun ExpandedLoginScreen(
         }
 
         val animatedColor by animateColorAsState(
-            targetValue = if (viewState.isSignUp) StudyRoundTheme.colors.deviation_tone4_tone5 else StudyRoundTheme.colors.deviation_white_tone5,
+            targetValue = if (viewState.isSignup) StudyRoundTheme.colors.deviation_tone4_tone5 else StudyRoundTheme.colors.deviation_white_tone5,
             animationSpec = tween(delayMillis = 300)
         )
 

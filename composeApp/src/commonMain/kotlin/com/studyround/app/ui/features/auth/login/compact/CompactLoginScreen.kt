@@ -41,7 +41,7 @@ fun CompactLoginScreen(
 
         Box {
             this@Column.AnimatedVisibility(
-                visible = !viewState.isSignUp,
+                visible = !viewState.isSignup,
                 enter = slideInHorizontally(
                     animationSpec = tween(
                         durationMillis = 600,
@@ -71,7 +71,7 @@ fun CompactLoginScreen(
             }
 
             this@Column.AnimatedVisibility(
-                visible = viewState.isSignUp,
+                visible = viewState.isSignup,
                 enter = slideInHorizontally(
                     animationSpec = tween(
                         durationMillis = 600,

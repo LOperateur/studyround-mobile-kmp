@@ -24,6 +24,7 @@ import com.studyround.app.ui.composables.input.InputField
 import com.studyround.app.ui.composables.input.PasswordVisibilityToggleInputField
 import com.studyround.app.ui.features.auth.login.EmailUsernameTextChanged
 import com.studyround.app.ui.features.auth.login.GoToSignupClicked
+import com.studyround.app.ui.features.auth.login.LoginClicked
 import com.studyround.app.ui.features.auth.login.LoginViewEvent
 import com.studyround.app.ui.features.auth.login.PasswordTextChanged
 import com.studyround.app.ui.theme.StudyRoundTheme
@@ -87,7 +88,7 @@ fun LoginFormContent(
             text = stringResource(MR.strings.login),
             textPadding = PaddingValues(horizontal = 24.dp)
         ) {
-
+            eventProcessor(LoginClicked)
         }
 
         Spacer(modifier = Modifier.height(8.dp))
