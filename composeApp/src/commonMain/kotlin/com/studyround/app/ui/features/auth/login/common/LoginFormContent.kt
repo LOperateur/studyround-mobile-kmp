@@ -66,7 +66,15 @@ fun LoginFormContent(
             onValueChange = { eventProcessor(EmailUsernameTextChanged(it)) },
         )
 
-        Spacer(modifier = Modifier.height(28.dp))
+        Text(
+            modifier = Modifier.padding(start = 16.dp).fillMaxWidth(),
+            text = emailUsernameError.orEmpty(),
+            maxLines = 1,
+            color = StudyRoundTheme.colors.danger,
+            style = StudyRoundTheme.typography.labelSmall,
+        )
+
+        Spacer(modifier = Modifier.height(22.dp))
 
         PasswordVisibilityToggleInputField(
             modifier = Modifier.fillMaxWidth(0.75f),
@@ -76,13 +84,21 @@ fun LoginFormContent(
             onValueChange = { eventProcessor(PasswordTextChanged(it)) },
         )
 
-        Spacer(modifier = Modifier.height(36.dp))
+        Text(
+            modifier = Modifier.padding(start = 16.dp).fillMaxWidth(),
+            text = passwordError.orEmpty(),
+            maxLines = 1,
+            color = StudyRoundTheme.colors.danger,
+            style = StudyRoundTheme.typography.labelSmall,
+        )
+
+        Spacer(modifier = Modifier.height(30.dp))
 
         LinkTextButton(text = stringResource(MR.strings.forgot_password_prompt)) {
 
         }
 
-        Spacer(modifier = Modifier.height(36.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
         PrimaryButton(
             text = stringResource(MR.strings.login),

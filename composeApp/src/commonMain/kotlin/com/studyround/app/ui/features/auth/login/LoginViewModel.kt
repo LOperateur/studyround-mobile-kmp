@@ -102,10 +102,10 @@ class LoginViewModel : UdfViewModel<LoginViewState, LoginViewEvent>() {
 
     private fun checkEmailUsernameValidity(emailUsername: String): Boolean {
         if (emailUsername.contains("@")) {
-            if (!emailUsername.isValidEmail()) {
-                _viewState.update { state -> state.copy(emailUsernameError = "Invalid email") }
-            } else if (emailUsername.isBlank()) {
+            if (emailUsername.isBlank()) {
                 _viewState.update { state -> state.copy(emailUsernameError = "Email should not be blank") }
+            } else if (!emailUsername.isValidEmail()) {
+                _viewState.update { state -> state.copy(emailUsernameError = "Invalid email") }
             } else {
                 _viewState.update { state -> state.copy(emailUsernameError = null) }
                 return true
@@ -113,12 +113,12 @@ class LoginViewModel : UdfViewModel<LoginViewState, LoginViewEvent>() {
             return false
 
         } else {
-            if (!emailUsername.isValidUsername()) {
+            if (emailUsername.isBlank()) {
+                _viewState.update { state -> state.copy(emailUsernameError = "Username must not be blank") }
+            } else if (!emailUsername.isValidUsername()) {
                 _viewState.update { state -> state.copy(emailUsernameError = "Invalid username") }
             } else if (emailUsername.trim().length > 24) {
                 _viewState.update { state -> state.copy(emailUsernameError = "Username length is 24 characters max") }
-            } else if (emailUsername.isBlank()) {
-                _viewState.update { state -> state.copy(emailUsernameError = "Username must not be blank") }
             } else {
                 _viewState.update { state -> state.copy(emailUsernameError = null) }
                 return true
@@ -140,10 +140,10 @@ class LoginViewModel : UdfViewModel<LoginViewState, LoginViewEvent>() {
     }
 
     private fun checkEmailValidity(email: String): Boolean {
-        if (!email.isValidEmail()) {
-            _viewState.update { state -> state.copy(emailError = "Invalid email") }
-        } else if (email.isBlank()) {
+        if (email.isBlank()) {
             _viewState.update { state -> state.copy(emailError = "Email should not be blank") }
+        } else if (!email.isValidEmail()) {
+            _viewState.update { state -> state.copy(emailError = "Invalid email") }
         } else {
             _viewState.update { state -> state.copy(emailError = null) }
             return true

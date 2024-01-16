@@ -64,10 +64,17 @@ fun SignupFormContent(
             text = emailText,
             hint = stringResource(MR.strings.email_address_question),
             singleLine = true,
-            maxLines = 1,
             hasError = !emailError.isNullOrEmpty(),
             action = ImeAction.Done,
             onValueChange = { eventProcessor(EmailTextChanged(it)) },
+        )
+
+        Text(
+            modifier = Modifier.padding(start = 16.dp).fillMaxWidth(),
+            text = emailError.orEmpty(),
+            maxLines = 1,
+            color = StudyRoundTheme.colors.danger,
+            style = StudyRoundTheme.typography.labelSmall,
         )
 
         Spacer(modifier = Modifier.height(32.dp))
