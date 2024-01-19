@@ -12,6 +12,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import com.studyround.app.ui.features.auth.login.compact.CompactLoginScreen
 import com.studyround.app.ui.features.auth.login.expanded.ExpandedLoginScreen
+import com.studyround.app.ui.utils.isTabletLandscapeMode
 
 class LoginScreen : Screen {
 
@@ -24,9 +25,7 @@ class LoginScreen : Screen {
 //        val navigator = LocalNavigator.currentOrThrow
         val windowSizeClass = calculateWindowSizeClass()
 
-
-        val isExpanded = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded &&
-                (windowSizeClass.heightSizeClass == WindowHeightSizeClass.Medium || windowSizeClass.heightSizeClass == WindowHeightSizeClass.Expanded)
+        val isExpanded = windowSizeClass.isTabletLandscapeMode()
 
         Box {
             if (isExpanded) {

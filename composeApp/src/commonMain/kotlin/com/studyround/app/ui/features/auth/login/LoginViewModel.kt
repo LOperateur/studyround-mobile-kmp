@@ -5,6 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.studyround.app.auth.model.EmailAuthProviderType
+import com.studyround.app.auth.model.GoogleAuthProviderType
+import com.studyround.app.auth.session.SessionManager
+import com.studyround.app.platform.ui.PlatformContext
+import com.studyround.app.repository.login.LoginRepository
 import com.studyround.app.ui.utils.isValidEmail
 import com.studyround.app.ui.utils.isValidUsername
 import com.studyround.app.ui.viewmodel.UdfViewModel
@@ -14,7 +19,10 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class LoginViewModel : UdfViewModel<LoginViewState, LoginViewEvent>() {
+class LoginViewModel(
+    private val sessionManager: SessionManager,
+    private val loginRepository: LoginRepository,
+) : UdfViewModel<LoginViewState, LoginViewEvent>() {
 
     private val _viewState = MutableStateFlow(LoginViewState())
     override val viewState: StateFlow<LoginViewState>
@@ -65,15 +73,28 @@ class LoginViewModel : UdfViewModel<LoginViewState, LoginViewEvent>() {
                 val passwordValid = checkPasswordValidity(loginTextFieldState.passwordText)
 
                 if (idValid && passwordValid) {
-
+                    screenModelScope.launch {
+                        loginEmail(
+                            loginTextFieldState.emailUsernameText,
+                            loginTextFieldState.passwordText,
+                        )
+                    }
                 }
             }
 
             SignupClicked -> {
                 hasAttemptedSignup = true
                 if (checkEmailValidity(loginTextFieldState.emailText)) {
-
+                    screenModelScope.launch { generateOtp() }
                 }
+            }
+
+            is GoogleLoginClicked -> {
+                screenModelScope.launch { loginGoogle(event.context, false) }
+            }
+
+            is GoogleSignupClicked -> {
+                screenModelScope.launch { loginGoogle(event.context, true) }
             }
 
             is TermsToggled -> {
@@ -149,5 +170,24 @@ class LoginViewModel : UdfViewModel<LoginViewState, LoginViewEvent>() {
             return true
         }
         return false
+    }
+
+    private suspend fun loginEmail(emailUsername: String, password: String) {
+        sessionManager.login(
+            EmailAuthProviderType(
+                userIdentity = emailUsername,
+                password = password,
+            )
+        )
+    }
+
+    private suspend fun loginGoogle(context: PlatformContext, isSignup: Boolean) {
+        sessionManager.login(
+            GoogleAuthProviderType(context)
+        )
+    }
+
+    private suspend fun generateOtp() {
+        loginRepository.generateOtp()
     }
 }

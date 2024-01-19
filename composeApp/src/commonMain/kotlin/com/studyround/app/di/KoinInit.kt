@@ -16,6 +16,7 @@ fun initKoin(
                 commonModule,
                 platformModule,
                 viewModelModule,
+                repositoryModule,
             )
         )
     }
