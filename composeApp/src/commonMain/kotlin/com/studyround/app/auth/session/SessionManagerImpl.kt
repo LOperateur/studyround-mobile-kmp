@@ -8,9 +8,12 @@ import com.studyround.app.platform.auth.GoogleAuthProvider
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.storage.CredentialsManager
 import com.studyround.app.storage.AppPreferences
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.withContext
 
 class SessionManagerImpl(
     private val googleAuthProvider: GoogleAuthProvider,
@@ -35,11 +38,13 @@ class SessionManagerImpl(
             is GoogleAuthProviderType -> {
                 channelFlow {
                     send(Resource.Loading())
-                    googleAuthProvider.login(
-                        context = type.context,
-                        onAuthResult = { trySend(Resource.Success(Unit)) },
-                        onAuthError = { trySend(Resource.Error(cause = it)) },
-                    )
+                    withContext(Dispatchers.IO) {
+                        googleAuthProvider.login(
+                            context = type.context,
+                            onAuthResult = { trySend(Resource.Success(Unit)) },
+                            onAuthError = { trySend(Resource.Error(cause = it)) },
+                        )
+                    }
                 }
             }
         }
@@ -57,11 +62,13 @@ class SessionManagerImpl(
             is GoogleAuthProviderType -> {
                 channelFlow {
                     send(Resource.Loading())
-                    googleAuthProvider.login(
-                        context = type.context,
-                        onAuthResult = { trySend(Resource.Success(Unit)) },
-                        onAuthError = { trySend(Resource.Error(cause = it)) },
-                    )
+                    withContext(Dispatchers.IO) {
+                        googleAuthProvider.login(
+                            context = type.context,
+                            onAuthResult = { trySend(Resource.Success(Unit)) },
+                            onAuthError = { trySend(Resource.Error(cause = it)) },
+                        )
+                    }
                 }
             }
         }

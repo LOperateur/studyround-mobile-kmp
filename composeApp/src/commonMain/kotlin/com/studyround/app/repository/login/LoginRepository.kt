@@ -1,7 +1,10 @@
 package com.studyround.app.repository.login
 
-interface LoginRepository {
-    fun generateOtp()
+import com.studyround.app.service.data.resource.Resource
+import kotlinx.coroutines.flow.Flow
 
-    fun validateOtp()
+interface LoginRepository {
+    fun generateOtp(): Flow<Resource<Unit>>
+
+    fun validateOtp(): Flow<Resource<Unit>>
 }

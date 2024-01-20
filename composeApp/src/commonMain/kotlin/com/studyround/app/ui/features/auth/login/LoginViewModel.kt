@@ -10,6 +10,8 @@ import com.studyround.app.auth.model.GoogleAuthProviderType
 import com.studyround.app.auth.session.SessionManager
 import com.studyround.app.platform.ui.PlatformContext
 import com.studyround.app.repository.login.LoginRepository
+import com.studyround.app.service.data.resource.Resource
+import com.studyround.app.service.data.resource.windowedLoadDebounce
 import com.studyround.app.ui.utils.isValidEmail
 import com.studyround.app.ui.utils.isValidUsername
 import com.studyround.app.ui.viewmodel.UdfViewModel
@@ -85,7 +87,11 @@ class LoginViewModel(
             SignupClicked -> {
                 hasAttemptedSignup = true
                 if (checkEmailValidity(loginTextFieldState.emailText)) {
-                    screenModelScope.launch { generateOtp() }
+                    if (_viewState.value.termsAccepted) {
+                        screenModelScope.launch { generateOtp() }
+                    } else {
+                        // Todo: Warn user
+                    }
                 }
             }
 
@@ -94,7 +100,11 @@ class LoginViewModel(
             }
 
             is GoogleSignupClicked -> {
-                screenModelScope.launch { loginGoogle(event.context, true) }
+                if (_viewState.value.termsAccepted) {
+                    screenModelScope.launch { loginGoogle(event.context, true) }
+                } else {
+                    // Todo: Warn user
+                }
             }
 
             is TermsToggled -> {
@@ -178,16 +188,80 @@ class LoginViewModel(
                 userIdentity = emailUsername,
                 password = password,
             )
-        )
+        ).windowedLoadDebounce().collect {
+            when (it) {
+                is Resource.Loading -> {
+                    _viewState.update { state ->
+                        state.copy(loginLoading = true)
+                    }
+                }
+
+                is Resource.Success -> {
+                    _viewState.update { state ->
+                        state.copy(loginLoading = false)
+                    }
+                }
+
+                is Resource.Error -> {
+                    _viewState.update { state ->
+                        state.copy(loginLoading = false)
+                    }
+                }
+            }
+        }
     }
 
     private suspend fun loginGoogle(context: PlatformContext, isSignup: Boolean) {
         sessionManager.login(
             GoogleAuthProviderType(context)
-        )
+        ).windowedLoadDebounce().collect {
+            when (it) {
+                is Resource.Loading -> {
+                    _viewState.update { state ->
+                        if (isSignup)
+                            state.copy(googleSignupLoading = true)
+                        else
+                            state.copy(googleLoginLoading = true)
+                    }
+                }
+
+                is Resource.Success -> {
+                    _viewState.update { state ->
+                        state.copy(googleLoginLoading = false, googleSignupLoading = false)
+                    }
+                }
+
+                is Resource.Error -> {
+                    _viewState.update { state ->
+                        state.copy(googleLoginLoading = false, googleSignupLoading = false)
+                    }
+                }
+            }
+        }
     }
 
     private suspend fun generateOtp() {
         loginRepository.generateOtp()
+            .windowedLoadDebounce().collect {
+                when (it) {
+                    is Resource.Loading -> {
+                        _viewState.update { state ->
+                            state.copy(signupLoading = true)
+                        }
+                    }
+
+                    is Resource.Success -> {
+                        _viewState.update { state ->
+                            state.copy(signupLoading = false)
+                        }
+                    }
+
+                    is Resource.Error -> {
+                        _viewState.update { state ->
+                            state.copy(signupLoading = false)
+                        }
+                    }
+                }
+            }
     }
 }

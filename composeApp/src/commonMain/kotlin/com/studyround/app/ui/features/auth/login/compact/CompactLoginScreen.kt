@@ -65,6 +65,8 @@ fun CompactLoginScreen(
                     passwordText = textFieldState.passwordText,
                     emailUsernameError = viewState.emailUsernameError,
                     passwordError = viewState.passwordError,
+                    loginLoading = viewState.loginLoading,
+                    loginGoogleLoading = viewState.googleLoginLoading,
                     eventProcessor = eventProcessor,
                     contentPadding = PaddingValues(bottom = 24.dp),
                 )
@@ -95,6 +97,8 @@ fun CompactLoginScreen(
                     emailError = viewState.emailError,
                     termsAccepted = viewState.termsAccepted,
                     eventProcessor = eventProcessor,
+                    signupLoading = viewState.signupLoading,
+                    signupGoogleLoading = viewState.googleSignupLoading,
                     contentPadding = PaddingValues(bottom = 24.dp),
                 )
             }

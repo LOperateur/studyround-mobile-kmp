@@ -23,12 +23,14 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import co.touchlab.kermit.Logger
 import com.studyround.app.MR
+import com.studyround.app.platform.ui.getPlatformContext
 import com.studyround.app.ui.composables.buttons.LinkTextButton
 import com.studyround.app.ui.composables.buttons.PlainButton
 import com.studyround.app.ui.composables.buttons.PrimaryButton
 import com.studyround.app.ui.composables.input.InputField
 import com.studyround.app.ui.features.auth.login.EmailTextChanged
 import com.studyround.app.ui.features.auth.login.GoToLoginClicked
+import com.studyround.app.ui.features.auth.login.GoogleSignupClicked
 import com.studyround.app.ui.features.auth.login.LoginViewEvent
 import com.studyround.app.ui.features.auth.login.SignupClicked
 import com.studyround.app.ui.features.auth.login.TermsToggled
@@ -43,6 +45,8 @@ fun SignupFormContent(
     emailText: String,
     emailError: String?,
     termsAccepted: Boolean,
+    signupLoading: Boolean,
+    signupGoogleLoading: Boolean,
     hideLoginButton: Boolean = false,
     contentPadding: PaddingValues = PaddingValues(),
 ) {
@@ -94,20 +98,24 @@ fun SignupFormContent(
 
         PrimaryButton(
             text = stringResource(MR.strings.sign_up),
-            textPadding = PaddingValues(horizontal = 24.dp)
+            textPadding = PaddingValues(horizontal = 24.dp),
+            showLoading = signupLoading,
         ) {
             eventProcessor(SignupClicked)
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
+        val context = getPlatformContext()
+
         PlainButton(
             textColor = StudyRoundTheme.colors.primary,
             backgroundColor = StudyRoundTheme.colors.deviation_white_tone5,
+            showLoading = signupGoogleLoading,
             text = stringResource(MR.strings.sign_up_google),
             iconStart = painterResource(MR.images.ic_google),
         ) {
-
+            eventProcessor(GoogleSignupClicked(context))
         }
 
         if (!hideLoginButton) {

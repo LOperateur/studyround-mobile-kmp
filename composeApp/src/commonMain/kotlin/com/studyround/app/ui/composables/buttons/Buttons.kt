@@ -182,7 +182,7 @@ fun PlainButton(
             disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.5f),
             disabledBackgroundColor = StudyRoundTheme.colors.gray,
         ),
-        onClick = { onClick(text) },
+        onClick = { if (!showLoading) onClick(text) },
     ) {
         ButtonContent(
             text = text,
@@ -219,7 +219,7 @@ private fun BasicGradientButton(
             disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.5f),
             disabledBackgroundColor = StudyRoundTheme.colors.gray,
         ),
-        onClick = { onClick(text) },
+        onClick = { if (!showLoading) onClick(text) },
     ) {
         ButtonContent(
             text = text,
@@ -254,7 +254,7 @@ private fun BasicOutlinedButton(
             backgroundColor = Color.Transparent,
             disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.5f),
         ),
-        onClick = { onClick(text) },
+        onClick = { if (!showLoading) onClick(text) },
     ) {
         ButtonContent(
             text = text,

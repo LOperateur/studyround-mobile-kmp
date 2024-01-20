@@ -96,7 +96,9 @@ fun ExpandedLoginScreen(
                         termsAccepted = viewState.termsAccepted,
                         eventProcessor = eventProcessor,
                         hideLoginButton = true,
-                        contentPadding = PaddingValues(bottom = 24.dp)
+                        signupLoading = viewState.signupLoading,
+                        signupGoogleLoading = viewState.googleSignupLoading,
+                        contentPadding = PaddingValues(bottom = 24.dp),
                     )
                 }
             }
@@ -143,6 +145,8 @@ fun ExpandedLoginScreen(
                         passwordText = textFieldState.passwordText,
                         emailUsernameError = viewState.emailUsernameError,
                         passwordError = viewState.passwordError,
+                        loginLoading = viewState.loginLoading,
+                        loginGoogleLoading = viewState.googleLoginLoading,
                         eventProcessor = eventProcessor,
                         hideSignupButton = true,
                         contentPadding = PaddingValues(
