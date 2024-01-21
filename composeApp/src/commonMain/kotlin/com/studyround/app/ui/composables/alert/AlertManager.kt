@@ -5,7 +5,6 @@ import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.platform.LocalInspectionMode
 import kotlinx.datetime.Clock
-import kotlin.random.Random
 
 class AlertManager(val processEvent: (AlertBannerViewEvent) -> Unit) {
     fun show(message: String) {

@@ -14,8 +14,11 @@ class AlertBannerViewModel : UdfViewModel<AlertBannerViewState, AlertBannerViewE
     override fun processEvent(event: AlertBannerViewEvent) {
         when (event) {
             is AlertShown -> {
-                val alert = AlertBannerState(event.id, event.message)
-                _viewState.value.alerts[event.id] = alert
+                val counter = _viewState.value.alerts.size
+                val compositeId = "${event.id}_${counter}" // Prevent collisions for rapid addition
+
+                val alert = AlertBannerState(compositeId, event.message)
+                _viewState.value.alerts[compositeId] = alert
             }
 
             is AlertAnimatedIn -> {

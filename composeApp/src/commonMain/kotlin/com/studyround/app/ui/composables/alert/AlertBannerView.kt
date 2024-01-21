@@ -33,6 +33,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.studyround.app.MR
 import com.studyround.app.ui.neumorphic.LightSource
@@ -130,24 +131,26 @@ fun AlertBanner(
         color = alertColor,
     ) {
         Box {
-            Row(modifier = Modifier.padding(vertical = 16.dp)) {
+            Row(modifier = Modifier.padding(all = 16.dp)) {
                 Icon(
-                    modifier = Modifier.size(16.dp),
+                    modifier = Modifier.size(24.dp).align(Alignment.CenterVertically),
                     painter = painterResource(imageResource = MR.images.ic_error),
                     tint = onAlertColor,
                     contentDescription = "",
                 )
 
                 Text(
-                    modifier = Modifier.weight(1f, fill = true),
+                    modifier = Modifier.padding(start = 8.dp).weight(1f, fill = true).align(Alignment.CenterVertically),
                     text = message,
                     color = onAlertColor,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                     style = StudyRoundTheme.typography.bodySmall,
                 )
             }
 
             IconButton(
-                modifier = Modifier.align(Alignment.TopEnd).padding(4.dp).size(8.dp),
+                modifier = Modifier.align(Alignment.TopEnd).padding(8.dp).size(16.dp),
                 onClick = onDismiss,
             ) {
                 Icon(
