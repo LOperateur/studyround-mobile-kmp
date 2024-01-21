@@ -93,12 +93,12 @@ internal object StudyRoundColors {
         override val white = Color(0xFF_FFFFFF)
         override val black = Color(0xFF_000F10)
         override val gray = Color(0xFF_757575)
-        override val shadow = Color(0xFF_EBEBEB)
+        override val shadow = Color(0xFF_CCCCCC)
 
         override val primary = Color(0xFF_018184)
         override val secondary = Color(0xFF_FF8051)
         override val tertiary = Color(0xFF_FFD45D)
-        override val danger = Color(0xFF_FF0000)
+        override val danger = Color(0xFF_E53E3E)
 
         override val tone0 = white
         override val tone1 = Color(0xFF_F5F5F5)

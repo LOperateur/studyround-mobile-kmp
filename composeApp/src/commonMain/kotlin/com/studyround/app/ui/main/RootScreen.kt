@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -18,6 +19,10 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
 import com.studyround.app.MR
+import com.studyround.app.ui.composables.alert.AlertBannerView
+import com.studyround.app.ui.composables.alert.AlertBannerViewModel
+import com.studyround.app.ui.composables.alert.AlertManager
+import com.studyround.app.ui.composables.alert.LocalAlertManager
 import com.studyround.app.ui.composables.transitions.FadeInTransition
 import com.studyround.app.ui.features.splash.SplashScreen
 import com.studyround.app.ui.navigation.navigate
@@ -28,16 +33,25 @@ class RootScreen : Screen {
     @Composable
     override fun Content() {
         val viewModel = getScreenModel<RootViewModel>()
+
+        val alertBannerViewModel = getScreenModel<AlertBannerViewModel>()
+        val alertManager = AlertManager(alertBannerViewModel::processEvent)
+
         val viewState by viewModel.viewState.collectAsState()
+        // Navigator for the children of the RootScreen
         var rootNavigator by remember { mutableStateOf<Navigator?>(null) }
 
-        Navigator(screen = SplashScreen()) {
-            rootNavigator = it
-            if (it.canPop)
-                SlideTransition(it)
-            else
-                FadeInTransition(it, animationSpec = tween())
+        CompositionLocalProvider(LocalAlertManager provides alertManager) {
+            Navigator(screen = SplashScreen()) {
+                rootNavigator = it
+                if (it.canPop)
+                    SlideTransition(it)
+                else
+                    FadeInTransition(it, animationSpec = tween())
+            }
         }
+
+        AlertBannerView(alertBannerViewModel)
 
         if (!viewState.showForceUpgradeScreen) {
             LaunchedEffect(viewModel.viewEffects) {

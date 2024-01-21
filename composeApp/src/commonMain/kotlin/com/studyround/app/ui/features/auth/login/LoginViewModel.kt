@@ -15,20 +15,28 @@ import com.studyround.app.service.data.resource.windowedLoadDebounce
 import com.studyround.app.ui.utils.isValidEmail
 import com.studyround.app.ui.utils.isValidUsername
 import com.studyround.app.ui.viewmodel.UdfViewModel
+import com.studyround.app.ui.viewmodel.WithEffects
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val sessionManager: SessionManager,
     private val loginRepository: LoginRepository,
-) : UdfViewModel<LoginViewState, LoginViewEvent>() {
+) : UdfViewModel<LoginViewState, LoginViewEvent>(), WithEffects<LoginViewEffect> {
 
     private val _viewState = MutableStateFlow(LoginViewState())
     override val viewState: StateFlow<LoginViewState>
-        get() = _viewState
+        get() = _viewState.asStateFlow()
+
+    private val _viewEffects = Channel<LoginViewEffect>(Channel.BUFFERED)
+    override val viewEffects: Flow<LoginViewEffect> = _viewEffects.receiveAsFlow()
 
     var loginTextFieldState by mutableStateOf(LoginTextFieldState())
         private set
@@ -91,6 +99,7 @@ class LoginViewModel(
                         screenModelScope.launch { generateOtp() }
                     } else {
                         // Todo: Warn user
+                        _viewEffects.trySend(ShowAlert("User must accept T and C Email"))
                     }
                 }
             }
@@ -104,6 +113,7 @@ class LoginViewModel(
                     screenModelScope.launch { loginGoogle(event.context, true) }
                 } else {
                     // Todo: Warn user
+                    _viewEffects.trySend(ShowAlert("User must accept T and C Google"))
                 }
             }
 
