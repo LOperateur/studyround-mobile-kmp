@@ -1,7 +1,14 @@
 package com.studyround.app.ui.composables.alert
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -19,6 +26,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -43,11 +51,12 @@ fun AlertBannerView(vm: AlertBannerViewModel) {
         Modifier
             .systemBarsPadding()
             .fillMaxWidth()
-            .wrapContentHeight(),
-        reverseLayout = true,
+            .wrapContentHeight()
+            .animateContentSize(),
+        userScrollEnabled = false,
     ) {
         items(
-            items = viewState.alerts,
+            items = viewState.orderedAlerts(),
             key = { alertState -> alertState.id },
         ) {
             AlertBannerWrapper(
@@ -67,46 +76,54 @@ fun LazyItemScope.AlertBannerWrapper(
     val autoDismissDelay = 5_000L // 5s delay
 
     LaunchedEffect(Unit) {
-        // Every time this becomes visible we want to auto-dismiss after a delay
+        eventProcessor(AlertAnimatedIn(alertState.id))
+    }
+
+    LaunchedEffect(alertState.visible) {
+        // Auto-dismiss after a delay when added
         if (alertState.visible) {
             delay(autoDismissDelay)
-            eventProcessor(DismissAlertBanner(alertState.id))
+            eventProcessor(AlertAnimatedOut(alertState.id))
         }
     }
 
-//    AnimatedVisibility(
-//        modifier = Modifier,
-//        visible = alertState.visible,
-//        enter = slideInVertically(
-//            animationSpec = spring(
-//                dampingRatio = Spring.DampingRatioNoBouncy,
-//                stiffness = Spring.StiffnessLow,
-//            ),
-//        ) { -it },
-//        exit = slideOutVertically(
-//            animationSpec = spring(
-//                dampingRatio = Spring.DampingRatioNoBouncy,
-//                stiffness = Spring.StiffnessLow,
-//            ),
-//        ) { -it },
-//    ) {
-    AlertBanner(
-        modifier = Modifier.fillMaxWidth().padding(8.dp),
-        message = alertState.message,
+    AnimatedVisibility(
+        modifier = Modifier.animateItemPlacement(),
+        visible = alertState.visible,
+        enter = slideInVertically(
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioNoBouncy,
+                stiffness = Spring.StiffnessLow,
+            ),
+        ) { -it },
+        exit = scaleOut(animationSpec = tween(easing = EaseInOut))
+                + fadeOut(animationSpec = tween(easing = EaseInOut)),
     ) {
-        eventProcessor(DismissAlertBanner(alertState.id))
+        AlertBanner(
+            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            id = alertState.id,
+            eventProcessor = eventProcessor,
+            message = alertState.message,
+        ) {
+            eventProcessor(AlertAnimatedOut(alertState.id))
+        }
     }
-//    }
 }
 
 @Composable
 fun AlertBanner(
     modifier: Modifier = Modifier,
+    id: String,
+    eventProcessor: (AlertBannerViewEvent) -> Unit,
     message: String = "Something went wrong.",
     alertColor: Color = StudyRoundTheme.colors.danger,
     onAlertColor: Color = StudyRoundTheme.colors.tone1,
     onDismiss: () -> Unit,
 ) {
+    DisposableEffect(Unit) {
+        onDispose { eventProcessor(AlertDismissed(id)) }
+    }
+
     Surface(
         modifier = modifier.alertShadow(),
         shape = RoundedCornerShape(12.dp),

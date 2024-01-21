@@ -3,7 +3,7 @@ package com.studyround.app.ui.utils
 /**
  * Pattern to check if an email is valid
  */
-const val EMAIL_REGEX = "[a-zA-Z0-9-.!#$%&'*+–/=?^_`{|}~]{1,64}@[a-z0-9-]{1,187}\\.[a-z]{2,}"
+const val EMAIL_REGEX = "[a-zA-Z0-9-.!#$%&'*+–/=?^_`{|}~]{1,64}@[a-zA-Z0-9-]{1,187}\\.[a-zA-Z]{2,}"
 
 /**
  * Pattern to check if a StudyRound username is valid

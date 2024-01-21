@@ -10,9 +10,8 @@ import kotlin.random.Random
 class AlertManager(val processEvent: (AlertBannerViewEvent) -> Unit) {
     fun show(message: String) {
         processEvent(
-            ShowAlertBanner(
-                id = Random.nextInt(1_000_000).toString() +
-                        Clock.System.now().toEpochMilliseconds().toString(),
+            AlertShown(
+                id = Clock.System.now().toEpochMilliseconds().toString(),
                 message = message,
             )
         )

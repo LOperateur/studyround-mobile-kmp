@@ -13,13 +13,27 @@ class AlertBannerViewModel : UdfViewModel<AlertBannerViewState, AlertBannerViewE
 
     override fun processEvent(event: AlertBannerViewEvent) {
         when (event) {
-            is ShowAlertBanner -> {
+            is AlertShown -> {
                 val alert = AlertBannerState(event.id, event.message)
-                _viewState.value.alerts.add(alert)
+                _viewState.value.alerts[event.id] = alert
             }
 
-            is DismissAlertBanner -> {
-                _viewState.value.alerts.removeAll { it.id == event.id }
+            is AlertAnimatedIn -> {
+                val alert = _viewState.value.alerts[event.id]
+                alert?.let {
+                    _viewState.value.alerts[alert.id] = alert.copy(visible = true)
+                }
+            }
+
+            is AlertAnimatedOut -> {
+                val alert = _viewState.value.alerts[event.id]
+                alert?.let {
+                    _viewState.value.alerts[alert.id] = it.copy(visible = false)
+                }
+            }
+
+            is AlertDismissed -> {
+                _viewState.value.alerts.remove(event.id)
             }
         }
     }

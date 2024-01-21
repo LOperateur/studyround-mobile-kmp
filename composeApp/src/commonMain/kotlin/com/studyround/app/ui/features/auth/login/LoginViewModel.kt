@@ -98,7 +98,6 @@ class LoginViewModel(
                     if (_viewState.value.termsAccepted) {
                         screenModelScope.launch { generateOtp() }
                     } else {
-                        // Todo: Warn user
                         _viewEffects.trySend(ShowAlert("User must accept T and C Email"))
                     }
                 }
@@ -112,7 +111,6 @@ class LoginViewModel(
                 if (_viewState.value.termsAccepted) {
                     screenModelScope.launch { loginGoogle(event.context, true) }
                 } else {
-                    // Todo: Warn user
                     _viewEffects.trySend(ShowAlert("User must accept T and C Google"))
                 }
             }
