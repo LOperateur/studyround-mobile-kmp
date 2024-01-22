@@ -3,19 +3,20 @@ package com.studyround.app.utils
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
+import androidx.security.crypto.MasterKey
 
 /**
  * Convenience function to create an instance of [EncryptedSharedPreferences] using AES-256
  * encryption.
  */
+
 fun Context.encryptedPreferences(filename: String): SharedPreferences {
-    val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+    val masterKey = MasterKey.Builder(this).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
 
     return EncryptedSharedPreferences.create(
-        filename,
-        masterKeyAlias,
         this,
+        filename,
+        masterKey,
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
     )

@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.studyround.app.MR
+import com.studyround.app.platform.ui.getPlatformContext
 import com.studyround.app.ui.composables.buttons.LinkTextButton
 import com.studyround.app.ui.composables.buttons.PlainButton
 import com.studyround.app.ui.composables.buttons.PrimaryButton
@@ -24,6 +25,8 @@ import com.studyround.app.ui.composables.input.InputField
 import com.studyround.app.ui.composables.input.PasswordVisibilityToggleInputField
 import com.studyround.app.ui.features.auth.login.EmailUsernameTextChanged
 import com.studyround.app.ui.features.auth.login.GoToSignupClicked
+import com.studyround.app.ui.features.auth.login.GoogleLoginClicked
+import com.studyround.app.ui.features.auth.login.LoginClicked
 import com.studyround.app.ui.features.auth.login.LoginViewEvent
 import com.studyround.app.ui.features.auth.login.PasswordTextChanged
 import com.studyround.app.ui.theme.StudyRoundTheme
@@ -38,6 +41,8 @@ fun LoginFormContent(
     passwordText: String,
     emailUsernameError: String?,
     passwordError: String?,
+    loginLoading: Boolean,
+    loginGoogleLoading: Boolean,
     hideSignupButton: Boolean = false,
     contentPadding: PaddingValues = PaddingValues(),
 ) {
@@ -65,7 +70,15 @@ fun LoginFormContent(
             onValueChange = { eventProcessor(EmailUsernameTextChanged(it)) },
         )
 
-        Spacer(modifier = Modifier.height(28.dp))
+        Text(
+            modifier = Modifier.padding(start = 16.dp).fillMaxWidth(),
+            text = emailUsernameError.orEmpty(),
+            maxLines = 1,
+            color = StudyRoundTheme.colors.danger,
+            style = StudyRoundTheme.typography.labelSmall,
+        )
+
+        Spacer(modifier = Modifier.height(22.dp))
 
         PasswordVisibilityToggleInputField(
             modifier = Modifier.fillMaxWidth(0.75f),
@@ -75,30 +88,42 @@ fun LoginFormContent(
             onValueChange = { eventProcessor(PasswordTextChanged(it)) },
         )
 
-        Spacer(modifier = Modifier.height(36.dp))
+        Text(
+            modifier = Modifier.padding(start = 16.dp).fillMaxWidth(),
+            text = passwordError.orEmpty(),
+            maxLines = 1,
+            color = StudyRoundTheme.colors.danger,
+            style = StudyRoundTheme.typography.labelSmall,
+        )
+
+        Spacer(modifier = Modifier.height(30.dp))
 
         LinkTextButton(text = stringResource(MR.strings.forgot_password_prompt)) {
 
         }
 
-        Spacer(modifier = Modifier.height(36.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
         PrimaryButton(
             text = stringResource(MR.strings.login),
-            textPadding = PaddingValues(horizontal = 24.dp)
+            textPadding = PaddingValues(horizontal = 24.dp),
+            showLoading = loginLoading,
         ) {
-
+            eventProcessor(LoginClicked)
         }
 
         Spacer(modifier = Modifier.height(8.dp))
+
+        val context = getPlatformContext()
 
         PlainButton(
             textColor = StudyRoundTheme.colors.primary,
             backgroundColor = StudyRoundTheme.colors.deviation_white_tone5,
             text = stringResource(MR.strings.sign_in_google),
             iconStart = painterResource(MR.images.ic_google),
+            showLoading = loginGoogleLoading,
         ) {
-
+            eventProcessor(GoogleLoginClicked(context))
         }
 
         if (!hideSignupButton) {

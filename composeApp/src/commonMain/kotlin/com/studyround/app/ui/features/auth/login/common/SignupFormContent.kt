@@ -14,10 +14,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Checkbox
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
@@ -27,13 +23,17 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import co.touchlab.kermit.Logger
 import com.studyround.app.MR
+import com.studyround.app.platform.ui.getPlatformContext
 import com.studyround.app.ui.composables.buttons.LinkTextButton
 import com.studyround.app.ui.composables.buttons.PlainButton
 import com.studyround.app.ui.composables.buttons.PrimaryButton
 import com.studyround.app.ui.composables.input.InputField
 import com.studyround.app.ui.features.auth.login.EmailTextChanged
 import com.studyround.app.ui.features.auth.login.GoToLoginClicked
+import com.studyround.app.ui.features.auth.login.GoogleSignupClicked
 import com.studyround.app.ui.features.auth.login.LoginViewEvent
+import com.studyround.app.ui.features.auth.login.SignupClicked
+import com.studyround.app.ui.features.auth.login.TermsToggled
 import com.studyround.app.ui.theme.StudyRoundTheme
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
@@ -44,6 +44,9 @@ fun SignupFormContent(
     eventProcessor: (LoginViewEvent) -> Unit,
     emailText: String,
     emailError: String?,
+    termsAccepted: Boolean,
+    signupLoading: Boolean,
+    signupGoogleLoading: Boolean,
     hideLoginButton: Boolean = false,
     contentPadding: PaddingValues = PaddingValues(),
 ) {
@@ -65,21 +68,26 @@ fun SignupFormContent(
             text = emailText,
             hint = stringResource(MR.strings.email_address_question),
             singleLine = true,
-            maxLines = 1,
             hasError = !emailError.isNullOrEmpty(),
             action = ImeAction.Done,
             onValueChange = { eventProcessor(EmailTextChanged(it)) },
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Text(
+            modifier = Modifier.padding(start = 16.dp).fillMaxWidth(),
+            text = emailError.orEmpty(),
+            maxLines = 1,
+            color = StudyRoundTheme.colors.danger,
+            style = StudyRoundTheme.typography.labelSmall,
+        )
 
-        var termsAccepted by remember { mutableStateOf(false) }
+        Spacer(modifier = Modifier.height(32.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
                 checked = termsAccepted,
                 onCheckedChange = {
-                    termsAccepted = it
+                    eventProcessor(TermsToggled(it))
                 }
             )
 
@@ -90,20 +98,24 @@ fun SignupFormContent(
 
         PrimaryButton(
             text = stringResource(MR.strings.sign_up),
-            textPadding = PaddingValues(horizontal = 24.dp)
+            textPadding = PaddingValues(horizontal = 24.dp),
+            showLoading = signupLoading,
         ) {
-
+            eventProcessor(SignupClicked)
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
+        val context = getPlatformContext()
+
         PlainButton(
             textColor = StudyRoundTheme.colors.primary,
             backgroundColor = StudyRoundTheme.colors.deviation_white_tone5,
+            showLoading = signupGoogleLoading,
             text = stringResource(MR.strings.sign_up_google),
             iconStart = painterResource(MR.images.ic_google),
         ) {
-
+            eventProcessor(GoogleSignupClicked(context))
         }
 
         if (!hideLoginButton) {

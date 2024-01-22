@@ -41,7 +41,7 @@ fun CompactLoginScreen(
 
         Box {
             this@Column.AnimatedVisibility(
-                visible = !viewState.isSignUp,
+                visible = !viewState.isSignup,
                 enter = slideInHorizontally(
                     animationSpec = tween(
                         durationMillis = 600,
@@ -65,13 +65,15 @@ fun CompactLoginScreen(
                     passwordText = textFieldState.passwordText,
                     emailUsernameError = viewState.emailUsernameError,
                     passwordError = viewState.passwordError,
+                    loginLoading = viewState.loginLoading,
+                    loginGoogleLoading = viewState.googleLoginLoading,
                     eventProcessor = eventProcessor,
                     contentPadding = PaddingValues(bottom = 24.dp),
                 )
             }
 
             this@Column.AnimatedVisibility(
-                visible = viewState.isSignUp,
+                visible = viewState.isSignup,
                 enter = slideInHorizontally(
                     animationSpec = tween(
                         durationMillis = 600,
@@ -93,7 +95,10 @@ fun CompactLoginScreen(
                         .padding(horizontal = 16.dp),
                     emailText = textFieldState.emailText,
                     emailError = viewState.emailError,
+                    termsAccepted = viewState.termsAccepted,
                     eventProcessor = eventProcessor,
+                    signupLoading = viewState.signupLoading,
+                    signupGoogleLoading = viewState.googleSignupLoading,
                     contentPadding = PaddingValues(bottom = 24.dp),
                 )
             }

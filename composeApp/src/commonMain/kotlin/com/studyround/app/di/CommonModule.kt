@@ -13,7 +13,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val commonModule = module {
-    single { NetworkListener(get()) }
+    single<NetworkListener> { NetworkListener(get()) }
     single<AppPreferences> { AppPreferencesImpl(get(qualifier = named(NAMED_SETTINGS))) }
     single<EmailAuthProvider> { EmailAuthProviderImpl() }
     single<CredentialsManager> { SecureCredentialsManager(get(qualifier = named(NAMED_CREDENTIALS))) }

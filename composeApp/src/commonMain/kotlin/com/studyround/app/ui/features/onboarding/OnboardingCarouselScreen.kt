@@ -11,7 +11,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 class OnboardingCarouselScreen : Screen {
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
+//        val navigator = LocalNavigator.currentOrThrow
         Box(modifier = Modifier.fillMaxSize())
     }
 }

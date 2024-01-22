@@ -5,9 +5,15 @@ import com.studyround.app.auth.model.AuthProviderType
 import com.studyround.app.auth.model.EmailAuthProviderType
 import com.studyround.app.auth.model.GoogleAuthProviderType
 import com.studyround.app.platform.auth.GoogleAuthProvider
+import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.storage.CredentialsManager
 import com.studyround.app.storage.AppPreferences
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.withContext
 
 class SessionManagerImpl(
     private val googleAuthProvider: GoogleAuthProvider,
@@ -19,45 +25,51 @@ class SessionManagerImpl(
     override val isSignedIn: StateFlow<Boolean>
         get() = credentialsManager.hasValidCredentials
 
-    override suspend fun signUp(type: AuthProviderType) {
-        when (type) {
+    override fun signUp(type: AuthProviderType): Flow<Resource<Unit>> {
+        return when (type) {
             is EmailAuthProviderType -> {
                 emailAuthProvider.signup(
                     username = type.userIdentity,
                     password = type.password,
                     passToken = appPreferences.lastSavedPassToken,
-                    onAuthResult = {},
-                    onAuthError = {},
                 )
             }
 
             is GoogleAuthProviderType -> {
-                googleAuthProvider.login(
-                    context = type.context,
-                    onAuthResult = {},
-                    onAuthError = {},
-                )
+                channelFlow {
+                    send(Resource.Loading())
+                    withContext(Dispatchers.IO) {
+                        googleAuthProvider.login(
+                            context = type.context,
+                            onAuthResult = { trySend(Resource.Success(Unit)) },
+                            onAuthError = { trySend(Resource.Error(cause = it)) },
+                        )
+                    }
+                }
             }
         }
     }
 
-    override suspend fun login(type: AuthProviderType) {
-        when (type) {
+    override fun login(type: AuthProviderType): Flow<Resource<Unit>> {
+        return when (type) {
             is EmailAuthProviderType -> {
                 emailAuthProvider.login(
                     userIdentity = type.userIdentity,
                     password = type.password,
-                    onAuthResult = {},
-                    onAuthError = {},
                 )
             }
 
             is GoogleAuthProviderType -> {
-                googleAuthProvider.login(
-                    context = type.context,
-                    onAuthResult = {},
-                    onAuthError = {},
-                )
+                channelFlow {
+                    send(Resource.Loading())
+                    withContext(Dispatchers.IO) {
+                        googleAuthProvider.login(
+                            context = type.context,
+                            onAuthResult = { trySend(Resource.Success(Unit)) },
+                            onAuthError = { trySend(Resource.Error(cause = it)) },
+                        )
+                    }
+                }
             }
         }
     }
@@ -67,16 +79,14 @@ class SessionManagerImpl(
         credentialsManager.clearCredentials()
     }
 
-    override fun reset(password: String) {
-        emailAuthProvider.resetPassword(
+    override fun reset(password: String): Flow<Resource<Unit>> {
+        return emailAuthProvider.resetPassword(
             password = password,
             passToken = appPreferences.lastSavedPassToken,
-            onAuthResult = {},
-            onAuthError = {},
         )
     }
 
-    override fun refreshToken() {
-
+    override fun refreshToken(refreshToken: String): Flow<Resource<Unit>> {
+        return emailAuthProvider.refreshToken(refreshToken)
     }
 }
