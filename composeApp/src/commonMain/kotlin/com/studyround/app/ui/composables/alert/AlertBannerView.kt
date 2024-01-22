@@ -10,12 +10,14 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
@@ -23,7 +25,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -101,7 +102,7 @@ fun LazyItemScope.AlertBannerWrapper(
                 + fadeOut(animationSpec = tween(easing = EaseInOut)),
     ) {
         AlertBanner(
-            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
             id = alertState.id,
             eventProcessor = eventProcessor,
             message = alertState.message,
@@ -125,13 +126,17 @@ fun AlertBanner(
         onDispose { eventProcessor(AlertDismissed(id)) }
     }
 
-    Surface(
-        modifier = modifier.alertShadow(),
-        shape = RoundedCornerShape(12.dp),
-        color = alertColor,
+    Box(
+        modifier = modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center,
     ) {
-        Box {
-            Row(modifier = Modifier.padding(all = 16.dp)) {
+        Box(
+            modifier = Modifier.widthIn(max = 600.dp).alertShadow().background(
+                color = alertColor,
+                shape = RoundedCornerShape(12.dp),
+            )
+        ) {
+            Row(modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)) {
                 Icon(
                     modifier = Modifier.size(24.dp).align(Alignment.CenterVertically),
                     painter = painterResource(imageResource = MR.images.ic_error),
@@ -140,7 +145,8 @@ fun AlertBanner(
                 )
 
                 Text(
-                    modifier = Modifier.padding(start = 8.dp).weight(1f, fill = true).align(Alignment.CenterVertically),
+                    modifier = Modifier.padding(start = 8.dp, end = 20.dp)
+                        .align(Alignment.CenterVertically),
                     text = message,
                     color = onAlertColor,
                     maxLines = 2,

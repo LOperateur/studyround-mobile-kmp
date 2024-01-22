@@ -98,7 +98,7 @@ class LoginViewModel(
                     if (_viewState.value.termsAccepted) {
                         screenModelScope.launch { generateOtp() }
                     } else {
-                        _viewEffects.trySend(ShowAlert("User must accept Terms and Conditions"))
+                        _viewEffects.trySend(ShowAlert("Please accept the Terms of Use"))
                     }
                 }
             }
@@ -111,7 +111,7 @@ class LoginViewModel(
                 if (_viewState.value.termsAccepted) {
                     screenModelScope.launch { loginGoogle(event.context, true) }
                 } else {
-                    _viewEffects.trySend(ShowAlert("User must accept Terms and Conditions"))
+                    _viewEffects.trySend(ShowAlert("Please accept the Terms of Use"))
                 }
             }
 
