@@ -1,4 +1,4 @@
-package com.studyround.app.ui.utils
+package com.studyround.app.utils
 
 /**
  * Pattern to check if an email is valid

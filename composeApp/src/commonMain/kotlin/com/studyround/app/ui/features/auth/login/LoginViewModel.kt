@@ -12,10 +12,11 @@ import com.studyround.app.platform.ui.PlatformContext
 import com.studyround.app.repository.login.LoginRepository
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.windowedLoadDebounce
-import com.studyround.app.ui.utils.isValidEmail
-import com.studyround.app.ui.utils.isValidUsername
+import com.studyround.app.utils.isValidEmail
+import com.studyround.app.utils.isValidUsername
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import com.studyround.app.ui.viewmodel.WithEffects
+import com.studyround.app.utils.StudyRoundStrings
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,6 +50,7 @@ class LoginViewModel(
     }
 
     override fun processEvent(event: LoginViewEvent) {
+        // Todo: Prevent any other button click event while a request is loading
         when (event) {
             GoToLoginClicked -> {
                 _viewState.update {
@@ -98,7 +100,7 @@ class LoginViewModel(
                     if (_viewState.value.termsAccepted) {
                         screenModelScope.launch { generateOtp() }
                     } else {
-                        _viewEffects.trySend(ShowAlert("Please accept the Terms of Use"))
+                        _viewEffects.trySend(ShowAlert(StudyRoundStrings.ACCEPT_T_AND_C_ERROR.appString))
                     }
                 }
             }
@@ -111,7 +113,7 @@ class LoginViewModel(
                 if (_viewState.value.termsAccepted) {
                     screenModelScope.launch { loginGoogle(event.context, true) }
                 } else {
-                    _viewEffects.trySend(ShowAlert("Please accept the Terms of Use"))
+                    _viewEffects.trySend(ShowAlert(StudyRoundStrings.ACCEPT_T_AND_C_ERROR.appString))
                 }
             }
 
@@ -142,9 +144,9 @@ class LoginViewModel(
     private fun checkEmailUsernameValidity(emailUsername: String): Boolean {
         if (emailUsername.contains("@")) {
             if (emailUsername.isBlank()) {
-                _viewState.update { state -> state.copy(emailUsernameError = "Email should not be blank") }
+                _viewState.update { state -> state.copy(emailUsernameError = StudyRoundStrings.BLANK_EMAIL_ERROR.appString) }
             } else if (!emailUsername.isValidEmail()) {
-                _viewState.update { state -> state.copy(emailUsernameError = "Invalid email") }
+                _viewState.update { state -> state.copy(emailUsernameError = StudyRoundStrings.INVALID_EMAIL_ERROR.appString) }
             } else {
                 _viewState.update { state -> state.copy(emailUsernameError = null) }
                 return true
@@ -153,11 +155,11 @@ class LoginViewModel(
 
         } else {
             if (emailUsername.isBlank()) {
-                _viewState.update { state -> state.copy(emailUsernameError = "Username must not be blank") }
+                _viewState.update { state -> state.copy(emailUsernameError = StudyRoundStrings.BLANK_USERNAME_ERROR.appString) }
             } else if (!emailUsername.isValidUsername()) {
-                _viewState.update { state -> state.copy(emailUsernameError = "Invalid username") }
+                _viewState.update { state -> state.copy(emailUsernameError = StudyRoundStrings.INVALID_USERNAME_ERROR.appString) }
             } else if (emailUsername.trim().length > 24) {
-                _viewState.update { state -> state.copy(emailUsernameError = "Username length is 24 characters max") }
+                _viewState.update { state -> state.copy(emailUsernameError = StudyRoundStrings.LONG_USERNAME_ERROR.appString) }
             } else {
                 _viewState.update { state -> state.copy(emailUsernameError = null) }
                 return true
@@ -168,9 +170,9 @@ class LoginViewModel(
 
     private fun checkPasswordValidity(password: String): Boolean {
         if (password.isEmpty()) {
-            _viewState.update { state -> state.copy(passwordError = "Password must not be empty") }
+            _viewState.update { state -> state.copy(passwordError = StudyRoundStrings.EMPTY_PASSWORD_ERROR.appString) }
         } else if (password.length < 8) {
-            _viewState.update { state -> state.copy(passwordError = "Password must be at least 8 characters") }
+            _viewState.update { state -> state.copy(passwordError = StudyRoundStrings.SHORT_PASSWORD_ERROR.appString) }
         } else {
             _viewState.update { state -> state.copy(passwordError = null) }
             return true
@@ -180,9 +182,9 @@ class LoginViewModel(
 
     private fun checkEmailValidity(email: String): Boolean {
         if (email.isBlank()) {
-            _viewState.update { state -> state.copy(emailError = "Email should not be blank") }
+            _viewState.update { state -> state.copy(emailError = StudyRoundStrings.BLANK_EMAIL_ERROR.appString) }
         } else if (!email.isValidEmail()) {
-            _viewState.update { state -> state.copy(emailError = "Invalid email") }
+            _viewState.update { state -> state.copy(emailError = StudyRoundStrings.INVALID_EMAIL_ERROR.appString) }
         } else {
             _viewState.update { state -> state.copy(emailError = null) }
             return true
