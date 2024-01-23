@@ -8,21 +8,20 @@ import dev.icerock.moko.resources.PluralsResource
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.compose.stringResource
 
-// Todo: Move Plural qty to getString()
 sealed class AppString {
     data class Res(val resId: StringResource) : AppString()
-    data class Plural(val resId: PluralsResource, val quantity: Int) : AppString()
+    data class Plural(val resId: PluralsResource, var quantity: Int = 0) : AppString()
     data class Text(val text: String) : AppString()
 }
 
 fun AppString.getString(context: PlatformContext, vararg args: Any): String {
     return when (this) {
         is AppString.Res -> {
-            localizedString(context, resId, args)
+            localizedString(context, resId, *args)
         }
 
         is AppString.Plural -> {
-            localizedString(context, resId, quantity, args)
+            localizedString(context, resId, quantity, *args)
         }
 
         is AppString.Text -> text
@@ -33,11 +32,11 @@ fun AppString.getString(context: PlatformContext, vararg args: Any): String {
 fun AppString.getString(vararg args: Any): String {
     return when (this) {
         is AppString.Res -> {
-            stringResource(resId, args)
+            stringResource(resId, *args)
         }
 
         is AppString.Plural -> {
-            stringResource(resId, quantity, args)
+            stringResource(resId, quantity, *args)
         }
 
         is AppString.Text -> text
@@ -57,4 +56,9 @@ enum class StudyRoundStrings(val appString: AppString) {
 
     // Alerts/Messages
     SUCCESS(AppString.Res(MR.strings.success_alert));
+
+    fun withQuantity(quantity: Int): StudyRoundStrings {
+        (appString as? AppString.Plural)?.quantity = quantity
+        return this
+    }
 }
