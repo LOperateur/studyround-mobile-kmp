@@ -16,7 +16,8 @@ import com.studyround.app.utils.isValidEmail
 import com.studyround.app.utils.isValidUsername
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import com.studyround.app.ui.viewmodel.WithEffects
-import com.studyround.app.utils.StudyRoundStrings
+import com.studyround.app.utils.AppString
+import com.studyround.app.utils.AppStrings
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -100,7 +101,7 @@ class LoginViewModel(
                     if (_viewState.value.termsAccepted) {
                         screenModelScope.launch { generateOtp() }
                     } else {
-                        _viewEffects.trySend(ShowAlert(StudyRoundStrings.ACCEPT_T_AND_C_ERROR.appString))
+                        _viewEffects.trySend(ShowAlert(AppString(AppStrings.ACCEPT_T_AND_C_ERROR)))
                     }
                 }
             }
@@ -113,7 +114,7 @@ class LoginViewModel(
                 if (_viewState.value.termsAccepted) {
                     screenModelScope.launch { loginGoogle(event.context, true) }
                 } else {
-                    _viewEffects.trySend(ShowAlert(StudyRoundStrings.ACCEPT_T_AND_C_ERROR.appString))
+                    _viewEffects.trySend(ShowAlert(AppString(AppStrings.ACCEPT_T_AND_C_ERROR)))
                 }
             }
 
@@ -144,9 +145,9 @@ class LoginViewModel(
     private fun checkEmailUsernameValidity(emailUsername: String): Boolean {
         if (emailUsername.contains("@")) {
             if (emailUsername.isBlank()) {
-                _viewState.update { state -> state.copy(emailUsernameError = StudyRoundStrings.BLANK_EMAIL_ERROR.appString) }
+                _viewState.update { state -> state.copy(emailUsernameError = AppString(AppStrings.BLANK_EMAIL_ERROR)) }
             } else if (!emailUsername.isValidEmail()) {
-                _viewState.update { state -> state.copy(emailUsernameError = StudyRoundStrings.INVALID_EMAIL_ERROR.appString) }
+                _viewState.update { state -> state.copy(emailUsernameError = AppString(AppStrings.INVALID_EMAIL_ERROR)) }
             } else {
                 _viewState.update { state -> state.copy(emailUsernameError = null) }
                 return true
@@ -155,11 +156,11 @@ class LoginViewModel(
 
         } else {
             if (emailUsername.isBlank()) {
-                _viewState.update { state -> state.copy(emailUsernameError = StudyRoundStrings.BLANK_USERNAME_ERROR.appString) }
+                _viewState.update { state -> state.copy(emailUsernameError = AppString(AppStrings.BLANK_USERNAME_ERROR)) }
             } else if (!emailUsername.isValidUsername()) {
-                _viewState.update { state -> state.copy(emailUsernameError = StudyRoundStrings.INVALID_USERNAME_ERROR.appString) }
+                _viewState.update { state -> state.copy(emailUsernameError = AppString(AppStrings.INVALID_USERNAME_ERROR)) }
             } else if (emailUsername.trim().length > 24) {
-                _viewState.update { state -> state.copy(emailUsernameError = StudyRoundStrings.LONG_USERNAME_ERROR.appString) }
+                _viewState.update { state -> state.copy(emailUsernameError = AppString(AppStrings.LONG_USERNAME_ERROR)) }
             } else {
                 _viewState.update { state -> state.copy(emailUsernameError = null) }
                 return true
@@ -170,9 +171,9 @@ class LoginViewModel(
 
     private fun checkPasswordValidity(password: String): Boolean {
         if (password.isEmpty()) {
-            _viewState.update { state -> state.copy(passwordError = StudyRoundStrings.EMPTY_PASSWORD_ERROR.appString) }
+            _viewState.update { state -> state.copy(passwordError = AppString(AppStrings.EMPTY_PASSWORD_ERROR)) }
         } else if (password.length < 8) {
-            _viewState.update { state -> state.copy(passwordError = StudyRoundStrings.SHORT_PASSWORD_ERROR.appString) }
+            _viewState.update { state -> state.copy(passwordError = AppString(AppStrings.SHORT_PASSWORD_ERROR)) }
         } else {
             _viewState.update { state -> state.copy(passwordError = null) }
             return true
@@ -182,9 +183,9 @@ class LoginViewModel(
 
     private fun checkEmailValidity(email: String): Boolean {
         if (email.isBlank()) {
-            _viewState.update { state -> state.copy(emailError = StudyRoundStrings.BLANK_EMAIL_ERROR.appString) }
+            _viewState.update { state -> state.copy(emailError = AppString(AppStrings.BLANK_EMAIL_ERROR)) }
         } else if (!email.isValidEmail()) {
-            _viewState.update { state -> state.copy(emailError = StudyRoundStrings.INVALID_EMAIL_ERROR.appString) }
+            _viewState.update { state -> state.copy(emailError = AppString(AppStrings.INVALID_EMAIL_ERROR)) }
         } else {
             _viewState.update { state -> state.copy(emailError = null) }
             return true
