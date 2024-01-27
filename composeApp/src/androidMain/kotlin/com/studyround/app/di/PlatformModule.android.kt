@@ -10,6 +10,9 @@ import com.studyround.app.platform.utils.AndroidPlatform
 import com.studyround.app.platform.utils.NetworkHelper
 import com.studyround.app.platform.utils.Platform
 import com.studyround.app.storage.Preferences
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.engine.okhttp.OkHttp
+import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -38,4 +41,6 @@ actual val platformModule = module {
     single<CredentialManager> { CredentialManager.create(androidContext()) }
 
     single<GoogleAuthProvider> { AndroidGoogleAuthProvider(get()) }
+
+    single<HttpClientEngine> { OkHttp.create { preconfigured = OkHttpClient().newBuilder().build() } }
 }

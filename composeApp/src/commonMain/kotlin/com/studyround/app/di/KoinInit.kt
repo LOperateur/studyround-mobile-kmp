@@ -15,6 +15,7 @@ fun initKoin(
             listOf(
                 commonModule,
                 platformModule,
+                networkModule,
                 viewModelModule,
                 repositoryModule,
             )
