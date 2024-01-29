@@ -39,7 +39,7 @@ data class StudyRoundResponse<T>(
                 }
                 throw Exception(errors?.first()?.message)
             } else {
-                data ?: throw Exception("The server did not return any data")
+                data ?: throw Exception("No data in response")
             }
         }
 
@@ -50,10 +50,9 @@ data class StudyRoundResponse<T>(
 data class StudyRoundError(
     val status: Int,
     val message: String,
-    val action: ErrorAction,
+    val action: ErrorAction = ErrorAction.NOTHING,
 )
 
-// TODO: Non-existent names could make this backwards incompatible
 @Serializable
 enum class ErrorAction {
     @SerialName("nothing")

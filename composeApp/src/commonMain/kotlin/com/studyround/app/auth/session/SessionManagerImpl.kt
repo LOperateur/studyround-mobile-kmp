@@ -1,18 +1,25 @@
 package com.studyround.app.auth.session
 
 import com.studyround.app.auth.email.EmailAuthProvider
-import com.studyround.app.auth.model.AuthProviderType
-import com.studyround.app.auth.model.EmailAuthProviderType
-import com.studyround.app.auth.model.GoogleAuthProviderType
+import com.studyround.app.auth.model.AuthCredentials
+import com.studyround.app.auth.model.AuthType
+import com.studyround.app.auth.model.EmailAuthType
+import com.studyround.app.auth.model.GoogleAuthType
+import com.studyround.app.data.remote.dto.AuthUser
+import com.studyround.app.data.remote.dto.User
 import com.studyround.app.platform.auth.GoogleAuthProvider
+import com.studyround.app.platform.ui.PlatformContext
 import com.studyround.app.service.data.resource.Resource
-import com.studyround.app.storage.CredentialsManager
+import com.studyround.app.service.data.resource.resourceFlow
+import com.studyround.app.service.data.resource.wrappedResourceFlow
+import com.studyround.app.service.login.LoginService
 import com.studyround.app.storage.AppPreferences
+import com.studyround.app.storage.CredentialsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class SessionManagerImpl(
@@ -20,56 +27,60 @@ class SessionManagerImpl(
     private val emailAuthProvider: EmailAuthProvider,
     private val appPreferences: AppPreferences,
     private val credentialsManager: CredentialsManager,
+    private val loginService: LoginService,
 ) : SessionManager {
 
     override val isSignedIn: StateFlow<Boolean>
         get() = credentialsManager.hasValidCredentials
 
-    override fun signUp(type: AuthProviderType): Flow<Resource<Unit>> {
+    override fun signUp(type: AuthType): Flow<Resource<User>> {
         return when (type) {
-            is EmailAuthProviderType -> {
+            is EmailAuthType -> {
                 emailAuthProvider.signup(
                     username = type.userIdentity,
                     password = type.password,
-                    passToken = appPreferences.lastSavedPassToken,
-                )
+                    passToken = appPreferences.lastSavedPassToken.orEmpty(),
+                ).toUserResourceFlow()
             }
 
-            is GoogleAuthProviderType -> {
-                channelFlow {
-                    send(Resource.Loading())
-                    withContext(Dispatchers.IO) {
-                        googleAuthProvider.login(
-                            context = type.context,
-                            onAuthResult = { trySend(Resource.Success(Unit)) },
-                            onAuthError = { trySend(Resource.Error(cause = it)) },
-                        )
-                    }
-                }
+            is GoogleAuthType -> {
+                wrappedResourceFlow {
+                    loginService.googleOauth(type.idToken)
+                }.toUserResourceFlow()
             }
         }
     }
 
-    override fun login(type: AuthProviderType): Flow<Resource<Unit>> {
+    override fun login(type: AuthType): Flow<Resource<User>> {
         return when (type) {
-            is EmailAuthProviderType -> {
+            is EmailAuthType -> {
                 emailAuthProvider.login(
                     userIdentity = type.userIdentity,
                     password = type.password,
-                )
+                ).toUserResourceFlow()
             }
 
-            is GoogleAuthProviderType -> {
-                channelFlow {
-                    send(Resource.Loading())
-                    withContext(Dispatchers.IO) {
-                        googleAuthProvider.login(
-                            context = type.context,
-                            onAuthResult = { trySend(Resource.Success(Unit)) },
-                            onAuthError = { trySend(Resource.Error(cause = it)) },
-                        )
-                    }
-                }
+            is GoogleAuthType -> {
+                wrappedResourceFlow {
+                    loginService.googleOauth(type.idToken)
+                }.toUserResourceFlow()
+            }
+        }
+    }
+
+    override fun launchGoogleOauth(
+        isSignup: Boolean,
+        platformContext: PlatformContext,
+    ): Flow<Resource<String>> {
+        return resourceFlow {
+            withContext(Dispatchers.IO) {
+                var idToken = ""
+                googleAuthProvider.login(
+                    context = platformContext,
+                    onAuthResult = { idToken = it.token },
+                    onAuthError = { throw Exception(it) },
+                )
+                idToken
             }
         }
     }
@@ -79,14 +90,36 @@ class SessionManagerImpl(
         credentialsManager.clearCredentials()
     }
 
-    override fun reset(password: String): Flow<Resource<Unit>> {
+    override fun reset(password: String): Flow<Resource<User>> {
         return emailAuthProvider.resetPassword(
             password = password,
             passToken = appPreferences.lastSavedPassToken,
-        )
+        ).toUserResourceFlow()
     }
 
-    override fun refreshToken(refreshToken: String): Flow<Resource<Unit>> {
+    override fun refreshToken(refreshToken: String): Flow<Resource<String>> {
         return emailAuthProvider.refreshToken(refreshToken)
+    }
+
+    private fun Flow<Resource<AuthUser>>.toUserResourceFlow(): Flow<Resource<User>> {
+        return this.map {
+            when (it) {
+                is Resource.Loading -> Resource.Loading(data = it.data?.user)
+                is Resource.Error -> Resource.Error(data = it.data?.user, cause = it.cause)
+                is Resource.Success -> {
+                    saveCredentials(it.data)
+                    Resource.Success(data = it.data.user, message = it.message)
+                }
+            }
+        }
+    }
+
+    private fun saveCredentials(authUser: AuthUser) {
+        credentialsManager.saveCredentials(
+            AuthCredentials(
+                authUser.accessToken,
+                authUser.refreshToken,
+            )
+        )
     }
 }

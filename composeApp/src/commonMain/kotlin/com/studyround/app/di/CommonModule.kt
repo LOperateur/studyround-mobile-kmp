@@ -16,6 +16,6 @@ val commonModule = module {
     single<NetworkListener> { NetworkListener(get()) }
     single<AppPreferences> { AppPreferencesImpl(get(qualifier = named(NAMED_SETTINGS))) }
     single<CredentialsManager> { SecureCredentialsManager(get(qualifier = named(NAMED_CREDENTIALS))) }
-    single<EmailAuthProvider> { EmailAuthProviderImpl() }
-    single<SessionManager> { SessionManagerImpl(get(), get(), get(), get()) }
+    single<EmailAuthProvider> { EmailAuthProviderImpl(get()) }
+    single<SessionManager> { SessionManagerImpl(get(), get(), get(), get(), get()) }
 }

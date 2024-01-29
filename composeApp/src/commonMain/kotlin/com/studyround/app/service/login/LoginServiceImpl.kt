@@ -1,5 +1,6 @@
 package com.studyround.app.service.login
 
+import com.studyround.app.data.remote.dto.AuthUser
 import com.studyround.app.data.remote.dto.Otp
 import com.studyround.app.data.remote.request.AuthType
 import com.studyround.app.data.remote.response.StudyRoundResponse
@@ -13,6 +14,48 @@ import io.ktor.http.path
 class LoginServiceImpl(
     private val httpClient: HttpClient,
 ) : LoginService {
+    override suspend fun signup(
+        username: String,
+        password: String,
+        passToken: String,
+    ): StudyRoundResponse<AuthUser> {
+        val response = httpClient.submitForm(
+            formParameters = parameters {
+                append("username", username)
+                append("password", password)
+                append("pass_token", passToken)
+            }
+        ) {
+            url { path("auth/signup") }
+        }
+
+        return response.body<StudyRoundResponse<AuthUser>>().assertNoErrors
+    }
+
+    override suspend fun login(userIdentity: String, password: String): StudyRoundResponse<AuthUser> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun googleOauth(idToken: String): StudyRoundResponse<AuthUser> {
+        val response = httpClient.submitForm(
+            formParameters = parameters {
+                append("id_token", idToken)
+            }
+        ) {
+            url { path("auth/google/mobile") }
+        }
+
+        return response.body<StudyRoundResponse<AuthUser>>().assertNoErrors
+    }
+
+    override suspend fun resetPassword(password: String, passToken: String?): StudyRoundResponse<AuthUser> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun refreshToken(refreshToken: String): StudyRoundResponse<String> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun generateOtp(
         email: String,
         authType: AuthType,

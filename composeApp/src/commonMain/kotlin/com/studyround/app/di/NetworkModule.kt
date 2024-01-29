@@ -56,6 +56,7 @@ val networkModule = module {
             isLenient = true
             allowSpecialFloatingPointValues = true
             allowStructuredMapKeys = true
+            coerceInputValues = true
         }
     }
 

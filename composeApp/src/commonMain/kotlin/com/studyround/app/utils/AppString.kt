@@ -22,6 +22,14 @@ data class AppString(
 ) {
     constructor(dynamicText: String) : this(dynamicText = dynamicText, appString = null)
     constructor(appString: AppStrings) : this(appString = appString, dynamicText = null)
+
+    companion object {
+        fun textOrSuccess(dynamicText: String?): AppString =
+            AppString(dynamicText, AppStrings.SUCCESS)
+
+        fun textOrError(dynamicText: String?): AppString =
+            AppString(dynamicText, AppStrings.SOMETHING_WRONG)
+    }
 }
 
 /**

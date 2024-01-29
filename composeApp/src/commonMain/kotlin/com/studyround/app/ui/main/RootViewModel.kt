@@ -43,7 +43,9 @@ class RootViewModel(
     override fun processEvent(event: RootViewEvent) {}
 
     private fun signedInNavigationPath() {
-
+        screenModelScope.launch {
+            _viewEffects.send(Navigate(RootDestination.Dashboard))
+        }
     }
 
     private fun signedOutNavigationPath() {

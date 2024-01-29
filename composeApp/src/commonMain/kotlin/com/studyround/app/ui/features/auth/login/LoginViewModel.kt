@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import cafe.adriel.voyager.core.model.screenModelScope
-import com.studyround.app.auth.model.EmailAuthProviderType
-import com.studyround.app.auth.model.GoogleAuthProviderType
+import com.studyround.app.auth.model.EmailAuthType
+import com.studyround.app.auth.model.GoogleAuthType
 import com.studyround.app.auth.session.SessionManager
 import com.studyround.app.data.remote.request.AuthType
 import com.studyround.app.platform.ui.PlatformContext
@@ -114,12 +114,12 @@ class LoginViewModel(
             }
 
             is GoogleLoginClicked -> {
-                screenModelScope.launch { loginGoogle(event.context, false) }
+                screenModelScope.launch { launchGoogleOauth(event.context, false) }
             }
 
             is GoogleSignupClicked -> {
                 if (_viewState.value.termsAccepted) {
-                    screenModelScope.launch { loginGoogle(event.context, true) }
+                    screenModelScope.launch { launchGoogleOauth(event.context, true) }
                 } else {
                     _viewEffects.trySend(ShowAlert(AppString(AppStrings.ACCEPT_T_AND_C_ERROR)))
                 }
@@ -202,7 +202,7 @@ class LoginViewModel(
 
     private suspend fun loginEmail(emailUsername: String, password: String) {
         sessionManager.login(
-            EmailAuthProviderType(
+            EmailAuthType(
                 userIdentity = emailUsername,
                 password = password,
             )
@@ -229,30 +229,54 @@ class LoginViewModel(
         }
     }
 
-    private suspend fun loginGoogle(context: PlatformContext, isSignup: Boolean) {
-        sessionManager.login(
-            GoogleAuthProviderType(context)
-        ).windowedLoadDebounce().collect {
-            when (it) {
-                is Resource.Loading -> {
-                    _viewState.update { state ->
-                        if (isSignup)
-                            state.copy(googleSignupLoading = true)
-                        else
-                            state.copy(googleLoginLoading = true)
+    private suspend fun launchGoogleOauth(context: PlatformContext, isSignup: Boolean) {
+        sessionManager.launchGoogleOauth(isSignup, context)
+            .windowedLoadDebounce().collect {
+                when (it) {
+                    is Resource.Loading -> {
+                        _viewState.update { state ->
+                            if (isSignup)
+                                state.copy(googleSignupLoading = true)
+                            else
+                                state.copy(googleLoginLoading = true)
+                        }
+                    }
+
+                    is Resource.Success -> {
+                        loginGoogle(it.data)
+                    }
+
+                    is Resource.Error -> {
+                        _viewState.update { state ->
+                            state.copy(googleLoginLoading = false, googleSignupLoading = false)
+                        }
+                        _viewEffects.send(ShowAlert(AppString.textOrError(it.cause.message)))
                     }
                 }
+            }
+    }
 
+    private suspend fun loginGoogle(idToken: String) {
+        sessionManager.login(GoogleAuthType(idToken)).collect {
+            when (it) {
+                is Resource.Loading -> {}
                 is Resource.Success -> {
                     _viewState.update { state ->
-                        state.copy(googleLoginLoading = false, googleSignupLoading = false)
+                        state.copy(
+                            googleLoginLoading = false,
+                            googleSignupLoading = false,
+                        )
                     }
+                    _viewEffects.send(
+                        ShowAlert(AppString("Welcome ${it.data.id}: ${it.data.email}"))
+                    )
                 }
 
                 is Resource.Error -> {
                     _viewState.update { state ->
                         state.copy(googleLoginLoading = false, googleSignupLoading = false)
                     }
+                    _viewEffects.send(ShowAlert(AppString.textOrError(it.cause.message)))
                 }
             }
         }
@@ -272,18 +296,14 @@ class LoginViewModel(
                         _viewState.update { state ->
                             state.copy(signupLoading = false)
                         }
-                        _viewEffects.send(
-                            ShowAlert(AppString(it.message, AppStrings.SUCCESS))
-                        )
+                        _viewEffects.send(ShowAlert(AppString.textOrSuccess(it.message)))
                     }
 
                     is Resource.Error -> {
                         _viewState.update { state ->
                             state.copy(signupLoading = false)
                         }
-                        _viewEffects.send(
-                            ShowAlert(AppString(it.cause.message, AppStrings.SOMETHING_WRONG))
-                        )
+                        _viewEffects.send(ShowAlert(AppString.textOrError(it.cause.message)))
                     }
                 }
             }
