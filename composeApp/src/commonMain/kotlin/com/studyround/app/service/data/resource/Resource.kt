@@ -1,5 +1,7 @@
 package com.studyround.app.service.data.resource
 
+import co.touchlab.kermit.Logger
+import com.studyround.app.data.remote.response.StudyRoundResponse
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
@@ -17,6 +19,7 @@ sealed class Resource<T> {
 
     data class Success<T>(
         override val data: T,
+        val message: String? = null,
     ) : Resource<T>()
 
     data class Loading<T>(
@@ -37,23 +40,40 @@ fun <T> Flow<Resource<T>>.catchErrorsAsResource(
     data: T? = null,
 ) = catch {
     if (it !is CancellationException) {
+        Logger.e(messageString = it.message.orEmpty(), tag = "HTTPS Client Error")
         emit(Resource.Error(data = data, cause = it))
     }
 }
 
 /**
  * Create a cold [Flow] that executes the [resource] block and emits the status as [Resource]
- * values.  The flow being cold means that the [resource] block is called every time a terminal
- * operator is applied to the resulting flow.  This operator automatically applies the
+ * values. The flow being cold means that the [resource] block is called every time a terminal
+ * operator is applied to the resulting flow. This operator also applies the
  * [catchErrorsAsResource] operator.
  *
  * @param initialData The initial data provided in the loading resource, or in the error resource
  * if an exception is thrown.
+ * @see wrappedResourceFlow
  * @see catchErrorsAsResource
  */
 fun <T> resourceFlow(initialData: T? = null, resource: suspend () -> T) = flow {
     emit(Resource.Loading(initialData))
     emit(Resource.Success(resource()))
+}.catchErrorsAsResource(initialData)
+
+/**
+ * Similar to [resourceFlow] but the executed [resource] is wrapped in a [StudyRoundResponse] in
+ * order to pass an optional message. Good for single-data requests which are usually accompanied
+ * by a message.
+ *
+ * @param initialData The initial data provided in the loading resource, or in the error resource
+ * if an exception is thrown.
+ * @see resourceFlow
+ */
+fun <T> wrappedResourceFlow(initialData: T? = null, resource: suspend () -> StudyRoundResponse<T>) = flow {
+    emit(Resource.Loading(initialData))
+    val response = resource()
+    emit(Resource.Success(response.dataOrThrow, message = response.message))
 }.catchErrorsAsResource(initialData)
 
 /**

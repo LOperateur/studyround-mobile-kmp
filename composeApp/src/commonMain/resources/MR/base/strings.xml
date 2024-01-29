@@ -24,4 +24,5 @@
     <string name="empty_password_warning">Password must not be empty</string>
     <string name="short_password_warning">Password must be at least 8 characters</string>
     <string name="success_alert">Success!</string>
+    <string name="something_wrong">Something went wrong</string>
 </resources>

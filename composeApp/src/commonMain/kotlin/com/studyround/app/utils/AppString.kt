@@ -9,8 +9,9 @@ import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.compose.stringResource
 
 /**
- * A wrapper class representing a string in the application. It can either be a predefined
- * string from [AppStrings] or a dynamic text string.
+ * A wrapper class representing a string in the application. It can either be a dynamic text
+ * string or a predefined string from [AppStrings]. When attempting to be rendered, the dynamic
+ * text string is considered first before defaulting to the predefined app string.
  *
  * @property dynamicText The dynamic text string, if applicable.
  * @property appString The predefined string constant from [AppStrings], if applicable.
@@ -37,6 +38,7 @@ enum class AppStrings {
     EMPTY_PASSWORD_ERROR,
     SHORT_PASSWORD_ERROR,
     ACCEPT_T_AND_C_ERROR,
+    SOMETHING_WRONG,
 
     // Alerts/Messages
     SUCCESS;
@@ -105,6 +107,7 @@ private val AppStrings.stringRes: StringResWrapper
         AppStrings.EMPTY_PASSWORD_ERROR -> StringResWrapper.Res(MR.strings.empty_password_warning)
         AppStrings.SHORT_PASSWORD_ERROR -> StringResWrapper.Res(MR.strings.short_password_warning)
         AppStrings.ACCEPT_T_AND_C_ERROR -> StringResWrapper.Res(MR.strings.accept_terms_of_use_prompt)
+        AppStrings.SOMETHING_WRONG -> StringResWrapper.Res(MR.strings.something_wrong)
 
         AppStrings.SUCCESS -> StringResWrapper.Res(MR.strings.success_alert)
     }

@@ -8,6 +8,7 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import com.studyround.app.auth.model.EmailAuthProviderType
 import com.studyround.app.auth.model.GoogleAuthProviderType
 import com.studyround.app.auth.session.SessionManager
+import com.studyround.app.data.remote.request.AuthType
 import com.studyround.app.platform.ui.PlatformContext
 import com.studyround.app.repository.login.LoginRepository
 import com.studyround.app.service.data.resource.Resource
@@ -99,7 +100,13 @@ class LoginViewModel(
                 hasAttemptedSignup = true
                 if (checkEmailValidity(loginTextFieldState.emailText)) {
                     if (_viewState.value.termsAccepted) {
-                        screenModelScope.launch { generateOtp() }
+                        screenModelScope.launch {
+                            generateOtp(
+                                email = loginTextFieldState.emailText,
+                                authType = AuthType.VERIFY_EMAIL,
+                                resend = false,
+                            )
+                        }
                     } else {
                         _viewEffects.trySend(ShowAlert(AppString(AppStrings.ACCEPT_T_AND_C_ERROR)))
                     }
@@ -251,8 +258,8 @@ class LoginViewModel(
         }
     }
 
-    private suspend fun generateOtp() {
-        loginRepository.generateOtp()
+    private suspend fun generateOtp(email: String, authType: AuthType, resend: Boolean) {
+        loginRepository.generateOtp(email, authType, resend)
             .windowedLoadDebounce().collect {
                 when (it) {
                     is Resource.Loading -> {
@@ -265,12 +272,18 @@ class LoginViewModel(
                         _viewState.update { state ->
                             state.copy(signupLoading = false)
                         }
+                        _viewEffects.send(
+                            ShowAlert(AppString(it.message, AppStrings.SUCCESS))
+                        )
                     }
 
                     is Resource.Error -> {
                         _viewState.update { state ->
                             state.copy(signupLoading = false)
                         }
+                        _viewEffects.send(
+                            ShowAlert(AppString(it.cause.message, AppStrings.SOMETHING_WRONG))
+                        )
                     }
                 }
             }
