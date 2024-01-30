@@ -1,6 +1,7 @@
 package com.studyround.app.auth.session
 
 import com.studyround.app.auth.model.AuthType
+import com.studyround.app.data.remote.dto.AccessToken
 import com.studyround.app.data.remote.dto.User
 import com.studyround.app.platform.ui.PlatformContext
 import com.studyround.app.service.data.resource.Resource
@@ -18,7 +19,7 @@ interface SessionManager {
 
     fun reset(password: String): Flow<Resource<User>>
 
-    fun refreshToken(refreshToken: String): Flow<Resource<String>>
+    fun refreshToken(refreshToken: String): Flow<Resource<AccessToken>>
 
     fun launchGoogleOauth(isSignup: Boolean, platformContext: PlatformContext): Flow<Resource<String>>
 }

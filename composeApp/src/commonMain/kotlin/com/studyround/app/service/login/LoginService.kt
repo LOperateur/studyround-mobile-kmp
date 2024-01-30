@@ -1,5 +1,6 @@
 package com.studyround.app.service.login
 
+import com.studyround.app.data.remote.dto.AccessToken
 import com.studyround.app.data.remote.dto.AuthUser
 import com.studyround.app.data.remote.dto.Otp
 import com.studyround.app.data.remote.request.AuthType
@@ -21,12 +22,12 @@ interface LoginService {
 
     suspend fun resetPassword(
         password: String,
-        passToken: String?,
+        passToken: String,
     ): StudyRoundResponse<AuthUser>
 
     suspend fun refreshToken(
         refreshToken: String,
-    ): StudyRoundResponse<String>
+    ): StudyRoundResponse<AccessToken>
 
     suspend fun generateOtp(email: String, authType: AuthType, resend: Boolean): StudyRoundResponse<Otp>
 

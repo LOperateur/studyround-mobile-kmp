@@ -1,5 +1,6 @@
 package com.studyround.app.service.login
 
+import com.studyround.app.data.remote.dto.AccessToken
 import com.studyround.app.data.remote.dto.AuthUser
 import com.studyround.app.data.remote.dto.Otp
 import com.studyround.app.data.remote.request.AuthType
@@ -23,6 +24,7 @@ class LoginServiceImpl(
             formParameters = parameters {
                 append("username", username)
                 append("password", password)
+                append("password_confirmation", password)
                 append("pass_token", passToken)
             }
         ) {
@@ -33,7 +35,16 @@ class LoginServiceImpl(
     }
 
     override suspend fun login(userIdentity: String, password: String): StudyRoundResponse<AuthUser> {
-        TODO("Not yet implemented")
+        val response = httpClient.submitForm(
+            formParameters = parameters {
+                append("user_identity", userIdentity)
+                append("password", password)
+            }
+        ) {
+            url { path("auth/login") }
+        }
+
+        return response.body<StudyRoundResponse<AuthUser>>().assertNoErrors
     }
 
     override suspend fun googleOauth(idToken: String): StudyRoundResponse<AuthUser> {
@@ -48,12 +59,30 @@ class LoginServiceImpl(
         return response.body<StudyRoundResponse<AuthUser>>().assertNoErrors
     }
 
-    override suspend fun resetPassword(password: String, passToken: String?): StudyRoundResponse<AuthUser> {
-        TODO("Not yet implemented")
+    override suspend fun resetPassword(password: String, passToken: String): StudyRoundResponse<AuthUser> {
+        val response = httpClient.submitForm(
+            formParameters = parameters {
+                append("password", password)
+                append("password_confirmation", password)
+                append("pass_token", passToken)
+            }
+        ) {
+            url { path("auth/reset") }
+        }
+
+        return response.body<StudyRoundResponse<AuthUser>>().assertNoErrors
     }
 
-    override suspend fun refreshToken(refreshToken: String): StudyRoundResponse<String> {
-        TODO("Not yet implemented")
+    override suspend fun refreshToken(refreshToken: String): StudyRoundResponse<AccessToken> {
+        val response = httpClient.submitForm(
+            formParameters = parameters {
+                append("refresh_token", refreshToken)
+            }
+        ) {
+            url { path("auth/refresh-token") }
+        }
+
+        return response.body<StudyRoundResponse<AccessToken>>().assertNoErrors
     }
 
     override suspend fun generateOtp(

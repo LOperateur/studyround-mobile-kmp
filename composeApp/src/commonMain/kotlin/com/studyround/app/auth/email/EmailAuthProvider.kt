@@ -1,5 +1,6 @@
 package com.studyround.app.auth.email
 
+import com.studyround.app.data.remote.dto.AccessToken
 import com.studyround.app.data.remote.dto.AuthUser
 import com.studyround.app.service.data.resource.Resource
 import kotlinx.coroutines.flow.Flow
@@ -18,10 +19,10 @@ interface EmailAuthProvider {
 
     fun resetPassword(
         password: String,
-        passToken: String?,
+        passToken: String,
     ): Flow<Resource<AuthUser>>
 
     fun refreshToken(
         refreshToken: String,
-    ): Flow<Resource<String>>
+    ): Flow<Resource<AccessToken>>
 }

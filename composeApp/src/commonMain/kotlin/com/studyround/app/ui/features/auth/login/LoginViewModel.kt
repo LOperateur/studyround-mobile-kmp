@@ -224,6 +224,7 @@ class LoginViewModel(
                     _viewState.update { state ->
                         state.copy(loginLoading = false)
                     }
+                    _viewEffects.send(ShowAlert(AppString.textOrError(it.cause.message)))
                 }
             }
         }

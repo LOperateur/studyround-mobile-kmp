@@ -5,6 +5,7 @@ import com.studyround.app.auth.model.AuthCredentials
 import com.studyround.app.auth.model.AuthType
 import com.studyround.app.auth.model.EmailAuthType
 import com.studyround.app.auth.model.GoogleAuthType
+import com.studyround.app.data.remote.dto.AccessToken
 import com.studyround.app.data.remote.dto.AuthUser
 import com.studyround.app.data.remote.dto.User
 import com.studyround.app.platform.auth.GoogleAuthProvider
@@ -19,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
@@ -36,10 +38,14 @@ class SessionManagerImpl(
     override fun signUp(type: AuthType): Flow<Resource<User>> {
         return when (type) {
             is EmailAuthType -> {
+                val passToken = appPreferences.lastSavedPassToken ?: run {
+                    return flowOf(Resource.Error(cause = Exception("No Auth token provided, please try signing up again")))
+                }
+
                 emailAuthProvider.signup(
                     username = type.userIdentity,
                     password = type.password,
-                    passToken = appPreferences.lastSavedPassToken.orEmpty(),
+                    passToken = passToken,
                 ).toUserResourceFlow()
             }
 
@@ -78,7 +84,7 @@ class SessionManagerImpl(
                 googleAuthProvider.login(
                     context = platformContext,
                     onAuthResult = { idToken = it.token },
-                    onAuthError = { throw Exception(it) },
+                    onAuthError = { throw it },
                 )
                 idToken
             }
@@ -91,13 +97,17 @@ class SessionManagerImpl(
     }
 
     override fun reset(password: String): Flow<Resource<User>> {
+        val passToken = appPreferences.lastSavedPassToken ?: run {
+            return flowOf(Resource.Error(cause = Exception("No Auth token provided, please try signing up again")))
+        }
+
         return emailAuthProvider.resetPassword(
             password = password,
-            passToken = appPreferences.lastSavedPassToken,
+            passToken = passToken,
         ).toUserResourceFlow()
     }
 
-    override fun refreshToken(refreshToken: String): Flow<Resource<String>> {
+    override fun refreshToken(refreshToken: String): Flow<Resource<AccessToken>> {
         return emailAuthProvider.refreshToken(refreshToken)
     }
 

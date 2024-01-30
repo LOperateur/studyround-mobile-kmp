@@ -1,7 +1,7 @@
 package com.studyround.app.auth.email
 
+import com.studyround.app.data.remote.dto.AccessToken
 import com.studyround.app.data.remote.dto.AuthUser
-import com.studyround.app.data.remote.dto.User
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.wrappedResourceFlow
 import com.studyround.app.service.login.LoginService
@@ -31,7 +31,7 @@ internal class EmailAuthProviderImpl(private val loginService: LoginService) : E
 
     override fun resetPassword(
         password: String,
-        passToken: String?,
+        passToken: String,
     ): Flow<Resource<AuthUser>> {
         return wrappedResourceFlow {
             loginService.resetPassword(password, passToken)
@@ -40,7 +40,7 @@ internal class EmailAuthProviderImpl(private val loginService: LoginService) : E
 
     override fun refreshToken(
         refreshToken: String,
-    ): Flow<Resource<String>> {
+    ): Flow<Resource<AccessToken>> {
         return wrappedResourceFlow {
             loginService.refreshToken(refreshToken)
         }
