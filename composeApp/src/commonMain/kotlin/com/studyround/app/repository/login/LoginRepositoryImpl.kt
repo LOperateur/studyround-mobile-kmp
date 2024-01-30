@@ -9,12 +9,9 @@ import com.studyround.app.service.data.resource.resourceFlow
 import com.studyround.app.service.data.resource.wrappedResourceFlow
 import com.studyround.app.service.login.LoginService
 import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
 
 class LoginRepositoryImpl(
     private val loginService: LoginService,
@@ -26,15 +23,13 @@ class LoginRepositoryImpl(
         platformContext: PlatformContext,
     ): Flow<Resource<String>> {
         return resourceFlow {
-            withContext(Dispatchers.IO) {
-                val result = CompletableDeferred<String>()
-                googleAuthProvider.login(
-                    context = platformContext,
-                    onAuthResult = { result.complete(it.token) },
-                    onAuthError = { result.completeExceptionally(it) },
-                )
-                result.await()
-            }
+            val result = CompletableDeferred<String>()
+            googleAuthProvider.login(
+                context = platformContext,
+                onAuthResult = { result.complete(it.token) },
+                onAuthError = { result.completeExceptionally(it) },
+            )
+            result.await()
         }
     }
 
