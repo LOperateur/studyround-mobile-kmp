@@ -23,9 +23,7 @@ internal class AndroidGoogleAuthProvider(
 
     override suspend fun login(
         context: PlatformContext,
-        onAuthResult: (GoogleAuthResult) -> Unit,
-        onAuthError: (Throwable) -> Unit,
-    ) {
+    ): GoogleAuthResult {
         val request: GetCredentialRequest = GetCredentialRequest.Builder()
             .addCredentialOption(googleIdOption)
             .build()
@@ -35,17 +33,13 @@ internal class AndroidGoogleAuthProvider(
                 context = context.androidContext,
                 request = request,
             )
-            handleSignIn(result, onAuthResult, onAuthError)
+            return handleSignIn(result)
         } catch (e: GetCredentialException) {
-            onAuthError(Throwable("Failure getting credentials", e))
+            throw Exception("Failure getting credentials", e)
         }
     }
 
-    private fun handleSignIn(
-        result: GetCredentialResponse,
-        onAuthResult: (GoogleAuthResult) -> Unit,
-        onAuthError: (Throwable) -> Unit,
-    ) {
+    private fun handleSignIn(result: GetCredentialResponse): GoogleAuthResult {
         // Handle the successfully returned credential.
         when (val credential = result.credential) {
             is CustomCredential -> {
@@ -55,25 +49,24 @@ internal class AndroidGoogleAuthProvider(
                         val googleIdTokenCredential =
                             GoogleIdTokenCredential.createFrom(credential.data)
 
-                        val googleAuthResult = GoogleAuthResult(
+                        return GoogleAuthResult(
                             token = googleIdTokenCredential.idToken,
                             email = googleIdTokenCredential.id,
                             firstName = googleIdTokenCredential.givenName,
                             lastName = googleIdTokenCredential.familyName,
                         )
-                        onAuthResult(googleAuthResult)
                     } catch (e: GoogleIdTokenParsingException) {
-                        onAuthError(Throwable("Received an invalid google id token response", e))
+                        throw Exception("Received an invalid google id token response", e)
                     }
                 } else {
                     // Catch any unrecognized custom credential type here.
-                    onAuthError(Throwable("Unexpected type of credential"))
+                    throw Exception("Unexpected type of credential")
                 }
             }
 
             else -> {
                 // Catch any unrecognized credential type here.
-                onAuthError(Throwable("Unexpected type of credential"))
+                throw Exception("Unexpected type of credential")
             }
         }
     }

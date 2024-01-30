@@ -11,15 +11,16 @@ import GoogleSignIn
 import composeApp
 
 class IosGoogleAuthProvider: GoogleAuthProvider {
-    func login(context: PlatformContext, onAuthResult: @escaping (GoogleAuthResult) -> Void, onAuthError: @escaping (KotlinThrowable) -> Void, completionHandler: @escaping (Error?) -> Void) {
+    func login(context: PlatformContext, completionHandler: @escaping (GoogleAuthResult?, Error?) -> Void) {
 
         GIDSignIn.sharedInstance.signIn(withPresenting: context.rootViewController) { signInResult, error in
             guard error == nil else {
-                onAuthError(KotlinThrowable(message: error?.localizedDescription))
+                completionHandler(nil, error)
                 return
             }
             guard let signInResult = signInResult else {
-                onAuthError(KotlinThrowable(message: "Unable to obtain sign in details"))
+                let error = self.error(message: "Unable to obtain sign in details")
+                completionHandler(nil, error)
                 return
             }
 
@@ -31,14 +32,20 @@ class IosGoogleAuthProvider: GoogleAuthProvider {
                     firstName: user.profile?.givenName,
                     lastName: user.profile?.familyName
                 )
-                onAuthResult(googleAuthResult)
+                completionHandler(googleAuthResult, nil)
             } else {
-                onAuthError(KotlinThrowable(message: "Missing token or email in Google sign in result"))
+                let error = self.error(message: "Missing token or email in Google sign in result")
+                completionHandler(nil, error)
             }
         }
     }
 
     func logout(completionHandler: @escaping (Error?) -> Void) {
         GIDSignIn.sharedInstance.signOut()
+        completionHandler(nil)
+    }
+
+    private func error(message: String) -> NSError {
+        return NSError(domain: "com.studyround.app", code: 0, userInfo: [NSLocalizedDescriptionKey: message])
     }
 }

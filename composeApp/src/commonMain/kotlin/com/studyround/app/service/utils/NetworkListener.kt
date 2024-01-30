@@ -1,4 +1,4 @@
-package com.studyround.app.data.utils
+package com.studyround.app.service.utils
 
 import com.studyround.app.platform.utils.NetworkHelper
 import kotlinx.coroutines.Dispatchers

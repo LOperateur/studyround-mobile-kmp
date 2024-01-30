@@ -3,11 +3,7 @@ package com.studyround.app.platform.auth
 import com.studyround.app.platform.ui.PlatformContext
 
 interface GoogleAuthProvider {
-    suspend fun login(
-        context: PlatformContext,
-        onAuthResult: (GoogleAuthResult) -> Unit,
-        onAuthError: (Throwable) -> Unit,
-    )
+    suspend fun login(context: PlatformContext): GoogleAuthResult
 
     suspend fun logout()
 }

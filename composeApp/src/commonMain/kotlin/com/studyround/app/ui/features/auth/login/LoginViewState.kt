@@ -1,12 +1,14 @@
 package com.studyround.app.ui.features.auth.login
 
+import com.studyround.app.utils.AppString
+
 data class LoginViewState(
     val isSignup: Boolean = false,
     val termsAccepted: Boolean = false,
 
-    val emailUsernameError: String? = null,
-    val passwordError: String? = null,
-    val emailError: String? = null,
+    val emailUsernameError: AppString? = null,
+    val passwordError: AppString? = null,
+    val emailError: AppString? = null,
 
     val signupLoading: Boolean = false,
     val loginLoading: Boolean = false,

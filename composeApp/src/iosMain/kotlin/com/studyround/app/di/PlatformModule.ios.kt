@@ -9,6 +9,8 @@ import com.studyround.app.platform.auth.GoogleAuthProvider
 import com.studyround.app.platform.utils.IosPlatform
 import com.studyround.app.platform.utils.NetworkHelper
 import com.studyround.app.platform.utils.Platform
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.engine.darwin.Darwin
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import platform.Foundation.NSUserDefaults
@@ -24,4 +26,6 @@ actual val platformModule = module {
     single<Credentials>(named(NAMED_CREDENTIALS)) { KeychainSettings("com.operator.studyround.secrets") }
 
     single<GoogleAuthProvider> { get<IosApplicationComponent>().googleAuthProvider }
+
+    single<HttpClientEngine> { Darwin.create() }
 }

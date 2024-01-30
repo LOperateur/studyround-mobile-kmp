@@ -15,4 +15,14 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="email_address_question">What\'s your email address?</string>
     <string name="terms_and_privacy_disclaimer">I accept StudyRound\'s %1$s and %2$s</string>
+    <string name="accept_terms_of_use_prompt">Please accept the Terms of Use</string>
+    <string name="blank_email_warning">Email should not be blank</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="blank_username_warning">Username must not be blank</string>
+    <string name="invalid_username">Invalid username</string>
+    <string name="long_username_warning">Username length is 24 characters max</string>
+    <string name="empty_password_warning">Password must not be empty</string>
+    <string name="short_password_warning">Password must be at least 8 characters</string>
+    <string name="success_alert">Success!</string>
+    <string name="something_wrong">Something went wrong</string>
 </resources>

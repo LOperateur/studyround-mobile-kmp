@@ -30,6 +30,7 @@ import com.studyround.app.ui.features.auth.login.LoginViewState
 import com.studyround.app.ui.features.auth.login.LoginTextFieldState
 import com.studyround.app.ui.features.auth.login.common.SignupFormContent
 import com.studyround.app.ui.theme.StudyRoundTheme
+import com.studyround.app.utils.getString
 
 @Composable
 fun ExpandedLoginScreen(
@@ -92,7 +93,7 @@ fun ExpandedLoginScreen(
                             .padding(horizontal = 64.dp)
                             .padding(top = 52.dp), // Adjust for StudyRound logo
                         emailText = textFieldState.emailText,
-                        emailError = viewState.emailError,
+                        emailError = viewState.emailError?.getString(),
                         termsAccepted = viewState.termsAccepted,
                         eventProcessor = eventProcessor,
                         hideLoginButton = true,
@@ -143,8 +144,8 @@ fun ExpandedLoginScreen(
                             .padding(horizontal = 64.dp),
                         emailUsernameText = textFieldState.emailUsernameText,
                         passwordText = textFieldState.passwordText,
-                        emailUsernameError = viewState.emailUsernameError,
-                        passwordError = viewState.passwordError,
+                        emailUsernameError = viewState.emailUsernameError?.getString(),
+                        passwordError = viewState.passwordError?.getString(),
                         loginLoading = viewState.loginLoading,
                         loginGoogleLoading = viewState.googleLoginLoading,
                         eventProcessor = eventProcessor,
