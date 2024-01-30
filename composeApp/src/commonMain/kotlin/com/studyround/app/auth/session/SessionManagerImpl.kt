@@ -46,7 +46,8 @@ class SessionManagerImpl(
 
             is GoogleAuthType -> {
                 wrappedResourceFlow {
-                    loginService.googleOauth(type.idToken)
+                    val idToken = googleAuthProvider.login(type.context).token
+                    loginService.googleOauth(idToken)
                 }.toUserResourceFlow()
             }
         }
@@ -63,7 +64,8 @@ class SessionManagerImpl(
 
             is GoogleAuthType -> {
                 wrappedResourceFlow {
-                    loginService.googleOauth(type.idToken)
+                    val idToken = googleAuthProvider.login(type.context).token
+                    loginService.googleOauth(idToken)
                 }.toUserResourceFlow()
             }
         }
@@ -86,7 +88,9 @@ class SessionManagerImpl(
     }
 
     override fun refreshToken(refreshToken: String): Flow<Resource<AccessToken>> {
-        return emailAuthProvider.refreshToken(refreshToken)
+        return wrappedResourceFlow {
+            loginService.refreshToken(refreshToken)
+        }
     }
 
     private fun Flow<Resource<AuthUser>>.toUserResourceFlow(): Flow<Resource<User>> {

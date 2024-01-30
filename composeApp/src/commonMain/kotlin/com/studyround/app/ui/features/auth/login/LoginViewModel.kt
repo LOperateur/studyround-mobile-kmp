@@ -114,12 +114,12 @@ class LoginViewModel(
             }
 
             is GoogleLoginClicked -> {
-                screenModelScope.launch { launchGoogleOauth(event.context, false) }
+                screenModelScope.launch { loginGoogle(event.context, false) }
             }
 
             is GoogleSignupClicked -> {
                 if (_viewState.value.termsAccepted) {
-                    screenModelScope.launch { launchGoogleOauth(event.context, true) }
+                    screenModelScope.launch { loginGoogle(event.context, true) }
                 } else {
                     _viewEffects.trySend(ShowAlert(AppString(AppStrings.ACCEPT_T_AND_C_ERROR)))
                 }
@@ -230,37 +230,17 @@ class LoginViewModel(
         }
     }
 
-    private suspend fun launchGoogleOauth(context: PlatformContext, isSignup: Boolean) {
-        loginRepository.launchGoogleOauth(isSignup, context)
-            .windowedLoadDebounce().collect {
-                when (it) {
-                    is Resource.Loading -> {
-                        _viewState.update { state ->
-                            if (isSignup)
-                                state.copy(googleSignupLoading = true)
-                            else
-                                state.copy(googleLoginLoading = true)
-                        }
-                    }
-
-                    is Resource.Success -> {
-                        loginGoogle(it.data)
-                    }
-
-                    is Resource.Error -> {
-                        _viewState.update { state ->
-                            state.copy(googleLoginLoading = false, googleSignupLoading = false)
-                        }
-                        _viewEffects.send(ShowAlert(AppString.textOrError(it.cause.message)))
+    private suspend fun loginGoogle(context: PlatformContext, isSignup: Boolean) {
+        sessionManager.login(GoogleAuthType(context)).collect {
+            when (it) {
+                is Resource.Loading -> {
+                    _viewState.update { state ->
+                        if (isSignup)
+                            state.copy(googleSignupLoading = true)
+                        else
+                            state.copy(googleLoginLoading = true)
                     }
                 }
-            }
-    }
-
-    private suspend fun loginGoogle(idToken: String) {
-        sessionManager.login(GoogleAuthType(idToken)).collect {
-            when (it) {
-                is Resource.Loading -> {}
                 is Resource.Success -> {
                     _viewState.update { state ->
                         state.copy(
