@@ -20,6 +20,4 @@ interface SessionManager {
     fun reset(password: String): Flow<Resource<User>>
 
     fun refreshToken(refreshToken: String): Flow<Resource<AccessToken>>
-
-    fun launchGoogleOauth(isSignup: Boolean, platformContext: PlatformContext): Flow<Resource<String>>
 }

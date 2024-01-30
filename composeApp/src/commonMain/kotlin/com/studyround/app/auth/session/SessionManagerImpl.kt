@@ -9,24 +9,19 @@ import com.studyround.app.data.remote.dto.AccessToken
 import com.studyround.app.data.remote.dto.AuthUser
 import com.studyround.app.data.remote.dto.User
 import com.studyround.app.platform.auth.GoogleAuthProvider
-import com.studyround.app.platform.ui.PlatformContext
 import com.studyround.app.service.data.resource.Resource
-import com.studyround.app.service.data.resource.resourceFlow
 import com.studyround.app.service.data.resource.wrappedResourceFlow
 import com.studyround.app.service.login.LoginService
 import com.studyround.app.storage.AppPreferences
 import com.studyround.app.storage.CredentialsManager
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
 
 class SessionManagerImpl(
-    private val googleAuthProvider: GoogleAuthProvider,
     private val emailAuthProvider: EmailAuthProvider,
+    private val googleAuthProvider: GoogleAuthProvider,
     private val appPreferences: AppPreferences,
     private val credentialsManager: CredentialsManager,
     private val loginService: LoginService,
@@ -70,23 +65,6 @@ class SessionManagerImpl(
                 wrappedResourceFlow {
                     loginService.googleOauth(type.idToken)
                 }.toUserResourceFlow()
-            }
-        }
-    }
-
-    override fun launchGoogleOauth(
-        isSignup: Boolean,
-        platformContext: PlatformContext,
-    ): Flow<Resource<String>> {
-        return resourceFlow {
-            withContext(Dispatchers.IO) {
-                var idToken = ""
-                googleAuthProvider.login(
-                    context = platformContext,
-                    onAuthResult = { idToken = it.token },
-                    onAuthError = { throw it },
-                )
-                idToken
             }
         }
     }

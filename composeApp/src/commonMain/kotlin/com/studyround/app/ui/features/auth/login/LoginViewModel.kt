@@ -231,7 +231,7 @@ class LoginViewModel(
     }
 
     private suspend fun launchGoogleOauth(context: PlatformContext, isSignup: Boolean) {
-        sessionManager.launchGoogleOauth(isSignup, context)
+        loginRepository.launchGoogleOauth(isSignup, context)
             .windowedLoadDebounce().collect {
                 when (it) {
                     is Resource.Loading -> {
