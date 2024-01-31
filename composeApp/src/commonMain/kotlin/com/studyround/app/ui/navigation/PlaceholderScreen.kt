@@ -10,7 +10,7 @@ import cafe.adriel.voyager.core.screen.Screen
  * When we don't have a default start destination for any [Screen] Navigator,
  * we use this Placeholder screen class.
  */
-open class PlaceholderScreen : Screen {
+class PlaceholderScreen : Screen {
     @Composable
     override fun Content() {
         Box(modifier = Modifier.fillMaxSize())

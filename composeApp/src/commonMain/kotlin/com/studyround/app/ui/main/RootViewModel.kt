@@ -44,16 +44,16 @@ class RootViewModel(
 
     private fun signedInNavigationPath() {
         screenModelScope.launch {
-            _viewEffects.send(Navigate(RootDestination.Dashboard))
+            _viewEffects.send(Navigate(RootDestination.Dashboard, true))
         }
     }
 
     private fun signedOutNavigationPath() {
         screenModelScope.launch {
             if (appPreferences.isCarouselViewed) {
-                _viewEffects.send(Navigate(RootDestination.Auth))
+                _viewEffects.send(Navigate(RootDestination.Auth, true))
             } else {
-                _viewEffects.send(Navigate(RootDestination.Onboarding))
+                _viewEffects.send(Navigate(RootDestination.Onboarding, true))
             }
         }
     }

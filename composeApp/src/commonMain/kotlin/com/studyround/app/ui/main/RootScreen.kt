@@ -58,7 +58,7 @@ class RootScreen : Screen {
                 viewModel.viewEffects.collect { effect ->
                     when (effect) {
                         is Navigate -> {
-                            rootNavigator.navigate(RootRouteMap(effect.destination).getScreen())
+                            rootNavigator.navigate(RootRouteMap(effect.destination).getScreen(), effect.replace)
                         }
                     }
                 }

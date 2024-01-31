@@ -41,14 +41,14 @@ class SessionManagerImpl(
                     username = type.userIdentity,
                     password = type.password,
                     passToken = passToken,
-                ).toUserResourceFlow()
+                ).toUserResourceFlow(true)
             }
 
             is GoogleAuthType -> {
                 wrappedResourceFlow {
                     val idToken = googleAuthProvider.login(type.context).token
                     loginService.googleOauth(idToken)
-                }.toUserResourceFlow()
+                }.toUserResourceFlow(true)
             }
         }
     }
@@ -59,14 +59,14 @@ class SessionManagerImpl(
                 emailAuthProvider.login(
                     userIdentity = type.userIdentity,
                     password = type.password,
-                ).toUserResourceFlow()
+                ).toUserResourceFlow(false)
             }
 
             is GoogleAuthType -> {
                 wrappedResourceFlow {
                     val idToken = googleAuthProvider.login(type.context).token
                     loginService.googleOauth(idToken)
-                }.toUserResourceFlow()
+                }.toUserResourceFlow(false)
             }
         }
     }
@@ -84,7 +84,7 @@ class SessionManagerImpl(
         return emailAuthProvider.resetPassword(
             password = password,
             passToken = passToken,
-        ).toUserResourceFlow()
+        ).toUserResourceFlow(false)
     }
 
     override fun refreshToken(refreshToken: String): Flow<Resource<AccessToken>> {
@@ -93,12 +93,13 @@ class SessionManagerImpl(
         }
     }
 
-    private fun Flow<Resource<AuthUser>>.toUserResourceFlow(): Flow<Resource<User>> {
+    private fun Flow<Resource<AuthUser>>.toUserResourceFlow(isSignup: Boolean = false): Flow<Resource<User>> {
         return this.map {
             when (it) {
                 is Resource.Loading -> Resource.Loading(data = it.data?.user)
                 is Resource.Error -> Resource.Error(data = it.data?.user, cause = it.cause)
                 is Resource.Success -> {
+                    if (!isSignup) { /* Todo: Indicate marketing screen to not be shown */ }
                     saveCredentials(it.data)
                     Resource.Success(data = it.data.user, message = it.message)
                 }

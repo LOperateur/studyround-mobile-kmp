@@ -4,16 +4,16 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 
 /**
- * Navigates to the given destination screen. It decides whether to replace the current screen
- * or push a new screen onto the navigation stack based on the type of the last item in the navigator.
+ * Navigates to the given destination screen.
  *
- * If the last item in the navigator is a [PlaceholderScreen], it replaces the current screen.
+ * If [replace] is set to true, it replaces the current screen.
  * Otherwise, it pushes the new destination onto the stack.
  *
  * @param destination The screen to navigate to.
+ * @param replace
  */
-fun Navigator?.navigate(destination: Screen) {
-    if (this?.lastItem is PlaceholderScreen) {
+fun Navigator?.navigate(destination: Screen, replace: Boolean = false) {
+    if (replace) {
         navigateReplace(destination)
     } else {
         navigatePush(destination)
