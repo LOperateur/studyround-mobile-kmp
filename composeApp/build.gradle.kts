@@ -107,7 +107,7 @@ android {
     val proguardAndroid = "proguard-android-optimize.txt"
     val proguardConsumerRules = "proguard-rules.pro"
     val releaseUrl = "\"https://backend.studyround.com\""
-    val stagingUrl = "\"http://staging-backend.studyround.com\""
+    val stagingUrl = "\"https://staging-backend.studyround.com\""
 
     val googleKeyProps = loadProperties("$rootDir/secrets/google-key.properties")
     val googleClientServerId = googleKeyProps.getProperty("googleServerClientId")
