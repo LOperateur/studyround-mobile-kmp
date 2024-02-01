@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -18,7 +19,7 @@ import dev.icerock.moko.resources.compose.painterResource
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 
-class SplashScreen : Screen {
+class SplashScreen(val onSplashRemoved: () -> Unit) : Screen {
     @Composable
     override fun Content() {
         DynamicSystemBarColors(
@@ -39,6 +40,10 @@ class SplashScreen : Screen {
                 resource = Resource.Success(painterResource(MR.images.studyround_logo)),
                 contentDescription = "Logo",
             )
+        }
+
+        DisposableEffect(Unit) {
+            onDispose { onSplashRemoved() }
         }
     }
 }

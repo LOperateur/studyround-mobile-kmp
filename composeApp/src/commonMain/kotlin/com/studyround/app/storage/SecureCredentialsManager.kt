@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.update
 
 class SecureCredentialsManager(private val credentials: Credentials) : CredentialsManager {
 
+    // Todo: change this to a method that also records the last sign in date
     private val _hasValidCredentials = MutableStateFlow(credentials.getStringOrNull(KEY_AUTH_TOKEN) != null)
     override val hasValidCredentials: StateFlow<Boolean>
         get() {
@@ -24,6 +25,7 @@ class SecureCredentialsManager(private val credentials: Credentials) : Credentia
     }
 
     override fun saveCredentials(authCredentials: AuthCredentials) {
+        // Todo: also put the date
         credentials.putString(KEY_AUTH_TOKEN, authCredentials.authToken)
         credentials.putString(KEY_REFRESH_TOKEN, authCredentials.refreshToken)
         _hasValidCredentials.update { credentials.getStringOrNull(KEY_AUTH_TOKEN) != null }
