@@ -15,7 +15,12 @@ import org.koin.dsl.module
 val commonModule = module {
     single<NetworkListener> { NetworkListener(get()) }
     single<AppPreferences> { AppPreferencesImpl(get(qualifier = named(NAMED_SETTINGS))) }
-    single<CredentialsManager> { SecureCredentialsManager(get(qualifier = named(NAMED_CREDENTIALS))) }
+    single<CredentialsManager> {
+        SecureCredentialsManager(
+            get(qualifier = named(NAMED_CREDENTIALS)),
+            get(qualifier = named(NAMED_SETTINGS)),
+        )
+    }
     single<EmailAuthProvider> { EmailAuthProviderImpl(get()) }
     single<SessionManager> { SessionManagerImpl(get(), get(), get(), get(), get()) }
 }
