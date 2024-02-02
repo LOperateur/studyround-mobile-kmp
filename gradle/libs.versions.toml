@@ -1,14 +1,15 @@
 [versions]
 activity-compose = "1.8.2"
-agp = "8.2.1"
+agp = "8.2.2"
 android-minSdk = "24"
 android-compileSdk = "34"
 android-targetSdk = "34"
 androidx-security = "1.1.0-alpha06"
 androidx-splashscreen = "1.0.1"
 appcompat = "1.6.1"
-compose = "1.5.11"
-compose-compiler = "1.5.4"
+compose = "1.5.4"
+compose-plugin = "1.5.12"
+compose-compiler = "1.5.8"
 core-ktx = "1.12.0"
 credentials = "1.2.0"
 firebase-bom = "32.6.0"
@@ -18,7 +19,7 @@ kamel = "0.8.3"
 kermit = "2.0.2"
 koin = "3.5.0"
 koin-compose = "1.1.0"
-kotlin = "1.9.21"
+kotlin = "1.9.22"
 kotlinx-coroutines = "1.7.3"
 kotlinx-datetime = "0.4.1"
 kotlinx-serialization = "1.6.0"
@@ -26,10 +27,9 @@ ktor = "2.3.7"
 material-window-size = "0.3.1"
 moko-resources = "0.23.0"
 multiplatform-settings = "1.1.1"
-play-services-auth = "20.7.0"
 sqlDelight = "2.0.0"
 turbine = "1.0.0"
-voyager = "1.0.0-rc10"
+voyager = "1.0.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
@@ -46,9 +46,9 @@ googleid = { module = "com.google.android.libraries.identity.googleid:googleid",
 androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "androidx-security" }
 
 # Compose UI
-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-compiler" }
-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-compiler" }
-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-compiler" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 
 # Image loading
 kamel-image = { module = "media.kamel:kamel-image", version.ref = "kamel" }
@@ -96,9 +96,9 @@ multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", vers
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 
 # SQLite for local DB storage
-sqlDelight-driver-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
-sqlDelight-driver-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelight" }
-sqlDelight-coroutine = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
+#sqlDelight-driver-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
+#sqlDelight-driver-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelight" }
+#sqlDelight-coroutine = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 #sqlDelight-primitive-adapters = { module = "app.cash.sqldelight:primitive-adapters", version.ref = "sqlDelight" }
 #sqlDelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqlDelight" }
 
@@ -116,7 +116,7 @@ voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voy
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
-jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

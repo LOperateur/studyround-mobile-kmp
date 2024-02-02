@@ -5,20 +5,21 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.screen.Screen
 import com.studyround.app.MR
 import com.studyround.app.platform.ui.DynamicSystemBarColors
 import com.studyround.app.platform.ui.splashAnimationAlpha
-import com.studyround.app.ui.navigation.PlaceholderScreen
 import com.studyround.app.ui.theme.StudyRoundTheme
 import dev.icerock.moko.resources.compose.painterResource
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 
-class SplashScreen : PlaceholderScreen() {
+class SplashScreen(val onSplashRemoved: () -> Unit) : Screen {
     @Composable
     override fun Content() {
         DynamicSystemBarColors(
@@ -39,6 +40,10 @@ class SplashScreen : PlaceholderScreen() {
                 resource = Resource.Success(painterResource(MR.images.studyround_logo)),
                 contentDescription = "Logo",
             )
+        }
+
+        DisposableEffect(Unit) {
+            onDispose { onSplashRemoved() }
         }
     }
 }

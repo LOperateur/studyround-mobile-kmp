@@ -11,6 +11,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -22,7 +23,7 @@ class RootViewModel(
 
     private val _viewState = MutableStateFlow(RootViewState())
     override val viewState: StateFlow<RootViewState>
-        get() = _viewState
+        get() = _viewState.asStateFlow()
 
     private val _viewEffects = Channel<RootViewEffect>(Channel.BUFFERED)
     override val viewEffects: Flow<RootViewEffect> = _viewEffects.receiveAsFlow()
@@ -44,16 +45,16 @@ class RootViewModel(
 
     private fun signedInNavigationPath() {
         screenModelScope.launch {
-            _viewEffects.send(Navigate(RootDestination.Dashboard))
+            _viewEffects.send(Navigate(RootDestination.Home, true))
         }
     }
 
     private fun signedOutNavigationPath() {
         screenModelScope.launch {
             if (appPreferences.isCarouselViewed) {
-                _viewEffects.send(Navigate(RootDestination.Auth))
+                _viewEffects.send(Navigate(RootDestination.Auth, true))
             } else {
-                _viewEffects.send(Navigate(RootDestination.Onboarding))
+                _viewEffects.send(Navigate(RootDestination.Onboarding, true))
             }
         }
     }
