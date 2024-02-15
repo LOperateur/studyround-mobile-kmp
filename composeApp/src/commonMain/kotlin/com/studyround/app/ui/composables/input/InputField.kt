@@ -2,9 +2,14 @@ package com.studyround.app.ui.composables.input
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -18,6 +23,7 @@ import androidx.compose.material.TextFieldColors
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,18 +34,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.studyround.app.MR
 import com.studyround.app.ui.neumorphic.LightSource
 import com.studyround.app.ui.neumorphic.neumorphic
+import com.studyround.app.ui.neumorphic.shape.Oval
 import com.studyround.app.ui.neumorphic.shape.Pressed
 import com.studyround.app.ui.neumorphic.shape.RoundedCorner
 import com.studyround.app.ui.theme.StudyRoundTheme
@@ -61,6 +73,7 @@ fun InputField(
     maxLines: Int = 5,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    textStyle: TextStyle = StudyRoundTheme.typography.bodySmall,
     textColor: Color = StudyRoundTheme.colors.deviation_tone4_tone5,
     cursorColor: Color = StudyRoundTheme.colors.deviation_tone4_tone5,
     handleColor: Color = StudyRoundTheme.colors.deviation_primary1_white,
@@ -72,6 +85,7 @@ fun InputField(
     disabledColor: Color = StudyRoundTheme.colors.tone1,
     borderColor: Color = Color.Transparent,
     readOnly: Boolean = false,
+    shape: Shape = RoundedCornerShape(28.dp),
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
@@ -101,10 +115,10 @@ fun InputField(
                             width = 1.dp,
                             color = color,
                         ),
-                        shape = RoundedCornerShape(28.dp),
+                        shape = shape,
                     )
-                    .clip(RoundedCornerShape(28.dp))
-                    .innerShadow(isFocus),
+                    .clip(shape)
+                    .innerShadow(isFocus, shape),
                 interactionSource = interactionSource,
                 isError = hasError,
                 visualTransformation = visualTransformation,
@@ -117,7 +131,7 @@ fun InputField(
                     onNext = { focusManager.moveFocus(FocusDirection.Down) },
                 ),
                 value = text,
-                textStyle = StudyRoundTheme.typography.bodySmall,
+                textStyle = textStyle,
                 onValueChange = {
                     onValueChange(it)
                 },
@@ -219,6 +233,90 @@ fun PasswordVisibilityToggleInputField(
     )
 }
 
+// Todo:
+//  1. Handle Backspace
+//  2. Handle illegal text/chars
+@Composable
+fun OtpInputField(
+    modifier: Modifier = Modifier,
+    numFields: Int = 4,
+    onValueChange: (String) -> Unit,
+    onOtpEntered: (String) -> Unit,
+    hasError: Boolean = false,
+    focusManager: FocusManager = LocalFocusManager.current,
+) {
+    var otp by remember { mutableStateOf("") }
+    val focusRequesters = List(numFields) { FocusRequester() }
+
+    Box {
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            repeat(numFields) { index ->
+                SingleOtpInput(
+                    digit = otp.toCharArray().getOrNull(index)?.toString()?.toInt(),
+                    hasError = hasError,
+                    focusRequester = focusRequesters[index],
+                    onDigitEntered = {
+                        if (otp.length < numFields) otp += it.toString()
+                        onValueChange(otp)
+
+                        if (otp.length == numFields) {
+                            focusManager.clearFocus()
+                            onOtpEntered(otp)
+                        } else {
+                            focusRequesters[index + 1].requestFocus()
+                        }
+                    },
+                    onDigitRemoved = {
+                        otp = otp.substring(0, index)
+                    },
+                )
+            }
+        }
+
+        Box(
+            modifier = modifier.matchParentSize().clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() },
+            ) {
+                // Request focus to the next appropriate field
+                val nextPosition = otp.length.coerceAtMost(numFields - 1)
+                focusRequesters[nextPosition].requestFocus()
+            }
+        )
+    }
+
+    LaunchedEffect(Unit) {
+        focusRequesters.first().requestFocus()
+    }
+}
+
+@Composable
+private fun SingleOtpInput(
+    digit: Int?,
+    hasError: Boolean,
+    focusRequester: FocusRequester,
+    onDigitEntered: (Int) -> Unit,
+    onDigitRemoved: () -> Unit,
+) {
+    InputField(
+        modifier = Modifier
+            .focusRequester(focusRequester)
+            .size(64.dp),
+        text = digit?.toString() ?: "",
+        textStyle = StudyRoundTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
+        maxLines = 1,
+        keyboardType = KeyboardType.Number,
+        shape = CircleShape,
+        onValueChange = { value ->
+            if (value.isNotEmpty()) {
+                onDigitEntered(value.first().toString().toInt())
+            } else {
+                onDigitRemoved()
+            }
+        },
+    )
+}
+
 @Composable
 fun defineTextFieldColors(
     textColor: Color,
@@ -241,16 +339,21 @@ fun defineTextFieldColors(
 }
 
 @Composable
-fun Modifier.innerShadow(hideShadow: Boolean = false): Modifier {
+fun Modifier.innerShadow(hideShadow: Boolean = false, shape: Shape): Modifier {
     return if (hideShadow || StudyRoundTheme.darkMode) {
         this
     } else {
+        val cornerShape = when (shape) {
+            CircleShape -> Oval
+            else -> RoundedCorner(28.dp)
+        }
+
         neumorphic(
             lightShadowColor = Color.White,
             darkShadowColor = Color.LightGray,
             lightSource = LightSource.LEFT_TOP,
             shadowElevation = 4.dp,
-            shape = Pressed(cornerShape = RoundedCorner(28.dp)),
+            shape = Pressed(cornerShape = cornerShape),
         )
     }
 }
