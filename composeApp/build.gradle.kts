@@ -26,7 +26,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(libs.koin.core)
+            implementation(libs.koin.core)
             implementation(libs.koin.compose)
 
             implementation(compose.runtime)
@@ -50,7 +50,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)
 
-            api(libs.moko.resources.compose)
+            implementation(libs.moko.resources.compose)
             implementation(libs.moko.resources.test)
 
             implementation(libs.voyager.navigator)
@@ -69,13 +69,14 @@ kotlin {
         androidMain.dependencies {
             api(libs.androidx.appcompat)
             api(libs.androidx.core.ktx)
-            api(libs.koin.android)
+            implementation(libs.koin.android)
 
             implementation(libs.androidx.credentials)
             implementation(libs.androidx.credentials.play.services.auth)
             implementation(libs.googleid)
-            implementation(project.dependencies.platform(libs.firebase.bom))
+//            implementation(project.dependencies.platform(libs.firebase.bom))
 
+            implementation(project.dependencies.platform(libs.compose.bom))
             implementation(libs.compose.ui)
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
@@ -136,6 +137,7 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/versions/9/previous-compilation-data.bin"
         }
     }
     buildTypes {
