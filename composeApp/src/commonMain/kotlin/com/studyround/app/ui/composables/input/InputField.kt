@@ -38,6 +38,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
@@ -49,6 +50,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.studyround.app.MR
+import com.studyround.app.platform.ui.isBackspaceKeyEvent
 import com.studyround.app.ui.neumorphic.LightSource
 import com.studyround.app.ui.neumorphic.neumorphic
 import com.studyround.app.ui.neumorphic.shape.Oval
@@ -233,9 +235,8 @@ fun PasswordVisibilityToggleInputField(
     )
 }
 
-// Todo:
-//  1. Handle Backspace
-//  2. Handle illegal text/chars
+// Todo: Handle BackSpace for iOS
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun OtpInputField(
     modifier: Modifier = Modifier,
@@ -245,21 +246,27 @@ fun OtpInputField(
     hasError: Boolean = false,
     focusManager: FocusManager = LocalFocusManager.current,
 ) {
-    var otp by remember { mutableStateOf("") }
+    var otp by remember { mutableStateOf(CharArray(numFields) { ' ' }.concatToString()) }
     val focusRequesters = List(numFields) { FocusRequester() }
+
+    // To control keyboard behavior
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Box {
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             repeat(numFields) { index ->
                 SingleOtpInput(
-                    digit = otp.toCharArray().getOrNull(index)?.toString()?.toInt(),
+                    digit = otp.toCharArray()[index].let {
+                        if (it.isDigit()) it.toString().toInt() else null
+                    },
                     hasError = hasError,
                     focusRequester = focusRequesters[index],
+                    action = if (index == numFields - 1) ImeAction.Done else ImeAction.Next,
                     onDigitEntered = {
-                        if (otp.length < numFields) otp += it.toString()
-                        onValueChange(otp)
+                        otp = otp.take(index) + it.toString()[0] + otp.drop(index + 1)
+                        onValueChange(otp.trimAll())
 
-                        if (otp.length == numFields) {
+                        if (otp.trimAll().length == numFields) {
                             focusManager.clearFocus()
                             onOtpEntered(otp)
                         } else {
@@ -267,8 +274,16 @@ fun OtpInputField(
                         }
                     },
                     onDigitRemoved = {
-                        otp = otp.substring(0, index)
+                        otp = otp.take(index) + ' ' + otp.drop(index + 1)
+
+                        // TODO: Not necessary but put in place because of iOS
+                        val prevPosition = (index - 1).coerceAtLeast(0)
+                        focusRequesters[prevPosition].requestFocus()
                     },
+                    onEmptyBackspacePressed = {
+                        val prevPosition = (index - 1).coerceAtLeast(0)
+                        focusRequesters[prevPosition].requestFocus()
+                    }
                 )
             }
         }
@@ -278,9 +293,9 @@ fun OtpInputField(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
             ) {
-                // Request focus to the next appropriate field
-                val nextPosition = otp.length.coerceAtMost(numFields - 1)
+                val nextPosition = otp.indexOf(' ').takeIf { it != -1 } ?: (numFields - 1)
                 focusRequesters[nextPosition].requestFocus()
+                keyboardController?.show()
             }
         )
     }
@@ -294,28 +309,44 @@ fun OtpInputField(
 private fun SingleOtpInput(
     digit: Int?,
     hasError: Boolean,
+    action: ImeAction,
     focusRequester: FocusRequester,
     onDigitEntered: (Int) -> Unit,
     onDigitRemoved: () -> Unit,
+    onEmptyBackspacePressed: () -> Unit,
 ) {
+    // TODO: Enable full selection on focus
     InputField(
         modifier = Modifier
             .focusRequester(focusRequester)
-            .size(64.dp),
+            .size(64.dp)
+            .onKeyEvent {
+                // TODO: Research When key event starts working on iOS
+                if (digit == null && it.isBackspaceKeyEvent()) {
+                    onEmptyBackspacePressed()
+                    true
+                } else {
+                    false
+                }
+            },
         text = digit?.toString() ?: "",
         textStyle = StudyRoundTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
         maxLines = 1,
         keyboardType = KeyboardType.Number,
         shape = CircleShape,
+        action = action,
+        hasError = hasError,
         onValueChange = { value ->
             if (value.isNotEmpty()) {
-                onDigitEntered(value.first().toString().toInt())
+                if (value.last().isDigit()) onDigitEntered(value.last().toString().toInt())
             } else {
                 onDigitRemoved()
             }
         },
     )
 }
+
+private fun String.trimAll() = this.filter { it != ' ' }
 
 @Composable
 fun defineTextFieldColors(
