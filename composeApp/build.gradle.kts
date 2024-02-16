@@ -117,8 +117,8 @@ android {
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/resources")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+    sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/resources", "src/commonMain/composeResources")
+    sourceSets["main"].resources.srcDirs("src/commonMain/resources", "src/commonMain/composeResources")
 
     defaultConfig {
         applicationId = "com.operator.u_learn"

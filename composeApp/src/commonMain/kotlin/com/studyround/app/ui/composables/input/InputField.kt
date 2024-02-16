@@ -29,7 +29,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
@@ -59,7 +58,6 @@ import com.studyround.app.ui.neumorphic.shape.RoundedCorner
 import com.studyround.app.ui.theme.StudyRoundTheme
 import dev.icerock.moko.resources.compose.painterResource
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun InputField(
     modifier: Modifier = Modifier,
@@ -236,7 +234,6 @@ fun PasswordVisibilityToggleInputField(
 }
 
 // Todo: Handle BackSpace for iOS
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun OtpInputField(
     modifier: Modifier = Modifier,
