@@ -245,6 +245,7 @@ fun OtpInputField(
 ) {
     var otp by remember { mutableStateOf(CharArray(numFields) { ' ' }.concatToString()) }
     val focusRequesters = List(numFields) { FocusRequester() }
+    val lastIndex = numFields - 1
 
     // To control keyboard behavior
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -258,22 +259,23 @@ fun OtpInputField(
                     },
                     hasError = hasError,
                     focusRequester = focusRequesters[index],
-                    action = if (index == numFields - 1) ImeAction.Done else ImeAction.Next,
+                    action = if (index == lastIndex) ImeAction.Done else ImeAction.Next,
                     onDigitEntered = {
                         otp = otp.take(index) + it.toString()[0] + otp.drop(index + 1)
-                        onValueChange(otp.trimAll())
+                        onValueChange(otp.trimSpaces())
 
-                        if (otp.trimAll().length == numFields) {
+                        if (otp.trimSpaces().length == numFields) {
                             focusManager.clearFocus()
                             onOtpEntered(otp)
                         } else {
-                            focusRequesters[index + 1].requestFocus()
+                            val nextPosition = (index + 1).coerceAtMost(lastIndex)
+                            focusRequesters[nextPosition].requestFocus()
                         }
                     },
                     onDigitRemoved = {
                         otp = otp.take(index) + ' ' + otp.drop(index + 1)
 
-                        // TODO: Not necessary but put in place because of iOS
+                        // TODO: Put in place because of iOS, may become default behaviour later
                         val prevPosition = (index - 1).coerceAtLeast(0)
                         focusRequesters[prevPosition].requestFocus()
                     },
@@ -290,8 +292,9 @@ fun OtpInputField(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
             ) {
-                val nextPosition = otp.indexOf(' ').takeIf { it != -1 } ?: (numFields - 1)
-                focusRequesters[nextPosition].requestFocus()
+                val endPosition = otp.indexOf(' ').takeIf { it != -1 } ?: lastIndex
+                focusManager.clearFocus()
+                focusRequesters[endPosition].requestFocus()
                 keyboardController?.show()
             }
         )
@@ -312,7 +315,6 @@ private fun SingleOtpInput(
     onDigitRemoved: () -> Unit,
     onEmptyBackspacePressed: () -> Unit,
 ) {
-    // TODO: Enable full selection on focus
     InputField(
         modifier = Modifier
             .focusRequester(focusRequester)
@@ -333,6 +335,7 @@ private fun SingleOtpInput(
         shape = CircleShape,
         action = action,
         hasError = hasError,
+        cursorColor = Color.Unspecified,
         onValueChange = { value ->
             if (value.isNotEmpty()) {
                 if (value.last().isDigit()) onDigitEntered(value.last().toString().toInt())
@@ -343,7 +346,7 @@ private fun SingleOtpInput(
     )
 }
 
-private fun String.trimAll() = this.filter { it != ' ' }
+private fun String.trimSpaces() = this.filter { it != ' ' }
 
 @Composable
 fun defineTextFieldColors(
