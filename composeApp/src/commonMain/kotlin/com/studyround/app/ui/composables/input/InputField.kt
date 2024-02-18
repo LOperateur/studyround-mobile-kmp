@@ -275,11 +275,12 @@ fun OtpInputField(
                     onDigitRemoved = {
                         otp = otp.take(index) + ' ' + otp.drop(index + 1)
 
-                        // TODO: Put in place because of iOS, may become default behaviour later
+                        // TODO: Put in place because of iOS, remove later
                         val prevPosition = (index - 1).coerceAtLeast(0)
                         focusRequesters[prevPosition].requestFocus()
                     },
                     onEmptyBackspacePressed = {
+                        // Move back when the current field is cleared and backspaced again
                         val prevPosition = (index - 1).coerceAtLeast(0)
                         focusRequesters[prevPosition].requestFocus()
                     }
@@ -321,6 +322,7 @@ private fun SingleOtpInput(
             .size(64.dp)
             .onKeyEvent {
                 // TODO: Research When key event starts working on iOS
+                //  or use one shot backspace method with BasicTextField2 when released
                 if (digit == null && it.isBackspaceKeyEvent()) {
                     onEmptyBackspacePressed()
                     true
