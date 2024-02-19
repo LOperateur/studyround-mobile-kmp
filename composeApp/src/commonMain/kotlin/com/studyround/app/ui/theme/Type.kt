@@ -6,8 +6,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.studyround.app.platform.ui.font
-import com.studyround.app.platform.ui.getPlatformTextStyle
+import org.jetbrains.compose.resources.Font
+import studyround.composeapp.generated.resources.Res
+import studyround.composeapp.generated.resources.*
 
 // Set of Material typography styles to start with
 val MaterialTypography
@@ -55,7 +56,6 @@ internal class StudyRoundTypography(
         fontFamily = quicksandFont,
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Normal,
-        platformStyle = getPlatformTextStyle(),
     )
 
     // Title
@@ -123,18 +123,18 @@ internal class StudyRoundTypography(
 internal object Fonts {
     val quicksand
         @Composable get() = FontFamily(
-            font(
-                res = "quicksand_regular",
+            Font(
+                resource = Res.font.quicksand_regular,
                 weight = FontWeight.Normal,
                 style = FontStyle.Normal,
             ),
-            font(
-                res = "quicksand_semibold",
+            Font(
+                resource = Res.font.quicksand_semibold,
                 weight = FontWeight.SemiBold,
                 style = FontStyle.Normal,
             ),
-            font(
-                res = "quicksand_bold",
+            Font(
+                resource = Res.font.quicksand_bold,
                 weight = FontWeight.Bold,
                 style = FontStyle.Normal,
             )
@@ -142,18 +142,18 @@ internal object Fonts {
 
     val montserrat
         @Composable get() = FontFamily(
-            font(
-                res = "montserrat_regular",
+            Font(
+                resource = Res.font.montserrat_regular,
                 weight = FontWeight.Normal,
                 style = FontStyle.Normal,
             ),
-            font(
-                res = "montserrat_semibold",
+            Font(
+                resource = Res.font.montserrat_semibold,
                 weight = FontWeight.SemiBold,
                 style = FontStyle.Normal,
             ),
-            font(
-                res = "montserrat_bold",
+            Font(
+                resource = Res.font.montserrat_bold,
                 weight = FontWeight.Bold,
                 style = FontStyle.Normal,
             )

@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.moko.multiplatform.resources)
 //    alias(libs.plugins.google.services)
 //    alias(libs.plugins.sqlDelight)
 }
@@ -26,7 +25,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(libs.koin.core)
+            implementation(libs.koin.core)
             implementation(libs.koin.compose)
 
             implementation(compose.runtime)
@@ -50,9 +49,6 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)
 
-            api(libs.moko.resources.compose)
-            implementation(libs.moko.resources.test)
-
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.bottomSheetNavigator)
             implementation(libs.voyager.koin)
@@ -69,13 +65,14 @@ kotlin {
         androidMain.dependencies {
             api(libs.androidx.appcompat)
             api(libs.androidx.core.ktx)
-            api(libs.koin.android)
+            implementation(libs.koin.android)
 
             implementation(libs.androidx.credentials)
             implementation(libs.androidx.credentials.play.services.auth)
             implementation(libs.googleid)
-            implementation(project.dependencies.platform(libs.firebase.bom))
+//            implementation(project.dependencies.platform(libs.firebase.bom))
 
+            implementation(project.dependencies.platform(libs.compose.bom))
             implementation(libs.compose.ui)
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
@@ -90,17 +87,16 @@ kotlin {
             implementation(libs.ktor.client.darwin)
 //            implementation(libs.sqlDelight.driver.native)
         }
+
+        all {
+            languageSettings.optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
+        }
     }
 
     @Suppress("OPT_IN_USAGE")
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
     }
-}
-
-multiplatformResources {
-    multiplatformResourcesPackage = "com.studyround.app"
-    disableStaticFrameworkWarning = true
 }
 
 android {
@@ -116,8 +112,7 @@ android {
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/resources")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+    sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/composeResources")
 
     defaultConfig {
         applicationId = "com.operator.u_learn"
@@ -136,6 +131,7 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/versions/9/previous-compilation-data.bin"
         }
     }
     buildTypes {
@@ -150,7 +146,6 @@ android {
 
         create("staging") {
             initWith(getByName("debug"))
-            matchingFallbacks.add("debug") // For moko resources
             applicationIdSuffix = ".staging"
             isMinifyEnabled = false
         }
@@ -178,14 +173,5 @@ android {
     }
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
-    }
-
-
-    // Temporary fix for moko resources with Kotlin 1.9.0+
-    // Expected object 'MR' has no actual declaration in module... for JVM
-    // https://github.com/icerockdev/moko-resources/issues/510
-    // https://github.com/icerockdev/moko-resources/issues/531
-    sourceSets {
-        getByName("main").java.srcDirs("build/generated/moko/androidMain/src")
     }
 }

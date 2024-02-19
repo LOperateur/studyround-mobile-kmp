@@ -22,7 +22,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import co.touchlab.kermit.Logger
-import com.studyround.app.MR
 import com.studyround.app.platform.ui.getPlatformContext
 import com.studyround.app.ui.composables.buttons.LinkTextButton
 import com.studyround.app.ui.composables.buttons.PlainButton
@@ -35,8 +34,10 @@ import com.studyround.app.ui.features.auth.login.LoginViewEvent
 import com.studyround.app.ui.features.auth.login.SignupClicked
 import com.studyround.app.ui.features.auth.login.TermsToggled
 import com.studyround.app.ui.theme.StudyRoundTheme
-import dev.icerock.moko.resources.compose.painterResource
-import dev.icerock.moko.resources.compose.stringResource
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import studyround.composeapp.generated.resources.Res
+import studyround.composeapp.generated.resources.*
 
 @Composable
 fun SignupFormContent(
@@ -55,7 +56,7 @@ fun SignupFormContent(
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = stringResource(MR.strings.hello_greeting),
+            text = stringResource(Res.string.hello_greeting),
             fontFamily = StudyRoundTheme.typography.montserratFont,
             color = StudyRoundTheme.colors.deviation_primary1_white,
             style = StudyRoundTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal),
@@ -66,7 +67,7 @@ fun SignupFormContent(
         InputField(
             modifier = Modifier.fillMaxWidth(0.75f),
             text = emailText,
-            hint = stringResource(MR.strings.email_address_question),
+            hint = stringResource(Res.string.email_address_question),
             singleLine = true,
             hasError = !emailError.isNullOrEmpty(),
             action = ImeAction.Done,
@@ -97,7 +98,7 @@ fun SignupFormContent(
         Spacer(modifier = Modifier.height(120.dp))
 
         PrimaryButton(
-            text = stringResource(MR.strings.sign_up),
+            text = stringResource(Res.string.sign_up),
             textPadding = PaddingValues(horizontal = 24.dp),
             showLoading = signupLoading,
         ) {
@@ -112,8 +113,8 @@ fun SignupFormContent(
             textColor = StudyRoundTheme.colors.primary,
             backgroundColor = StudyRoundTheme.colors.deviation_white_tone5,
             showLoading = signupGoogleLoading,
-            text = stringResource(MR.strings.sign_up_google),
-            iconStart = painterResource(MR.images.ic_google),
+            text = stringResource(Res.string.sign_up_google),
+            iconStart = painterResource(Res.drawable.ic_google),
         ) {
             eventProcessor(GoogleSignupClicked(context))
         }
@@ -125,7 +126,7 @@ fun SignupFormContent(
                 horizontalArrangement = Arrangement.Start
             ) {
                 LinkTextButton(
-                    text = stringResource(MR.strings.login_arrow),
+                    text = stringResource(Res.string.login_arrow),
                     showUnderline = false,
                 ) {
                     eventProcessor(GoToLoginClicked)
@@ -137,13 +138,13 @@ fun SignupFormContent(
 
 @Composable
 private fun TermsAndConditionsText() {
-    val terms = stringResource(MR.strings.terms_of_use)
-    val policy = stringResource(MR.strings.privacy_policy)
+    val terms = stringResource(Res.string.terms_of_use)
+    val policy = stringResource(Res.string.privacy_policy)
 
     val termsTag = "terms"
     val policyTag = "policy"
 
-    val disclaimer = stringResource(MR.strings.terms_and_privacy_disclaimer, terms, policy)
+    val disclaimer = stringResource(Res.string.terms_and_privacy_disclaimer, terms, policy)
     val linkStyle = SpanStyle(color = StudyRoundTheme.colors.deviation_primary1_primary4)
 
     val annotatedTermsAndPolicy = buildAnnotatedString {
@@ -207,7 +208,7 @@ fun GoToLoginLayout(
         PlainButton(
             textColor = StudyRoundTheme.colors.primary,
             backgroundColor = StudyRoundTheme.colors.deviation_white_tone5,
-            text = stringResource(MR.strings.login_arrow),
+            text = stringResource(Res.string.login_arrow),
         ) {
             eventProcessor(GoToLoginClicked)
         }

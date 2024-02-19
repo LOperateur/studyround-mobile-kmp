@@ -36,14 +36,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.studyround.app.MR
 import com.studyround.app.ui.neumorphic.LightSource
 import com.studyround.app.ui.neumorphic.neumorphic
 import com.studyround.app.ui.neumorphic.shape.Flat
 import com.studyround.app.ui.neumorphic.shape.RoundedCorner
 import com.studyround.app.ui.theme.StudyRoundTheme
-import dev.icerock.moko.resources.compose.painterResource
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.painterResource
+import studyround.composeapp.generated.resources.Res
+import studyround.composeapp.generated.resources.ic_close
+import studyround.composeapp.generated.resources.ic_error
 
 @Composable
 fun AlertBannerView(vm: AlertBannerViewModel) {
@@ -139,7 +141,7 @@ fun AlertBanner(
             Row(modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)) {
                 Icon(
                     modifier = Modifier.size(24.dp).align(Alignment.CenterVertically),
-                    painter = painterResource(imageResource = MR.images.ic_error),
+                    painter = painterResource(Res.drawable.ic_error),
                     tint = onAlertColor,
                     contentDescription = "",
                 )
@@ -160,7 +162,7 @@ fun AlertBanner(
                 onClick = onDismiss,
             ) {
                 Icon(
-                    painter = painterResource(imageResource = MR.images.ic_close),
+                    painter = painterResource(Res.drawable.ic_close),
                     tint = onAlertColor,
                     contentDescription = "Close",
                 )

@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -23,29 +24,32 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.studyround.app.MR
 import com.studyround.app.ui.neumorphic.LightSource
 import com.studyround.app.ui.neumorphic.neumorphic
+import com.studyround.app.ui.neumorphic.shape.Oval
 import com.studyround.app.ui.neumorphic.shape.Pressed
 import com.studyround.app.ui.neumorphic.shape.RoundedCorner
 import com.studyround.app.ui.theme.StudyRoundTheme
-import dev.icerock.moko.resources.compose.painterResource
+import org.jetbrains.compose.resources.painterResource
+import studyround.composeapp.generated.resources.Res
+import studyround.composeapp.generated.resources.ic_visibility_off
+import studyround.composeapp.generated.resources.ic_visibility_on
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun InputField(
     modifier: Modifier = Modifier,
@@ -61,6 +65,7 @@ fun InputField(
     maxLines: Int = 5,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    textStyle: TextStyle = StudyRoundTheme.typography.bodySmall,
     textColor: Color = StudyRoundTheme.colors.deviation_tone4_tone5,
     cursorColor: Color = StudyRoundTheme.colors.deviation_tone4_tone5,
     handleColor: Color = StudyRoundTheme.colors.deviation_primary1_white,
@@ -72,6 +77,7 @@ fun InputField(
     disabledColor: Color = StudyRoundTheme.colors.tone1,
     borderColor: Color = Color.Transparent,
     readOnly: Boolean = false,
+    shape: Shape = RoundedCornerShape(28.dp),
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
@@ -101,10 +107,10 @@ fun InputField(
                             width = 1.dp,
                             color = color,
                         ),
-                        shape = RoundedCornerShape(28.dp),
+                        shape = shape,
                     )
-                    .clip(RoundedCornerShape(28.dp))
-                    .innerShadow(isFocus),
+                    .clip(shape)
+                    .innerShadow(isFocus, shape),
                 interactionSource = interactionSource,
                 isError = hasError,
                 visualTransformation = visualTransformation,
@@ -117,7 +123,7 @@ fun InputField(
                     onNext = { focusManager.moveFocus(FocusDirection.Down) },
                 ),
                 value = text,
-                textStyle = StudyRoundTheme.typography.bodySmall,
+                textStyle = textStyle,
                 onValueChange = {
                     onValueChange(it)
                 },
@@ -170,11 +176,11 @@ fun PasswordVisibilityToggleInputField(
 ) {
     var showPassword by rememberSaveable { mutableStateOf(false) }
 
-    var iconId = MR.images.ic_visibility_off
+    var iconId = Res.drawable.ic_visibility_off
     var keyboardType = KeyboardType.Password
 
     if (showPassword) {
-        iconId = MR.images.ic_visibility_on
+        iconId = Res.drawable.ic_visibility_on
         keyboardType = KeyboardType.Text
     }
 
@@ -241,16 +247,21 @@ fun defineTextFieldColors(
 }
 
 @Composable
-fun Modifier.innerShadow(hideShadow: Boolean = false): Modifier {
+fun Modifier.innerShadow(hideShadow: Boolean = false, shape: Shape): Modifier {
     return if (hideShadow || StudyRoundTheme.darkMode) {
         this
     } else {
+        val cornerShape = when (shape) {
+            CircleShape -> Oval
+            else -> RoundedCorner(28.dp)
+        }
+
         neumorphic(
             lightShadowColor = Color.White,
             darkShadowColor = Color.LightGray,
             lightSource = LightSource.LEFT_TOP,
             shadowElevation = 4.dp,
-            shape = Pressed(cornerShape = RoundedCorner(28.dp)),
+            shape = Pressed(cornerShape = cornerShape),
         )
     }
 }

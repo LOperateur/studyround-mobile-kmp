@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.Navigator
-import com.studyround.app.MR
 import com.studyround.app.ui.composables.alert.AlertBannerView
 import com.studyround.app.ui.composables.alert.AlertBannerViewModel
 import com.studyround.app.ui.composables.alert.AlertManager
@@ -24,7 +23,9 @@ import com.studyround.app.ui.composables.alert.LocalAlertManager
 import com.studyround.app.ui.composables.transitions.RootScreenSplashTransition
 import com.studyround.app.ui.features.splash.SplashScreen
 import com.studyround.app.ui.navigation.navigate
-import dev.icerock.moko.resources.compose.stringResource
+import org.jetbrains.compose.resources.stringResource
+import studyround.composeapp.generated.resources.Res
+import studyround.composeapp.generated.resources.force_update_prompt
 
 class RootScreen : Screen {
 
@@ -67,7 +68,7 @@ class RootScreen : Screen {
             }
         } else {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = stringResource(MR.strings.force_update_prompt))
+                Text(text = stringResource(Res.string.force_update_prompt))
             }
         }
     }
