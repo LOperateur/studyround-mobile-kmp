@@ -10,6 +10,12 @@ import com.studyround.app.platform.ui.getPlatformTextStyle
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.Font
 import studyround.composeapp.generated.resources.Res
+import studyround.composeapp.generated.resources.montserrat_bold
+import studyround.composeapp.generated.resources.montserrat_regular
+import studyround.composeapp.generated.resources.montserrat_semibold
+import studyround.composeapp.generated.resources.quicksand_bold
+import studyround.composeapp.generated.resources.quicksand_regular
+import studyround.composeapp.generated.resources.quicksand_semibold
 
 // Set of Material typography styles to start with
 val MaterialTypography

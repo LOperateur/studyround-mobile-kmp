@@ -2,13 +2,9 @@ package com.studyround.app.ui.composables.input
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -23,7 +19,6 @@ import androidx.compose.material.TextFieldColors
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,11 +28,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
@@ -46,10 +38,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.studyround.app.MR
-import com.studyround.app.platform.ui.isBackspaceKeyEvent
 import com.studyround.app.ui.neumorphic.LightSource
 import com.studyround.app.ui.neumorphic.neumorphic
 import com.studyround.app.ui.neumorphic.shape.Oval
@@ -232,123 +222,6 @@ fun PasswordVisibilityToggleInputField(
         hintColor = hintColor,
     )
 }
-
-// Todo: Handle BackSpace for iOS
-@Composable
-fun OtpInputField(
-    modifier: Modifier = Modifier,
-    numFields: Int = 4,
-    onValueChange: (String) -> Unit,
-    onOtpEntered: (String) -> Unit,
-    hasError: Boolean = false,
-    focusManager: FocusManager = LocalFocusManager.current,
-) {
-    var otp by remember { mutableStateOf(CharArray(numFields) { ' ' }.concatToString()) }
-    val focusRequesters = List(numFields) { FocusRequester() }
-    val lastIndex = numFields - 1
-
-    // To control keyboard behavior
-    val keyboardController = LocalSoftwareKeyboardController.current
-
-    Box {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            repeat(numFields) { index ->
-                SingleOtpInput(
-                    digit = otp.toCharArray()[index].let {
-                        if (it.isDigit()) it.toString().toInt() else null
-                    },
-                    hasError = hasError,
-                    focusRequester = focusRequesters[index],
-                    action = if (index == lastIndex) ImeAction.Done else ImeAction.Next,
-                    onDigitEntered = {
-                        otp = otp.take(index) + it.toString()[0] + otp.drop(index + 1)
-                        onValueChange(otp.trimSpaces())
-
-                        if (otp.trimSpaces().length == numFields) {
-                            focusManager.clearFocus()
-                            onOtpEntered(otp)
-                        } else {
-                            val nextPosition = (index + 1).coerceAtMost(lastIndex)
-                            focusRequesters[nextPosition].requestFocus()
-                        }
-                    },
-                    onDigitRemoved = {
-                        otp = otp.take(index) + ' ' + otp.drop(index + 1)
-
-                        // TODO: Put in place because of iOS, remove later
-                        val prevPosition = (index - 1).coerceAtLeast(0)
-                        focusRequesters[prevPosition].requestFocus()
-                    },
-                    onEmptyBackspacePressed = {
-                        // Move back when the current field is cleared and backspaced again
-                        val prevPosition = (index - 1).coerceAtLeast(0)
-                        focusRequesters[prevPosition].requestFocus()
-                    }
-                )
-            }
-        }
-
-        Box(
-            modifier = modifier.matchParentSize().clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() },
-            ) {
-                val endPosition = otp.indexOf(' ').takeIf { it != -1 } ?: lastIndex
-                focusManager.clearFocus()
-                focusRequesters[endPosition].requestFocus()
-                keyboardController?.show()
-            }
-        )
-    }
-
-    LaunchedEffect(Unit) {
-        focusRequesters.first().requestFocus()
-    }
-}
-
-@Composable
-private fun SingleOtpInput(
-    digit: Int?,
-    hasError: Boolean,
-    action: ImeAction,
-    focusRequester: FocusRequester,
-    onDigitEntered: (Int) -> Unit,
-    onDigitRemoved: () -> Unit,
-    onEmptyBackspacePressed: () -> Unit,
-) {
-    InputField(
-        modifier = Modifier
-            .focusRequester(focusRequester)
-            .size(64.dp)
-            .onKeyEvent {
-                // TODO: Research When key event starts working on iOS
-                //  or use one shot backspace method with BasicTextField2 when released
-                if (digit == null && it.isBackspaceKeyEvent()) {
-                    onEmptyBackspacePressed()
-                    true
-                } else {
-                    false
-                }
-            },
-        text = digit?.toString() ?: "",
-        textStyle = StudyRoundTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
-        maxLines = 1,
-        keyboardType = KeyboardType.Number,
-        shape = CircleShape,
-        action = action,
-        hasError = hasError,
-        cursorColor = Color.Unspecified,
-        onValueChange = { value ->
-            if (value.isNotEmpty()) {
-                if (value.last().isDigit()) onDigitEntered(value.last().toString().toInt())
-            } else {
-                onDigitRemoved()
-            }
-        },
-    )
-}
-
-private fun String.trimSpaces() = this.filter { it != ' ' }
 
 @Composable
 fun defineTextFieldColors(
