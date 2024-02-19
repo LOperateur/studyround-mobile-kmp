@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import com.studyround.app.MR
 import com.studyround.app.platform.ui.getPlatformContext
 import com.studyround.app.ui.composables.buttons.LinkTextButton
 import com.studyround.app.ui.composables.buttons.PlainButton
@@ -30,8 +29,10 @@ import com.studyround.app.ui.features.auth.login.LoginClicked
 import com.studyround.app.ui.features.auth.login.LoginViewEvent
 import com.studyround.app.ui.features.auth.login.PasswordTextChanged
 import com.studyround.app.ui.theme.StudyRoundTheme
-import dev.icerock.moko.resources.compose.painterResource
-import dev.icerock.moko.resources.compose.stringResource
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import studyround.composeapp.generated.resources.Res
+import studyround.composeapp.generated.resources.*
 
 @Composable
 fun LoginFormContent(
@@ -51,7 +52,7 @@ fun LoginFormContent(
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = stringResource(MR.strings.login),
+            text = stringResource(Res.string.login),
             fontFamily = StudyRoundTheme.typography.montserratFont,
             color = StudyRoundTheme.colors.deviation_primary1_white,
             style = StudyRoundTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal),
@@ -62,7 +63,7 @@ fun LoginFormContent(
         InputField(
             modifier = Modifier.fillMaxWidth(0.75f),
             text = emailUsernameText,
-            hint = stringResource(MR.strings.email_username),
+            hint = stringResource(Res.string.email_username),
             singleLine = true,
             hasError = !emailUsernameError.isNullOrEmpty(),
             maxLines = 1,
@@ -84,7 +85,7 @@ fun LoginFormContent(
             modifier = Modifier.fillMaxWidth(0.75f),
             text = passwordText,
             hasError = !passwordError.isNullOrEmpty(),
-            hint = stringResource(MR.strings.password),
+            hint = stringResource(Res.string.password),
             onValueChange = { eventProcessor(PasswordTextChanged(it)) },
         )
 
@@ -98,14 +99,14 @@ fun LoginFormContent(
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        LinkTextButton(text = stringResource(MR.strings.forgot_password_prompt)) {
+        LinkTextButton(text = stringResource(Res.string.forgot_password_prompt)) {
 
         }
 
         Spacer(modifier = Modifier.height(30.dp))
 
         PrimaryButton(
-            text = stringResource(MR.strings.login),
+            text = stringResource(Res.string.login),
             textPadding = PaddingValues(horizontal = 24.dp),
             showLoading = loginLoading,
         ) {
@@ -119,8 +120,8 @@ fun LoginFormContent(
         PlainButton(
             textColor = StudyRoundTheme.colors.primary,
             backgroundColor = StudyRoundTheme.colors.deviation_white_tone5,
-            text = stringResource(MR.strings.sign_in_google),
-            iconStart = painterResource(MR.images.ic_google),
+            text = stringResource(Res.string.sign_in_google),
+            iconStart = painterResource(Res.drawable.ic_google),
             showLoading = loginGoogleLoading,
         ) {
             eventProcessor(GoogleLoginClicked(context))
@@ -133,7 +134,7 @@ fun LoginFormContent(
                 horizontalArrangement = Arrangement.End,
             ) {
                 LinkTextButton(
-                    text = stringResource(MR.strings.sign_up_arrow),
+                    text = stringResource(Res.string.sign_up_arrow),
                     showUnderline = false,
                 ) {
                     eventProcessor(GoToSignupClicked)
@@ -162,7 +163,7 @@ fun GoToSignupLayout(
         PlainButton(
             textColor = StudyRoundTheme.colors.primary,
             backgroundColor = StudyRoundTheme.colors.deviation_white_tone5,
-            text = stringResource(MR.strings.sign_up_arrow),
+            text = stringResource(Res.string.sign_up_arrow),
         ) {
             eventProcessor(GoToSignupClicked)
         }

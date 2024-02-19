@@ -39,14 +39,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.studyround.app.MR
 import com.studyround.app.ui.neumorphic.LightSource
 import com.studyround.app.ui.neumorphic.neumorphic
 import com.studyround.app.ui.neumorphic.shape.Oval
 import com.studyround.app.ui.neumorphic.shape.Pressed
 import com.studyround.app.ui.neumorphic.shape.RoundedCorner
 import com.studyround.app.ui.theme.StudyRoundTheme
-import dev.icerock.moko.resources.compose.painterResource
+import org.jetbrains.compose.resources.painterResource
+import studyround.composeapp.generated.resources.Res
+import studyround.composeapp.generated.resources.ic_visibility_off
+import studyround.composeapp.generated.resources.ic_visibility_on
 
 @Composable
 fun InputField(
@@ -174,11 +176,11 @@ fun PasswordVisibilityToggleInputField(
 ) {
     var showPassword by rememberSaveable { mutableStateOf(false) }
 
-    var iconId = MR.images.ic_visibility_off
+    var iconId = Res.drawable.ic_visibility_off
     var keyboardType = KeyboardType.Password
 
     if (showPassword) {
-        iconId = MR.images.ic_visibility_on
+        iconId = Res.drawable.ic_visibility_on
         keyboardType = KeyboardType.Text
     }
 

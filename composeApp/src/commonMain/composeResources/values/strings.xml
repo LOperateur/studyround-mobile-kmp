@@ -13,8 +13,8 @@
     <string name="hello_greeting">Hello There</string>
     <string name="terms_of_use">Terms of Use</string>
     <string name="privacy_policy">Privacy Policy</string>
-    <string name="email_address_question">What\'s your email address?</string>
-    <string name="terms_and_privacy_disclaimer">I accept StudyRound\'s %1$s and %2$s</string>
+    <string name="email_address_question">What\u0027s your email address?</string>
+    <string name="terms_and_privacy_disclaimer">I accept StudyRound\u0027s %1$s and %2$s</string>
     <string name="accept_terms_of_use_prompt">Please accept the Terms of Use</string>
     <string name="blank_email_warning">Email should not be blank</string>
     <string name="invalid_email">Invalid email</string>

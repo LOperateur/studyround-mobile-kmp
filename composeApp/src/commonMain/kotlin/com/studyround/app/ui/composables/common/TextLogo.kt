@@ -9,11 +9,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.studyround.app.MR
 import com.studyround.app.ui.theme.StudyRoundTheme
-import dev.icerock.moko.resources.compose.painterResource
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
+import org.jetbrains.compose.resources.painterResource
+import studyround.composeapp.generated.resources.Res
+import studyround.composeapp.generated.resources.studyround_logo
 
 @Composable
 fun StudyRoundTextLogo(
@@ -26,7 +27,7 @@ fun StudyRoundTextLogo(
     ) {
         KamelImage(
             modifier = Modifier.align(Alignment.CenterVertically).size(36.dp),
-            resource = Resource.Success(painterResource(MR.images.studyround_logo)),
+            resource = Resource.Success(painterResource(Res.drawable.studyround_logo)),
             contentDescription = "Logo",
         )
 

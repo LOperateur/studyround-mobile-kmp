@@ -7,7 +7,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.studyround.app.platform.ui.getPlatformTextStyle
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.Font
 import studyround.composeapp.generated.resources.Res
 import studyround.composeapp.generated.resources.montserrat_bold
@@ -129,7 +128,6 @@ internal class StudyRoundTypography(
 }
 
 internal object Fonts {
-    @OptIn(ExperimentalResourceApi::class)
     val quicksand
         @Composable get() = FontFamily(
             Font(
@@ -149,7 +147,6 @@ internal object Fonts {
             )
         )
 
-    @OptIn(ExperimentalResourceApi::class)
     val montserrat
         @Composable get() = FontFamily(
             Font(

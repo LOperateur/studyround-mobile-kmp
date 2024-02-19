@@ -1,12 +1,12 @@
 package com.studyround.app.utils
 
 import androidx.compose.runtime.Composable
-import com.studyround.app.MR
-import com.studyround.app.platform.ui.PlatformContext
-import com.studyround.app.platform.ui.localizedString
-import dev.icerock.moko.resources.PluralsResource
-import dev.icerock.moko.resources.StringResource
-import dev.icerock.moko.resources.compose.stringResource
+import com.studyround.app.utils.StringResWrapper.PluralRes
+import com.studyround.app.utils.StringResWrapper.StringRes
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
+import studyround.composeapp.generated.resources.Res
+import studyround.composeapp.generated.resources.*
 
 /**
  * A wrapper class representing a string in the application. It can either be a dynamic text
@@ -54,28 +54,27 @@ enum class AppStrings {
 
 /**
  * Sealed class representing a wrapper for string resources. It can either be a string resource
- * reference ([Res]) or a plural resource reference ([Plural]).
+ * reference ([StringRes]) or a plural resource reference ([PluralRes]).
  */
 sealed class StringResWrapper {
-    data class Res(val resId: StringResource) : StringResWrapper()
-    data class Plural(val resId: PluralsResource) : StringResWrapper()
+    data class StringRes(val resId: StringResource) : StringResWrapper()
+    data class PluralRes(val resId: StringResource) : StringResWrapper()
 }
 
 /**
  * Retrieves the string representation of the [AppString]. If the [AppString] has dynamic text, it returns that text,
  * otherwise, it fetches the corresponding string resource based on the [AppString] property.
  *
- * @param context The platform context used for localization.
  * @param quantity The quantity for pluralization, if applicable.
  * @param args Additional format arguments for the string resource.
  * @return The localized string.
  * @throws Exception if the AppString is not defined.
  */
-fun AppString.getString(context: PlatformContext, quantity: Int = 0, vararg args: Any): String {
+suspend fun AppString.loadString(quantity: Int = 0, vararg args: Any): String {
     return dynamicText ?: run {
         when (val resource = appString?.stringRes) {
-            is StringResWrapper.Res -> localizedString(context, resource.resId, *args)
-            is StringResWrapper.Plural -> localizedString(context, resource.resId, quantity, *args)
+            is StringRes -> org.jetbrains.compose.resources.getString(resource.resId, *args)
+            is PluralRes -> org.jetbrains.compose.resources.getString(resource.resId, quantity, *args)
             else -> throw Exception("App String not defined")
         }
     }
@@ -95,8 +94,8 @@ fun AppString.getString(context: PlatformContext, quantity: Int = 0, vararg args
 fun AppString.getString(quantity: Int = 0, vararg args: Any): String {
     return dynamicText ?: run {
         when (val resource = appString?.stringRes) {
-            is StringResWrapper.Res -> stringResource(resource.resId, *args)
-            is StringResWrapper.Plural -> stringResource(resource.resId, quantity, *args)
+            is StringRes -> stringResource(resource.resId, *args)
+            is PluralRes -> stringResource(resource.resId, quantity, *args)
             else -> throw Exception("App String not defined")
         }
     }
@@ -107,15 +106,15 @@ fun AppString.getString(quantity: Int = 0, vararg args: Any): String {
  */
 private val AppStrings.stringRes: StringResWrapper
     get() = when (this) {
-        AppStrings.BLANK_EMAIL_ERROR -> StringResWrapper.Res(MR.strings.blank_email_warning)
-        AppStrings.INVALID_EMAIL_ERROR -> StringResWrapper.Res(MR.strings.invalid_email)
-        AppStrings.BLANK_USERNAME_ERROR -> StringResWrapper.Res(MR.strings.blank_username_warning)
-        AppStrings.INVALID_USERNAME_ERROR -> StringResWrapper.Res(MR.strings.invalid_username)
-        AppStrings.LONG_USERNAME_ERROR -> StringResWrapper.Res(MR.strings.long_username_warning)
-        AppStrings.EMPTY_PASSWORD_ERROR -> StringResWrapper.Res(MR.strings.empty_password_warning)
-        AppStrings.SHORT_PASSWORD_ERROR -> StringResWrapper.Res(MR.strings.short_password_warning)
-        AppStrings.ACCEPT_T_AND_C_ERROR -> StringResWrapper.Res(MR.strings.accept_terms_of_use_prompt)
-        AppStrings.SOMETHING_WRONG -> StringResWrapper.Res(MR.strings.something_wrong)
+        AppStrings.BLANK_EMAIL_ERROR -> StringRes(Res.string.blank_email_warning)
+        AppStrings.INVALID_EMAIL_ERROR -> StringRes(Res.string.invalid_email)
+        AppStrings.BLANK_USERNAME_ERROR -> StringRes(Res.string.blank_username_warning)
+        AppStrings.INVALID_USERNAME_ERROR -> StringRes(Res.string.invalid_username)
+        AppStrings.LONG_USERNAME_ERROR -> StringRes(Res.string.long_username_warning)
+        AppStrings.EMPTY_PASSWORD_ERROR -> StringRes(Res.string.empty_password_warning)
+        AppStrings.SHORT_PASSWORD_ERROR -> StringRes(Res.string.short_password_warning)
+        AppStrings.ACCEPT_T_AND_C_ERROR -> StringRes(Res.string.accept_terms_of_use_prompt)
+        AppStrings.SOMETHING_WRONG -> StringRes(Res.string.something_wrong)
 
-        AppStrings.SUCCESS -> StringResWrapper.Res(MR.strings.success_alert)
+        AppStrings.SUCCESS -> StringRes(Res.string.success_alert)
     }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -33,12 +32,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import co.touchlab.kermit.Logger
 import com.studyround.app.platform.ui.isBackspaceKeyEvent
 import com.studyround.app.ui.theme.StudyRoundTheme
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.vectorResource
 import studyround.composeapp.generated.resources.Res
 import studyround.composeapp.generated.resources.ic_backspace
 
@@ -53,7 +49,7 @@ fun OtpInputField(
     displayBackspaceButton: Boolean = true,
     focusManager: FocusManager = LocalFocusManager.current,
 ) {
-    var otp by remember(value) { mutableStateOf(limitOtpDigits(value, numFields)) }
+    var otp = limitOtpDigits(value, numFields)
     val focusRequesters = List(numFields) { FocusRequester() }
     val lastIndex = numFields - 1
 
@@ -90,19 +86,15 @@ fun OtpInputField(
                             },
                             onDigitRemoved = {
                                 otp = otp.take(index) + ' ' + otp.drop(index + 1)
+                                onValueChange(otp.trimSpaces())
                             },
                             onEmptyBackspacePressed = {
                                 // Clear the last value
                                 val lastFilledIndex = (otp.trimSpaces().length - 1).coerceAtLeast(0)
-                                otp =
-                                    otp.take(lastFilledIndex) + ' ' + otp.drop(lastFilledIndex + 1)
-                                resetFocus(
-                                    otp,
-                                    lastIndex,
-                                    focusManager,
-                                    focusRequesters,
-                                    keyboardController
-                                )
+                                otp = otp.take(lastFilledIndex) + ' ' + otp.drop(lastFilledIndex + 1)
+
+                                onValueChange(otp.trimSpaces())
+                                resetFocus(otp,lastIndex, focusManager, focusRequesters, keyboardController)
                             }
                         )
                     }
@@ -113,13 +105,7 @@ fun OtpInputField(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() },
                     ) {
-                        resetFocus(
-                            otp,
-                            lastIndex,
-                            focusManager,
-                            focusRequesters,
-                            keyboardController
-                        )
+                        resetFocus(otp, lastIndex, focusManager, focusRequesters, keyboardController)
                     }
                 )
             }
@@ -131,14 +117,16 @@ fun OtpInputField(
                         // Clear the last value
                         val lastFilledIndex = (otp.trimSpaces().length - 1).coerceAtLeast(0)
                         otp = otp.take(lastFilledIndex) + ' ' + otp.drop(lastFilledIndex + 1)
-                        resetFocus(otp, lastIndex, focusManager, focusRequesters, keyboardController)
+
+                        onValueChange(otp.trimSpaces())
+                        resetFocus(otp,lastIndex,focusManager,focusRequesters,keyboardController)
                     }
                 }
             }
         }
     }
 
-    LaunchedEffect(value) {
+    LaunchedEffect(Unit) {
         resetFocus(otp, lastIndex, focusManager, focusRequesters, keyboardController)
     }
 }
@@ -184,7 +172,6 @@ private fun SingleOtpInput(
     )
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun BackspaceButton(
     onClick: () -> Unit
@@ -195,7 +182,7 @@ private fun BackspaceButton(
     ) {
         Icon(
             modifier = Modifier,
-            imageVector = vectorResource(Res.drawable.ic_backspace),
+            painter = painterResource(Res.drawable.ic_backspace),
             tint = StudyRoundTheme.colors.primary,
             contentDescription = null,
         )
@@ -216,10 +203,11 @@ private fun resetFocus(
 }
 
 private fun limitOtpDigits(text: String, numFields: Int): String {
-    return if (text.length >= numFields) text.filter { it.isDigit() }
-        .take(numFields) // Truncate to fit numFields
-    else text.filter { it.isDigit() }
-        .padEnd(numFields, ' ') // Pad with spaces to match numFields
+    val digits = text.filter { it.isDigit() }
+    return if (digits.length >= numFields)
+        digits.take(numFields) // Truncate to fit numFields
+    else
+        digits.padEnd(numFields, ' ') // Pad with spaces to match numFields
 }
 
 private fun String.trimSpaces() = this.filter { it != ' ' }
