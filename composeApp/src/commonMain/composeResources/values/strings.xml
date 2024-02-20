@@ -25,4 +25,9 @@
     <string name="short_password_warning">Password must be at least 8 characters</string>
     <string name="success_alert">Success!</string>
     <string name="something_wrong">Something went wrong</string>
+    <string name="otp_sent_alert">OTP might be sent to %1$s</string>
+    <string name="email_verification">Email Verification</string>
+    <string name="otp_confirmation">OTP Confirmation</string>
+    <string name="otp_confirmation_prompt">Enter the verification code we just sent to your email</string>
+    <string name="resend_otp">Resend Code?</string>
 </resources>

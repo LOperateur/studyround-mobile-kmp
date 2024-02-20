@@ -13,6 +13,7 @@ import com.studyround.app.platform.ui.PlatformContext
 import com.studyround.app.repository.login.LoginRepository
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.windowedLoadDebounce
+import com.studyround.app.ui.features.auth.AuthDestination
 import com.studyround.app.utils.isValidEmail
 import com.studyround.app.utils.isValidUsername
 import com.studyround.app.ui.viewmodel.UdfViewModel
@@ -241,6 +242,7 @@ class LoginViewModel(
                             state.copy(googleLoginLoading = true)
                     }
                 }
+
                 is Resource.Success -> {
                     _viewState.update { state ->
                         state.copy(
@@ -248,9 +250,6 @@ class LoginViewModel(
                             googleSignupLoading = false,
                         )
                     }
-                    _viewEffects.send(
-                        ShowAlert(AppString("Welcome ${it.data.id}: ${it.data.email}"))
-                    )
                 }
 
                 is Resource.Error -> {
@@ -277,7 +276,13 @@ class LoginViewModel(
                         _viewState.update { state ->
                             state.copy(signupLoading = false)
                         }
-                        _viewEffects.send(ShowAlert(AppString.textOrSuccess(it.message)))
+                        _viewEffects.send(
+                            ShowAlert(
+                                message = AppString(it.message, AppStrings.OTP_SENT_ALERT),
+                                args = arrayOf(email)
+                            )
+                        )
+                        _viewEffects.send(Navigate(AuthDestination.OTP, false))
                     }
 
                     is Resource.Error -> {

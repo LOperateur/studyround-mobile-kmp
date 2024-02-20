@@ -49,6 +49,7 @@ enum class AppStrings {
     SOMETHING_WRONG,
 
     // Alerts/Messages
+    OTP_SENT_ALERT,
     SUCCESS;
 }
 
@@ -115,6 +116,7 @@ private val AppStrings.stringRes: StringResWrapper
         AppStrings.SHORT_PASSWORD_ERROR -> StringRes(Res.string.short_password_warning)
         AppStrings.ACCEPT_T_AND_C_ERROR -> StringRes(Res.string.accept_terms_of_use_prompt)
         AppStrings.SOMETHING_WRONG -> StringRes(Res.string.something_wrong)
+        AppStrings.OTP_SENT_ALERT -> StringRes(Res.string.otp_sent_alert)
 
         AppStrings.SUCCESS -> StringRes(Res.string.success_alert)
     }
