@@ -2,13 +2,16 @@ package com.studyround.app.ui.features.auth.otp
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -23,17 +26,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import com.studyround.app.ui.composables.buttons.CircularIconButton
 import com.studyround.app.ui.composables.buttons.LinkTextButton
 import com.studyround.app.ui.composables.common.StudyRoundBackground
 import com.studyround.app.ui.composables.common.StudyRoundTextLogo
 import com.studyround.app.ui.composables.input.OtpInputField
 import com.studyround.app.ui.theme.StudyRoundTheme
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import studyround.composeapp.generated.resources.Res
-import studyround.composeapp.generated.resources.email_verification
-import studyround.composeapp.generated.resources.otp_confirmation
-import studyround.composeapp.generated.resources.otp_confirmation_prompt
-import studyround.composeapp.generated.resources.resend_otp
+import studyround.composeapp.generated.resources.*
 
 class OtpScreen : Screen {
     @Composable
@@ -48,6 +50,7 @@ class OtpScreen : Screen {
                 )
             )
 
+            // Todo: Make everything scrollable
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
@@ -70,7 +73,7 @@ class OtpScreen : Screen {
                     Spacer(modifier = Modifier.height(24.dp))
 
                     Text(
-                        text = stringResource(Res.string.otp_confirmation_prompt),
+                        text = stringResource(Res.string.otp_email_prompt),
                         style = StudyRoundTheme.typography.bodySmall,
                     )
 
@@ -79,7 +82,7 @@ class OtpScreen : Screen {
                     var otpText by remember { mutableStateOf("") }
 
                     OtpInputField(
-                        modifier = Modifier,
+                        modifier = Modifier.fillMaxWidth(),
                         value = otpText,
                         onValueChange = {
                             otpText = it
@@ -89,10 +92,23 @@ class OtpScreen : Screen {
                     )
                 }
 
-                Row(modifier = Modifier.padding(bottom = 16.dp)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom,
+                ) {
                     LinkTextButton(
                         text = stringResource(Res.string.resend_otp),
                         showUnderline = true,
+                    ) {
+
+                    }
+
+                    CircularIconButton(
+                        modifier = Modifier.size(64.dp),
+                        iconPadding = PaddingValues(0.dp),
+                        painter = painterResource(Res.drawable.ic_arrow_forward),
+                        iconColor = StudyRoundTheme.colors.white,
                     ) {
 
                     }

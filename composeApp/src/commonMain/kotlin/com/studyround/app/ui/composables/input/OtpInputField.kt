@@ -57,7 +57,7 @@ fun OtpInputField(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Box(
-        modifier = modifier.fillMaxWidth().padding(8.dp),
+        modifier = modifier.padding(8.dp),
         contentAlignment = Alignment.Center,
     ) {
         Column(horizontalAlignment = Alignment.End) {

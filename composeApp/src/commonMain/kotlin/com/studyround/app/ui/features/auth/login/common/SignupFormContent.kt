@@ -25,7 +25,7 @@ import co.touchlab.kermit.Logger
 import com.studyround.app.platform.ui.getPlatformContext
 import com.studyround.app.ui.composables.buttons.LinkTextButton
 import com.studyround.app.ui.composables.buttons.PlainButton
-import com.studyround.app.ui.composables.buttons.PrimaryButton
+import com.studyround.app.ui.composables.buttons.SecondaryButton
 import com.studyround.app.ui.composables.input.InputField
 import com.studyround.app.ui.features.auth.login.EmailTextChanged
 import com.studyround.app.ui.features.auth.login.GoToLoginClicked
@@ -97,7 +97,7 @@ fun SignupFormContent(
 
         Spacer(modifier = Modifier.height(120.dp))
 
-        PrimaryButton(
+        SecondaryButton(
             text = stringResource(Res.string.sign_up),
             textPadding = PaddingValues(horizontal = 24.dp),
             showLoading = signupLoading,
