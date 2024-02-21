@@ -1,11 +1,11 @@
 package com.studyround.app.ui.features.auth.otp
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -50,16 +50,15 @@ class OtpScreen : Screen {
                 )
             )
 
-            // Todo: Make everything scrollable
-            Column(
+            Box(
                 modifier = Modifier
-                    .fillMaxHeight()
+                    .weight(1f, fill = true)
                     .padding(horizontal = 16.dp),
-                horizontalAlignment = Alignment.Start,
+                contentAlignment = Alignment.BottomCenter
             ) {
                 Column(
                     modifier = Modifier
-                        .weight(1f, fill = true)
+                        .fillMaxSize()
                         .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.Center,
                 ) {
@@ -90,6 +89,8 @@ class OtpScreen : Screen {
                         onOtpEntered = {},
                         displayBackspaceButton = true,
                     )
+
+                    Spacer(modifier = Modifier.height(64.dp)) // Adjust for the bottom row
                 }
 
                 Row(
