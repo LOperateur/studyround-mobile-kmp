@@ -17,8 +17,8 @@ import studyround.composeapp.generated.resources.*
  * @property appString The predefined string constant from [AppStrings], if applicable.
  */
 data class AppString(
-    val dynamicText: String?,
-    val appString: AppStrings?,
+    internal val dynamicText: String?,
+    internal val appString: AppStrings?,
 ) {
     constructor(dynamicText: String) : this(dynamicText = dynamicText, appString = null)
     constructor(appString: AppStrings) : this(appString = appString, dynamicText = null)
@@ -47,6 +47,10 @@ enum class AppStrings {
     SHORT_PASSWORD_ERROR,
     ACCEPT_T_AND_C_ERROR,
     SOMETHING_WRONG,
+
+    // Prompts/Text
+    EMAIL_CONFIRMATION,
+    OTP_VERIFICATION,
 
     // Alerts/Messages
     OTP_SENT_ALERT,
@@ -116,7 +120,10 @@ private val AppStrings.stringRes: StringResWrapper
         AppStrings.SHORT_PASSWORD_ERROR -> StringRes(Res.string.short_password_warning)
         AppStrings.ACCEPT_T_AND_C_ERROR -> StringRes(Res.string.accept_terms_of_use_prompt)
         AppStrings.SOMETHING_WRONG -> StringRes(Res.string.something_wrong)
-        AppStrings.OTP_SENT_ALERT -> StringRes(Res.string.otp_sent_alert)
 
+        AppStrings.EMAIL_CONFIRMATION -> StringRes(Res.string.email_verification)
+        AppStrings.OTP_VERIFICATION -> StringRes(Res.string.otp_confirmation)
+
+        AppStrings.OTP_SENT_ALERT -> StringRes(Res.string.otp_sent_alert)
         AppStrings.SUCCESS -> StringRes(Res.string.success_alert)
     }

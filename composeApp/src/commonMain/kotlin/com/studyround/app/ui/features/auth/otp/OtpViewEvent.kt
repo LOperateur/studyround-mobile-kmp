@@ -1,6 +1,6 @@
 package com.studyround.app.ui.features.auth.otp
 
-interface OtpViewEvent
+sealed interface OtpViewEvent
 
 data class OtpTextChanged(val otp: String) : OtpViewEvent
 

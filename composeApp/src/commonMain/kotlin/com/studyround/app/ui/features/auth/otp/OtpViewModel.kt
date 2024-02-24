@@ -8,17 +8,34 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 
-class OtpViewModel: UdfViewModel<OtpViewState, OtpViewEvent>(), WithEffects<OtpViewEffect> {
+class OtpViewModel : UdfViewModel<OtpViewState, OtpViewEvent>(), WithEffects<OtpViewEffect> {
 
     private val _viewState = MutableStateFlow(OtpViewState())
     override val viewState: StateFlow<OtpViewState>
         get() = _viewState.asStateFlow()
 
-    override fun processEvent(event: OtpViewEvent) {
-
-    }
-
     private val _viewEffects = Channel<OtpViewEffect>(Channel.BUFFERED)
     override val viewEffects: Flow<OtpViewEffect> = _viewEffects.receiveAsFlow()
+
+    fun initPath(isForgotPassword: Boolean) {
+        _viewState.update { it.copy(isForgotPassword = isForgotPassword) }
+    }
+
+    override fun processEvent(event: OtpViewEvent) {
+        when (event) {
+            is OtpTextChanged -> {
+
+            }
+
+            OtpSubmitted -> {
+
+            }
+
+            ResendOtpClicked -> {
+
+            }
+        }
+    }
 }

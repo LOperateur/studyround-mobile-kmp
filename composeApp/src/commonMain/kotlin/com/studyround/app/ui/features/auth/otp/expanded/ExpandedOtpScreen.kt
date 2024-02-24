@@ -22,17 +22,21 @@ import com.studyround.app.ui.composables.buttons.CircularIconButton
 import com.studyround.app.ui.composables.common.StudyRoundBackground
 import com.studyround.app.ui.composables.common.StudyRoundTextLogo
 import com.studyround.app.ui.features.auth.otp.OtpFormContent
+import com.studyround.app.ui.features.auth.otp.OtpViewEvent
+import com.studyround.app.ui.features.auth.otp.OtpViewState
 import com.studyround.app.ui.theme.StudyRoundTheme
+import com.studyround.app.utils.getString
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import org.jetbrains.compose.resources.painterResource
 import studyround.composeapp.generated.resources.Res
-import studyround.composeapp.generated.resources.ic_arrow_forward
-import studyround.composeapp.generated.resources.illr_hand_phone
-import studyround.composeapp.generated.resources.studyround_logo
+import studyround.composeapp.generated.resources.*
 
 @Composable
-fun ExpandedOtpScreen() {
+fun ExpandedOtpScreen(
+    viewState: OtpViewState,
+    eventProcessor: (OtpViewEvent) -> Unit,
+) {
     Row(
         modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.End,
@@ -56,7 +60,15 @@ fun ExpandedOtpScreen() {
                     )
                 )
 
-                OtpFormContent(showCta = false)
+                OtpFormContent(
+                    modifier = Modifier,
+                    showCta = false,
+                    title = viewState.title.getString(),
+                    hasResentOtp = viewState.hasResentOtp,
+                    otpResendWaitTime = viewState.resendOtpWaitMillis,
+                ) {
+
+                }
             }
 
             Box(

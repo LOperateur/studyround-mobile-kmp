@@ -34,10 +34,15 @@ import studyround.composeapp.generated.resources.*
 
 @Composable
 fun OtpFormContent(
+    modifier: Modifier = Modifier,
     showCta: Boolean = false,
+    title: String,
+    otpResendWaitTime: Long,
+    hasResentOtp: Boolean,
+    eventProcessor: (OtpViewEvent) -> Unit,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
         contentAlignment = Alignment.BottomCenter,
@@ -49,7 +54,7 @@ fun OtpFormContent(
             verticalArrangement = Arrangement.Center,
         ) {
             Text(
-                text = stringResource(Res.string.email_verification),
+                text = title,
                 fontFamily = StudyRoundTheme.typography.montserratFont,
                 color = StudyRoundTheme.colors.deviation_primary1_white,
                 style = StudyRoundTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal),

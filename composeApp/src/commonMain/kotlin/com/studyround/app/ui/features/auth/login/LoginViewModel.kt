@@ -14,6 +14,7 @@ import com.studyround.app.repository.login.LoginRepository
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.windowedLoadDebounce
 import com.studyround.app.ui.features.auth.AuthDestination
+import com.studyround.app.ui.features.auth.AuthDestination.OTP.Companion.FORGOT_PASSWORD
 import com.studyround.app.utils.isValidEmail
 import com.studyround.app.utils.isValidUsername
 import com.studyround.app.ui.viewmodel.UdfViewModel
@@ -282,7 +283,12 @@ class LoginViewModel(
                                 args = arrayOf(email)
                             )
                         )
-                        _viewEffects.send(Navigate(AuthDestination.OTP, false))
+                        _viewEffects.send(
+                            Navigate(
+                                AuthDestination.OTP(mapOf(FORGOT_PASSWORD to false)),
+                                false,
+                            )
+                        )
                     }
 
                     is Resource.Error -> {
