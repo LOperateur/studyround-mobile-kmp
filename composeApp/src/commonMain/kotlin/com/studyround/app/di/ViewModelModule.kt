@@ -9,6 +9,6 @@ import org.koin.dsl.module
 val viewModelModule = module {
     factory { RootViewModel(get(), get(), get()) }
     factory { LoginViewModel(get(), get()) }
-    factory { OtpViewModel() }
+    factory { OtpViewModel(get()) }
     factory { AlertBannerViewModel() }
 }

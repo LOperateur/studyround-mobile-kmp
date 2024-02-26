@@ -8,6 +8,7 @@ data class OtpViewState(
     val resendOtpWaitSeconds: Int = 60,
     val hasResentOtp: Boolean = false,
     val isForgotPassword: Boolean = false,
+    val otpValidationLoading: Boolean = false,
 ) {
     val title: AppString = if (isForgotPassword) {
         AppString(AppStrings.OTP_VERIFICATION)

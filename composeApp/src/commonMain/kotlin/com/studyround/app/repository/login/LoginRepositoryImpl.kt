@@ -23,11 +23,9 @@ class LoginRepositoryImpl(
         }
     }
 
-    override fun validateOtp(): Flow<Resource<Unit>> {
-        return flow {
-            emit(Resource.Loading())
-            delay(500)
-            emit(Resource.Success(Unit))
+    override fun validateOtp(otpId: Int, otp: String): Flow<Resource<Unit>> {
+        return wrappedResourceFlow {
+            loginService.validateOtp(otpId, otp)
         }
     }
 }

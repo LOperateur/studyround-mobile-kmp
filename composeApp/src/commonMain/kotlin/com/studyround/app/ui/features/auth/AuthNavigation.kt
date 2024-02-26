@@ -8,8 +8,9 @@ import com.studyround.app.ui.navigation.RouteMap
 
 sealed class AuthDestination : Destination {
     data object Login : AuthDestination()
-    data class OTP(override val args: Map<String, Boolean>) : AuthDestination() {
+    data class OTP(override val args: Map<String, Any>) : AuthDestination() {
         companion object {
+            const val OTP_ID = "otpId"
             const val FORGOT_PASSWORD = "forgotPassword"
         }
     }

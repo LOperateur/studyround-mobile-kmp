@@ -36,6 +36,7 @@ fun CompactOtpScreen(
             title = viewState.title.getString(),
             hasResentOtp = viewState.hasResentOtp,
             resendOtpWaitSeconds = viewState.resendOtpWaitSeconds,
+            otpValidationLoading = viewState.otpValidationLoading,
             showCta = true,
             eventProcessor = eventProcessor,
         )

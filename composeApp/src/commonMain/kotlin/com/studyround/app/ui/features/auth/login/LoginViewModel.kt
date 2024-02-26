@@ -15,6 +15,7 @@ import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.windowedLoadDebounce
 import com.studyround.app.ui.features.auth.AuthDestination
 import com.studyround.app.ui.features.auth.AuthDestination.OTP.Companion.FORGOT_PASSWORD
+import com.studyround.app.ui.features.auth.AuthDestination.OTP.Companion.OTP_ID
 import com.studyround.app.utils.isValidEmail
 import com.studyround.app.utils.isValidUsername
 import com.studyround.app.ui.viewmodel.UdfViewModel
@@ -285,7 +286,12 @@ class LoginViewModel(
                         )
                         _viewEffects.send(
                             Navigate(
-                                AuthDestination.OTP(mapOf(FORGOT_PASSWORD to false)),
+                                AuthDestination.OTP(
+                                    mapOf(
+                                        OTP_ID to it.data.otpId,
+                                        FORGOT_PASSWORD to false,
+                                    )
+                                ),
                                 false,
                             )
                         )

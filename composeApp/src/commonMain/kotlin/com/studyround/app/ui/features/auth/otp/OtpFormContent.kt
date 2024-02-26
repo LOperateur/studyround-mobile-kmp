@@ -36,6 +36,7 @@ fun OtpFormContent(
     title: String,
     resendOtpWaitSeconds: Int,
     hasResentOtp: Boolean,
+    otpValidationLoading: Boolean,
     showCta: Boolean,
     eventProcessor: (OtpViewEvent) -> Unit,
 ) {
@@ -107,6 +108,7 @@ fun OtpFormContent(
                     iconPadding = PaddingValues(0.dp),
                     painter = painterResource(Res.drawable.ic_arrow_forward),
                     iconColor = StudyRoundTheme.colors.white,
+                    showLoading = otpValidationLoading,
                 ) {
                     eventProcessor(OtpSubmitted)
                 }

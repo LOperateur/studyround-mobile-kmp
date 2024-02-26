@@ -20,7 +20,7 @@ import com.studyround.app.ui.navigation.navigate
 import com.studyround.app.ui.utils.isTabletLandscapeMode
 import com.studyround.app.utils.loadString
 
-class OtpScreen(private val args: Map<String, Boolean>) : Screen {
+class OtpScreen(private val args: Map<String, Any>) : Screen {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     @Composable
     override fun Content() {
@@ -64,7 +64,10 @@ class OtpScreen(private val args: Map<String, Boolean>) : Screen {
         }
 
         LaunchedEffect(Unit) {
-            vm.initPath(args[AuthDestination.OTP.FORGOT_PASSWORD] ?: false)
+            vm.initArgs(
+                otpId = args[AuthDestination.OTP.OTP_ID] as? Int,
+                isForgotPassword = args[AuthDestination.OTP.FORGOT_PASSWORD] as? Boolean,
+            )
         }
     }
 }

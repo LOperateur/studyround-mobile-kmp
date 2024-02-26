@@ -67,6 +67,7 @@ fun ExpandedOtpScreen(
                     title = viewState.title.getString(),
                     hasResentOtp = viewState.hasResentOtp,
                     resendOtpWaitSeconds = viewState.resendOtpWaitSeconds,
+                    otpValidationLoading = viewState.otpValidationLoading,
                     showCta = false,
                     eventProcessor = eventProcessor,
                 )

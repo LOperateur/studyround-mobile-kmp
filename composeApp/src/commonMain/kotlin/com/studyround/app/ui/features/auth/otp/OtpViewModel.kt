@@ -1,6 +1,10 @@
 package com.studyround.app.ui.features.auth.otp
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.studyround.app.repository.login.LoginRepository
+import com.studyround.app.service.data.resource.Resource
+import com.studyround.app.service.data.resource.windowedLoadDebounce
+import com.studyround.app.ui.features.auth.AuthDestination
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import com.studyround.app.ui.viewmodel.WithEffects
 import com.studyround.app.utils.AppString
@@ -17,7 +21,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
-class OtpViewModel : UdfViewModel<OtpViewState, OtpViewEvent>(), WithEffects<OtpViewEffect> {
+class OtpViewModel(
+    private val loginRepository: LoginRepository,
+) : UdfViewModel<OtpViewState, OtpViewEvent>(), WithEffects<OtpViewEffect> {
 
     private val _viewState = MutableStateFlow(OtpViewState())
     override val viewState: StateFlow<OtpViewState>
@@ -26,6 +32,8 @@ class OtpViewModel : UdfViewModel<OtpViewState, OtpViewEvent>(), WithEffects<Otp
     private val _viewEffects = Channel<OtpViewEffect>(Channel.BUFFERED)
     override val viewEffects: Flow<OtpViewEffect> = _viewEffects.receiveAsFlow()
 
+    private var otpId: Int? = null
+
     init {
         screenModelScope.launch {
             while (true) {
@@ -33,13 +41,16 @@ class OtpViewModel : UdfViewModel<OtpViewState, OtpViewEvent>(), WithEffects<Otp
                 val secondsLeft = viewState.value.resendOtpWaitSeconds
                 _viewState.update { it.copy(resendOtpWaitSeconds = secondsLeft - 1) }
 
-                if (secondsLeft - 1 == 0) { cancel() }
+                if (secondsLeft - 1 == 0) {
+                    cancel()
+                }
             }
         }
     }
 
-    fun initPath(isForgotPassword: Boolean) {
-        _viewState.update { it.copy(isForgotPassword = isForgotPassword) }
+    fun initArgs(otpId: Int?, isForgotPassword: Boolean?) {
+        this.otpId = otpId
+        _viewState.update { it.copy(isForgotPassword = isForgotPassword ?: false) }
     }
 
     override fun processEvent(event: OtpViewEvent) {
@@ -55,6 +66,15 @@ class OtpViewModel : UdfViewModel<OtpViewState, OtpViewEvent>(), WithEffects<Otp
                     }
                 } else {
                     // Verify and Navigate
+                    screenModelScope.launch {
+                        otpId?.let {
+                            validateOtp(it, viewState.value.otpText)
+                        } ?: run {
+                            _viewEffects.send(
+                                ShowAlert(message = AppString(AppStrings.SOMETHING_WRONG))
+                            )
+                        }
+                    }
                 }
             }
 
@@ -62,5 +82,39 @@ class OtpViewModel : UdfViewModel<OtpViewState, OtpViewEvent>(), WithEffects<Otp
                 // Verify
             }
         }
+    }
+
+    private suspend fun validateOtp(otpId: Int, otp: String) {
+        loginRepository.validateOtp(otpId, otp)
+            .windowedLoadDebounce().collect {
+                when (it) {
+                    is Resource.Loading -> {
+                        _viewState.update { state ->
+                            state.copy(otpValidationLoading = true)
+                        }
+                    }
+
+                    is Resource.Success -> {
+                        _viewState.update { state ->
+                            state.copy(otpValidationLoading = false)
+                        }
+                        _viewEffects.send(
+                            ShowAlert(message = AppString.textOrSuccess(it.message))
+                        )
+                        _viewEffects.send(
+                            Navigate(AuthDestination.Signup, true)
+                        )
+                    }
+
+                    is Resource.Error -> {
+                        _viewState.update { state ->
+                            state.copy(otpValidationLoading = false)
+                        }
+                        _viewEffects.send(
+                            ShowAlert(AppString.textOrError(it.cause.message))
+                        )
+                    }
+                }
+            }
     }
 }

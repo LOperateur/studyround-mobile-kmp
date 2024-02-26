@@ -8,7 +8,6 @@ import com.studyround.app.data.remote.response.StudyRoundResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.submitForm
-import io.ktor.client.request.post
 import io.ktor.http.parameters
 import io.ktor.http.path
 
@@ -34,7 +33,10 @@ class LoginServiceImpl(
         return response.body<StudyRoundResponse<AuthUser>>().assertNoErrors
     }
 
-    override suspend fun login(userIdentity: String, password: String): StudyRoundResponse<AuthUser> {
+    override suspend fun login(
+        userIdentity: String,
+        password: String,
+    ): StudyRoundResponse<AuthUser> {
         val response = httpClient.submitForm(
             formParameters = parameters {
                 append("user_identity", userIdentity)
@@ -59,7 +61,10 @@ class LoginServiceImpl(
         return response.body<StudyRoundResponse<AuthUser>>().assertNoErrors
     }
 
-    override suspend fun resetPassword(password: String, passToken: String): StudyRoundResponse<AuthUser> {
+    override suspend fun resetPassword(
+        password: String,
+        passToken: String,
+    ): StudyRoundResponse<AuthUser> {
         val response = httpClient.submitForm(
             formParameters = parameters {
                 append("password", password)
@@ -103,11 +108,18 @@ class LoginServiceImpl(
         return response.body<StudyRoundResponse<Otp>>().assertNoErrors
     }
 
-    override suspend fun validateOtp() {
-        val response = httpClient.post {
+    override suspend fun validateOtp(otpId: Int, otp: String): StudyRoundResponse<Unit> {
+        val response = httpClient.submitForm(
+            formParameters = parameters {
+                append("otp_id", otpId.toString())
+                append("otp", otp)
+            }
+        ) {
             url {
                 path("otp/validate")
             }
         }
+
+        return response.body<StudyRoundResponse<Unit>>().assertNoErrors
     }
 }
