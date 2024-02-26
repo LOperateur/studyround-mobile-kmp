@@ -44,7 +44,7 @@ class LoginScreen : Screen {
                     is Navigate -> {
                         authNavigator.navigate(
                             AuthRouteMap(effect.destination).getScreen(),
-                            effect.replace,
+                            effect.shouldReplace,
                         )
                     }
                 }

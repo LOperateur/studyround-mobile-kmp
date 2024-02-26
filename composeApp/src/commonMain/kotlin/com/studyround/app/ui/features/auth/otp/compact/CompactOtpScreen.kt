@@ -32,12 +32,12 @@ fun CompactOtpScreen(
 
         OtpFormContent(
             modifier = Modifier,
-            showCta = true,
+            otpText = viewState.otpText,
             title = viewState.title.getString(),
             hasResentOtp = viewState.hasResentOtp,
-            otpResendWaitTime = viewState.resendOtpWaitMillis,
-        ) {
-
-        }
+            resendOtpWaitSeconds = viewState.resendOtpWaitSeconds,
+            showCta = true,
+            eventProcessor = eventProcessor,
+        )
     }
 }

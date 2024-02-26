@@ -5,7 +5,7 @@ import com.studyround.app.utils.AppStrings
 
 data class OtpViewState(
     val otpText: String = "",
-    val resendOtpWaitMillis: Long = 60_000L,
+    val resendOtpWaitSeconds: Int = 60,
     val hasResentOtp: Boolean = false,
     val isForgotPassword: Boolean = false,
 ) {

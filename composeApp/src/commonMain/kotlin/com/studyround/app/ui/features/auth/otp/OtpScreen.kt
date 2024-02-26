@@ -9,10 +9,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import com.studyround.app.ui.composables.alert.LocalAlertManager
 import com.studyround.app.ui.features.auth.AuthDestination
+import com.studyround.app.ui.features.auth.AuthRouteMap
 import com.studyround.app.ui.features.auth.otp.compact.CompactOtpScreen
 import com.studyround.app.ui.features.auth.otp.expanded.ExpandedOtpScreen
+import com.studyround.app.ui.navigation.navigate
 import com.studyround.app.ui.utils.isTabletLandscapeMode
+import com.studyround.app.utils.loadString
 
 class OtpScreen(private val args: Map<String, Boolean>) : Screen {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
@@ -22,7 +28,26 @@ class OtpScreen(private val args: Map<String, Boolean>) : Screen {
         val viewState by vm.viewState.collectAsState()
         val windowSizeClass = calculateWindowSizeClass()
 
+        val authNavigator = LocalNavigator.currentOrThrow
+        val alertManager = LocalAlertManager.current
         val isExpanded = windowSizeClass.isTabletLandscapeMode()
+
+        LaunchedEffect(Unit) {
+            vm.viewEffects.collect { effect ->
+                when (effect) {
+                    is ShowAlert -> {
+                        alertManager.show(effect.message.loadString())
+                    }
+
+                    is Navigate -> {
+                        authNavigator.navigate(
+                            AuthRouteMap(effect.destination).getScreen(),
+                            effect.shouldReplace,
+                        )
+                    }
+                }
+            }
+        }
 
         Box {
             if (isExpanded) {

@@ -74,7 +74,7 @@ fun InputField(
     errorColor: Color = StudyRoundTheme.colors.danger,
     hintColor: Color = StudyRoundTheme.colors.deviation_tone4_tone5.copy(alpha = 0.6f),
     backgroundColor: Color = StudyRoundTheme.colors.deviation_white_primary0,
-    disabledColor: Color = StudyRoundTheme.colors.tone1,
+    disabledColor: Color = StudyRoundTheme.colors.gray,
     borderColor: Color = Color.Transparent,
     readOnly: Boolean = false,
     shape: Shape = RoundedCornerShape(28.dp),

@@ -150,7 +150,7 @@ fun LinkTextButton(
         enabled = enabled,
         colors = ButtonDefaults.textButtonColors(
             contentColor = textColor,
-            disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.5f),
+            disabledContentColor = StudyRoundTheme.colors.gray,
         ),
         onClick = { onClick(text) },
     ) {
@@ -305,7 +305,7 @@ private fun BasicOutlinedButton(
         colors = ButtonDefaults.outlinedButtonColors(
             contentColor = color,
             backgroundColor = Color.Transparent,
-            disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.5f),
+            disabledContentColor = StudyRoundTheme.colors.gray,
         ),
         onClick = { if (!showLoading) onClick(text) },
     ) {

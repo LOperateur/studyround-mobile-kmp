@@ -15,10 +15,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -35,10 +31,11 @@ import studyround.composeapp.generated.resources.*
 @Composable
 fun OtpFormContent(
     modifier: Modifier = Modifier,
-    showCta: Boolean = false,
+    otpText: String,
     title: String,
-    otpResendWaitTime: Long,
+    resendOtpWaitSeconds: Int,
     hasResentOtp: Boolean,
+    showCta: Boolean,
     eventProcessor: (OtpViewEvent) -> Unit,
 ) {
     Box(
@@ -69,14 +66,10 @@ fun OtpFormContent(
 
             Spacer(modifier = Modifier.height(36.dp))
 
-            var otpText by remember { mutableStateOf("") }
-
             OtpInputField(
                 modifier = Modifier.fillMaxWidth(),
                 value = otpText,
-                onValueChange = {
-                    otpText = it
-                },
+                onValueChange = { eventProcessor(OtpTextChanged(it)) },
                 onOtpEntered = {},
                 displayBackspaceButton = true,
             )
@@ -89,11 +82,17 @@ fun OtpFormContent(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Bottom,
         ) {
-            LinkTextButton(
-                text = stringResource(Res.string.resend_otp),
-                showUnderline = true,
-            ) {
+            val waitAddendum = if (resendOtpWaitSeconds > 0)
+                " ${stringResource(Res.string.seconds_countdown, resendOtpWaitSeconds)}"
+            else
+                ""
 
+            LinkTextButton(
+                text = stringResource(Res.string.resend_otp) + waitAddendum,
+                showUnderline = true,
+                enabled = !hasResentOtp && resendOtpWaitSeconds == 0,
+            ) {
+                eventProcessor(ResendOtpClicked)
             }
 
             if (showCta) {
@@ -103,7 +102,7 @@ fun OtpFormContent(
                     painter = painterResource(Res.drawable.ic_arrow_forward),
                     iconColor = StudyRoundTheme.colors.white,
                 ) {
-
+                    eventProcessor(OtpSubmitted)
                 }
             }
         }
