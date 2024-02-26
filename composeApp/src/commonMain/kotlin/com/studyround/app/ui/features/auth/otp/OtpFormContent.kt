@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -82,10 +83,15 @@ fun OtpFormContent(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Bottom,
         ) {
-            val waitAddendum = if (resendOtpWaitSeconds > 0)
-                " ${stringResource(Res.string.seconds_countdown, resendOtpWaitSeconds)}"
-            else
-                ""
+            var waitAddendum = ""
+            // stringResource is not recomposing, so we had to use key()
+            key(resendOtpWaitSeconds) {
+                waitAddendum =
+                    if (resendOtpWaitSeconds > 0)
+                        " ${stringResource(Res.string.seconds_countdown, resendOtpWaitSeconds)}"
+                    else
+                        ""
+            }
 
             LinkTextButton(
                 text = stringResource(Res.string.resend_otp) + waitAddendum,
