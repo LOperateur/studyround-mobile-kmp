@@ -98,6 +98,8 @@ class OtpViewModel(
                     }
                 }
             }
+
+            BackPressed -> { _viewEffects.trySend(GoBack) }
         }
     }
 

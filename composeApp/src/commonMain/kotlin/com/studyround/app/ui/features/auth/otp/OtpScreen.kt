@@ -45,6 +45,7 @@ class OtpScreen(private val args: Map<String, Any>) : Screen {
                             effect.shouldReplace,
                         )
                     }
+                    GoBack -> { authNavigator.pop() }
                 }
             }
         }

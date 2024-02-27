@@ -172,7 +172,7 @@ fun ExpandedLoginScreen(
 
         StudyRoundTextLogo(
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
-            textColor = logoTextColor,
+            color = logoTextColor,
         )
     }
 }

@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.studyround.app.ui.composables.common.StudyRoundBackground
 import com.studyround.app.ui.composables.common.StudyRoundTextLogo
+import com.studyround.app.ui.features.auth.otp.BackPressed
 import com.studyround.app.ui.features.auth.otp.OtpFormContent
 import com.studyround.app.ui.features.auth.otp.OtpViewEvent
 import com.studyround.app.ui.features.auth.otp.OtpViewState
@@ -27,7 +28,8 @@ fun CompactOtpScreen(
             modifier = Modifier.padding(
                 vertical = 8.dp,
                 horizontal = 16.dp,
-            )
+            ),
+            onBackPressed = { eventProcessor(BackPressed) },
         )
 
         OtpFormContent(
