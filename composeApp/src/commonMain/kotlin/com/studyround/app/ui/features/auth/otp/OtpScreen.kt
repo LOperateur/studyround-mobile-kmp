@@ -67,6 +67,7 @@ class OtpScreen(private val args: Map<String, Any>) : Screen {
             vm.initArgs(
                 otpId = args[AuthDestination.OTP.OTP_ID] as? Int,
                 isForgotPassword = args[AuthDestination.OTP.FORGOT_PASSWORD] as? Boolean,
+                email = args[AuthDestination.OTP.EMAIL] as? String,
             )
         }
     }

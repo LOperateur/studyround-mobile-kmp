@@ -12,6 +12,7 @@ sealed class AuthDestination : Destination {
         companion object {
             const val OTP_ID = "otpId"
             const val FORGOT_PASSWORD = "forgotPassword"
+            const val EMAIL = "email"
         }
     }
     data object Signup : AuthDestination()

@@ -1,6 +1,7 @@
 package com.studyround.app.ui.features.auth.otp
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.studyround.app.data.remote.request.AuthType
 import com.studyround.app.repository.login.LoginRepository
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.windowedLoadDebounce
@@ -33,6 +34,7 @@ class OtpViewModel(
     override val viewEffects: Flow<OtpViewEffect> = _viewEffects.receiveAsFlow()
 
     private var otpId: Int? = null
+    private var email: String? = null
 
     init {
         screenModelScope.launch {
@@ -48,8 +50,9 @@ class OtpViewModel(
         }
     }
 
-    fun initArgs(otpId: Int?, isForgotPassword: Boolean?) {
+    fun initArgs(otpId: Int?, isForgotPassword: Boolean?, email: String? = null) {
         this.otpId = otpId
+        this.email = email
         _viewState.update { it.copy(isForgotPassword = isForgotPassword ?: false) }
     }
 
@@ -79,7 +82,21 @@ class OtpViewModel(
             }
 
             ResendOtpClicked -> {
-                // Verify
+                screenModelScope.launch {
+                    email?.let {
+                        resendOtp(
+                            email = it,
+                            authType = if (viewState.value.isForgotPassword)
+                                AuthType.RESET_PASSWORD
+                            else
+                                AuthType.VERIFY_EMAIL,
+                        )
+                    } ?: run {
+                        _viewEffects.send(
+                            ShowAlert(message = AppString(AppStrings.SOMETHING_WRONG))
+                        )
+                    }
+                }
             }
         }
     }
@@ -113,6 +130,41 @@ class OtpViewModel(
                         }
                         _viewEffects.send(
                             ShowAlert(AppString.textOrError(it.cause.message))
+                        )
+                    }
+                }
+            }
+    }
+
+    private suspend fun resendOtp(email: String, authType: AuthType) {
+        loginRepository.generateOtp(email, authType, true)
+            .windowedLoadDebounce().collect {
+                when (it) {
+                    is Resource.Loading -> {
+                        _viewState.update { state ->
+                            state.copy(hasResentOtp = true)
+                        }
+                    }
+
+                    is Resource.Success -> {
+                        _viewState.update { state ->
+                            state.copy(hasResentOtp = true)
+                        }
+                        _viewEffects.send(
+                            ShowAlert(
+                                message = AppString(it.message, AppStrings.OTP_SENT_ALERT),
+                            )
+                        )
+                    }
+
+                    is Resource.Error -> {
+                        _viewState.update { state ->
+                            state.copy(hasResentOtp = false)
+                        }
+                        _viewEffects.send(
+                            ShowAlert(
+                                AppString.textOrError(it.cause.message)
+                            )
                         )
                     }
                 }

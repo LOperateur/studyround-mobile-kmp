@@ -10,7 +10,7 @@ import com.studyround.app.ui.features.auth.otp.OtpScreen
 class AuthScreen : Screen {
     @Composable
     override fun Content() {
-        Navigator(OtpScreen(mapOf("forgotPassword" to false))) {
+        Navigator(LoginScreen()) {
             SlideTransition(it)
         }
     }
