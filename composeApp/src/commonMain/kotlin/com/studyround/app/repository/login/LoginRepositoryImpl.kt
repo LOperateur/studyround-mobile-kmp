@@ -1,6 +1,7 @@
 package com.studyround.app.repository.login
 
 import com.studyround.app.data.remote.dto.Otp
+import com.studyround.app.data.remote.dto.PassToken
 import com.studyround.app.data.remote.request.AuthType
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.wrappedResourceFlow
@@ -23,7 +24,7 @@ class LoginRepositoryImpl(
         }
     }
 
-    override fun validateOtp(otpId: Int, otp: String): Flow<Resource<Unit>> {
+    override fun validateOtp(otpId: Int, otp: String): Flow<Resource<PassToken>> {
         return wrappedResourceFlow {
             loginService.validateOtp(otpId, otp)
         }

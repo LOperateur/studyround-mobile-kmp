@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.map
 class SessionManagerImpl(
     private val emailAuthProvider: EmailAuthProvider,
     private val googleAuthProvider: GoogleAuthProvider,
-    private val appPreferences: AppPreferences,
+//    private val appPreferences: AppPreferences,
     private val credentialsManager: CredentialsManager,
     private val loginService: LoginService,
 ) : SessionManager {

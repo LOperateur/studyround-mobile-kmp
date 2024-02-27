@@ -3,6 +3,7 @@ package com.studyround.app.service.login
 import com.studyround.app.data.remote.dto.AccessToken
 import com.studyround.app.data.remote.dto.AuthUser
 import com.studyround.app.data.remote.dto.Otp
+import com.studyround.app.data.remote.dto.PassToken
 import com.studyround.app.data.remote.request.AuthType
 import com.studyround.app.data.remote.response.StudyRoundResponse
 import io.ktor.client.HttpClient
@@ -108,7 +109,7 @@ class LoginServiceImpl(
         return response.body<StudyRoundResponse<Otp>>().assertNoErrors
     }
 
-    override suspend fun validateOtp(otpId: Int, otp: String): StudyRoundResponse<Unit> {
+    override suspend fun validateOtp(otpId: Int, otp: String): StudyRoundResponse<PassToken> {
         val response = httpClient.submitForm(
             formParameters = parameters {
                 append("otp_id", otpId.toString())
@@ -120,6 +121,6 @@ class LoginServiceImpl(
             }
         }
 
-        return response.body<StudyRoundResponse<Unit>>().assertNoErrors
+        return response.body<StudyRoundResponse<PassToken>>().assertNoErrors
     }
 }

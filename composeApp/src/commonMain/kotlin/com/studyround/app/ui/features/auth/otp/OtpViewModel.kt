@@ -101,6 +101,7 @@ class OtpViewModel(
                         _viewEffects.send(
                             ShowAlert(message = AppString.textOrSuccess(it.message))
                         )
+                        //it.data.passToken
                         _viewEffects.send(
                             Navigate(AuthDestination.Signup, true)
                         )

@@ -3,6 +3,7 @@ package com.studyround.app.service.login
 import com.studyround.app.data.remote.dto.AccessToken
 import com.studyround.app.data.remote.dto.AuthUser
 import com.studyround.app.data.remote.dto.Otp
+import com.studyround.app.data.remote.dto.PassToken
 import com.studyround.app.data.remote.request.AuthType
 import com.studyround.app.data.remote.response.StudyRoundResponse
 
@@ -32,5 +33,5 @@ interface LoginService {
 
     suspend fun generateOtp(email: String, authType: AuthType, resend: Boolean): StudyRoundResponse<Otp>
 
-    suspend fun validateOtp(otpId: Int, otp: String): StudyRoundResponse<Unit>
+    suspend fun validateOtp(otpId: Int, otp: String): StudyRoundResponse<PassToken>
 }
