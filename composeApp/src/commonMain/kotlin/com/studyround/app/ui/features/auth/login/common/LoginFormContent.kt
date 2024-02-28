@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.studyround.app.platform.ui.getPlatformContext
 import com.studyround.app.ui.composables.buttons.LinkTextButton
 import com.studyround.app.ui.composables.buttons.PlainButton
-import com.studyround.app.ui.composables.buttons.PrimaryButton
+import com.studyround.app.ui.composables.buttons.SecondaryButton
 import com.studyround.app.ui.composables.input.InputField
 import com.studyround.app.ui.composables.input.PasswordVisibilityToggleInputField
 import com.studyround.app.ui.features.auth.login.EmailUsernameTextChanged
@@ -105,7 +105,7 @@ fun LoginFormContent(
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        PrimaryButton(
+        SecondaryButton(
             text = stringResource(Res.string.login),
             textPadding = PaddingValues(horizontal = 24.dp),
             showLoading = loginLoading,

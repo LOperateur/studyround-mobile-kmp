@@ -13,6 +13,10 @@ import com.studyround.app.platform.ui.PlatformContext
 import com.studyround.app.repository.login.LoginRepository
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.windowedLoadDebounce
+import com.studyround.app.ui.features.auth.AuthDestination
+import com.studyround.app.ui.features.auth.AuthDestination.OTP.Companion.EMAIL
+import com.studyround.app.ui.features.auth.AuthDestination.OTP.Companion.FORGOT_PASSWORD
+import com.studyround.app.ui.features.auth.AuthDestination.OTP.Companion.OTP_ID
 import com.studyround.app.utils.isValidEmail
 import com.studyround.app.utils.isValidUsername
 import com.studyround.app.ui.viewmodel.UdfViewModel
@@ -104,7 +108,6 @@ class LoginViewModel(
                             generateOtp(
                                 email = loginTextFieldState.emailText,
                                 authType = AuthType.VERIFY_EMAIL,
-                                resend = false,
                             )
                         }
                     } else {
@@ -241,6 +244,7 @@ class LoginViewModel(
                             state.copy(googleLoginLoading = true)
                     }
                 }
+
                 is Resource.Success -> {
                     _viewState.update { state ->
                         state.copy(
@@ -248,9 +252,6 @@ class LoginViewModel(
                             googleSignupLoading = false,
                         )
                     }
-                    _viewEffects.send(
-                        ShowAlert(AppString("Welcome ${it.data.id}: ${it.data.email}"))
-                    )
                 }
 
                 is Resource.Error -> {
@@ -263,8 +264,8 @@ class LoginViewModel(
         }
     }
 
-    private suspend fun generateOtp(email: String, authType: AuthType, resend: Boolean) {
-        loginRepository.generateOtp(email, authType, resend)
+    private suspend fun generateOtp(email: String, authType: AuthType) {
+        loginRepository.generateOtp(email, authType, false)
             .windowedLoadDebounce().collect {
                 when (it) {
                     is Resource.Loading -> {
@@ -277,7 +278,24 @@ class LoginViewModel(
                         _viewState.update { state ->
                             state.copy(signupLoading = false)
                         }
-                        _viewEffects.send(ShowAlert(AppString.textOrSuccess(it.message)))
+                        _viewEffects.send(
+                            ShowAlert(
+                                message = AppString(it.message, AppStrings.OTP_SENT_ALERT),
+                                args = arrayOf(email)
+                            )
+                        )
+                        _viewEffects.send(
+                            Navigate(
+                                AuthDestination.OTP(
+                                    mapOf(
+                                        OTP_ID to it.data.otpId,
+                                        FORGOT_PASSWORD to false,
+                                        EMAIL to email,
+                                    )
+                                ),
+                                false,
+                            )
+                        )
                     }
 
                     is Resource.Error -> {

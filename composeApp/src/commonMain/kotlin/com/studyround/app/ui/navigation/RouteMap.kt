@@ -10,4 +10,7 @@ interface RouteMap {
     fun getScreen(): Screen
 }
 
-interface Destination
+interface Destination {
+    val args: Map<String, Any>
+        get() = hashMapOf()
+}

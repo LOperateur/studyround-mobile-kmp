@@ -22,5 +22,5 @@ val commonModule = module {
         )
     }
     single<EmailAuthProvider> { EmailAuthProviderImpl(get()) }
-    single<SessionManager> { SessionManagerImpl(get(), get(), get(), get(), get()) }
+    single<SessionManager> { SessionManagerImpl(get(), get(), get(), get()) }
 }

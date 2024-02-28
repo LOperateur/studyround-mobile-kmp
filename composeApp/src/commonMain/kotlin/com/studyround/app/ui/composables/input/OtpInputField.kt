@@ -57,7 +57,7 @@ fun OtpInputField(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Box(
-        modifier = modifier.fillMaxWidth().padding(8.dp),
+        modifier = modifier.padding(8.dp),
         contentAlignment = Alignment.Center,
     ) {
         Column(horizontalAlignment = Alignment.End) {
@@ -144,7 +144,7 @@ private fun SingleOtpInput(
     InputField(
         modifier = Modifier
             .focusRequester(focusRequester)
-            .size(64.dp)
+            .size(60.dp)
             .onPreviewKeyEvent {
                 // TODO: Research When key event starts working on iOS
                 if (digit == null && it.isBackspaceKeyEvent()) {
@@ -183,7 +183,7 @@ private fun BackspaceButton(
         Icon(
             modifier = Modifier,
             painter = painterResource(Res.drawable.ic_backspace),
-            tint = StudyRoundTheme.colors.primary,
+            tint = StudyRoundTheme.colors.deviation_secondary1_secondary3,
             contentDescription = null,
         )
     }

@@ -3,12 +3,17 @@ package com.studyround.app.service.login
 import com.studyround.app.data.remote.dto.AccessToken
 import com.studyround.app.data.remote.dto.AuthUser
 import com.studyround.app.data.remote.dto.Otp
+import com.studyround.app.data.remote.dto.PassToken
 import com.studyround.app.data.remote.request.AuthType
+import com.studyround.app.data.remote.request.OtpRequest
 import com.studyround.app.data.remote.response.StudyRoundResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.submitForm
 import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import io.ktor.http.parameters
 import io.ktor.http.path
 
@@ -34,7 +39,10 @@ class LoginServiceImpl(
         return response.body<StudyRoundResponse<AuthUser>>().assertNoErrors
     }
 
-    override suspend fun login(userIdentity: String, password: String): StudyRoundResponse<AuthUser> {
+    override suspend fun login(
+        userIdentity: String,
+        password: String,
+    ): StudyRoundResponse<AuthUser> {
         val response = httpClient.submitForm(
             formParameters = parameters {
                 append("user_identity", userIdentity)
@@ -59,7 +67,10 @@ class LoginServiceImpl(
         return response.body<StudyRoundResponse<AuthUser>>().assertNoErrors
     }
 
-    override suspend fun resetPassword(password: String, passToken: String): StudyRoundResponse<AuthUser> {
+    override suspend fun resetPassword(
+        password: String,
+        passToken: String,
+    ): StudyRoundResponse<AuthUser> {
         val response = httpClient.submitForm(
             formParameters = parameters {
                 append("password", password)
@@ -90,24 +101,33 @@ class LoginServiceImpl(
         authType: AuthType,
         resend: Boolean,
     ): StudyRoundResponse<Otp> {
-        val response = httpClient.submitForm(
-            formParameters = parameters {
-                append("user_identity", email)
-                append("type", authType.value)
-                append("resend", resend.toString())
-            }
-        ) {
+        val response = httpClient.post {
+            contentType(ContentType.Application.Json)
+            setBody(
+                OtpRequest(
+                    userIdentity = email,
+                    authType = authType,
+                    resend = resend,
+                )
+            )
             url { path("otp/generate") }
         }
 
         return response.body<StudyRoundResponse<Otp>>().assertNoErrors
     }
 
-    override suspend fun validateOtp() {
-        val response = httpClient.post {
+    override suspend fun validateOtp(otpId: Int, otp: String): StudyRoundResponse<PassToken> {
+        val response = httpClient.submitForm(
+            formParameters = parameters {
+                append("otp_id", otpId.toString())
+                append("otp", otp)
+            }
+        ) {
             url {
                 path("otp/validate")
             }
         }
+
+        return response.body<StudyRoundResponse<PassToken>>().assertNoErrors
     }
 }

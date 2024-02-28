@@ -5,12 +5,15 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -43,8 +46,8 @@ fun PrimaryButton(
         textPadding = textPadding,
         brush = Brush.horizontalGradient(
             colors = listOf(
-                StudyRoundTheme.colors.secondary1,
-                StudyRoundTheme.colors.secondary3,
+                StudyRoundTheme.colors.primary1,
+                StudyRoundTheme.colors.primary2,
             )
         ),
         showLoading = showLoading,
@@ -72,8 +75,8 @@ fun SecondaryButton(
         textPadding = textPadding,
         brush = Brush.horizontalGradient(
             colors = listOf(
-                StudyRoundTheme.colors.primary1,
-                StudyRoundTheme.colors.primary2,
+                StudyRoundTheme.colors.secondary1,
+                StudyRoundTheme.colors.secondary3,
             )
         ),
         showLoading = showLoading,
@@ -99,7 +102,7 @@ fun PrimaryOutlinedButton(
         modifier = modifier,
         text = text,
         textPadding = textPadding,
-        color = StudyRoundTheme.colors.secondary,
+        color = StudyRoundTheme.colors.primary,
         showLoading = showLoading,
         enabled = enabled,
         iconStart = iconStart,
@@ -123,7 +126,7 @@ fun SecondaryOutlinedButton(
         modifier = modifier,
         text = text,
         textPadding = textPadding,
-        color = StudyRoundTheme.colors.primary,
+        color = StudyRoundTheme.colors.secondary,
         showLoading = showLoading,
         enabled = enabled,
         iconStart = iconStart,
@@ -147,7 +150,7 @@ fun LinkTextButton(
         enabled = enabled,
         colors = ButtonDefaults.textButtonColors(
             contentColor = textColor,
-            disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.5f),
+            disabledContentColor = StudyRoundTheme.colors.gray,
         ),
         onClick = { onClick(text) },
     ) {
@@ -192,6 +195,56 @@ fun PlainButton(
             iconStart = iconStart,
             iconEnd = iconEnd,
         )
+    }
+}
+
+@Composable
+fun CircularIconButton(
+    modifier: Modifier = Modifier,
+    iconPadding: PaddingValues = PaddingValues(4.dp),
+    painter: Painter,
+    showLoading: Boolean = false,
+    iconColor: Color,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+) {
+    GradientButton(
+        modifier = modifier.defaultMinSize(minHeight = 42.dp),
+        shape = CircleShape,
+        brush = Brush.horizontalGradient(
+            colors = listOf(
+                StudyRoundTheme.colors.secondary1,
+                StudyRoundTheme.colors.secondary3,
+            )
+        ),
+        enabled = enabled,
+        colors = ButtonDefaults.buttonColors(
+            contentColor = StudyRoundTheme.colors.white,
+            disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.5f),
+            disabledBackgroundColor = StudyRoundTheme.colors.gray,
+        ),
+        onClick = { if (!showLoading) onClick() },
+    ) {
+        val iconAlpha = if (showLoading) 0f else 1f
+
+        Box(
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                painter = painter,
+                modifier = Modifier.fillMaxSize().padding(iconPadding).alpha(iconAlpha),
+                tint = iconColor,
+                contentDescription = "",
+            )
+
+            if (showLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(28.dp),
+                    strokeWidth = 2.dp,
+                    color = iconColor,
+                )
+            }
+        }
     }
 }
 
@@ -252,7 +305,7 @@ private fun BasicOutlinedButton(
         colors = ButtonDefaults.outlinedButtonColors(
             contentColor = color,
             backgroundColor = Color.Transparent,
-            disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.5f),
+            disabledContentColor = StudyRoundTheme.colors.gray,
         ),
         onClick = { if (!showLoading) onClick(text) },
     ) {

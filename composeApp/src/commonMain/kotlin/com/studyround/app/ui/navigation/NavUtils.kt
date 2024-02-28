@@ -6,14 +6,14 @@ import cafe.adriel.voyager.navigator.Navigator
 /**
  * Navigates to the given destination screen.
  *
- * If [replace] is set to true, it replaces the current screen.
+ * If [shouldReplace] is set to true, it replaces the current screen.
  * Otherwise, it pushes the new destination onto the stack.
  *
  * @param destination The screen to navigate to.
- * @param replace
+ * @param shouldReplace Flag to replace the current screen or push
  */
-fun Navigator?.navigate(destination: Screen, replace: Boolean = false) {
-    if (replace) {
+fun Navigator?.navigate(destination: Screen, shouldReplace: Boolean = false) {
+    if (shouldReplace) {
         navigateReplace(destination)
     } else {
         navigatePush(destination)

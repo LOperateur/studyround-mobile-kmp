@@ -17,7 +17,7 @@ interface SessionManager {
 
     suspend fun logout()
 
-    fun reset(password: String): Flow<Resource<User>>
+    fun reset(password: String, passToken: String): Flow<Resource<User>>
 
     fun refreshToken(refreshToken: String): Flow<Resource<AccessToken>>
 }

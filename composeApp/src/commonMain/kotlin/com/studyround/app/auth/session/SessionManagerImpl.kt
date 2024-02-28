@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.map
 class SessionManagerImpl(
     private val emailAuthProvider: EmailAuthProvider,
     private val googleAuthProvider: GoogleAuthProvider,
-    private val appPreferences: AppPreferences,
+//    private val appPreferences: AppPreferences,
     private val credentialsManager: CredentialsManager,
     private val loginService: LoginService,
 ) : SessionManager {
@@ -33,7 +33,7 @@ class SessionManagerImpl(
     override fun signUp(type: AuthType): Flow<Resource<User>> {
         return when (type) {
             is EmailAuthType -> {
-                val passToken = appPreferences.lastSavedPassToken ?: run {
+                val passToken = type.passToken ?: run {
                     return flowOf(Resource.Error(cause = Exception("No Auth token provided, please try signing up again")))
                 }
 
@@ -76,10 +76,10 @@ class SessionManagerImpl(
         credentialsManager.clearCredentials()
     }
 
-    override fun reset(password: String): Flow<Resource<User>> {
-        val passToken = appPreferences.lastSavedPassToken ?: run {
-            return flowOf(Resource.Error(cause = Exception("No Auth token provided, please try signing up again")))
-        }
+    override fun reset(password: String, passToken: String): Flow<Resource<User>> {
+//        val passToken = appPreferences.lastSavedPassToken ?: run {
+//            return flowOf(Resource.Error(cause = Exception("No Auth token provided, please try signing up again")))
+//        }
 
         return emailAuthProvider.resetPassword(
             password = password,

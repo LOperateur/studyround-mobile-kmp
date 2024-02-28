@@ -9,9 +9,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.studyround.app.ui.composables.alert.LocalAlertManager
+import com.studyround.app.ui.features.auth.AuthRouteMap
 import com.studyround.app.ui.features.auth.login.compact.CompactLoginScreen
 import com.studyround.app.ui.features.auth.login.expanded.ExpandedLoginScreen
+import com.studyround.app.ui.navigation.navigate
 import com.studyround.app.ui.utils.isTabletLandscapeMode
 import com.studyround.app.utils.loadString
 
@@ -25,7 +29,7 @@ class LoginScreen : Screen {
         val textFieldState = vm.loginTextFieldState
 
         val alertManager = LocalAlertManager.current
-//        val navigator = LocalNavigator.currentOrThrow
+        val authNavigator = LocalNavigator.currentOrThrow
         val windowSizeClass = calculateWindowSizeClass()
 
         val isExpanded = windowSizeClass.isTabletLandscapeMode()
@@ -34,7 +38,14 @@ class LoginScreen : Screen {
             vm.viewEffects.collect { effect ->
                 when (effect) {
                     is ShowAlert -> {
-                        alertManager.show(effect.message.loadString())
+                        alertManager.show(effect.message.loadString(args = effect.args))
+                    }
+
+                    is Navigate -> {
+                        authNavigator.navigate(
+                            AuthRouteMap(effect.destination).getScreen(),
+                            effect.shouldReplace,
+                        )
                     }
                 }
             }
