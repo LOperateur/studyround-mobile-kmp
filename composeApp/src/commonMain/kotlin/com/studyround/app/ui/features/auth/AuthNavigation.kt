@@ -3,6 +3,7 @@ package com.studyround.app.ui.features.auth
 import cafe.adriel.voyager.core.screen.Screen
 import com.studyround.app.ui.features.auth.login.LoginScreen
 import com.studyround.app.ui.features.auth.otp.OtpScreen
+import com.studyround.app.ui.features.auth.register.RegisterScreen
 import com.studyround.app.ui.navigation.Destination
 import com.studyround.app.ui.navigation.RouteMap
 
@@ -15,7 +16,11 @@ sealed class AuthDestination : Destination {
             const val EMAIL = "email"
         }
     }
-    data object Signup : AuthDestination()
+    data class Register(override val args: Map<String, Any>) : AuthDestination() {
+        companion object {
+            const val PASS_TOKEN = "passToken"
+        }
+    }
     data object ResetPassword : AuthDestination()
     data object ForgotPassword : AuthDestination()
 }
@@ -27,7 +32,7 @@ class AuthRouteMap(
         return when (destination) {
             AuthDestination.Login -> LoginScreen()
             is AuthDestination.OTP -> OtpScreen(destination.args)
-            AuthDestination.Signup -> LoginScreen() // Todo
+            is AuthDestination.Register -> RegisterScreen(destination.args)
             AuthDestination.ResetPassword -> LoginScreen() // Todo
             AuthDestination.ForgotPassword -> LoginScreen() // Todo
         }
