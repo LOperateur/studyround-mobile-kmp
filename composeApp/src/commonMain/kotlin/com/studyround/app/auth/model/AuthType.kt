@@ -7,7 +7,7 @@ sealed interface AuthType
 data class EmailAuthType(
     val userIdentity: String,
     val password: String,
-    val passToken: String? = null,
+    val passToken: String,
 ) : AuthType
 
 data class GoogleAuthType(val context: PlatformContext) : AuthType

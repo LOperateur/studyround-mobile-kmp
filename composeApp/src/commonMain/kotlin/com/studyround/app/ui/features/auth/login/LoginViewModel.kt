@@ -208,6 +208,7 @@ class LoginViewModel(
             EmailAuthType(
                 userIdentity = emailUsername,
                 password = password,
+                passToken = "", // Not required for login
             )
         ).windowedLoadDebounce().collect {
             when (it) {

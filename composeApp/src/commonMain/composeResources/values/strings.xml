@@ -20,9 +20,11 @@
     <string name="invalid_email">Invalid email</string>
     <string name="blank_username_warning">Username must not be blank</string>
     <string name="invalid_username">Invalid username</string>
+    <string name="short_username_warning">Username must be at least 3 characters</string>
     <string name="long_username_warning">Username length is 24 characters max</string>
     <string name="empty_password_warning">Password must not be empty</string>
     <string name="short_password_warning">Password must be at least 8 characters</string>
+    <string name="match_password_warning">Passwords must match</string>
     <string name="success_alert">Success!</string>
     <string name="something_wrong">Something went wrong</string>
     <string name="otp_sent_alert">OTP might be sent to %1$s</string>

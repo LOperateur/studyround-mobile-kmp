@@ -5,10 +5,6 @@ interface AppPreferences {
     val darkMode: Boolean?
     fun setDarkMode(isDarkMode: Boolean?)
 
-    // TODO: Consider removing this and also removing dependence in SessionManager
-    val lastSavedPassToken: String?
-    fun setLastSavedPassToken(passToken: String?)
-
     val isCarouselViewed: Boolean
     fun setCarouselViewed()
 }

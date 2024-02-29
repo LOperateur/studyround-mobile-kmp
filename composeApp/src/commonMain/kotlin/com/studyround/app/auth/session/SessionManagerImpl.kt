@@ -12,17 +12,14 @@ import com.studyround.app.platform.auth.GoogleAuthProvider
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.wrappedResourceFlow
 import com.studyround.app.service.login.LoginService
-import com.studyround.app.storage.AppPreferences
 import com.studyround.app.storage.CredentialsManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 class SessionManagerImpl(
     private val emailAuthProvider: EmailAuthProvider,
     private val googleAuthProvider: GoogleAuthProvider,
-//    private val appPreferences: AppPreferences,
     private val credentialsManager: CredentialsManager,
     private val loginService: LoginService,
 ) : SessionManager {
@@ -33,14 +30,10 @@ class SessionManagerImpl(
     override fun signUp(type: AuthType): Flow<Resource<User>> {
         return when (type) {
             is EmailAuthType -> {
-                val passToken = type.passToken ?: run {
-                    return flowOf(Resource.Error(cause = Exception("No Auth token provided, please try signing up again")))
-                }
-
                 emailAuthProvider.signup(
                     username = type.userIdentity,
                     password = type.password,
-                    passToken = passToken,
+                    passToken = type.passToken,
                 ).toUserResourceFlow(true)
             }
 
@@ -77,10 +70,6 @@ class SessionManagerImpl(
     }
 
     override fun reset(password: String, passToken: String): Flow<Resource<User>> {
-//        val passToken = appPreferences.lastSavedPassToken ?: run {
-//            return flowOf(Resource.Error(cause = Exception("No Auth token provided, please try signing up again")))
-//        }
-
         return emailAuthProvider.resetPassword(
             password = password,
             passToken = passToken,
