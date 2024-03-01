@@ -13,6 +13,7 @@ import com.studyround.app.platform.ui.PlatformContext
 import com.studyround.app.repository.login.LoginRepository
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.windowedLoadDebounce
+import com.studyround.app.ui.composables.alert.AlertBannerType
 import com.studyround.app.ui.features.auth.AuthDestination
 import com.studyround.app.ui.features.auth.AuthDestination.OTP.Companion.EMAIL
 import com.studyround.app.ui.features.auth.AuthDestination.OTP.Companion.FORGOT_PASSWORD
@@ -110,7 +111,12 @@ class LoginViewModel(
                             )
                         }
                     } else {
-                        _viewEffects.trySend(ShowAlert(AppString(AppStrings.ACCEPT_T_AND_C_ERROR)))
+                        _viewEffects.trySend(
+                            ShowAlert(
+                                message = AppString(AppStrings.ACCEPT_T_AND_C_ERROR),
+                                type = AlertBannerType.Error,
+                            )
+                        )
                     }
                 }
             }
@@ -123,7 +129,12 @@ class LoginViewModel(
                 if (_viewState.value.termsAccepted) {
                     screenModelScope.launch { loginGoogle(event.context, true) }
                 } else {
-                    _viewEffects.trySend(ShowAlert(AppString(AppStrings.ACCEPT_T_AND_C_ERROR)))
+                    _viewEffects.trySend(
+                        ShowAlert(
+                            message = AppString(AppStrings.ACCEPT_T_AND_C_ERROR),
+                            type = AlertBannerType.Error,
+                        )
+                    )
                 }
             }
 
@@ -226,7 +237,12 @@ class LoginViewModel(
                     _viewState.update { state ->
                         state.copy(loginLoading = false)
                     }
-                    _viewEffects.send(ShowAlert(AppString.textOrError(it.cause.message)))
+                    _viewEffects.send(
+                        ShowAlert(
+                            message = AppString.textOrError(it.cause.message),
+                            type = AlertBannerType.Error,
+                        )
+                    )
                 }
             }
         }
@@ -257,7 +273,12 @@ class LoginViewModel(
                     _viewState.update { state ->
                         state.copy(googleLoginLoading = false, googleSignupLoading = false)
                     }
-                    _viewEffects.send(ShowAlert(AppString.textOrError(it.cause.message)))
+                    _viewEffects.send(
+                        ShowAlert(
+                            message = AppString.textOrError(it.cause.message),
+                            type = AlertBannerType.Error,
+                        )
+                    )
                 }
             }
         }
@@ -280,6 +301,7 @@ class LoginViewModel(
                         _viewEffects.send(
                             ShowAlert(
                                 message = AppString(it.message, AppStrings.OTP_SENT_ALERT),
+                                type = AlertBannerType.Success,
                                 args = arrayOf(email)
                             )
                         )
@@ -301,7 +323,12 @@ class LoginViewModel(
                         _viewState.update { state ->
                             state.copy(signupLoading = false)
                         }
-                        _viewEffects.send(ShowAlert(AppString.textOrError(it.cause.message)))
+                        _viewEffects.send(
+                            ShowAlert(
+                                message = AppString.textOrError(it.cause.message),
+                                type = AlertBannerType.Error,
+                            )
+                        )
                     }
                 }
             }

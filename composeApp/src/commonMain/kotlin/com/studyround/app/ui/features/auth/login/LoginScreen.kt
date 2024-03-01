@@ -38,7 +38,10 @@ class LoginScreen : Screen {
             vm.viewEffects.collect { effect ->
                 when (effect) {
                     is ShowAlert -> {
-                        alertManager.show(effect.message.loadString(args = effect.args))
+                        alertManager.show(
+                            effect.message.loadString(args = effect.args),
+                            effect.type,
+                        )
                     }
 
                     is Navigate -> {

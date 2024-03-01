@@ -13,6 +13,7 @@ data class AlertBannerViewState(
 
 data class AlertBannerState(
     val id: String,
-    val message: String = "",
+    val message: String,
+    val type: AlertBannerType,
     val visible: Boolean = false,
 )

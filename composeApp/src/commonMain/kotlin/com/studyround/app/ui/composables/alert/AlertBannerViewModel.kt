@@ -17,7 +17,7 @@ class AlertBannerViewModel : UdfViewModel<AlertBannerViewState, AlertBannerViewE
                 val counter = _viewState.value.alerts.size
                 val compositeId = "${event.id}_${counter}" // Prevent collisions for rapid addition
 
-                val alert = AlertBannerState(compositeId, event.message)
+                val alert = AlertBannerState(compositeId, event.message, event.type)
                 _viewState.value.alerts[compositeId] = alert
             }
 

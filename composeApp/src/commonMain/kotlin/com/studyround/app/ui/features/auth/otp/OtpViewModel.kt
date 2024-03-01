@@ -5,6 +5,7 @@ import com.studyround.app.data.remote.request.AuthType
 import com.studyround.app.repository.login.LoginRepository
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.windowedLoadDebounce
+import com.studyround.app.ui.composables.alert.AlertBannerType
 import com.studyround.app.ui.features.auth.AuthDestination
 import com.studyround.app.ui.features.auth.AuthDestination.Register.Companion.PASS_TOKEN
 import com.studyround.app.ui.viewmodel.UdfViewModel
@@ -66,7 +67,12 @@ class OtpViewModel(
             OtpSubmitted -> {
                 if (viewState.value.otpText.filter { it.isDigit() }.length < 4) {
                     screenModelScope.launch {
-                        _viewEffects.send(ShowAlert(AppString(AppStrings.OTP_LIMIT_ERROR)))
+                        _viewEffects.send(
+                            ShowAlert(
+                                message = AppString(AppStrings.OTP_LIMIT_ERROR),
+                                type = AlertBannerType.Error,
+                            )
+                        )
                     }
                 } else {
                     // Verify and Navigate
@@ -75,7 +81,10 @@ class OtpViewModel(
                             validateOtp(it, viewState.value.otpText)
                         } ?: run {
                             _viewEffects.send(
-                                ShowAlert(message = AppString(AppStrings.SOMETHING_WRONG))
+                                ShowAlert(
+                                    message = AppString(AppStrings.SOMETHING_WRONG),
+                                    type = AlertBannerType.Error,
+                                )
                             )
                         }
                     }
@@ -94,7 +103,10 @@ class OtpViewModel(
                         )
                     } ?: run {
                         _viewEffects.send(
-                            ShowAlert(message = AppString(AppStrings.SOMETHING_WRONG))
+                            ShowAlert(
+                                message = AppString(AppStrings.SOMETHING_WRONG),
+                                type = AlertBannerType.Error,
+                            )
                         )
                     }
                 }
@@ -121,9 +133,11 @@ class OtpViewModel(
                             state.copy(otpValidationLoading = false)
                         }
                         _viewEffects.send(
-                            ShowAlert(message = AppString.textOrSuccess(it.message))
+                            ShowAlert(
+                                message = AppString.textOrSuccess(it.message),
+                                type = AlertBannerType.Success,
+                            )
                         )
-                        //it.data.passToken
                         _viewEffects.send(
                             Navigate(
                                 AuthDestination.Register(mapOf(PASS_TOKEN to it.data.passToken)),
@@ -137,7 +151,10 @@ class OtpViewModel(
                             state.copy(otpValidationLoading = false)
                         }
                         _viewEffects.send(
-                            ShowAlert(AppString.textOrError(it.cause.message))
+                            ShowAlert(
+                                message = AppString.textOrError(it.cause.message),
+                                type = AlertBannerType.Error,
+                            )
                         )
                     }
                 }
@@ -161,6 +178,7 @@ class OtpViewModel(
                         _viewEffects.send(
                             ShowAlert(
                                 message = AppString(it.message, AppStrings.OTP_SENT_ALERT),
+                                type = AlertBannerType.Success,
                             )
                         )
                     }
@@ -171,7 +189,8 @@ class OtpViewModel(
                         }
                         _viewEffects.send(
                             ShowAlert(
-                                AppString.textOrError(it.cause.message)
+                                message = AppString.textOrError(it.cause.message),
+                                type = AlertBannerType.Error,
                             )
                         )
                     }
