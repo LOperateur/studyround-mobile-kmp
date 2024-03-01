@@ -9,6 +9,7 @@ import com.studyround.app.auth.model.EmailAuthType
 import com.studyround.app.auth.session.SessionManager
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.windowedLoadDebounce
+import com.studyround.app.ui.composables.alert.AlertBannerType
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import com.studyround.app.ui.viewmodel.WithEffects
 import com.studyround.app.utils.AppString
@@ -82,7 +83,12 @@ class RegisterViewModel(
                                 passToken = it,
                             )
                         } ?: run {
-                            _viewEffects.send(ShowAlert(message = AppString(AppStrings.SOMETHING_WRONG)))
+                            _viewEffects.send(
+                                ShowAlert(
+                                    message = AppString(AppStrings.SOMETHING_WRONG),
+                                    type = AlertBannerType.Error,
+                                )
+                            )
                         }
                     }
                 }
@@ -164,14 +170,24 @@ class RegisterViewModel(
                     _viewState.update { state ->
                         state.copy(registrationLoading = false)
                     }
-                    _viewEffects.send(ShowAlert(AppString.textOrSuccess(it.message)))
+                    _viewEffects.send(
+                        ShowAlert(
+                            message = AppString.textOrSuccess(it.message),
+                            type = AlertBannerType.Success,
+                        )
+                    )
                 }
 
                 is Resource.Error -> {
                     _viewState.update { state ->
                         state.copy(registrationLoading = false)
                     }
-                    _viewEffects.send(ShowAlert(AppString.textOrError(it.cause.message)))
+                    _viewEffects.send(
+                        ShowAlert(
+                            message = AppString.textOrError(it.cause.message),
+                            type = AlertBannerType.Error,
+                        )
+                    )
                 }
             }
         }

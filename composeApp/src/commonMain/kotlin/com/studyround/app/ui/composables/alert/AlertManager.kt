@@ -7,11 +7,12 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import kotlinx.datetime.Clock
 
 class AlertManager(val processEvent: (AlertBannerViewEvent) -> Unit) {
-    fun show(message: String) {
+    fun show(message: String, type: AlertBannerType) {
         processEvent(
             AlertShown(
                 id = Clock.System.now().toEpochMilliseconds().toString(),
                 message = message,
+                type = type,
             )
         )
     }

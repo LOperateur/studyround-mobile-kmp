@@ -33,7 +33,10 @@ class RegisterScreen(private val args: Map<String, Any>) : Screen {
             vm.viewEffects.collect { effect ->
                 when (effect) {
                     is ShowAlert -> {
-                        alertManager.show(effect.message.loadString())
+                        alertManager.show(
+                            effect.message.loadString(),
+                            effect.type,
+                        )
                     }
                 }
             }

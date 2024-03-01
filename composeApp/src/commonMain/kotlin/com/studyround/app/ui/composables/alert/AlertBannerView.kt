@@ -44,8 +44,7 @@ import com.studyround.app.ui.theme.StudyRoundTheme
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import studyround.composeapp.generated.resources.Res
-import studyround.composeapp.generated.resources.ic_close
-import studyround.composeapp.generated.resources.ic_error
+import studyround.composeapp.generated.resources.*
 
 @Composable
 fun AlertBannerView(vm: AlertBannerViewModel) {
@@ -108,6 +107,7 @@ fun LazyItemScope.AlertBannerWrapper(
             id = alertState.id,
             eventProcessor = eventProcessor,
             message = alertState.message,
+            type = alertState.type,
         ) {
             eventProcessor(AlertAnimatedOut(alertState.id))
         }
@@ -119,8 +119,8 @@ fun AlertBanner(
     modifier: Modifier = Modifier,
     id: String,
     eventProcessor: (AlertBannerViewEvent) -> Unit,
-    message: String = "Something went wrong.",
-    alertColor: Color = StudyRoundTheme.colors.danger,
+    message: String,
+    type: AlertBannerType,
     onAlertColor: Color = StudyRoundTheme.colors.tone1,
     onDismiss: () -> Unit,
 ) {
@@ -134,14 +134,14 @@ fun AlertBanner(
     ) {
         Box(
             modifier = Modifier.widthIn(max = 600.dp).alertShadow().background(
-                color = alertColor,
+                color = type.color,
                 shape = RoundedCornerShape(12.dp),
             )
         ) {
             Row(modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)) {
                 Icon(
                     modifier = Modifier.size(24.dp).align(Alignment.CenterVertically),
-                    painter = painterResource(Res.drawable.ic_error),
+                    painter = painterResource(type.icon),
                     tint = onAlertColor,
                     contentDescription = "",
                 )

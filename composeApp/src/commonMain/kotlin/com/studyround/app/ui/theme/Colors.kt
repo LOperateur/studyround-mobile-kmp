@@ -42,6 +42,7 @@ interface Colors {
     val secondary: Color
     val tertiary: Color
     val danger: Color
+    val success: Color
 
     val tone0: Color
     val tone1: Color
@@ -100,6 +101,7 @@ internal object StudyRoundColors {
         override val secondary = Color(0xFF_FF8051)
         override val tertiary = Color(0xFF_FFD45D)
         override val danger = Color(0xFF_E53E3E)
+        override val success = Color(0xFF_179848)
 
         override val tone0 = white
         override val tone1 = Color(0xFF_F5F5F5)
@@ -148,6 +150,7 @@ internal object StudyRoundColors {
         override val secondary = Color(0xFF_CF3800)
         override val tertiary = Color(0xFF_FFB300)
         override val danger = Color(0xFF_FFB3B3)
+        override val success = Color(0xFF_B9F5D0)
 
         override val tone0 = black
         override val tone1 = Color(0xFF_0A0A0A)
