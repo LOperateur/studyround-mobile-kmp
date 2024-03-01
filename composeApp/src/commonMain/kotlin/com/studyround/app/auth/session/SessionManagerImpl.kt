@@ -16,15 +16,14 @@ import com.studyround.app.storage.AppPreferences
 import com.studyround.app.storage.CredentialsManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 class SessionManagerImpl(
     private val emailAuthProvider: EmailAuthProvider,
     private val googleAuthProvider: GoogleAuthProvider,
-//    private val appPreferences: AppPreferences,
     private val credentialsManager: CredentialsManager,
     private val loginService: LoginService,
+    private val appPreferences: AppPreferences,
 ) : SessionManager {
 
     override val isSignedIn: StateFlow<Boolean>
@@ -33,14 +32,10 @@ class SessionManagerImpl(
     override fun signUp(type: AuthType): Flow<Resource<User>> {
         return when (type) {
             is EmailAuthType -> {
-                val passToken = type.passToken ?: run {
-                    return flowOf(Resource.Error(cause = Exception("No Auth token provided, please try signing up again")))
-                }
-
                 emailAuthProvider.signup(
                     username = type.userIdentity,
                     password = type.password,
-                    passToken = passToken,
+                    passToken = type.passToken,
                 ).toUserResourceFlow(true)
             }
 
@@ -77,10 +72,6 @@ class SessionManagerImpl(
     }
 
     override fun reset(password: String, passToken: String): Flow<Resource<User>> {
-//        val passToken = appPreferences.lastSavedPassToken ?: run {
-//            return flowOf(Resource.Error(cause = Exception("No Auth token provided, please try signing up again")))
-//        }
-
         return emailAuthProvider.resetPassword(
             password = password,
             passToken = passToken,
@@ -99,7 +90,8 @@ class SessionManagerImpl(
                 is Resource.Loading -> Resource.Loading(data = it.data?.user)
                 is Resource.Error -> Resource.Error(data = it.data?.user, cause = it.cause)
                 is Resource.Success -> {
-                    if (!isSignup) { /* Todo: Indicate marketing screen to not be shown */ }
+                    // If logging in, skip the registration survey
+                    if (!isSignup) appPreferences.setDisplaySurveyScreen(false)
                     saveCredentials(it.data)
                     Resource.Success(data = it.data.user, message = it.message)
                 }

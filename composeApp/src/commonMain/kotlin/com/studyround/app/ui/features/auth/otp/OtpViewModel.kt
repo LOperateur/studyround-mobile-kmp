@@ -6,6 +6,7 @@ import com.studyround.app.repository.login.LoginRepository
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.windowedLoadDebounce
 import com.studyround.app.ui.features.auth.AuthDestination
+import com.studyround.app.ui.features.auth.AuthDestination.Register.Companion.PASS_TOKEN
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import com.studyround.app.ui.viewmodel.WithEffects
 import com.studyround.app.utils.AppString
@@ -99,7 +100,9 @@ class OtpViewModel(
                 }
             }
 
-            BackPressed -> { _viewEffects.trySend(GoBack) }
+            BackPressed -> {
+                _viewEffects.trySend(GoBack)
+            }
         }
     }
 
@@ -122,7 +125,10 @@ class OtpViewModel(
                         )
                         //it.data.passToken
                         _viewEffects.send(
-                            Navigate(AuthDestination.Signup, true)
+                            Navigate(
+                                AuthDestination.Register(mapOf(PASS_TOKEN to it.data.passToken)),
+                                true
+                            )
                         )
                     }
 

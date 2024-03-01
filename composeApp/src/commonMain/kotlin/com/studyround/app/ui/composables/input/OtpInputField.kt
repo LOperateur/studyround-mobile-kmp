@@ -70,6 +70,8 @@ fun OtpInputField(
                                 if (it.isDigit()) it.toString().toInt() else null
                             },
                             hasError = hasError,
+                            canEffectPaste = index == 0,
+                            totalFields = numFields,
                             focusRequester = focusRequesters[index],
                             action = if (index == lastIndex) ImeAction.Done else ImeAction.Next,
                             onDigitEntered = {
@@ -87,6 +89,14 @@ fun OtpInputField(
                             onDigitRemoved = {
                                 otp = otp.take(index) + ' ' + otp.drop(index + 1)
                                 onValueChange(otp.trimSpaces())
+                            },
+                            onDigitsPasted = {
+                                // TODO: Support paste tooltip for input field even when fields are filled
+                                //  Also migrate to BasicTextField2 to ensure last text field cursor
+                                //  comes after the digit, not before. Wait for Compose MP 1.7
+                                otp = it
+                                onValueChange(otp)
+                                focusRequesters[lastIndex].requestFocus()
                             },
                             onEmptyBackspacePressed = {
                                 // Clear the last value
@@ -135,10 +145,13 @@ fun OtpInputField(
 private fun SingleOtpInput(
     digit: Int?,
     hasError: Boolean,
+    canEffectPaste: Boolean,
+    totalFields: Int,
     action: ImeAction,
     focusRequester: FocusRequester,
     onDigitEntered: (Int) -> Unit,
     onDigitRemoved: () -> Unit,
+    onDigitsPasted: (String) -> Unit,
     onEmptyBackspacePressed: () -> Unit,
 ) {
     InputField(
@@ -146,7 +159,8 @@ private fun SingleOtpInput(
             .focusRequester(focusRequester)
             .size(60.dp)
             .onPreviewKeyEvent {
-                // TODO: Research When key event starts working on iOS
+                // TODO: Wait till when key event starts working on iOS
+                //  https://github.com/JetBrains/compose-multiplatform/issues/4331
                 if (digit == null && it.isBackspaceKeyEvent()) {
                     onEmptyBackspacePressed()
                     true
@@ -164,7 +178,11 @@ private fun SingleOtpInput(
         cursorColor = Color.Unspecified,
         onValueChange = { value ->
             if (value.isNotEmpty()) {
-                if (value.last().isDigit()) onDigitEntered(value.last().toString().toInt())
+                if (canEffectPaste && isCopyPastedValue(value, totalFields)) {
+                    onDigitsPasted(value)
+                } else {
+                    if (value.last().isDigit()) onDigitEntered(value.last().toString().toInt())
+                }
             } else {
                 onDigitRemoved()
             }
@@ -208,6 +226,10 @@ private fun limitOtpDigits(text: String, numFields: Int): String {
         digits.take(numFields) // Truncate to fit numFields
     else
         digits.padEnd(numFields, ' ') // Pad with spaces to match numFields
+}
+
+private fun isCopyPastedValue(text: String, numFields: Int): Boolean {
+    return (text.length == numFields) && text.all { it.isDigit() }
 }
 
 private fun String.trimSpaces() = this.filter { it != ' ' }

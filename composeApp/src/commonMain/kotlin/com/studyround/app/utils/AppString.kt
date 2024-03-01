@@ -42,9 +42,11 @@ enum class AppStrings {
     INVALID_EMAIL_ERROR,
     BLANK_USERNAME_ERROR,
     INVALID_USERNAME_ERROR,
+    SHORT_USERNAME_ERROR,
     LONG_USERNAME_ERROR,
     EMPTY_PASSWORD_ERROR,
     SHORT_PASSWORD_ERROR,
+    NO_MATCH_PASSWORD_ERROR,
     ACCEPT_T_AND_C_ERROR,
     OTP_LIMIT_ERROR,
     SOMETHING_WRONG,
@@ -116,9 +118,11 @@ private val AppStrings.stringRes: StringResWrapper
         AppStrings.INVALID_EMAIL_ERROR -> StringRes(Res.string.invalid_email)
         AppStrings.BLANK_USERNAME_ERROR -> StringRes(Res.string.blank_username_warning)
         AppStrings.INVALID_USERNAME_ERROR -> StringRes(Res.string.invalid_username)
+        AppStrings.SHORT_USERNAME_ERROR -> StringRes(Res.string.short_username_warning)
         AppStrings.LONG_USERNAME_ERROR -> StringRes(Res.string.long_username_warning)
         AppStrings.EMPTY_PASSWORD_ERROR -> StringRes(Res.string.empty_password_warning)
         AppStrings.SHORT_PASSWORD_ERROR -> StringRes(Res.string.short_password_warning)
+        AppStrings.NO_MATCH_PASSWORD_ERROR -> StringRes(Res.string.match_password_warning)
         AppStrings.ACCEPT_T_AND_C_ERROR -> StringRes(Res.string.accept_terms_of_use_prompt)
         AppStrings.OTP_LIMIT_ERROR -> StringRes(Res.string.otp_limit_error)
         AppStrings.SOMETHING_WRONG -> StringRes(Res.string.something_wrong)

@@ -1,4 +1,4 @@
-package com.studyround.app.ui.features.auth.otp.expanded
+package com.studyround.app.ui.features.auth.register.expanded
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,11 +21,11 @@ import androidx.compose.ui.unit.dp
 import com.studyround.app.ui.composables.buttons.CircularIconButton
 import com.studyround.app.ui.composables.common.StudyRoundBackground
 import com.studyround.app.ui.composables.common.StudyRoundTextLogo
-import com.studyround.app.ui.features.auth.otp.BackPressed
-import com.studyround.app.ui.features.auth.otp.OtpFormContent
-import com.studyround.app.ui.features.auth.otp.OtpSubmitted
-import com.studyround.app.ui.features.auth.otp.OtpViewEvent
-import com.studyround.app.ui.features.auth.otp.OtpViewState
+import com.studyround.app.ui.features.auth.register.RegisterClicked
+import com.studyround.app.ui.features.auth.register.RegisterFormContent
+import com.studyround.app.ui.features.auth.register.RegisterTextFieldState
+import com.studyround.app.ui.features.auth.register.RegisterViewEvent
+import com.studyround.app.ui.features.auth.register.RegisterViewState
 import com.studyround.app.ui.theme.StudyRoundTheme
 import com.studyround.app.utils.getString
 import io.kamel.core.Resource
@@ -35,9 +35,10 @@ import studyround.composeapp.generated.resources.Res
 import studyround.composeapp.generated.resources.*
 
 @Composable
-fun ExpandedOtpScreen(
-    viewState: OtpViewState,
-    eventProcessor: (OtpViewEvent) -> Unit,
+fun ExpandedRegisterScreen(
+    viewState: RegisterViewState,
+    textFieldState: RegisterTextFieldState,
+    eventProcessor: (RegisterViewEvent) -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxSize(),
@@ -60,16 +61,17 @@ fun ExpandedOtpScreen(
                         vertical = 8.dp,
                         horizontal = 16.dp,
                     ),
-                    onBackPressed = { eventProcessor(BackPressed) },
                 )
 
-                OtpFormContent(
+                RegisterFormContent(
                     modifier = Modifier.fillMaxSize().padding(horizontal = 64.dp),
-                    otpText = viewState.otpText,
-                    title = viewState.title.getString(),
-                    hasResentOtp = viewState.hasResentOtp,
-                    resendOtpWaitSeconds = viewState.resendOtpWaitSeconds,
-                    otpValidationLoading = viewState.otpValidationLoading,
+                    usernameText = textFieldState.usernameText,
+                    passwordText = textFieldState.passwordText,
+                    passwordConfirmationText = textFieldState.passwordConfirmationText,
+                    usernameError = viewState.usernameError?.getString(),
+                    passwordError = viewState.passwordError?.getString(),
+                    passwordConfirmationError = viewState.passwordConfirmationError?.getString(),
+                    registrationLoading = viewState.registrationLoading,
                     showCta = false,
                     eventProcessor = eventProcessor,
                 )
@@ -81,7 +83,7 @@ fun ExpandedOtpScreen(
             ) {
                 KamelImage(
                     modifier = Modifier.fillMaxHeight(0.5f).aspectRatio(1f),
-                    resource = Resource.Success(painterResource(Res.drawable.illr_hand_phone)),
+                    resource = Resource.Success(painterResource(Res.drawable.illr_guy_msg)),
                     contentDescription = "Illustration",
                 )
             }
@@ -93,7 +95,7 @@ fun ExpandedOtpScreen(
             painter = painterResource(Res.drawable.ic_arrow_forward),
             iconColor = StudyRoundTheme.colors.white,
         ) {
-            eventProcessor(OtpSubmitted)
+            eventProcessor(RegisterClicked)
         }
     }
 }
