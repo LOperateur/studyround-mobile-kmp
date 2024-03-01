@@ -45,6 +45,10 @@ class RegisterViewModel(
         displayLocalValidationErrors()
     }
 
+    fun initArgs(passToken: String? = null) {
+        this.passToken = passToken
+    }
+
     override fun processEvent(event: RegisterViewEvent) {
         when (event) {
             is UsernameTextChanged -> {
@@ -131,11 +135,11 @@ class RegisterViewModel(
 
     private fun checkPasswordConfirmationValidity(password: String): Boolean {
         if (password.isEmpty()) {
-            _viewState.update { state -> state.copy(passwordError = AppString(AppStrings.EMPTY_PASSWORD_ERROR)) }
+            _viewState.update { state -> state.copy(passwordConfirmationError = AppString(AppStrings.EMPTY_PASSWORD_ERROR)) }
         } else if (password != registerTextFieldState.passwordText) {
-            _viewState.update { state -> state.copy(passwordError = AppString(AppStrings.NO_MATCH_PASSWORD_ERROR)) }
+            _viewState.update { state -> state.copy(passwordConfirmationError = AppString(AppStrings.NO_MATCH_PASSWORD_ERROR)) }
         } else {
-            _viewState.update { state -> state.copy(passwordError = null) }
+            _viewState.update { state -> state.copy(passwordConfirmationError = null) }
             return true
         }
         return false

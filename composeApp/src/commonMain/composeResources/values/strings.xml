@@ -7,8 +7,10 @@
     <string name="sign_up">Sign up</string>
     <string name="sign_up_google">Sign up with Google</string>
     <string name="sign_up_arrow">Sign up →</string>
+    <string name="username">Username</string>
     <string name="email_username">Email or username</string>
     <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
     <string name="forgot_password_prompt">Forgot Password?</string>
     <string name="hello_greeting">Hello There</string>
     <string name="terms_of_use">Terms of Use</string>
@@ -34,4 +36,5 @@
     <string name="resend_otp">Resend Code</string>
     <string name="seconds_countdown">in %1$d second(s)</string>
     <string name="otp_limit_error">Please enter all OTP digits</string>
+    <string name="complete_registration">Complete Registration</string>
 </resources>

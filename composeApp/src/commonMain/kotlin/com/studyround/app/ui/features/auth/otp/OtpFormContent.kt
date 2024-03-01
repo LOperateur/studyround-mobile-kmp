@@ -41,9 +41,7 @@ fun OtpFormContent(
     eventProcessor: (OtpViewEvent) -> Unit,
 ) {
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp),
+        modifier = modifier,
         contentAlignment = Alignment.BottomCenter,
     ) {
         Column(
