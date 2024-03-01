@@ -7,4 +7,7 @@ interface AppPreferences {
 
     val isCarouselViewed: Boolean
     fun setCarouselViewed()
+
+    val shouldDisplaySurveyScreen: Boolean
+    fun setDisplaySurveyScreen(shouldDisplay: Boolean)
 }

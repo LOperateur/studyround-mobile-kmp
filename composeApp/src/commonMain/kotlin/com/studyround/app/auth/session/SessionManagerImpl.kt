@@ -12,6 +12,7 @@ import com.studyround.app.platform.auth.GoogleAuthProvider
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.wrappedResourceFlow
 import com.studyround.app.service.login.LoginService
+import com.studyround.app.storage.AppPreferences
 import com.studyround.app.storage.CredentialsManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +23,7 @@ class SessionManagerImpl(
     private val googleAuthProvider: GoogleAuthProvider,
     private val credentialsManager: CredentialsManager,
     private val loginService: LoginService,
+    private val appPreferences: AppPreferences,
 ) : SessionManager {
 
     override val isSignedIn: StateFlow<Boolean>
@@ -88,7 +90,8 @@ class SessionManagerImpl(
                 is Resource.Loading -> Resource.Loading(data = it.data?.user)
                 is Resource.Error -> Resource.Error(data = it.data?.user, cause = it.cause)
                 is Resource.Success -> {
-                    if (!isSignup) { /* Todo: Indicate marketing screen to not be shown */ }
+                    // If logging in, skip the registration survey
+                    if (!isSignup) appPreferences.setDisplaySurveyScreen(false)
                     saveCredentials(it.data)
                     Resource.Success(data = it.data.user, message = it.message)
                 }

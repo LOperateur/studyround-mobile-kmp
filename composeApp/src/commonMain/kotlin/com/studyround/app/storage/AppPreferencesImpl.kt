@@ -18,8 +18,16 @@ class AppPreferencesImpl(private val settings: ObservableSettings) : AppPreferen
         settings[KEY_IS_CAROUSEL_VIEWED] = true
     }
 
+    override val shouldDisplaySurveyScreen: Boolean
+        get() = settings.getBoolean(DISPLAY_SURVEY_SCREEN, true)
+
+    override fun setDisplaySurveyScreen(shouldDisplay: Boolean) {
+        settings[DISPLAY_SURVEY_SCREEN] = shouldDisplay
+    }
+
     companion object {
         const val KEY_DARK_MODE = "key_dark_mode"
         const val KEY_IS_CAROUSEL_VIEWED = "key_is_carousel_viewed"
+        const val DISPLAY_SURVEY_SCREEN = "key_display_survey_screen"
     }
 }

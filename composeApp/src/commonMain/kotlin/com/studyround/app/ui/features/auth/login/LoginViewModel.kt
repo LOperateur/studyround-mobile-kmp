@@ -28,7 +28,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -139,7 +138,6 @@ class LoginViewModel(
     private fun displayLocalValidationErrors() {
         screenModelScope.launch {
             snapshotFlow { loginTextFieldState }
-                .distinctUntilChanged()
                 .collect {
                     with(it) {
                         if (hasAttemptedLogin) {
