@@ -273,9 +273,13 @@ class LoginViewModel(
                     _viewState.update { state ->
                         state.copy(googleLoginLoading = false, googleSignupLoading = false)
                     }
+
+                    val googleAuthError = if (isSignup) AppStrings.GOOGLE_SIGN_UP_ERROR
+                    else AppStrings.GOOGLE_SIGN_IN_ERROR
+
                     _viewEffects.send(
                         ShowAlert(
-                            message = AppString.textOrError(it.cause.message),
+                            message = AppString(googleAuthError),
                             type = AlertBannerType.Error,
                         )
                     )

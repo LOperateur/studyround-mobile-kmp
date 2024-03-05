@@ -49,6 +49,8 @@ enum class AppStrings {
     NO_MATCH_PASSWORD_ERROR,
     ACCEPT_T_AND_C_ERROR,
     OTP_LIMIT_ERROR,
+    GOOGLE_SIGN_IN_ERROR,
+    GOOGLE_SIGN_UP_ERROR,
     SOMETHING_WRONG,
 
     // Prompts/Text
@@ -125,6 +127,8 @@ private val AppStrings.stringRes: StringResWrapper
         AppStrings.NO_MATCH_PASSWORD_ERROR -> StringRes(Res.string.match_password_warning)
         AppStrings.ACCEPT_T_AND_C_ERROR -> StringRes(Res.string.accept_terms_of_use_prompt)
         AppStrings.OTP_LIMIT_ERROR -> StringRes(Res.string.otp_limit_error)
+        AppStrings.GOOGLE_SIGN_IN_ERROR -> StringRes(Res.string.google_sign_in_error)
+        AppStrings.GOOGLE_SIGN_UP_ERROR -> StringRes(Res.string.google_sign_up_error)
         AppStrings.SOMETHING_WRONG -> StringRes(Res.string.something_wrong)
 
         AppStrings.EMAIL_CONFIRMATION -> StringRes(Res.string.email_verification)

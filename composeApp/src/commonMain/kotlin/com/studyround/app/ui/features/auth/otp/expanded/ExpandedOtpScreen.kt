@@ -92,6 +92,7 @@ fun ExpandedOtpScreen(
             iconPadding = PaddingValues(0.dp),
             painter = painterResource(Res.drawable.ic_arrow_forward),
             iconColor = StudyRoundTheme.colors.white,
+            showLoading = viewState.otpValidationLoading,
         ) {
             eventProcessor(OtpSubmitted)
         }

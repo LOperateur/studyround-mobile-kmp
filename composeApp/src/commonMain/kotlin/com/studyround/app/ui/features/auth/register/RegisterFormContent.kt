@@ -90,6 +90,7 @@ fun RegisterFormContent(
                 text = passwordText,
                 hasError = !passwordError.isNullOrEmpty(),
                 hint = stringResource(Res.string.password),
+                action = ImeAction.Next,
                 onValueChange = { eventProcessor(PasswordTextChanged(it)) },
             )
 
