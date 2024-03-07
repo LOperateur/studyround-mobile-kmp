@@ -46,7 +46,7 @@ class RootViewModel(
     private fun signedInNavigationPath() {
         screenModelScope.launch {
             if (appPreferences.shouldDisplaySurveyScreen) {
-                _viewEffects.send(Navigate(RootDestination.Survey, true))
+                _viewEffects.send(Navigate(RootDestination.RegSurvey, true))
             } else {
                 _viewEffects.send(Navigate(RootDestination.Home, true))
             }
