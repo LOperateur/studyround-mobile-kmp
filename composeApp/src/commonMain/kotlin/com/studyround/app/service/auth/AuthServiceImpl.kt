@@ -1,4 +1,4 @@
-package com.studyround.app.service.login
+package com.studyround.app.service.auth
 
 import com.studyround.app.data.remote.dto.AccessToken
 import com.studyround.app.data.remote.dto.AuthUser
@@ -17,9 +17,9 @@ import io.ktor.http.contentType
 import io.ktor.http.parameters
 import io.ktor.http.path
 
-class LoginServiceImpl(
+class AuthServiceImpl(
     private val httpClient: HttpClient,
-) : LoginService {
+) : AuthService {
     override suspend fun signup(
         username: String,
         password: String,

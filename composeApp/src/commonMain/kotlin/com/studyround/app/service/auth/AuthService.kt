@@ -1,4 +1,4 @@
-package com.studyround.app.service.login
+package com.studyround.app.service.auth
 
 import com.studyround.app.data.remote.dto.AccessToken
 import com.studyround.app.data.remote.dto.AuthUser
@@ -8,7 +8,7 @@ import com.studyround.app.data.remote.request.AuthType
 import com.studyround.app.data.remote.response.StudyRoundResponse
 
 // TODO: Consider renaming to AuthService
-interface LoginService {
+interface AuthService {
     suspend fun signup(
         username: String,
         password: String,

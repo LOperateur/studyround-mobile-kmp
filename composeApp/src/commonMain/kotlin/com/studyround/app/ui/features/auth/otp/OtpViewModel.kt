@@ -2,7 +2,7 @@ package com.studyround.app.ui.features.auth.otp
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.studyround.app.data.remote.request.AuthType
-import com.studyround.app.repository.login.LoginRepository
+import com.studyround.app.repository.auth.AuthRepository
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.windowedLoadDebounce
 import com.studyround.app.ui.composables.alert.AlertBannerType
@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 class OtpViewModel(
-    private val loginRepository: LoginRepository,
+    private val authRepository: AuthRepository,
 ) : UdfViewModel<OtpViewState, OtpViewEvent>(), WithEffects<OtpViewEffect> {
 
     private val _viewState = MutableStateFlow(OtpViewState())
@@ -119,7 +119,7 @@ class OtpViewModel(
     }
 
     private suspend fun validateOtp(otpId: Int, otp: String) {
-        loginRepository.validateOtp(otpId, otp)
+        authRepository.validateOtp(otpId, otp)
             .windowedLoadDebounce().collect {
                 when (it) {
                     is Resource.Loading -> {
@@ -162,7 +162,7 @@ class OtpViewModel(
     }
 
     private suspend fun resendOtp(email: String, authType: AuthType) {
-        loginRepository.generateOtp(email, authType, true)
+        authRepository.generateOtp(email, authType, true)
             .windowedLoadDebounce().collect {
                 when (it) {
                     is Resource.Loading -> {

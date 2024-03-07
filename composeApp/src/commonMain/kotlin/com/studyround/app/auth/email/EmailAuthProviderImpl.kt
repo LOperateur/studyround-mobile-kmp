@@ -3,17 +3,17 @@ package com.studyround.app.auth.email
 import com.studyround.app.data.remote.dto.AuthUser
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.wrappedResourceFlow
-import com.studyround.app.service.login.LoginService
+import com.studyround.app.service.auth.AuthService
 import kotlinx.coroutines.flow.Flow
 
-internal class EmailAuthProviderImpl(private val loginService: LoginService) : EmailAuthProvider {
+internal class EmailAuthProviderImpl(private val authService: AuthService) : EmailAuthProvider {
     override fun signup(
         username: String,
         password: String,
         passToken: String,
     ): Flow<Resource<AuthUser>> {
         return wrappedResourceFlow {
-            loginService.signup(username, password, passToken)
+            authService.signup(username, password, passToken)
         }
     }
 
@@ -22,7 +22,7 @@ internal class EmailAuthProviderImpl(private val loginService: LoginService) : E
         password: String,
     ): Flow<Resource<AuthUser>> {
         return wrappedResourceFlow {
-            loginService.login(userIdentity, password)
+            authService.login(userIdentity, password)
         }
     }
 
@@ -31,7 +31,7 @@ internal class EmailAuthProviderImpl(private val loginService: LoginService) : E
         passToken: String,
     ): Flow<Resource<AuthUser>> {
         return wrappedResourceFlow {
-            loginService.resetPassword(password, passToken)
+            authService.resetPassword(password, passToken)
         }
     }
 }

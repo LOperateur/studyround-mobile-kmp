@@ -1,18 +1,16 @@
-package com.studyround.app.repository.login
+package com.studyround.app.repository.auth
 
 import com.studyround.app.data.remote.dto.Otp
 import com.studyround.app.data.remote.dto.PassToken
 import com.studyround.app.data.remote.request.AuthType
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.wrappedResourceFlow
-import com.studyround.app.service.login.LoginService
-import kotlinx.coroutines.delay
+import com.studyround.app.service.auth.AuthService
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
-class LoginRepositoryImpl(
-    private val loginService: LoginService,
-) : LoginRepository {
+class AuthRepositoryImpl(
+    private val authService: AuthService,
+) : AuthRepository {
 
     override fun generateOtp(
         email: String,
@@ -20,13 +18,13 @@ class LoginRepositoryImpl(
         resend: Boolean,
     ): Flow<Resource<Otp>> {
         return wrappedResourceFlow {
-            loginService.generateOtp(email, authType, resend)
+            authService.generateOtp(email, authType, resend)
         }
     }
 
     override fun validateOtp(otpId: Int, otp: String): Flow<Resource<PassToken>> {
         return wrappedResourceFlow {
-            loginService.validateOtp(otpId, otp)
+            authService.validateOtp(otpId, otp)
         }
     }
 }

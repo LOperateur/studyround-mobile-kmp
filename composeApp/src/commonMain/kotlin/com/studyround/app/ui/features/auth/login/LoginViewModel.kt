@@ -10,7 +10,7 @@ import com.studyround.app.auth.model.GoogleAuthType
 import com.studyround.app.auth.session.SessionManager
 import com.studyround.app.data.remote.request.AuthType
 import com.studyround.app.platform.ui.PlatformContext
-import com.studyround.app.repository.login.LoginRepository
+import com.studyround.app.repository.auth.AuthRepository
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.windowedLoadDebounce
 import com.studyround.app.ui.composables.alert.AlertBannerType
@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val sessionManager: SessionManager,
-    private val loginRepository: LoginRepository,
+    private val authRepository: AuthRepository,
 ) : UdfViewModel<LoginViewState, LoginViewEvent>(), WithEffects<LoginViewEffect> {
 
     private val _viewState = MutableStateFlow(LoginViewState())
@@ -289,7 +289,7 @@ class LoginViewModel(
     }
 
     private suspend fun generateOtp(email: String, authType: AuthType) {
-        loginRepository.generateOtp(email, authType, false)
+        authRepository.generateOtp(email, authType, false)
             .windowedLoadDebounce().collect {
                 when (it) {
                     is Resource.Loading -> {

@@ -11,7 +11,7 @@ import com.studyround.app.data.remote.dto.User
 import com.studyround.app.platform.auth.GoogleAuthProvider
 import com.studyround.app.service.data.resource.Resource
 import com.studyround.app.service.data.resource.wrappedResourceFlow
-import com.studyround.app.service.login.LoginService
+import com.studyround.app.service.auth.AuthService
 import com.studyround.app.storage.AppPreferences
 import com.studyround.app.storage.CredentialsManager
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +22,7 @@ class SessionManagerImpl(
     private val emailAuthProvider: EmailAuthProvider,
     private val googleAuthProvider: GoogleAuthProvider,
     private val credentialsManager: CredentialsManager,
-    private val loginService: LoginService,
+    private val authService: AuthService,
     private val appPreferences: AppPreferences,
 ) : SessionManager {
 
@@ -42,7 +42,7 @@ class SessionManagerImpl(
             is GoogleAuthType -> {
                 wrappedResourceFlow {
                     val idToken = googleAuthProvider.login(type.context).token
-                    loginService.googleOauth(idToken)
+                    authService.googleOauth(idToken)
                 }.toUserResourceFlow(true)
             }
         }
@@ -60,7 +60,7 @@ class SessionManagerImpl(
             is GoogleAuthType -> {
                 wrappedResourceFlow {
                     val idToken = googleAuthProvider.login(type.context).token
-                    loginService.googleOauth(idToken)
+                    authService.googleOauth(idToken)
                 }.toUserResourceFlow(false)
             }
         }
@@ -80,7 +80,7 @@ class SessionManagerImpl(
 
     override fun refreshToken(refreshToken: String): Flow<Resource<AccessToken>> {
         return wrappedResourceFlow {
-            loginService.refreshToken(refreshToken)
+            authService.refreshToken(refreshToken)
         }
     }
 
