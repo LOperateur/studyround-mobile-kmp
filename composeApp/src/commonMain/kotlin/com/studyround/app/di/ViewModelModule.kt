@@ -4,6 +4,7 @@ import com.studyround.app.ui.composables.alert.AlertBannerViewModel
 import com.studyround.app.ui.features.auth.login.LoginViewModel
 import com.studyround.app.ui.features.auth.otp.OtpViewModel
 import com.studyround.app.ui.features.auth.register.RegisterViewModel
+import com.studyround.app.ui.features.survey.RegSurveyViewModel
 import com.studyround.app.ui.main.RootViewModel
 import org.koin.dsl.module
 
@@ -13,4 +14,5 @@ val viewModelModule = module {
     factory { LoginViewModel(get(), get()) }
     factory { OtpViewModel(get()) }
     factory { RegisterViewModel(get()) }
+    factory { RegSurveyViewModel() }
 }

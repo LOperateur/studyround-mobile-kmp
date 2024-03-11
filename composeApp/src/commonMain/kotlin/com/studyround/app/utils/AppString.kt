@@ -56,6 +56,18 @@ enum class AppStrings {
     // Prompts/Text
     EMAIL_CONFIRMATION,
     OTP_VERIFICATION,
+    STUDENT_OCCUPATION,
+    PROFESSIONAL_OCCUPATION,
+    PRIMARY_GRADE,
+    SECONDARY_GRADE,
+    TERTIARY_GRADE,
+    POST_GRADUATE_GRADE,
+    GOOGLE,
+    FACEBOOK,
+    INSTAGRAM,
+    EMAIL,
+    FRIEND_RECOMMENDATION,
+    OTHER,
 
     // Alerts/Messages
     OTP_SENT_ALERT,
@@ -133,6 +145,19 @@ private val AppStrings.stringRes: StringResWrapper
 
         AppStrings.EMAIL_CONFIRMATION -> StringRes(Res.string.email_verification)
         AppStrings.OTP_VERIFICATION -> StringRes(Res.string.otp_confirmation)
+        AppStrings.STUDENT_OCCUPATION -> StringRes(Res.string.student_occupation)
+        AppStrings.PROFESSIONAL_OCCUPATION -> StringRes(Res.string.professional_occupation)
+        AppStrings.PRIMARY_GRADE -> StringRes(Res.string.primary_grade)
+        AppStrings.SECONDARY_GRADE -> StringRes(Res.string.secondary_grade)
+        AppStrings.TERTIARY_GRADE -> StringRes(Res.string.tertiary_grade)
+        AppStrings.POST_GRADUATE_GRADE -> StringRes(Res.string.post_graduate_grade)
+        AppStrings.GOOGLE -> StringRes(Res.string.google)
+        AppStrings.FACEBOOK -> StringRes(Res.string.facebook)
+        AppStrings.INSTAGRAM -> StringRes(Res.string.instagram)
+        AppStrings.EMAIL -> StringRes(Res.string.email)
+        AppStrings.FRIEND_RECOMMENDATION -> StringRes(Res.string.friend_recommendation)
+        AppStrings.OTHER -> StringRes(Res.string.other)
+
 
         AppStrings.OTP_SENT_ALERT -> StringRes(Res.string.otp_sent_alert)
         AppStrings.SUCCESS -> StringRes(Res.string.success_alert)

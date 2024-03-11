@@ -39,4 +39,20 @@
     <string name="google_sign_in_error">Google sign in error, please try again or reset your password</string>
     <string name="google_sign_up_error">Google sign in error, please try again or use your email address</string>
     <string name="complete_registration">Complete Registration</string>
+    <string name="occupation_question">What is your Occupation?</string>
+    <string name="grade_question">What is your Grade?</string>
+    <string name="job_title_question">What is your Job Title?</string>
+    <string name="awareness_question">How did you hear about us?</string>
+    <string name="student_occupation">Student</string>
+    <string name="professional_occupation">Professional</string>
+    <string name="primary_grade">Primary</string>
+    <string name="secondary_grade">Secondary</string>
+    <string name="tertiary_grade">Tertiary</string>
+    <string name="post_graduate_grade">Post Graduate</string>
+    <string name="google">Google</string>
+    <string name="facebook">Facebook</string>
+    <string name="instagram">Instagram</string>
+    <string name="email">Email</string>
+    <string name="friend_recommendation">Recommended by Friend</string>
+    <string name="other">Other</string>
 </resources>
