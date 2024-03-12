@@ -1,5 +1,6 @@
 package com.studyround.app.ui.features.survey
 
+import com.studyround.app.utils.AppString
 import com.studyround.app.utils.AppStrings
 
 data class RegSurveyViewState(
@@ -12,14 +13,14 @@ data class RegSurveyViewState(
     val occupations = listOf(
         AppStrings.STUDENT_OCCUPATION,
         AppStrings.PROFESSIONAL_OCCUPATION,
-    )
+    ).map { AppString(it) }
 
     val grades = listOf(
         AppStrings.PRIMARY_GRADE,
         AppStrings.SECONDARY_GRADE,
         AppStrings.TERTIARY_GRADE,
         AppStrings.POST_GRADUATE_GRADE,
-    )
+    ).map { AppString(it) }
 
     val awarenessSources = listOf(
         AppStrings.GOOGLE,
@@ -28,7 +29,7 @@ data class RegSurveyViewState(
         AppStrings.EMAIL,
         AppStrings.FRIEND_RECOMMENDATION,
         AppStrings.OTHER,
-    )
+    ).map { AppString(it) }
 }
 
 data class RegSurveyTextFieldState(val professionText: String = "")

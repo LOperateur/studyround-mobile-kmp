@@ -16,7 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.studyround.app.ui.composables.buttons.CircularIconButton
+import com.studyround.app.ui.composables.dropdown.DropdownInputField
 import com.studyround.app.ui.theme.StudyRoundTheme
+import com.studyround.app.utils.getString
 import org.jetbrains.compose.resources.painterResource
 import studyround.composeapp.generated.resources.Res
 import studyround.composeapp.generated.resources.*
@@ -24,10 +26,10 @@ import studyround.composeapp.generated.resources.*
 @Composable
 fun RegSurveyFormContent(
     modifier: Modifier = Modifier,
+    viewState: RegSurveyViewState,
     showCta: Boolean,
     eventProcessor: (RegSurveyViewEvent) -> Unit,
 ) {
-
     Box(
         modifier = modifier,
         contentAlignment = Alignment.BottomCenter,
@@ -39,7 +41,13 @@ fun RegSurveyFormContent(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Top,
         ) {
-
+            DropdownInputField(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                text = viewState.occupationSelection ?: "Please select...",
+                items = viewState.occupations.map { it.getString() },
+                selectedItem = viewState.occupationSelection,
+                onItemSelected = { eventProcessor(OccupationDropdownItemSelected(it)) },
+            )
         }
 
         Row(

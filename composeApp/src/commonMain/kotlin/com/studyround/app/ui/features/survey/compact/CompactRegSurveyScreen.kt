@@ -34,6 +34,7 @@ fun CompactRegSurveyScreen(
         RegSurveyFormContent(
             modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
             showCta = true,
+            viewState = viewState,
             eventProcessor = eventProcessor,
         )
     }

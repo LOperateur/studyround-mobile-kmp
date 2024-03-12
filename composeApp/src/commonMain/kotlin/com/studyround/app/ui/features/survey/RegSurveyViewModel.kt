@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 
 class RegSurveyViewModel : UdfViewModel<RegSurveyViewState, RegSurveyViewEvent>(),
     WithEffects<RegSurveyViewEffect> {
@@ -27,7 +28,14 @@ class RegSurveyViewModel : UdfViewModel<RegSurveyViewState, RegSurveyViewEvent>(
         private set
 
     override fun processEvent(event: RegSurveyViewEvent) {
-
+        when (event) {
+            is OccupationDropdownItemSelected -> {
+                _viewState.update { it.copy(occupationSelection = event.occupation) }
+            }
+            else -> {
+                // do nothing
+            }
+        }
     }
 
 }

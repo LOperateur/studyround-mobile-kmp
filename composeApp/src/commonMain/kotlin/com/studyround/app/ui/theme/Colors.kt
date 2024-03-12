@@ -12,8 +12,8 @@ val MaterialLightColors = lightColors(
     secondary = StudyRoundColors.Light.secondary,
     background = StudyRoundColors.Light.tone1,
     surface = StudyRoundColors.Light.tone1,
-    onPrimary = StudyRoundColors.Dark.tone4, // Text
-    onSecondary = StudyRoundColors.Dark.tone4, // Text
+    onPrimary = StudyRoundColors.Light.tone4, // Text
+    onSecondary = StudyRoundColors.Light.tone4, // Text
     onBackground = StudyRoundColors.Light.tone4, // Text
     onSurface = StudyRoundColors.Light.tone4, // Text
 )
