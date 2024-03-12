@@ -20,6 +20,7 @@ import com.studyround.app.ui.composables.dropdown.DropdownInputField
 import com.studyround.app.ui.theme.StudyRoundTheme
 import com.studyround.app.utils.getString
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import studyround.composeapp.generated.resources.Res
 import studyround.composeapp.generated.resources.*
 
@@ -43,7 +44,7 @@ fun RegSurveyFormContent(
         ) {
             DropdownInputField(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-                text = viewState.occupationSelection ?: "Please select...",
+                text = viewState.occupationSelection ?: stringResource(Res.string.please_select_placeholder),
                 items = viewState.occupations.map { it.getString() },
                 selectedItem = viewState.occupationSelection,
                 onItemSelected = { eventProcessor(OccupationDropdownItemSelected(it)) },

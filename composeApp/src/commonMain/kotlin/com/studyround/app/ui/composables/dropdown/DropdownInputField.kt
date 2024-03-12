@@ -20,7 +20,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
@@ -29,14 +28,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.PopupProperties
 import com.studyround.app.ui.composables.input.innerShadow
 import com.studyround.app.ui.theme.StudyRoundTheme
 import org.jetbrains.compose.resources.painterResource
 import studyround.composeapp.generated.resources.Res
-import studyround.composeapp.generated.resources.ic_expand_more
+import studyround.composeapp.generated.resources.*
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun DropdownInputField(
     modifier: Modifier = Modifier,
@@ -101,27 +98,27 @@ fun DropdownInputField(
         DropdownMenu(
             modifier = Modifier.wrapContentWidth(),
             expanded = isExpanded,
-            properties = PopupProperties(usePlatformDefaultWidth = true),
             onDismissRequest = { isExpanded = false },
         ) {
             items.forEach { value ->
                 val isSelected = selectedItem == value
                 Text(
                     modifier = Modifier
-                        .wrapContentWidth()
-                        .padding(vertical = 8.dp, horizontal = 16.dp)
+                        .fillMaxWidth()
                         .background(
                             color = if (isSelected) {
-                                StudyRoundTheme.colors.secondary
+                                StudyRoundTheme.colors.deviation_secondary1_secondary3
                             } else {
-                                StudyRoundTheme.colors.white
+                                Color.Transparent
                             }
                         )
                         .clickable {
                             isExpanded = false
                             onItemSelected(value)
-                        },
+                        }
+                        .padding(vertical = 8.dp, horizontal = 16.dp),
                     text = value,
+                    style = StudyRoundTheme.typography.bodySmall,
                 )
             }
         }
