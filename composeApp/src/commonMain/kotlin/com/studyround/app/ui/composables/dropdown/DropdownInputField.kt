@@ -52,49 +52,49 @@ fun DropdownInputField(
     )
     val iconId = Res.drawable.ic_expand_more
 
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(28.dp))
-            .innerShadow(false, RoundedCornerShape(28.dp))
-            .background(color = backgroundColor)
-            .clickable {
-                focusManager.clearFocus()
-                isExpanded = !isExpanded
-            },
-    ) {
-        Row(
-            modifier = Modifier
+    // Wrapping the drop down in a Box so it draws it below the anchor view
+    Box {
+        Box(
+            modifier = modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 20.dp, top = 14.dp, bottom = 14.dp)
-                .align(Alignment.Center),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+                .clip(RoundedCornerShape(28.dp))
+                .innerShadow(false, RoundedCornerShape(28.dp))
+                .background(color = backgroundColor)
+                .clickable {
+                    focusManager.clearFocus()
+                    isExpanded = !isExpanded
+                },
         ) {
-            Column(
+            Row(
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 18.dp),
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 20.dp, top = 14.dp, bottom = 14.dp)
+                    .align(Alignment.Center),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(
-                    text = text,
-                    style = StudyRoundTheme.typography.bodySmall,
-                    color = textColor,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 18.dp),
+                ) {
+                    Text(
+                        text = text,
+                        style = StudyRoundTheme.typography.bodySmall,
+                        color = textColor,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1,
+                    )
+                }
+                Icon(
+                    modifier = Modifier.rotate(iconRotation.value),
+                    painter = painterResource(iconId),
+                    contentDescription = null,
+                    tint = textColor,
                 )
             }
-            Icon(
-                modifier = Modifier.rotate(iconRotation.value),
-                painter = painterResource(iconId),
-                contentDescription = null,
-                tint = textColor,
-            )
         }
-    }
 
-    // Wrapping the drop down in a Box somehow draws it below the anchor view
-    Box {
         DropdownMenu(
             modifier = Modifier.wrapContentWidth(),
             expanded = isExpanded,
