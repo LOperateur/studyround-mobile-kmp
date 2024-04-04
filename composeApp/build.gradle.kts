@@ -97,8 +97,6 @@ kotlin {
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
     }
-
-    task("testClasses")
 }
 
 android {
@@ -176,4 +174,7 @@ android {
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
     }
+
+    // TODO: Keep an eye on when to remove this with every AS update
+    task("testClasses")
 }
