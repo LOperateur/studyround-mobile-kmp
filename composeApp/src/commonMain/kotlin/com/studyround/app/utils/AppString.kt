@@ -17,8 +17,8 @@ import studyround.composeapp.generated.resources.*
  * @property appString The predefined string constant from [AppStrings], if applicable.
  */
 data class AppString(
-    internal val dynamicText: String?,
-    internal val appString: AppStrings?,
+    private val dynamicText: String?,
+    private val appString: AppStrings?,
 ) {
     constructor(dynamicText: String) : this(dynamicText = dynamicText, appString = null)
     constructor(appString: AppStrings) : this(appString = appString, dynamicText = null)
@@ -29,6 +29,46 @@ data class AppString(
 
         fun textOrError(dynamicText: String?): AppString =
             AppString(dynamicText, AppStrings.SOMETHING_WRONG)
+    }
+
+    /**
+     * Retrieves the string representation of the [AppString]. If the [AppString] has dynamic text, it returns that text,
+     * otherwise, it fetches the corresponding string resource based on the [AppString] property.
+     *
+     * @param quantity The quantity for pluralization, if applicable.
+     * @param args Additional format arguments for the string resource.
+     * @return The localized string.
+     * @throws Exception if the AppString is not defined.
+     */
+    suspend fun loadString(quantity: Int = 0, vararg args: Any): String {
+        return dynamicText ?: run {
+            when (val resource = appString?.stringRes) {
+                is StringRes -> org.jetbrains.compose.resources.getString(resource.resId, *args)
+                is PluralRes -> org.jetbrains.compose.resources.getString(resource.resId, quantity, *args)
+                else -> throw Exception("App String not defined")
+            }
+        }
+    }
+
+    /**
+     * Composable function to retrieve the string representation of the [AppString] in a Compose context.
+     * If the [AppString] has dynamic text, it returns that text,
+     * otherwise, it fetches the corresponding string resource based on the [AppString] property.
+     *
+     * @param quantity The quantity for pluralization, if applicable.
+     * @param args Additional format arguments for the string resource.
+     * @return The localized string.
+     * @throws Exception if the AppString is not defined.
+     */
+    @Composable
+    fun getString(quantity: Int = 0, vararg args: Any): String {
+        return dynamicText ?: run {
+            when (val resource = appString?.stringRes) {
+                is StringRes -> stringResource(resource.resId, *args)
+                is PluralRes -> stringResource(resource.resId, quantity, *args)
+                else -> throw Exception("App String not defined")
+            }
+        }
     }
 }
 
@@ -81,46 +121,6 @@ enum class AppStrings {
 sealed class StringResWrapper {
     data class StringRes(val resId: StringResource) : StringResWrapper()
     data class PluralRes(val resId: StringResource) : StringResWrapper()
-}
-
-/**
- * Retrieves the string representation of the [AppString]. If the [AppString] has dynamic text, it returns that text,
- * otherwise, it fetches the corresponding string resource based on the [AppString] property.
- *
- * @param quantity The quantity for pluralization, if applicable.
- * @param args Additional format arguments for the string resource.
- * @return The localized string.
- * @throws Exception if the AppString is not defined.
- */
-suspend fun AppString.loadString(quantity: Int = 0, vararg args: Any): String {
-    return dynamicText ?: run {
-        when (val resource = appString?.stringRes) {
-            is StringRes -> org.jetbrains.compose.resources.getString(resource.resId, *args)
-            is PluralRes -> org.jetbrains.compose.resources.getString(resource.resId, quantity, *args)
-            else -> throw Exception("App String not defined")
-        }
-    }
-}
-
-/**
- * Composable function to retrieve the string representation of the [AppString] in a Compose context.
- * If the [AppString] has dynamic text, it returns that text,
- * otherwise, it fetches the corresponding string resource based on the [AppString] property.
- *
- * @param quantity The quantity for pluralization, if applicable.
- * @param args Additional format arguments for the string resource.
- * @return The localized string.
- * @throws Exception if the AppString is not defined.
- */
-@Composable
-fun AppString.getString(quantity: Int = 0, vararg args: Any): String {
-    return dynamicText ?: run {
-        when (val resource = appString?.stringRes) {
-            is StringRes -> stringResource(resource.resId, *args)
-            is PluralRes -> stringResource(resource.resId, quantity, *args)
-            else -> throw Exception("App String not defined")
-        }
-    }
 }
 
 /**

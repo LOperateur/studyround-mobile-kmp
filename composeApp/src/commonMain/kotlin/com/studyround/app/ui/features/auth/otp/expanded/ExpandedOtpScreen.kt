@@ -27,7 +27,6 @@ import com.studyround.app.ui.features.auth.otp.OtpSubmitted
 import com.studyround.app.ui.features.auth.otp.OtpViewEvent
 import com.studyround.app.ui.features.auth.otp.OtpViewState
 import com.studyround.app.ui.theme.StudyRoundTheme
-import com.studyround.app.utils.getString
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import org.jetbrains.compose.resources.painterResource

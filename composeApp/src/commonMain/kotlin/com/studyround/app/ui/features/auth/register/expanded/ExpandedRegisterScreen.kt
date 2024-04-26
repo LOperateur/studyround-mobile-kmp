@@ -27,7 +27,6 @@ import com.studyround.app.ui.features.auth.register.RegisterTextFieldState
 import com.studyround.app.ui.features.auth.register.RegisterViewEvent
 import com.studyround.app.ui.features.auth.register.RegisterViewState
 import com.studyround.app.ui.theme.StudyRoundTheme
-import com.studyround.app.utils.getString
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import org.jetbrains.compose.resources.painterResource

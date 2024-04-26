@@ -13,7 +13,6 @@ import com.studyround.app.ui.composables.alert.LocalAlertManager
 import com.studyround.app.ui.features.survey.compact.CompactRegSurveyScreen
 import com.studyround.app.ui.features.survey.expanded.ExpandedRegSurveyScreen
 import com.studyround.app.ui.utils.isTabletLandscapeMode
-import com.studyround.app.utils.loadString
 
 class RegSurveyScreen : Screen {
 

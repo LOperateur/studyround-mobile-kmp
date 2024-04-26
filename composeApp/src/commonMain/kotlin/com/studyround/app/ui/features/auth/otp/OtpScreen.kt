@@ -18,7 +18,6 @@ import com.studyround.app.ui.features.auth.otp.compact.CompactOtpScreen
 import com.studyround.app.ui.features.auth.otp.expanded.ExpandedOtpScreen
 import com.studyround.app.ui.navigation.navigate
 import com.studyround.app.ui.utils.isTabletLandscapeMode
-import com.studyround.app.utils.loadString
 
 class OtpScreen(private val args: Map<String, Any>) : Screen {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)

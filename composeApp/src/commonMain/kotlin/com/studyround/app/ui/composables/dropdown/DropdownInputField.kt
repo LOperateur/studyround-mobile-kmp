@@ -34,13 +34,19 @@ import org.jetbrains.compose.resources.painterResource
 import studyround.composeapp.generated.resources.Res
 import studyround.composeapp.generated.resources.*
 
+data class DropdownItem<T : Any>(
+    val index: Int, // To handle duplicates
+    val text: String,
+    val value: T,
+)
+
 @Composable
-fun DropdownInputField(
+fun <T : Any> DropdownInputField(
     modifier: Modifier = Modifier,
     text: String,
-    items: List<String>,
-    selectedItem: String?,
-    onItemSelected: (String) -> Unit,
+    items: List<DropdownItem<T>>,
+    selectedItem: DropdownItem<T>?,
+    onItemSelected: (DropdownItem<T>) -> Unit,
     focusManager: FocusManager = LocalFocusManager.current,
     textColor: Color = StudyRoundTheme.colors.deviation_tone4_tone5,
     backgroundColor: Color = StudyRoundTheme.colors.deviation_white_primary0,
@@ -53,10 +59,9 @@ fun DropdownInputField(
     val iconId = Res.drawable.ic_expand_more
 
     // Wrapping the drop down in a Box so it draws it below the anchor view
-    Box {
+    Box(modifier = modifier) {
         Box(
-            modifier = modifier
-                .fillMaxWidth()
+            modifier = Modifier
                 .clip(RoundedCornerShape(28.dp))
                 .innerShadow(false, RoundedCornerShape(28.dp))
                 .background(color = backgroundColor)
@@ -67,7 +72,6 @@ fun DropdownInputField(
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(start = 16.dp, end = 20.dp, top = 14.dp, bottom = 14.dp)
                     .align(Alignment.Center),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -100,8 +104,8 @@ fun DropdownInputField(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false },
         ) {
-            items.forEach { value ->
-                val isSelected = selectedItem == value
+            items.forEach { item ->
+                val isSelected = selectedItem == item
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -114,10 +118,10 @@ fun DropdownInputField(
                         )
                         .clickable {
                             isExpanded = false
-                            onItemSelected(value)
+                            onItemSelected(item)
                         }
                         .padding(vertical = 8.dp, horizontal = 16.dp),
-                    text = value,
+                    text = item.text,
                     style = StudyRoundTheme.typography.bodySmall,
                 )
             }

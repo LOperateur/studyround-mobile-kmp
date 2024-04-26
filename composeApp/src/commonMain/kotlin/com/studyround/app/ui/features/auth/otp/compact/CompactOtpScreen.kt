@@ -14,7 +14,6 @@ import com.studyround.app.ui.features.auth.otp.BackPressed
 import com.studyround.app.ui.features.auth.otp.OtpFormContent
 import com.studyround.app.ui.features.auth.otp.OtpViewEvent
 import com.studyround.app.ui.features.auth.otp.OtpViewState
-import com.studyround.app.utils.getString
 
 @Composable
 fun CompactOtpScreen(

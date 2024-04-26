@@ -1,11 +1,12 @@
 package com.studyround.app.ui.features.survey
 
+import com.studyround.app.ui.composables.dropdown.DropdownItem
 import com.studyround.app.utils.AppString
 import com.studyround.app.utils.AppStrings
 
 data class RegSurveyViewState(
-    val occupationSelection: String? = null,
-    val gradeSelection: String? = null,
+    val occupationSelection: DropdownItem<AppString>? = null,
+    val gradeSelection: DropdownItem<AppString>? = null,
     val jobTitle: String? = null,
     val awarenessSource: String? = null,
     val submissionLoading: Boolean = false,
@@ -30,6 +31,9 @@ data class RegSurveyViewState(
         AppStrings.FRIEND_RECOMMENDATION,
         AppStrings.OTHER,
     ).map { AppString(it) }
+
+    val isStudentSelection
+        get() = occupationSelection?.value == AppString(AppStrings.STUDENT_OCCUPATION)
 }
 
 data class RegSurveyTextFieldState(val professionText: String = "")
