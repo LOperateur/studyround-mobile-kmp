@@ -67,6 +67,7 @@ fun ExpandedRegSurveyScreen(
                     modifier = Modifier.fillMaxSize().padding(horizontal = 64.dp),
                     showCta = false,
                     viewState = viewState,
+                    textFieldState = textFieldState,
                     eventProcessor = eventProcessor,
                 )
             }

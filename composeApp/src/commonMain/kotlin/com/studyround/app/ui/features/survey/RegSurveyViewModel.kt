@@ -35,8 +35,14 @@ class RegSurveyViewModel : UdfViewModel<RegSurveyViewState, RegSurveyViewEvent>(
             is GradeDropdownItemSelected -> {
                 _viewState.update { it.copy(gradeSelection = event.grade) }
             }
-            else -> {
-                // do nothing
+            is JobTitleTextChanged -> {
+                registerTextFieldState = registerTextFieldState.copy(professionText = event.title)
+            }
+            is AwarenessSourceChanged -> {
+                _viewState.update { it.copy(jobTitle = event.source) }
+            }
+            SubmitButtonClicked -> {
+                _viewState.update { it.copy(submissionLoading = true) }
             }
         }
     }

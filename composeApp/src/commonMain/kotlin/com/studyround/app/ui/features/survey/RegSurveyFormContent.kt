@@ -37,6 +37,7 @@ import studyround.composeapp.generated.resources.*
 fun RegSurveyFormContent(
     modifier: Modifier = Modifier,
     viewState: RegSurveyViewState,
+    textFieldState: RegSurveyTextFieldState,
     showCta: Boolean,
     eventProcessor: (RegSurveyViewEvent) -> Unit,
 ) {
@@ -105,7 +106,7 @@ fun RegSurveyFormContent(
                         } else {
                             InputField(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = viewState.jobTitle.orEmpty(),
+                                text = textFieldState.professionText,
                                 onValueChange = { eventProcessor(JobTitleTextChanged(it)) },
                             )
                         }
@@ -132,7 +133,7 @@ fun RegSurveyFormContent(
                     iconPadding = PaddingValues(0.dp),
                     painter = painterResource(Res.drawable.ic_arrow_forward),
                     iconColor = StudyRoundTheme.colors.white,
-                    showLoading = false,
+                    showLoading = viewState.submissionLoading,
                 ) {
                     eventProcessor(SubmitButtonClicked)
                 }
