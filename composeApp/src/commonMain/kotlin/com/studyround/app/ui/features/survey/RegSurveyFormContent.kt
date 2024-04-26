@@ -27,6 +27,7 @@ import com.studyround.app.ui.composables.buttons.CircularIconButton
 import com.studyround.app.ui.composables.dropdown.DropdownInputField
 import com.studyround.app.ui.composables.dropdown.DropdownItem
 import com.studyround.app.ui.composables.input.InputField
+import com.studyround.app.ui.composables.selector.TextRadioButton
 import com.studyround.app.ui.theme.StudyRoundTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -120,6 +121,20 @@ fun RegSurveyFormContent(
                 color = StudyRoundTheme.colors.deviation_primary1_white,
                 style = StudyRoundTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Normal),
             )
+
+            Column {
+                viewState.awarenessSources.forEach { source ->
+                    val sourceText = source.getString()
+                    TextRadioButton(
+                        text = sourceText,
+                        modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
+                        selected = viewState.awarenessSource == sourceText,
+                        onClick = { eventProcessor(AwarenessSourceChanged(sourceText)) },
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(64.dp))
         }
 
         Row(

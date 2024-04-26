@@ -7,7 +7,6 @@ import com.studyround.app.utils.AppStrings
 data class RegSurveyViewState(
     val occupationSelection: DropdownItem<AppString>? = null,
     val gradeSelection: DropdownItem<AppString>? = null,
-    val jobTitle: String? = null,
     val awarenessSource: String? = null,
     val submissionLoading: Boolean = false,
 ) {

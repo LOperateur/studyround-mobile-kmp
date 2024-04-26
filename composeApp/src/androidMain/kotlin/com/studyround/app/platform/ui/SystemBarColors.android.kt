@@ -12,8 +12,8 @@ import androidx.compose.ui.platform.LocalView
 actual fun SystemBarColors(statusBarColor: Color, navBarColor: Color) {
     val view = LocalView.current
     if (!view.isInEditMode) {
+        val window = (view.context as Activity).window
         SideEffect {
-            val window = (view.context as Activity).window
             window.statusBarColor = statusBarColor.toArgb()
             window.navigationBarColor = navBarColor.toArgb()
         }

@@ -39,7 +39,7 @@ class RegSurveyViewModel : UdfViewModel<RegSurveyViewState, RegSurveyViewEvent>(
                 registerTextFieldState = registerTextFieldState.copy(professionText = event.title)
             }
             is AwarenessSourceChanged -> {
-                _viewState.update { it.copy(jobTitle = event.source) }
+                _viewState.update { it.copy(awarenessSource = event.source) }
             }
             SubmitButtonClicked -> {
                 _viewState.update { it.copy(submissionLoading = true) }
