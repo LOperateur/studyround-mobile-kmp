@@ -108,6 +108,16 @@ fun RegSurveyFormContent(
                             InputField(
                                 modifier = Modifier.fillMaxWidth(),
                                 text = textFieldState.professionText,
+                                singleLine = true,
+                                placeholder = {
+                                    Text(
+                                        text = stringResource(Res.string.job_title_hint),
+                                        style = StudyRoundTheme.typography.bodySmall
+                                            .copy(fontWeight = FontWeight.Normal),
+                                        color = StudyRoundTheme.colors.deviation_tone4_tone5
+                                            .copy(alpha = 0.6f),
+                                    )
+                                },
                                 onValueChange = { eventProcessor(JobTitleTextChanged(it)) },
                             )
                         }

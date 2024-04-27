@@ -42,6 +42,7 @@
     <string name="occupation_question">What is your Occupation?</string>
     <string name="grade_question">What is your Grade?</string>
     <string name="job_title_question">What is your Job Title?</string>
+    <string name="job_title_hint">Job title, e.g: Senior Accountant</string>
     <string name="awareness_question">How did you hear about us?</string>
     <string name="student_occupation">Student</string>
     <string name="professional_occupation">Professional</string>
