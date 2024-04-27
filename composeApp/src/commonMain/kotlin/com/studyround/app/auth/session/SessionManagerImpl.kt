@@ -68,6 +68,7 @@ class SessionManagerImpl(
 
     override suspend fun logout() {
         googleAuthProvider.logout()
+        appPreferences.clear()
         credentialsManager.clearCredentials()
     }
 
@@ -91,8 +92,12 @@ class SessionManagerImpl(
                 is Resource.Error -> Resource.Error(data = it.data?.user, cause = it.cause)
                 is Resource.Success -> {
                     // If logging in, skip the registration survey
-                    if (!isSignup) appPreferences.setDisplaySurveyScreen(false)
+                    if (!isSignup) appPreferences.setShouldDisplaySurveyScreen(false)
+
+                    // Save the user profile data and credentials
+                    appPreferences.saveProfile(it.data.user)
                     saveCredentials(it.data)
+
                     Resource.Success(data = it.data.user, message = it.message)
                 }
             }

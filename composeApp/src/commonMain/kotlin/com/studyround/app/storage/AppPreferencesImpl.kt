@@ -2,8 +2,32 @@ package com.studyround.app.storage
 
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.set
+import com.studyround.app.data.remote.dto.User
 
 class AppPreferencesImpl(private val settings: ObservableSettings) : AppPreferences {
+
+    override val userId: Int?
+        get() = settings.getIntOrNull(KEY_USER_ID)
+
+    override val email: String?
+        get() = settings.getStringOrNull(KEY_EMAIL)
+
+    override val username: String?
+        get() = settings.getStringOrNull(KEY_USERNAME)
+
+    override val avatarUrl: String?
+        get() = settings.getStringOrNull(KEY_AVATAR_URL)
+
+    // Save user profile data
+    // TODO: In future, use a local User dto, not the remote one
+    override fun saveProfile(user: User) {
+        settings[KEY_USER_ID] = user.id
+        settings[KEY_EMAIL] = user.email
+
+        user.username?.let { settings[KEY_USERNAME] = it }
+        user.profileImageUrl?.let { settings[KEY_AVATAR_URL] = it }
+    }
+
     override val darkMode: Boolean?
         get() = settings.getBooleanOrNull(KEY_DARK_MODE)
 
@@ -19,15 +43,23 @@ class AppPreferencesImpl(private val settings: ObservableSettings) : AppPreferen
     }
 
     override val shouldDisplaySurveyScreen: Boolean
-        get() = settings.getBoolean(DISPLAY_SURVEY_SCREEN, true)
+        get() = settings.getBoolean(SHOULD_DISPLAY_SURVEY_SCREEN, true)
 
-    override fun setDisplaySurveyScreen(shouldDisplay: Boolean) {
-        settings[DISPLAY_SURVEY_SCREEN] = shouldDisplay
+    override fun setShouldDisplaySurveyScreen(shouldDisplay: Boolean) {
+        settings[SHOULD_DISPLAY_SURVEY_SCREEN] = shouldDisplay
+    }
+
+    override fun clear() {
+        settings.clear()
     }
 
     companion object {
+        const val KEY_USER_ID = "key_user_id"
+        const val KEY_EMAIL = "key_email"
+        const val KEY_USERNAME = "key_username"
+        const val KEY_AVATAR_URL = "key_avatar_url"
         const val KEY_DARK_MODE = "key_dark_mode"
         const val KEY_IS_CAROUSEL_VIEWED = "key_is_carousel_viewed"
-        const val DISPLAY_SURVEY_SCREEN = "key_display_survey_screen"
+        const val SHOULD_DISPLAY_SURVEY_SCREEN = "key_display_survey_screen"
     }
 }
