@@ -102,6 +102,17 @@ class RegSurveyViewModel(
                         _viewState.update { state -> state.copy(submissionLoading = true) }
                     }
 
+                    is Resource.Success -> {
+                        _viewState.update { state -> state.copy(submissionLoading = false) }
+                        _viewEffects.send(
+                            ShowAlert(
+                                message = AppString.textOrSuccess(it.message),
+                                type = AlertBannerType.Success,
+                            )
+                        )
+                        _viewEffects.send(NavigateHome)
+                    }
+
                     is Resource.Error -> {
                         _viewState.update { state -> state.copy(submissionLoading = false) }
                         _viewEffects.send(
@@ -110,11 +121,6 @@ class RegSurveyViewModel(
                                 type = AlertBannerType.Error,
                             )
                         )
-                    }
-
-                    is Resource.Success -> {
-                        _viewState.update { state -> state.copy(submissionLoading = false) }
-                        //_viewEffects.send()
                     }
                 }
             }
