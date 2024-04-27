@@ -3,6 +3,8 @@ package com.studyround.app.di
 import com.studyround.app.platform.utils.Platform
 import com.studyround.app.service.auth.AuthService
 import com.studyround.app.service.auth.AuthServiceImpl
+import com.studyround.app.service.survey.RegSurveyService
+import com.studyround.app.service.survey.RegSurveyServiceImpl
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -60,4 +62,5 @@ val networkModule = module {
     }
 
     single<AuthService> { AuthServiceImpl(get()) }
+    single<RegSurveyService> { RegSurveyServiceImpl(get()) }
 }

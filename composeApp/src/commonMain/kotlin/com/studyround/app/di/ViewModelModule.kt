@@ -14,5 +14,5 @@ val viewModelModule = module {
     factory { LoginViewModel(get(), get()) }
     factory { OtpViewModel(get()) }
     factory { RegisterViewModel(get()) }
-    factory { RegSurveyViewModel() }
+    factory { RegSurveyViewModel(get()) }
 }

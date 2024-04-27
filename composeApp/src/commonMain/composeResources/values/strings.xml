@@ -54,6 +54,8 @@
     <string name="instagram">Instagram</string>
     <string name="email">Email</string>
     <string name="friend_recommendation">Recommended by Friend</string>
+    <string name="no_occupation_error">Please select an Occupation</string>
+    <string name="generic_blank_data_error">Please enter all required data</string>
     <string name="other">Other</string>
     <string name="please_select_placeholder">Please select...</string>
 </resources>

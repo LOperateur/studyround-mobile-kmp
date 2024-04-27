@@ -91,6 +91,8 @@ enum class AppStrings {
     OTP_LIMIT_ERROR,
     GOOGLE_SIGN_IN_ERROR,
     GOOGLE_SIGN_UP_ERROR,
+    NO_OCCUPATION_ERROR,
+    GENERIC_BLANK_DATA_ERROR,
     SOMETHING_WRONG,
 
     // Prompts/Text
@@ -141,6 +143,8 @@ private val AppStrings.stringRes: StringResWrapper
         AppStrings.OTP_LIMIT_ERROR -> StringRes(Res.string.otp_limit_error)
         AppStrings.GOOGLE_SIGN_IN_ERROR -> StringRes(Res.string.google_sign_in_error)
         AppStrings.GOOGLE_SIGN_UP_ERROR -> StringRes(Res.string.google_sign_up_error)
+        AppStrings.NO_OCCUPATION_ERROR -> StringRes(Res.string.no_occupation_error)
+        AppStrings.GENERIC_BLANK_DATA_ERROR -> StringRes(Res.string.generic_blank_data_error)
         AppStrings.SOMETHING_WRONG -> StringRes(Res.string.something_wrong)
 
         AppStrings.EMAIL_CONFIRMATION -> StringRes(Res.string.email_verification)
@@ -157,7 +161,6 @@ private val AppStrings.stringRes: StringResWrapper
         AppStrings.EMAIL -> StringRes(Res.string.email)
         AppStrings.FRIEND_RECOMMENDATION -> StringRes(Res.string.friend_recommendation)
         AppStrings.OTHER -> StringRes(Res.string.other)
-
 
         AppStrings.OTP_SENT_ALERT -> StringRes(Res.string.otp_sent_alert)
         AppStrings.SUCCESS -> StringRes(Res.string.success_alert)

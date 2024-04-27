@@ -7,7 +7,6 @@ import com.studyround.app.data.remote.dto.PassToken
 import com.studyround.app.data.remote.request.AuthType
 import com.studyround.app.data.remote.response.StudyRoundResponse
 
-// TODO: Consider renaming to AuthService
 interface AuthService {
     suspend fun signup(
         username: String,
