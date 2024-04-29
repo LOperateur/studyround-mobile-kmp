@@ -40,7 +40,7 @@ data class AppString(
      * @return The localized string.
      * @throws Exception if the AppString is not defined.
      */
-    suspend fun loadString(quantity: Int = 0, vararg args: Any): String {
+    suspend fun loadString(vararg args: Any, quantity: Int = 0): String {
         return dynamicText ?: run {
             when (val resource = appString?.stringRes) {
                 is StringRes -> org.jetbrains.compose.resources.getString(resource.resId, *args)
@@ -61,7 +61,7 @@ data class AppString(
      * @throws Exception if the AppString is not defined.
      */
     @Composable
-    fun getString(quantity: Int = 0, vararg args: Any): String {
+    fun getString(vararg args: Any, quantity: Int = 0): String {
         return dynamicText ?: run {
             when (val resource = appString?.stringRes) {
                 is StringRes -> stringResource(resource.resId, *args)
