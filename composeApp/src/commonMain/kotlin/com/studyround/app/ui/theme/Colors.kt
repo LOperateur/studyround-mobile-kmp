@@ -12,8 +12,8 @@ val MaterialLightColors = lightColors(
     secondary = StudyRoundColors.Light.secondary,
     background = StudyRoundColors.Light.tone1,
     surface = StudyRoundColors.Light.tone1,
-    onPrimary = StudyRoundColors.Dark.tone4, // Text
-    onSecondary = StudyRoundColors.Dark.tone4, // Text
+    onPrimary = StudyRoundColors.Light.tone4, // Text
+    onSecondary = StudyRoundColors.Light.tone4, // Text
     onBackground = StudyRoundColors.Light.tone4, // Text
     onSurface = StudyRoundColors.Light.tone4, // Text
 )
@@ -147,7 +147,7 @@ internal object StudyRoundColors {
         override val shadow = Color.Unspecified // No shadow in dark mode
 
         override val primary = Color(0xFF_002E2F)
-        override val secondary = Color(0xFF_CF3800)
+        override val secondary = Color(0xFF_AA4221)
         override val tertiary = Color(0xFF_FFB300)
         override val danger = Color(0xFF_FFB3B3)
         override val success = Color(0xFF_B9F5D0)
@@ -166,9 +166,9 @@ internal object StudyRoundColors {
         override val primary3 = Color(0xFF_018184)
         override val primary4 = Color(0xFF_00ABB4)
 
-        override val secondary0 = Color(0xFF_BC2300)
-        override val secondary1 = Color(0xFF_CF3800) // Secondary
-        override val secondary2 = Color(0xFF_F04000)
+        override val secondary0 = Color(0xFF_9A381A)
+        override val secondary1 = Color(0xFF_AA4221) // Secondary
+        override val secondary2 = Color(0xFF_E1582D)
         override val secondary3 = Color(0xFF_FF8051)
         override val secondary4 = Color(0xFF_FFA483)
 

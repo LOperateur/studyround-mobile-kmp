@@ -17,8 +17,8 @@ import studyround.composeapp.generated.resources.*
  * @property appString The predefined string constant from [AppStrings], if applicable.
  */
 data class AppString(
-    internal val dynamicText: String?,
-    internal val appString: AppStrings?,
+    private val dynamicText: String?,
+    private val appString: AppStrings?,
 ) {
     constructor(dynamicText: String) : this(dynamicText = dynamicText, appString = null)
     constructor(appString: AppStrings) : this(appString = appString, dynamicText = null)
@@ -29,6 +29,46 @@ data class AppString(
 
         fun textOrError(dynamicText: String?): AppString =
             AppString(dynamicText, AppStrings.SOMETHING_WRONG)
+    }
+
+    /**
+     * Retrieves the string representation of the [AppString]. If the [AppString] has dynamic text, it returns that text,
+     * otherwise, it fetches the corresponding string resource based on the [AppString] property.
+     *
+     * @param quantity The quantity for pluralization, if applicable.
+     * @param args Additional format arguments for the string resource.
+     * @return The localized string.
+     * @throws Exception if the AppString is not defined.
+     */
+    suspend fun loadString(quantity: Int = 0, vararg args: Any): String {
+        return dynamicText ?: run {
+            when (val resource = appString?.stringRes) {
+                is StringRes -> org.jetbrains.compose.resources.getString(resource.resId, *args)
+                is PluralRes -> org.jetbrains.compose.resources.getString(resource.resId, quantity, *args)
+                else -> throw Exception("App String not defined")
+            }
+        }
+    }
+
+    /**
+     * Composable function to retrieve the string representation of the [AppString] in a Compose context.
+     * If the [AppString] has dynamic text, it returns that text,
+     * otherwise, it fetches the corresponding string resource based on the [AppString] property.
+     *
+     * @param quantity The quantity for pluralization, if applicable.
+     * @param args Additional format arguments for the string resource.
+     * @return The localized string.
+     * @throws Exception if the AppString is not defined.
+     */
+    @Composable
+    fun getString(quantity: Int = 0, vararg args: Any): String {
+        return dynamicText ?: run {
+            when (val resource = appString?.stringRes) {
+                is StringRes -> stringResource(resource.resId, *args)
+                is PluralRes -> stringResource(resource.resId, quantity, *args)
+                else -> throw Exception("App String not defined")
+            }
+        }
     }
 }
 
@@ -49,11 +89,27 @@ enum class AppStrings {
     NO_MATCH_PASSWORD_ERROR,
     ACCEPT_T_AND_C_ERROR,
     OTP_LIMIT_ERROR,
+    GOOGLE_SIGN_IN_ERROR,
+    GOOGLE_SIGN_UP_ERROR,
+    NO_OCCUPATION_ERROR,
+    GENERIC_BLANK_DATA_ERROR,
     SOMETHING_WRONG,
 
     // Prompts/Text
     EMAIL_CONFIRMATION,
     OTP_VERIFICATION,
+    STUDENT_OCCUPATION,
+    PROFESSIONAL_OCCUPATION,
+    PRIMARY_GRADE,
+    SECONDARY_GRADE,
+    TERTIARY_GRADE,
+    POST_GRADUATE_GRADE,
+    GOOGLE,
+    FACEBOOK,
+    INSTAGRAM,
+    EMAIL,
+    FRIEND_RECOMMENDATION,
+    OTHER,
 
     // Alerts/Messages
     OTP_SENT_ALERT,
@@ -67,46 +123,6 @@ enum class AppStrings {
 sealed class StringResWrapper {
     data class StringRes(val resId: StringResource) : StringResWrapper()
     data class PluralRes(val resId: StringResource) : StringResWrapper()
-}
-
-/**
- * Retrieves the string representation of the [AppString]. If the [AppString] has dynamic text, it returns that text,
- * otherwise, it fetches the corresponding string resource based on the [AppString] property.
- *
- * @param quantity The quantity for pluralization, if applicable.
- * @param args Additional format arguments for the string resource.
- * @return The localized string.
- * @throws Exception if the AppString is not defined.
- */
-suspend fun AppString.loadString(quantity: Int = 0, vararg args: Any): String {
-    return dynamicText ?: run {
-        when (val resource = appString?.stringRes) {
-            is StringRes -> org.jetbrains.compose.resources.getString(resource.resId, *args)
-            is PluralRes -> org.jetbrains.compose.resources.getString(resource.resId, quantity, *args)
-            else -> throw Exception("App String not defined")
-        }
-    }
-}
-
-/**
- * Composable function to retrieve the string representation of the [AppString] in a Compose context.
- * If the [AppString] has dynamic text, it returns that text,
- * otherwise, it fetches the corresponding string resource based on the [AppString] property.
- *
- * @param quantity The quantity for pluralization, if applicable.
- * @param args Additional format arguments for the string resource.
- * @return The localized string.
- * @throws Exception if the AppString is not defined.
- */
-@Composable
-fun AppString.getString(quantity: Int = 0, vararg args: Any): String {
-    return dynamicText ?: run {
-        when (val resource = appString?.stringRes) {
-            is StringRes -> stringResource(resource.resId, *args)
-            is PluralRes -> stringResource(resource.resId, quantity, *args)
-            else -> throw Exception("App String not defined")
-        }
-    }
 }
 
 /**
@@ -125,10 +141,26 @@ private val AppStrings.stringRes: StringResWrapper
         AppStrings.NO_MATCH_PASSWORD_ERROR -> StringRes(Res.string.match_password_warning)
         AppStrings.ACCEPT_T_AND_C_ERROR -> StringRes(Res.string.accept_terms_of_use_prompt)
         AppStrings.OTP_LIMIT_ERROR -> StringRes(Res.string.otp_limit_error)
+        AppStrings.GOOGLE_SIGN_IN_ERROR -> StringRes(Res.string.google_sign_in_error)
+        AppStrings.GOOGLE_SIGN_UP_ERROR -> StringRes(Res.string.google_sign_up_error)
+        AppStrings.NO_OCCUPATION_ERROR -> StringRes(Res.string.no_occupation_error)
+        AppStrings.GENERIC_BLANK_DATA_ERROR -> StringRes(Res.string.generic_blank_data_error)
         AppStrings.SOMETHING_WRONG -> StringRes(Res.string.something_wrong)
 
         AppStrings.EMAIL_CONFIRMATION -> StringRes(Res.string.email_verification)
         AppStrings.OTP_VERIFICATION -> StringRes(Res.string.otp_confirmation)
+        AppStrings.STUDENT_OCCUPATION -> StringRes(Res.string.student_occupation)
+        AppStrings.PROFESSIONAL_OCCUPATION -> StringRes(Res.string.professional_occupation)
+        AppStrings.PRIMARY_GRADE -> StringRes(Res.string.primary_grade)
+        AppStrings.SECONDARY_GRADE -> StringRes(Res.string.secondary_grade)
+        AppStrings.TERTIARY_GRADE -> StringRes(Res.string.tertiary_grade)
+        AppStrings.POST_GRADUATE_GRADE -> StringRes(Res.string.post_graduate_grade)
+        AppStrings.GOOGLE -> StringRes(Res.string.google)
+        AppStrings.FACEBOOK -> StringRes(Res.string.facebook)
+        AppStrings.INSTAGRAM -> StringRes(Res.string.instagram)
+        AppStrings.EMAIL -> StringRes(Res.string.email)
+        AppStrings.FRIEND_RECOMMENDATION -> StringRes(Res.string.friend_recommendation)
+        AppStrings.OTHER -> StringRes(Res.string.other)
 
         AppStrings.OTP_SENT_ALERT -> StringRes(Res.string.otp_sent_alert)
         AppStrings.SUCCESS -> StringRes(Res.string.success_alert)

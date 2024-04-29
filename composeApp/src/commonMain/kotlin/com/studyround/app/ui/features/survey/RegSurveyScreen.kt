@@ -1,4 +1,4 @@
-package com.studyround.app.ui.features.auth.otp
+package com.studyround.app.ui.features.survey
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -12,24 +12,25 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.studyround.app.ui.composables.alert.LocalAlertManager
-import com.studyround.app.ui.features.auth.AuthDestination
-import com.studyround.app.ui.features.auth.AuthRouteMap
-import com.studyround.app.ui.features.auth.otp.compact.CompactOtpScreen
-import com.studyround.app.ui.features.auth.otp.expanded.ExpandedOtpScreen
+import com.studyround.app.ui.features.home.HomeScreen
+import com.studyround.app.ui.features.survey.compact.CompactRegSurveyScreen
+import com.studyround.app.ui.features.survey.expanded.ExpandedRegSurveyScreen
 import com.studyround.app.ui.navigation.navigate
 import com.studyround.app.ui.utils.isTabletLandscapeMode
 
-class OtpScreen(private val args: Map<String, Any>) : Screen {
+class RegSurveyScreen : Screen {
+
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     @Composable
     override fun Content() {
-        val vm = getScreenModel<OtpViewModel>()
+        val vm = getScreenModel<RegSurveyViewModel>()
         val viewState by vm.viewState.collectAsState()
+        val textFieldState = vm.registerTextFieldState
         val windowSizeClass = calculateWindowSizeClass()
 
-        val authNavigator = LocalNavigator.currentOrThrow
         val alertManager = LocalAlertManager.current
         val isExpanded = windowSizeClass.isTabletLandscapeMode()
+        val rootNavigator = LocalNavigator.currentOrThrow
 
         LaunchedEffect(Unit) {
             vm.viewEffects.collect { effect ->
@@ -41,15 +42,8 @@ class OtpScreen(private val args: Map<String, Any>) : Screen {
                         )
                     }
 
-                    is Navigate -> {
-                        authNavigator.navigate(
-                            AuthRouteMap(effect.destination).getScreen(),
-                            effect.shouldReplace,
-                        )
-                    }
-
-                    GoBack -> {
-                        authNavigator.pop()
+                    NavigateHome -> {
+                        rootNavigator.navigate(HomeScreen(), true)
                     }
                 }
             }
@@ -57,24 +51,18 @@ class OtpScreen(private val args: Map<String, Any>) : Screen {
 
         Box {
             if (isExpanded) {
-                ExpandedOtpScreen(
+                ExpandedRegSurveyScreen(
                     viewState = viewState,
+                    textFieldState = textFieldState,
                     eventProcessor = vm::processEvent,
                 )
             } else {
-                CompactOtpScreen(
+                CompactRegSurveyScreen(
                     viewState = viewState,
+                    textFieldState = textFieldState,
                     eventProcessor = vm::processEvent,
                 )
             }
-        }
-
-        LaunchedEffect(Unit) {
-            vm.initArgs(
-                otpId = args[AuthDestination.OTP.OTP_ID] as? Int,
-                isForgotPassword = args[AuthDestination.OTP.FORGOT_PASSWORD] as? Boolean,
-                email = args[AuthDestination.OTP.EMAIL] as? String,
-            )
         }
     }
 }

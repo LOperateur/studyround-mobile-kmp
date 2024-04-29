@@ -14,7 +14,6 @@ import com.studyround.app.ui.features.auth.register.RegisterFormContent
 import com.studyround.app.ui.features.auth.register.RegisterTextFieldState
 import com.studyround.app.ui.features.auth.register.RegisterViewEvent
 import com.studyround.app.ui.features.auth.register.RegisterViewState
-import com.studyround.app.utils.getString
 
 @Composable
 fun CompactRegisterScreen(

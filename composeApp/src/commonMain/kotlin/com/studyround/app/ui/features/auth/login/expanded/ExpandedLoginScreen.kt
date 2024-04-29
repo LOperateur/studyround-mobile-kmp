@@ -22,15 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.studyround.app.ui.composables.common.StudyRoundBackground
 import com.studyround.app.ui.composables.common.StudyRoundTextLogo
+import com.studyround.app.ui.features.auth.login.LoginTextFieldState
+import com.studyround.app.ui.features.auth.login.LoginViewEvent
+import com.studyround.app.ui.features.auth.login.LoginViewState
 import com.studyround.app.ui.features.auth.login.common.GoToLoginLayout
 import com.studyround.app.ui.features.auth.login.common.GoToSignupLayout
 import com.studyround.app.ui.features.auth.login.common.LoginFormContent
-import com.studyround.app.ui.features.auth.login.LoginViewEvent
-import com.studyround.app.ui.features.auth.login.LoginViewState
-import com.studyround.app.ui.features.auth.login.LoginTextFieldState
 import com.studyround.app.ui.features.auth.login.common.SignupFormContent
 import com.studyround.app.ui.theme.StudyRoundTheme
-import com.studyround.app.utils.getString
 
 @Composable
 fun ExpandedLoginScreen(

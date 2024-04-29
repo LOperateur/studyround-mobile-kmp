@@ -17,7 +17,6 @@ import com.studyround.app.ui.features.auth.login.compact.CompactLoginScreen
 import com.studyround.app.ui.features.auth.login.expanded.ExpandedLoginScreen
 import com.studyround.app.ui.navigation.navigate
 import com.studyround.app.ui.utils.isTabletLandscapeMode
-import com.studyround.app.utils.loadString
 
 class LoginScreen : Screen {
 

@@ -4,7 +4,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.studyround.app.ui.features.auth.AuthScreen
 import com.studyround.app.ui.features.home.HomeScreen
 import com.studyround.app.ui.features.onboarding.OnboardingCarouselScreen
-import com.studyround.app.ui.features.survey.RegistrationSurveyScreen
+import com.studyround.app.ui.features.survey.RegSurveyScreen
 import com.studyround.app.ui.navigation.Destination
 import com.studyround.app.ui.navigation.RouteMap
 
@@ -12,7 +12,7 @@ sealed class RootDestination : Destination {
     data object Onboarding : RootDestination()
     data object Auth : RootDestination()
     data object Home : RootDestination()
-    data object Survey : RootDestination()
+    data object RegSurvey : RootDestination()
 }
 
 class RootRouteMap(override val destination: RootDestination) : RouteMap {
@@ -21,7 +21,7 @@ class RootRouteMap(override val destination: RootDestination) : RouteMap {
             RootDestination.Auth -> AuthScreen()
             RootDestination.Home -> HomeScreen()
             RootDestination.Onboarding -> OnboardingCarouselScreen()
-            RootDestination.Survey -> RegistrationSurveyScreen()
+            RootDestination.RegSurvey -> RegSurveyScreen()
         }
     }
 }

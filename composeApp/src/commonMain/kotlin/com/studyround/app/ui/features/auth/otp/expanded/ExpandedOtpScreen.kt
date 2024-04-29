@@ -27,7 +27,6 @@ import com.studyround.app.ui.features.auth.otp.OtpSubmitted
 import com.studyround.app.ui.features.auth.otp.OtpViewEvent
 import com.studyround.app.ui.features.auth.otp.OtpViewState
 import com.studyround.app.ui.theme.StudyRoundTheme
-import com.studyround.app.utils.getString
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import org.jetbrains.compose.resources.painterResource
@@ -92,6 +91,7 @@ fun ExpandedOtpScreen(
             iconPadding = PaddingValues(0.dp),
             painter = painterResource(Res.drawable.ic_arrow_forward),
             iconColor = StudyRoundTheme.colors.white,
+            showLoading = viewState.otpValidationLoading,
         ) {
             eventProcessor(OtpSubmitted)
         }

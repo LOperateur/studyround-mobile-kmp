@@ -139,7 +139,7 @@ android {
             applicationIdSuffix = ".debug"
             isDebuggable = true
 
-            resValue("string", "app_name", "@string/app_name_dev")
+            manifestPlaceholders["app_name"] = "@string/app_name_dev"
             buildConfigField("String", "BASE_API_URL", stagingUrl)
             buildConfigField("String", "GOOGLE_SERVER_CLIENT_ID", googleClientServerId)
         }
@@ -159,7 +159,7 @@ android {
                 proguardConsumerRules
             )
 
-            resValue("string", "app_name", "@string/app_name_release")
+            manifestPlaceholders["app_name"] = "@string/app_name_release"
             buildConfigField("String", "BASE_API_URL", releaseUrl)
             buildConfigField("String", "GOOGLE_SERVER_CLIENT_ID", googleClientServerId)
         }
@@ -174,4 +174,7 @@ android {
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
     }
+
+    // TODO: Keep an eye on when to remove this with every AS update
+    task("testClasses")
 }

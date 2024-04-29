@@ -14,7 +14,6 @@ import com.studyround.app.ui.features.auth.AuthDestination
 import com.studyround.app.ui.features.auth.register.compact.CompactRegisterScreen
 import com.studyround.app.ui.features.auth.register.expanded.ExpandedRegisterScreen
 import com.studyround.app.ui.utils.isTabletLandscapeMode
-import com.studyround.app.utils.loadString
 
 class RegisterScreen(private val args: Map<String, Any>) : Screen {
 

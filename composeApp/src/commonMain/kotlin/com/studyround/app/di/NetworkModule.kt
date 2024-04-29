@@ -1,13 +1,14 @@
 package com.studyround.app.di
 
 import com.studyround.app.platform.utils.Platform
-import com.studyround.app.service.login.LoginService
-import com.studyround.app.service.login.LoginServiceImpl
+import com.studyround.app.service.auth.AuthService
+import com.studyround.app.service.auth.AuthServiceImpl
+import com.studyround.app.service.survey.RegSurveyService
+import com.studyround.app.service.survey.RegSurveyServiceImpl
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
@@ -60,5 +61,6 @@ val networkModule = module {
         }
     }
 
-    single<LoginService> { LoginServiceImpl(get()) }
+    single<AuthService> { AuthServiceImpl(get()) }
+    single<RegSurveyService> { RegSurveyServiceImpl(get()) }
 }
