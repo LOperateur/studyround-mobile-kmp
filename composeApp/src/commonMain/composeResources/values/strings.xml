@@ -29,7 +29,7 @@
     <string name="match_password_warning">Passwords must match</string>
     <string name="success_alert">Success!</string>
     <string name="something_wrong">Something went wrong</string>
-    <string name="otp_sent_alert">OTP might be sent to %1$s</string>
+    <string name="otp_sent_alert">OTP sent to %1$s</string>
     <string name="email_verification">Email Verification</string>
     <string name="otp_confirmation">OTP Confirmation</string>
     <string name="otp_email_prompt">Enter the verification code we just sent to your email</string>
@@ -59,4 +59,6 @@
     <string name="generic_blank_data_error">Please enter all required data</string>
     <string name="other">Other</string>
     <string name="please_select_placeholder">Please select...</string>
+    <string name="home">Home</string>
+    <string name="courses">Courses</string>
 </resources>
