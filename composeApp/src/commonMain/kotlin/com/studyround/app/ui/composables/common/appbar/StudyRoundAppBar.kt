@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
@@ -30,6 +31,7 @@ import com.studyround.app.ui.composables.dropdown.DropdownItem
 import com.studyround.app.ui.theme.StudyRoundTheme
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
+import io.kamel.image.asyncPainterResource
 import org.jetbrains.compose.resources.painterResource
 import studyround.composeapp.generated.resources.*
 
@@ -104,10 +106,23 @@ fun StudyRoundAppBar(
             Box(
                 modifier = Modifier.clip(CircleShape)
                     .clickable { eventProcessor(MenuToggled(true)) }) {
+
+                val resource =
+                    viewState.avatarUrl?.let { asyncPainterResource(it) } ?: Resource.Success(
+                        painterResource(Res.drawable.ic_error)
+                    )
+
                 KamelImage(
                     modifier = Modifier.size(32.dp),
-                    resource = Resource.Success(painterResource(Res.drawable.studyround_logo)),
+                    resource = resource,
                     contentDescription = "Avatar",
+                    onLoading = {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(24.dp),
+                            color = StudyRoundTheme.colors.deviation_primary1_white,
+                            strokeWidth = 2.dp,
+                        )
+                    },
                 )
 
                 DropdownMenu(

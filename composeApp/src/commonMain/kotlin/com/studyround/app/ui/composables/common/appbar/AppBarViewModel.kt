@@ -19,7 +19,7 @@ class AppBarViewModel(
     appPreferences: AppPreferences,
 ) : UdfViewModel<AppBarViewState, AppBarViewEvent>(), WithEffects<AppBarViewEffect> {
 
-    private val _viewState = MutableStateFlow(AppBarViewState(false))
+    private val _viewState = MutableStateFlow(AppBarViewState(false, appPreferences.avatarUrl))
     override val viewState: StateFlow<AppBarViewState>
         get() = _viewState.asStateFlow()
 
