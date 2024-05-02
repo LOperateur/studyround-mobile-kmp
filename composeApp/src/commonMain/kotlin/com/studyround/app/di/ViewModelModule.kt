@@ -1,6 +1,7 @@
 package com.studyround.app.di
 
 import com.studyround.app.ui.composables.alert.AlertBannerViewModel
+import com.studyround.app.ui.composables.common.appbar.AppBarViewModel
 import com.studyround.app.ui.features.auth.login.LoginViewModel
 import com.studyround.app.ui.features.auth.otp.OtpViewModel
 import com.studyround.app.ui.features.auth.register.RegisterViewModel
@@ -15,4 +16,5 @@ val viewModelModule = module {
     factory { OtpViewModel(get()) }
     factory { RegisterViewModel(get()) }
     factory { RegSurveyViewModel(get()) }
+    factory { AppBarViewModel(get()) }
 }

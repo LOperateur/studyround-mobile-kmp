@@ -55,9 +55,9 @@ class RegSurveyViewModel(
             }
 
             SubmitButtonClicked -> {
-                val occupation = _viewState.value.occupationSelection?.text
+                val occupation = _viewState.value.occupationSelection?.value
                 val suffix = if (_viewState.value.isStudentSelection)
-                    _viewState.value.gradeSelection?.text
+                    _viewState.value.gradeSelection?.value
                 else
                     registerTextFieldState.professionText
 

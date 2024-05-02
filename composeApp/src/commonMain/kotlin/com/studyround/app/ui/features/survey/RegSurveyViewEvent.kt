@@ -7,9 +7,9 @@ sealed interface RegSurveyViewEvent
 
 data object SubmitButtonClicked: RegSurveyViewEvent
 
-data class OccupationDropdownItemSelected(val occupation: DropdownItem<AppString>): RegSurveyViewEvent
+data class OccupationDropdownItemSelected(val occupation: DropdownItem<String>): RegSurveyViewEvent
 
-data class GradeDropdownItemSelected(val grade: DropdownItem<AppString>): RegSurveyViewEvent
+data class GradeDropdownItemSelected(val grade: DropdownItem<String>): RegSurveyViewEvent
 
 data class JobTitleTextChanged(val title: String): RegSurveyViewEvent
 

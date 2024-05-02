@@ -16,12 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
-import com.studyround.app.ui.composables.common.StudyRoundAppBar
+import com.studyround.app.ui.composables.common.appbar.StudyRoundAppBar
 import com.studyround.app.ui.composables.common.StudyRoundBackground
+import com.studyround.app.ui.composables.common.appbar.AppBarViewModel
 import com.studyround.app.ui.features.dashboard.courses.CoursesScreen
 import com.studyround.app.ui.features.dashboard.home.DashboardHomeScreen
 import com.studyround.app.ui.theme.StudyRoundTheme
@@ -33,6 +35,7 @@ class DashboardNavScreen : Screen {
     @Composable
     override fun Content() {
         // val homeNavigator = LocalNavigator.currentOrThrow
+        val appBarViewModel = getScreenModel<AppBarViewModel>()
 
         TabNavigator(DashboardHomeScreen()) {
             val tabNavigator = LocalTabNavigator.current
@@ -40,7 +43,10 @@ class DashboardNavScreen : Screen {
             Scaffold(
                 // Note: Scaffold automatically applies topBar padding to content
                 topBar = {
-                    StudyRoundAppBar(tabNavigator.current.options.title)
+                    StudyRoundAppBar(
+                        title = tabNavigator.current.options.title,
+                        viewModel = appBarViewModel,
+                    )
                 },
                 content = {
                     StudyRoundBackground(Modifier.fillMaxSize(), showGradientScrim = true)
