@@ -3,6 +3,7 @@ package com.studyround.app.ui.features.dashboard
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
@@ -19,6 +20,8 @@ import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
+import com.studyround.app.ui.composables.common.StudyRoundAppBar
+import com.studyround.app.ui.composables.common.StudyRoundBackground
 import com.studyround.app.ui.features.dashboard.courses.CoursesScreen
 import com.studyround.app.ui.features.dashboard.home.DashboardHomeScreen
 import com.studyround.app.ui.theme.StudyRoundTheme
@@ -32,8 +35,15 @@ class DashboardNavScreen : Screen {
         // val homeNavigator = LocalNavigator.currentOrThrow
 
         TabNavigator(DashboardHomeScreen()) {
+            val tabNavigator = LocalTabNavigator.current
+
             Scaffold(
+                // Note: Scaffold automatically applies topBar padding to content
+                topBar = {
+                    StudyRoundAppBar(tabNavigator.current.options.title)
+                },
                 content = {
+                    StudyRoundBackground(Modifier.fillMaxSize(), showGradientScrim = true)
                     Box(modifier = Modifier.padding(it)) {
                         CurrentTab()
                     }
@@ -89,5 +99,4 @@ class DashboardNavScreen : Screen {
             }
         )
     }
-
 }

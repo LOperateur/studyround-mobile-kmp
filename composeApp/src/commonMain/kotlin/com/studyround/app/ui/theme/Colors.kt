@@ -72,7 +72,7 @@ interface Colors {
     val deviation_primary1_primary4: Color // Link Text
     val deviation_tone1_primary1: Color // Main Background
     val deviation_primary2_primary0: Color // Green Background
-    val deviation_white_primary0: Color // TextField Background
+    val deviation_white_primary0: Color // TextField Background, App Top Bar
     val deviation_primary3_primary0: Color // System bars
     val deviation_primary3_primary1: Color // Splash
     val deviation_white_tone5: Color // 'White' Surface

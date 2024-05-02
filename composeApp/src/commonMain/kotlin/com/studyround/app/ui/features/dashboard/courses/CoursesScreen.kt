@@ -36,7 +36,7 @@ class CoursesScreen: Tab {
                 TabOptions(
                     index = 0u,
                     title = title,
-                    icon = icon
+                    icon = icon,
                 )
             }
         }
