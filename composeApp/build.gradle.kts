@@ -34,6 +34,7 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
+            api(libs.image.loader)
             implementation(libs.kamel.image)
             implementation(libs.kermit)
             implementation(libs.material3.window.size.multiplatform)

@@ -1,10 +1,12 @@
 package com.studyround.app.ui.composables.common.appbar
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,13 +29,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.seiko.imageloader.model.ImageAction
+import com.seiko.imageloader.rememberImageSuccessPainter
+import com.seiko.imageloader.ui.AutoSizeBox
 import com.studyround.app.ui.composables.dropdown.DropdownItem
 import com.studyround.app.ui.theme.StudyRoundTheme
-import io.kamel.core.Resource
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
 import org.jetbrains.compose.resources.painterResource
-import studyround.composeapp.generated.resources.*
+import studyround.composeapp.generated.resources.Res
+import studyround.composeapp.generated.resources.ic_account_circle
+import studyround.composeapp.generated.resources.ic_arrow_back
+import studyround.composeapp.generated.resources.studyround_logo
 
 @Composable
 fun StudyRoundAppBar(
@@ -86,9 +91,9 @@ fun StudyRoundAppBar(
                     )
                 }
             } else {
-                KamelImage(
+                Image(
                     modifier = Modifier.size(36.dp),
-                    resource = Resource.Success(painterResource(Res.drawable.studyround_logo)),
+                    painter = painterResource(Res.drawable.studyround_logo),
                     contentDescription = "Logo",
                 )
             }
@@ -107,23 +112,44 @@ fun StudyRoundAppBar(
                 modifier = Modifier.clip(CircleShape)
                     .clickable { eventProcessor(MenuToggled(true)) }) {
 
-                val resource =
-                    viewState.avatarUrl?.let { asyncPainterResource(it) } ?: Resource.Success(
-                        painterResource(Res.drawable.ic_error)
-                    )
-
-                KamelImage(
+                AutoSizeBox(
+                    url = viewState.avatarUrl.orEmpty(),
                     modifier = Modifier.size(32.dp),
-                    resource = resource,
-                    contentDescription = "Avatar",
-                    onLoading = {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(24.dp),
-                            color = StudyRoundTheme.colors.deviation_primary1_white,
-                            strokeWidth = 2.dp,
-                        )
-                    },
-                )
+                ) { action ->
+                    when (action) {
+                        is ImageAction.Success -> {
+                            Image(
+                                rememberImageSuccessPainter(action),
+                                modifier = Modifier.fillMaxSize(),
+                                contentDescription = "Avatar",
+                            )
+                        }
+
+                        is ImageAction.Loading -> {
+                            Icon(
+                                painterResource(Res.drawable.ic_account_circle),
+                                modifier = Modifier.fillMaxSize(),
+                                contentDescription = "Placeholder",
+                                tint = StudyRoundTheme.colors.gray,
+                            )
+
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(24.dp),
+                                color = StudyRoundTheme.colors.deviation_primary1_white,
+                                strokeWidth = 2.dp,
+                            )
+                        }
+
+                        is ImageAction.Failure -> {
+                            Icon(
+                                painterResource(Res.drawable.ic_account_circle),
+                                modifier = Modifier.fillMaxSize(),
+                                contentDescription = "Error",
+                                tint = StudyRoundTheme.colors.gray,
+                            )
+                        }
+                    }
+                }
 
                 DropdownMenu(
                     expanded = viewState.isMenuOpened,
