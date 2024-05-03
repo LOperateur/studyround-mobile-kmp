@@ -6,14 +6,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
@@ -29,16 +27,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.seiko.imageloader.model.ImageAction
-import com.seiko.imageloader.rememberImageSuccessPainter
-import com.seiko.imageloader.ui.AutoSizeBox
+import com.studyround.app.ui.composables.common.RemoteImage
 import com.studyround.app.ui.composables.dropdown.DropdownItem
 import com.studyround.app.ui.theme.StudyRoundTheme
 import org.jetbrains.compose.resources.painterResource
-import studyround.composeapp.generated.resources.Res
-import studyround.composeapp.generated.resources.ic_account_circle
-import studyround.composeapp.generated.resources.ic_arrow_back
-import studyround.composeapp.generated.resources.studyround_logo
+import studyround.composeapp.generated.resources.*
 
 @Composable
 fun StudyRoundAppBar(
@@ -112,44 +105,12 @@ fun StudyRoundAppBar(
                 modifier = Modifier.clip(CircleShape)
                     .clickable { eventProcessor(MenuToggled(true)) }) {
 
-                AutoSizeBox(
+                RemoteImage(
                     url = viewState.avatarUrl.orEmpty(),
                     modifier = Modifier.size(32.dp),
-                ) { action ->
-                    when (action) {
-                        is ImageAction.Success -> {
-                            Image(
-                                rememberImageSuccessPainter(action),
-                                modifier = Modifier.fillMaxSize(),
-                                contentDescription = "Avatar",
-                            )
-                        }
-
-                        is ImageAction.Loading -> {
-                            Icon(
-                                painterResource(Res.drawable.ic_account_circle),
-                                modifier = Modifier.fillMaxSize(),
-                                contentDescription = "Placeholder",
-                                tint = StudyRoundTheme.colors.gray,
-                            )
-
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(24.dp),
-                                color = StudyRoundTheme.colors.deviation_primary1_white,
-                                strokeWidth = 2.dp,
-                            )
-                        }
-
-                        is ImageAction.Failure -> {
-                            Icon(
-                                painterResource(Res.drawable.ic_account_circle),
-                                modifier = Modifier.fillMaxSize(),
-                                contentDescription = "Error",
-                                tint = StudyRoundTheme.colors.gray,
-                            )
-                        }
-                    }
-                }
+                    placeholderPainter = painterResource(Res.drawable.ic_avatar),
+                    placeholderTint = StudyRoundTheme.colors.gray,
+                )
 
                 DropdownMenu(
                     expanded = viewState.isMenuOpened,
