@@ -61,4 +61,8 @@
     <string name="please_select_placeholder">Please select...</string>
     <string name="home">Home</string>
     <string name="courses">Courses</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_results">Results</string>
+    <string name="menu_faqs">FAQs</string>
+    <string name="menu_transactions">Transactions</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.studyround.app.ui.composables.common.appbar
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.studyround.app.storage.AppPreferences
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import com.studyround.app.ui.viewmodel.WithEffects
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 enum class AppBarNavDestination {
     PROFILE, RESULTS, FAQS, TRANSACTIONS
@@ -33,6 +35,12 @@ class AppBarViewModel(
     private val _viewEffects = Channel<AppBarViewEffect>(Channel.BUFFERED)
     override val viewEffects: Flow<AppBarViewEffect> = _viewEffects.receiveAsFlow()
 
+    init {
+        screenModelScope.launch {
+            observeTheme()
+        }
+    }
+
     override fun processEvent(event: AppBarViewEvent) {
         when (event) {
             is MenuToggled -> {
@@ -47,6 +55,14 @@ class AppBarViewModel(
 
             is NavDestinationClicked -> {
                 _viewEffects.trySend(RequestNavigate(event.destination))
+            }
+        }
+    }
+
+    private suspend fun observeTheme() {
+        appPreferences.observeDarkMode().collect {
+            _viewState.update { state ->
+                state.copy(darkModePreference = it)
             }
         }
     }

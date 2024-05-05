@@ -110,6 +110,10 @@ enum class AppStrings {
     EMAIL,
     FRIEND_RECOMMENDATION,
     OTHER,
+    MENU_PROFILE,
+    MENU_RESULTS,
+    MENU_FAQS,
+    MENU_TRANSACTIONS,
 
     // Alerts/Messages
     OTP_SENT_ALERT,
@@ -161,6 +165,10 @@ private val AppStrings.stringRes: StringResWrapper
         AppStrings.EMAIL -> StringRes(Res.string.email)
         AppStrings.FRIEND_RECOMMENDATION -> StringRes(Res.string.friend_recommendation)
         AppStrings.OTHER -> StringRes(Res.string.other)
+        AppStrings.MENU_PROFILE -> StringRes(Res.string.menu_profile)
+        AppStrings.MENU_RESULTS -> StringRes(Res.string.menu_results)
+        AppStrings.MENU_FAQS -> StringRes(Res.string.menu_faqs)
+        AppStrings.MENU_TRANSACTIONS -> StringRes(Res.string.menu_transactions)
 
         AppStrings.OTP_SENT_ALERT -> StringRes(Res.string.otp_sent_alert)
         AppStrings.SUCCESS -> StringRes(Res.string.success_alert)
