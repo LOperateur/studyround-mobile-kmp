@@ -3,9 +3,12 @@ package com.studyround.app.ui.composables.common.appbar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,9 +16,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -116,6 +119,8 @@ fun StudyRoundAppBar(
                     expanded = viewState.isMenuOpened,
                     onDismissRequest = { eventProcessor(MenuToggled(false)) }
                 ) {
+                    ThemeSwitcher(viewState.darkModePreference, eventProcessor)
+
                     viewState.destinationMenuItems.forEach {
                         StudyRoundAppBarMenuItem(
                             dropdownItem = it,
@@ -129,16 +134,58 @@ fun StudyRoundAppBar(
 }
 
 @Composable
+private fun ThemeSwitcher(
+    darkModeSetting: Boolean?,
+    eventProcessor: (AppBarViewEvent) -> Unit,
+) {
+    val isDarkMode = darkModeSetting ?: isSystemInDarkTheme()
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .defaultMinSize(minWidth = 192.dp)
+            .padding(vertical = 0.dp, horizontal = 16.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            modifier = Modifier.size(20.dp),
+            painter = painterResource(Res.drawable.ic_light_mode),
+            tint = StudyRoundTheme.colors.gray,
+            contentDescription = "Light mode",
+        )
+
+        Switch(
+            modifier = Modifier.padding(horizontal = 8.dp),
+            checked = isDarkMode,
+            onCheckedChange = {
+                eventProcessor(DarkModeToggled(it))
+            },
+        )
+
+        Icon(
+            modifier = Modifier.size(20.dp),
+            painter = painterResource(Res.drawable.ic_dark_mode),
+            tint = StudyRoundTheme.colors.gray,
+            contentDescription = "Dark mode",
+        )
+    }
+}
+
+@Composable
 private fun StudyRoundAppBarMenuItem(
     dropdownItem: DropdownItem<AppBarNavDestination>,
     eventProcessor: (AppBarViewEvent) -> Unit,
 ) {
-    DropdownMenuItem(
-        onClick = {
-            eventProcessor(MenuToggled(false))
-            eventProcessor(NavDestinationClicked(dropdownItem.value))
-        },
-    ) {
-        Text(text = dropdownItem.resolvedLabel(), style = StudyRoundTheme.typography.bodySmall)
-    }
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                eventProcessor(MenuToggled(false))
+                eventProcessor(NavDestinationClicked(dropdownItem.value))
+            }
+            .padding(vertical = 8.dp, horizontal = 16.dp),
+        text = dropdownItem.resolvedLabel(),
+        style = StudyRoundTheme.typography.bodySmall
+    )
 }

@@ -5,6 +5,7 @@ import com.studyround.app.ui.composables.dropdown.DropdownItem
 data class AppBarViewState(
     val isMenuOpened: Boolean,
     val avatarUrl: String?,
+    val darkModePreference: Boolean?,
 ) {
     val destinationMenuItems = listOf(
         DropdownItem(0, "Profile", value = AppBarNavDestination.PROFILE),

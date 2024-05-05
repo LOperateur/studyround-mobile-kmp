@@ -147,7 +147,7 @@ internal object StudyRoundColors {
         override val shadow = Color.Unspecified // No shadow in dark mode
 
         override val primary = Color(0xFF_002E2F)
-        override val secondary = Color(0xFF_AA4221)
+        override val secondary = Color(0xFF_E1582D)
         override val tertiary = Color(0xFF_FFB300)
         override val danger = Color(0xFF_FFB3B3)
         override val success = Color(0xFF_B9F5D0)

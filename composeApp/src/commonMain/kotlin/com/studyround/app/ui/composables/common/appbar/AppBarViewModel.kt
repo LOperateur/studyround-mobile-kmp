@@ -16,10 +16,17 @@ enum class AppBarNavDestination {
 }
 
 class AppBarViewModel(
-    appPreferences: AppPreferences,
+    private val appPreferences: AppPreferences,
 ) : UdfViewModel<AppBarViewState, AppBarViewEvent>(), WithEffects<AppBarViewEffect> {
 
-    private val _viewState = MutableStateFlow(AppBarViewState(false, appPreferences.avatarUrl))
+    private val _viewState = MutableStateFlow(
+        AppBarViewState(
+            isMenuOpened = false,
+            avatarUrl = appPreferences.avatarUrl,
+            darkModePreference = appPreferences.darkMode,
+        )
+    )
+
     override val viewState: StateFlow<AppBarViewState>
         get() = _viewState.asStateFlow()
 
@@ -34,7 +41,9 @@ class AppBarViewModel(
                 }
             }
 
-            is DarkModeToggled -> {}
+            is DarkModeToggled -> {
+                appPreferences.setDarkMode(event.isDarkMode)
+            }
 
             is NavDestinationClicked -> {
                 _viewEffects.trySend(RequestNavigate(event.destination))
