@@ -24,17 +24,17 @@ class AndroidImageLoader(private val applicationContext: Context) : SRImageLoade
                 bitmapMemoryCacheConfig {
                     maxSizePercent(applicationContext, 0.25)
                 }
-                // cache 50 image
+                // cache 100 image
                 imageMemoryCacheConfig {
-                    maxSize(50)
+                    maxSize(100)
                 }
-                // cache 50 painter
+                // cache 100 painter
                 painterMemoryCacheConfig {
-                    maxSize(50)
+                    maxSize(100)
                 }
                 diskCacheConfig {
                     directory(applicationContext.cacheDir.resolve("image_cache").toOkioPath())
-                    maxSizeBytes(512L * 1024 * 1024) // 512MB
+                    maxSizeBytes(256L * 1024 * 1024) // 256MB
                 }
             }
         }
