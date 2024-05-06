@@ -144,7 +144,8 @@ private fun ThemeSwitcher(
         modifier = Modifier
             .fillMaxWidth()
             .defaultMinSize(minWidth = 192.dp)
-            .padding(vertical = 0.dp, horizontal = 16.dp),
+            .background(color = StudyRoundTheme.colors.tone2.copy(alpha = 0.4f))
+            .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
