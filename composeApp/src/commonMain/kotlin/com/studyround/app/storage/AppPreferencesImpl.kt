@@ -3,6 +3,10 @@ package com.studyround.app.storage
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.set
 import com.studyround.app.data.remote.dto.User
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 class AppPreferencesImpl(private val settings: ObservableSettings) : AppPreferences {
 
@@ -30,6 +34,17 @@ class AppPreferencesImpl(private val settings: ObservableSettings) : AppPreferen
 
     override val darkMode: Boolean?
         get() = settings.getBooleanOrNull(KEY_DARK_MODE)
+
+    override fun observeDarkMode(): Flow<Boolean?> {
+        return callbackFlow {
+            val listener = settings.addBooleanOrNullListener(KEY_DARK_MODE) {
+                trySend(it)
+            }
+            awaitClose {
+                listener.deactivate()
+            }
+        }.distinctUntilChanged()
+    }
 
     override fun setDarkMode(isDarkMode: Boolean?) {
         settings[KEY_DARK_MODE] = isDarkMode

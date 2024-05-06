@@ -1,6 +1,7 @@
 package com.studyround.app.storage
 
 import com.studyround.app.data.remote.dto.User
+import kotlinx.coroutines.flow.Flow
 
 interface AppPreferences {
     val userId: Int?
@@ -13,8 +14,8 @@ interface AppPreferences {
 
     fun saveProfile(user: User)
 
-    // TODO: Make this an observable flow
     val darkMode: Boolean?
+    fun observeDarkMode(): Flow<Boolean?>
     fun setDarkMode(isDarkMode: Boolean?)
 
     val isCarouselViewed: Boolean

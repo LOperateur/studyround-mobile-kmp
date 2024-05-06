@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.Navigator
+import com.seiko.imageloader.LocalImageLoader
+import com.studyround.app.platform.utils.SRImageLoader
 import com.studyround.app.ui.composables.alert.AlertBannerView
 import com.studyround.app.ui.composables.alert.AlertBannerViewModel
 import com.studyround.app.ui.composables.alert.AlertManager
@@ -24,6 +26,7 @@ import com.studyround.app.ui.composables.transitions.RootScreenSplashTransition
 import com.studyround.app.ui.features.splash.SplashScreen
 import com.studyround.app.ui.navigation.navigate
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import studyround.composeapp.generated.resources.Res
 import studyround.composeapp.generated.resources.force_update_prompt
 
@@ -38,13 +41,18 @@ class RootScreen : Screen {
 
         val viewState by viewModel.viewState.collectAsState()
 
+        val imageLoader = koinInject<SRImageLoader>()
+
         // Navigator for the children of the RootScreen
         var rootNavigator by remember { mutableStateOf<Navigator?>(null) }
 
         // Used to monitor the splash screen to control the provided transition
         val splashMonitor by remember { mutableStateOf(SplashMonitor(true)) }
 
-        CompositionLocalProvider(LocalAlertManager provides alertManager) {
+        CompositionLocalProvider(
+            LocalAlertManager provides alertManager,
+            LocalImageLoader provides remember { imageLoader.generateImageLoader() },
+        ) {
             Navigator(screen = SplashScreen { splashMonitor.isSplashScreenShowing = false }) {
                 rootNavigator = it
                 RootScreenSplashTransition(it, splashMonitor)

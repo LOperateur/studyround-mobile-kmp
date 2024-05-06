@@ -38,7 +38,7 @@ class LoginScreen : Screen {
                 when (effect) {
                     is ShowAlert -> {
                         alertManager.show(
-                            effect.message.loadString(args = effect.args),
+                            effect.message.loadString(*effect.args),
                             effect.type,
                         )
                     }

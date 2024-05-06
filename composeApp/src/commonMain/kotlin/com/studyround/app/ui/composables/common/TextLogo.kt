@@ -33,7 +33,7 @@ fun StudyRoundTextLogo(
         // Todo: Make this look better
         if (onBackPressed != null) {
             IconButton(
-                modifier = Modifier.width(24.dp),
+                modifier = Modifier.size(24.dp),
                 onClick = { onBackPressed() },
             ) {
                 Icon(

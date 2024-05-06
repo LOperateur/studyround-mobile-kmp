@@ -5,8 +5,8 @@ import com.studyround.app.utils.AppString
 import com.studyround.app.utils.AppStrings
 
 data class RegSurveyViewState(
-    val occupationSelection: DropdownItem<AppString>? = null,
-    val gradeSelection: DropdownItem<AppString>? = null,
+    val occupationSelection: DropdownItem<String>? = null,
+    val gradeSelection: DropdownItem<String>? = null,
     val awarenessSource: String? = null,
     val submissionLoading: Boolean = false,
 ) {
@@ -32,7 +32,7 @@ data class RegSurveyViewState(
     ).map { AppString(it) }
 
     val isStudentSelection
-        get() = occupationSelection?.value == AppString(AppStrings.STUDENT_OCCUPATION)
+        get() = occupationSelection?.labelResource == AppString(AppStrings.STUDENT_OCCUPATION)
 }
 
 data class RegSurveyTextFieldState(val professionText: String = "")

@@ -30,15 +30,20 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.studyround.app.ui.composables.input.innerShadow
 import com.studyround.app.ui.theme.StudyRoundTheme
+import com.studyround.app.utils.AppString
 import org.jetbrains.compose.resources.painterResource
 import studyround.composeapp.generated.resources.Res
 import studyround.composeapp.generated.resources.*
 
 data class DropdownItem<T : Any>(
-    val index: Int, // To handle duplicates
-    val text: String,
+    private val index: Int, // To handle duplicates
+    val label: String = String(),
+    val labelResource: AppString? = null,
     val value: T,
-)
+) {
+    @Composable
+    fun resolvedLabel() = this.labelResource?.getString() ?: this.label
+}
 
 @Composable
 fun <T : Any> DropdownInputField(
@@ -121,7 +126,7 @@ fun <T : Any> DropdownInputField(
                             onItemSelected(item)
                         }
                         .padding(vertical = 8.dp, horizontal = 16.dp),
-                    text = item.text,
+                    text = item.resolvedLabel(),
                     style = StudyRoundTheme.typography.bodySmall,
                 )
             }
