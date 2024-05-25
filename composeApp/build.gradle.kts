@@ -5,8 +5,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.androidx.room)
+    alias(libs.plugins.ksp)
 //    alias(libs.plugins.google.services)
-//    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -56,11 +57,10 @@ kotlin {
             implementation(libs.voyager.transitions)
             implementation(libs.voyager.tabNavigator)
 
-//            implementation("org.jetbrains.skiko:skiko:0.7.90")
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
 
-//            implementation(libs.sqlDelight.coroutine)
-//            implementation(libs.sqlDelight.runtime)
-//            implementation(libs.sqlDelight.primitive.adapters)
+//            implementation("org.jetbrains.skiko:skiko:0.7.90")
         }
 
         androidMain.dependencies {
@@ -81,12 +81,10 @@ kotlin {
             implementation(libs.androidx.security.crypto)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
-//            implementation(libs.sqlDelight.driver.android)
         }
 
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
-//            implementation(libs.sqlDelight.driver.native)
         }
 
         all {
@@ -178,4 +176,15 @@ android {
 
     // TODO: Keep an eye on when to remove this with every AS update
     task("testClasses")
+}
+
+dependencies {
+    add("kspAndroid", libs.androidx.room.compiler)
+    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
+    add("kspIosX64", libs.androidx.room.compiler)
+    add("kspIosArm64", libs.androidx.room.compiler)
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
