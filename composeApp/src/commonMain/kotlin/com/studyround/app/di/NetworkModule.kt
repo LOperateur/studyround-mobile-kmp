@@ -1,10 +1,10 @@
 package com.studyround.app.di
 
 import com.studyround.app.platform.utils.Platform
-import com.studyround.app.service.auth.AuthService
-import com.studyround.app.service.auth.AuthServiceImpl
-import com.studyround.app.service.survey.RegSurveyService
-import com.studyround.app.service.survey.RegSurveyServiceImpl
+import com.studyround.app.data.service.auth.AuthService
+import com.studyround.app.data.service.auth.AuthServiceImpl
+import com.studyround.app.data.service.survey.RegSurveyService
+import com.studyround.app.data.service.survey.RegSurveyServiceImpl
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation

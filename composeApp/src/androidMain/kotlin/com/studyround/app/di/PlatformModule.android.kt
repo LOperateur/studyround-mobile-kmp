@@ -10,8 +10,8 @@ import com.studyround.app.platform.utils.AndroidNetworkHelper
 import com.studyround.app.platform.utils.AndroidPlatform
 import com.studyround.app.platform.utils.NetworkHelper
 import com.studyround.app.platform.utils.Platform
-import com.studyround.app.platform.utils.SRImageLoader
-import com.studyround.app.storage.Preferences
+import com.studyround.app.platform.utils.StudyRoundImageLoader
+import com.studyround.app.data.storage.Preferences
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
 import okhttp3.OkHttpClient
@@ -46,5 +46,5 @@ actual val platformModule = module {
 
     single<HttpClientEngine> { OkHttp.create { preconfigured = OkHttpClient().newBuilder().build() } }
 
-    single<SRImageLoader> { AndroidImageLoader(androidContext()) }
+    single<StudyRoundImageLoader> { AndroidImageLoader(androidContext()) }
 }

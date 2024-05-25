@@ -1,7 +1,7 @@
 package com.studyround.app.ui.composables.common.appbar
 
 import cafe.adriel.voyager.core.model.screenModelScope
-import com.studyround.app.storage.AppPreferences
+import com.studyround.app.data.storage.preferences.AppPreferences
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import com.studyround.app.ui.viewmodel.WithEffects
 import kotlinx.coroutines.channels.Channel

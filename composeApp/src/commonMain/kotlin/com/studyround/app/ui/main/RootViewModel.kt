@@ -1,9 +1,9 @@
 package com.studyround.app.ui.main
 
 import cafe.adriel.voyager.core.model.screenModelScope
-import com.studyround.app.auth.session.SessionManager
+import com.studyround.app.data.auth.session.SessionManager
 import com.studyround.app.platform.utils.Platform
-import com.studyround.app.storage.AppPreferences
+import com.studyround.app.data.storage.preferences.AppPreferences
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import com.studyround.app.ui.viewmodel.WithEffects
 import kotlinx.coroutines.channels.Channel

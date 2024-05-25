@@ -10,7 +10,7 @@ import com.studyround.app.platform.utils.IosImageLoader
 import com.studyround.app.platform.utils.IosPlatform
 import com.studyround.app.platform.utils.NetworkHelper
 import com.studyround.app.platform.utils.Platform
-import com.studyround.app.platform.utils.SRImageLoader
+import com.studyround.app.platform.utils.StudyRoundImageLoader
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.darwin.Darwin
 import org.koin.core.qualifier.named
@@ -31,5 +31,5 @@ actual val platformModule = module {
 
     single<HttpClientEngine> { Darwin.create() }
 
-    single<SRImageLoader> { IosImageLoader() }
+    single<StudyRoundImageLoader> { IosImageLoader() }
 }
