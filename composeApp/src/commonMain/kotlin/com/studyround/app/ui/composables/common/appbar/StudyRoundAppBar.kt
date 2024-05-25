@@ -186,7 +186,7 @@ private fun StudyRoundAppBarMenuItem(
                 eventProcessor(NavDestinationClicked(dropdownItem.value))
             }
             .padding(vertical = 8.dp, horizontal = 16.dp),
-        text = dropdownItem.resolvedLabel(),
+        text = dropdownItem.label(),
         style = StudyRoundTheme.typography.bodySmall
     )
 }
