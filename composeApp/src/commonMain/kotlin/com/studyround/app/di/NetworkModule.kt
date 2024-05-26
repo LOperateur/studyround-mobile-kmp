@@ -1,12 +1,16 @@
 package com.studyround.app.di
 
-import com.studyround.app.platform.utils.Platform
+import com.studyround.app.data.auth.session.SessionManager
 import com.studyround.app.data.service.auth.AuthService
 import com.studyround.app.data.service.auth.AuthServiceImpl
 import com.studyround.app.data.service.survey.RegSurveyService
 import com.studyround.app.data.service.survey.RegSurveyServiceImpl
+import com.studyround.app.platform.utils.Platform
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
@@ -41,6 +45,22 @@ val networkModule = module {
             // Content Negotiation
             install(ContentNegotiation) {
                 json(get())
+            }
+
+            install(Auth) {
+                bearer {
+                    loadTokens {
+                        get<SessionManager>().getAuthCredentials()?.let {
+                            BearerTokens(it.authToken, it.refreshToken)
+                        }
+                    }
+
+                    refreshTokens {
+                        get<SessionManager>().refreshAuthCredentials()?.let {
+                            BearerTokens(it.authToken, it.refreshToken)
+                        }
+                    }
+                }
             }
 
             defaultRequest {

@@ -9,6 +9,9 @@ import com.studyround.app.data.model.remote.request.OtpRequest
 import com.studyround.app.data.model.remote.response.StudyRoundResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerAuthProvider
+import io.ktor.client.plugins.plugin
 import io.ktor.client.request.forms.submitForm
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -36,6 +39,7 @@ class AuthServiceImpl(
             url { path("auth/signup") }
         }
 
+        clearToken()
         return response.body<StudyRoundResponse<AuthUser>>().assertNoErrors
     }
 
@@ -52,6 +56,7 @@ class AuthServiceImpl(
             url { path("auth/login") }
         }
 
+        clearToken()
         return response.body<StudyRoundResponse<AuthUser>>().assertNoErrors
     }
 
@@ -64,6 +69,7 @@ class AuthServiceImpl(
             url { path("auth/google/mobile") }
         }
 
+        clearToken()
         return response.body<StudyRoundResponse<AuthUser>>().assertNoErrors
     }
 
@@ -81,6 +87,7 @@ class AuthServiceImpl(
             url { path("auth/reset") }
         }
 
+        clearToken()
         return response.body<StudyRoundResponse<AuthUser>>().assertNoErrors
     }
 
@@ -93,6 +100,7 @@ class AuthServiceImpl(
             url { path("auth/refresh-token") }
         }
 
+        clearToken()
         return response.body<StudyRoundResponse<AccessToken>>().assertNoErrors
     }
 
@@ -129,5 +137,14 @@ class AuthServiceImpl(
         }
 
         return response.body<StudyRoundResponse<PassToken>>().assertNoErrors
+    }
+
+    /**
+     * Clears the currently cached token in order to prevent the next request from using it.
+     * This forces the next request to call `loadTokens` before executing.
+     */
+    private fun clearToken() {
+        httpClient.plugin(Auth).providers.filterIsInstance<BearerAuthProvider>().first()
+            .clearToken()
     }
 }

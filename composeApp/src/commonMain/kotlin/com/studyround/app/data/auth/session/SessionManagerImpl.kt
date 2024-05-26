@@ -9,15 +9,17 @@ import com.studyround.app.data.mapper.dto_entity.toEntity
 import com.studyround.app.data.model.remote.dto.AccessToken
 import com.studyround.app.data.model.remote.dto.AuthUser
 import com.studyround.app.data.model.remote.dto.User
-import com.studyround.app.platform.auth.GoogleAuthProvider
 import com.studyround.app.data.resource.Resource
 import com.studyround.app.data.resource.wrappedResourceFlow
 import com.studyround.app.data.service.auth.AuthService
-import com.studyround.app.data.storage.preferences.AppPreferences
 import com.studyround.app.data.storage.credentials.CredentialsManager
 import com.studyround.app.data.storage.dao.UserDao
+import com.studyround.app.data.storage.preferences.AppPreferences
+import com.studyround.app.platform.auth.GoogleAuthProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 
 class SessionManagerImpl(
@@ -70,6 +72,7 @@ class SessionManagerImpl(
     }
 
     override suspend fun logout() {
+        // TODO: Ensure you also clear tokens
         googleAuthProvider.logout()
         appPreferences.clear()
         credentialsManager.clearCredentials()
@@ -82,7 +85,34 @@ class SessionManagerImpl(
         ).toUserResourceFlow(false)
     }
 
-    override fun refreshToken(refreshToken: String): Flow<Resource<AccessToken>> {
+    override fun getAuthCredentials(): AuthCredentials? {
+        val accessToken = credentialsManager.getAuthToken()
+        val refreshToken = credentialsManager.getRefreshToken()
+
+        return if (accessToken != null && refreshToken != null) {
+            AuthCredentials(accessToken, refreshToken)
+        } else null
+    }
+
+    override suspend fun refreshAuthCredentials(): AuthCredentials? {
+        val refreshToken = credentialsManager.getRefreshToken()
+        return if (refreshToken.isNullOrBlank()) {
+            null
+        } else {
+            val result = refreshToken(refreshToken).filter { it !is Resource.Loading }
+                .firstOrNull()
+            when (result) {
+                is Resource.Success -> {
+                    AuthCredentials(result.data.accessToken, refreshToken).apply {
+                        credentialsManager.saveCredentials(this)
+                    }
+                }
+                else -> null
+            }
+        }
+    }
+
+    private fun refreshToken(refreshToken: String): Flow<Resource<AccessToken>> {
         return wrappedResourceFlow {
             authService.refreshToken(refreshToken)
         }

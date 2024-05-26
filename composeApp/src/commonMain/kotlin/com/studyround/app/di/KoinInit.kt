@@ -13,8 +13,8 @@ fun initKoin(
         modules(
             additionalModules +
             listOf(
-                commonModule,
                 platformModule,
+                commonModule,
                 networkModule,
                 viewModelModule,
                 repositoryModule,

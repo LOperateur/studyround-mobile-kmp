@@ -1,7 +1,7 @@
 package com.studyround.app.data.auth.session
 
+import com.studyround.app.data.auth.model.AuthCredentials
 import com.studyround.app.data.auth.model.AuthType
-import com.studyround.app.data.model.remote.dto.AccessToken
 import com.studyround.app.data.model.remote.dto.User
 import com.studyround.app.data.resource.Resource
 import kotlinx.coroutines.flow.Flow
@@ -18,5 +18,7 @@ interface SessionManager {
 
     fun reset(password: String, passToken: String): Flow<Resource<User>>
 
-    fun refreshToken(refreshToken: String): Flow<Resource<AccessToken>>
+    fun getAuthCredentials(): AuthCredentials?
+
+    suspend fun refreshAuthCredentials(): AuthCredentials?
 }
