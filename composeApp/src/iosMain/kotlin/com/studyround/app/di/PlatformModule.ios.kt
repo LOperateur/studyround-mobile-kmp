@@ -4,6 +4,8 @@ import com.russhwolf.settings.ExperimentalSettingsImplementation
 import com.russhwolf.settings.KeychainSettings
 import com.russhwolf.settings.NSUserDefaultsSettings
 import com.russhwolf.settings.ObservableSettings
+import com.studyround.app.data.storage.Database
+import com.studyround.app.data.storage.StudyRoundDatabase
 import com.studyround.app.platform.IosApplicationComponent
 import com.studyround.app.platform.auth.GoogleAuthProvider
 import com.studyround.app.platform.utils.IosImageLoader
@@ -32,4 +34,6 @@ actual val platformModule = module {
     single<HttpClientEngine> { Darwin.create() }
 
     single<StudyRoundImageLoader> { IosImageLoader() }
+
+    single<StudyRoundDatabase> { Database.createRoomDatabase() }
 }

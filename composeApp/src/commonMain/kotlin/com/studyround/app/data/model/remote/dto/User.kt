@@ -23,6 +23,7 @@ data class User(
 
 @Serializable
 enum class UserType(val value: String) {
+    @SerialName("admin") ADMIN("admin"),
     @SerialName("standard") STANDARD("standard"),
 }
 

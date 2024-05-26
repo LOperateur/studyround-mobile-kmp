@@ -3,6 +3,7 @@ package com.studyround.app.di
 import androidx.credentials.CredentialManager
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.SharedPreferencesSettings
+import com.studyround.app.data.storage.Database
 import com.studyround.app.platform.auth.AndroidGoogleAuthProvider
 import com.studyround.app.platform.auth.GoogleAuthProvider
 import com.studyround.app.platform.utils.AndroidImageLoader
@@ -12,6 +13,7 @@ import com.studyround.app.platform.utils.NetworkHelper
 import com.studyround.app.platform.utils.Platform
 import com.studyround.app.platform.utils.StudyRoundImageLoader
 import com.studyround.app.data.storage.Preferences
+import com.studyround.app.data.storage.StudyRoundDatabase
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
 import okhttp3.OkHttpClient
@@ -47,4 +49,6 @@ actual val platformModule = module {
     single<HttpClientEngine> { OkHttp.create { preconfigured = OkHttpClient().newBuilder().build() } }
 
     single<StudyRoundImageLoader> { AndroidImageLoader(androidContext()) }
+
+    single<StudyRoundDatabase> { Database.createRoomDatabase(androidContext()) }
 }
