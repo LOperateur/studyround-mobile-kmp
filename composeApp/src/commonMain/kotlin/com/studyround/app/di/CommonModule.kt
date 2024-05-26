@@ -4,6 +4,7 @@ import com.studyround.app.data.auth.email.EmailAuthProvider
 import com.studyround.app.data.auth.email.EmailAuthProviderImpl
 import com.studyround.app.data.auth.session.SessionManager
 import com.studyround.app.data.auth.session.SessionManagerImpl
+import com.studyround.app.data.storage.StudyRoundDatabase
 import com.studyround.app.utils.NetworkListener
 import com.studyround.app.data.storage.preferences.AppPreferences
 import com.studyround.app.data.storage.preferences.AppPreferencesImpl
@@ -22,5 +23,14 @@ val commonModule = module {
         )
     }
     single<EmailAuthProvider> { EmailAuthProviderImpl(get()) }
-    single<SessionManager> { SessionManagerImpl(get(), get(), get(), get(), get()) }
+    single<SessionManager> {
+        SessionManagerImpl(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get<StudyRoundDatabase>().userDao(),
+        )
+    }
 }

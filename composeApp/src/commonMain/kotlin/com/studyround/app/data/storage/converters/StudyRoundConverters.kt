@@ -11,6 +11,6 @@ class StudyRoundConverters {
 
     @TypeConverter
     fun toUserType(value: String): UserType {
-        return UserType.valueOf(value)
+        return UserType.valueOf(value.uppercase())
     }
 }

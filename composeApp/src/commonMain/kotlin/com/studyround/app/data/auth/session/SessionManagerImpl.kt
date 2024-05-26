@@ -5,6 +5,7 @@ import com.studyround.app.data.auth.model.AuthCredentials
 import com.studyround.app.data.auth.model.AuthType
 import com.studyround.app.data.auth.model.EmailAuthType
 import com.studyround.app.data.auth.model.GoogleAuthType
+import com.studyround.app.data.mapper.dto_entity.toEntity
 import com.studyround.app.data.model.remote.dto.AccessToken
 import com.studyround.app.data.model.remote.dto.AuthUser
 import com.studyround.app.data.model.remote.dto.User
@@ -14,6 +15,7 @@ import com.studyround.app.data.resource.wrappedResourceFlow
 import com.studyround.app.data.service.auth.AuthService
 import com.studyround.app.data.storage.preferences.AppPreferences
 import com.studyround.app.data.storage.credentials.CredentialsManager
+import com.studyround.app.data.storage.dao.UserDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -24,6 +26,7 @@ class SessionManagerImpl(
     private val credentialsManager: CredentialsManager,
     private val authService: AuthService,
     private val appPreferences: AppPreferences,
+    private val userDao: UserDao,
 ) : SessionManager {
 
     override val isSignedIn: StateFlow<Boolean>
@@ -94,8 +97,12 @@ class SessionManagerImpl(
                     // If logging in, skip the registration survey
                     if (!isSignup) appPreferences.setShouldDisplaySurveyScreen(false)
 
-                    // Save the user profile data and credentials
-                    appPreferences.saveProfile(it.data.user)
+                    // Save the user data and credentials
+                    it.data.user.toEntity().let { user ->
+                        appPreferences.saveProfile(user)
+                        userDao.insertUser(user)
+                    }
+
                     saveCredentials(it.data)
 
                     Resource.Success(data = it.data.user, message = it.message)

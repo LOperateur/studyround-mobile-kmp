@@ -5,6 +5,7 @@ import com.studyround.app.data.model.remote.response.StudyRoundResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.submitForm
+import io.ktor.http.HttpMethod
 import io.ktor.http.parameters
 import io.ktor.http.path
 
@@ -21,6 +22,7 @@ class RegSurveyServiceImpl(
                 append("occupation", "$occupation-$suffix")
             }
         ) {
+            method = HttpMethod.Put
             url { path("user") }
         }
 

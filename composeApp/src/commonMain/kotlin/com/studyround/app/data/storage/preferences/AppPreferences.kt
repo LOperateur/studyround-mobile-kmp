@@ -1,6 +1,6 @@
 package com.studyround.app.data.storage.preferences
 
-import com.studyround.app.data.model.remote.dto.User
+import com.studyround.app.data.model.local.dto.User
 import kotlinx.coroutines.flow.Flow
 
 interface AppPreferences {
