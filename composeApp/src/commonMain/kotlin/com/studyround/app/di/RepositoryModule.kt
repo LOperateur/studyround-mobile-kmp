@@ -9,5 +9,11 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
     single<AuthRepository> { AuthRepositoryImpl(get()) }
-    single<RegSurveyRepository> { RegSurveyRepositoryImpl(get(), get<StudyRoundDatabase>().userDao()) }
+    single<RegSurveyRepository> {
+        RegSurveyRepositoryImpl(
+            get(),
+            get(),
+            get<StudyRoundDatabase>().userDao(),
+        )
+    }
 }

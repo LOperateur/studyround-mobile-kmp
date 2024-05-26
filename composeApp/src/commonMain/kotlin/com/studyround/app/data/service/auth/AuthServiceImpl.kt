@@ -139,6 +139,10 @@ class AuthServiceImpl(
         return response.body<StudyRoundResponse<PassToken>>().assertNoErrors
     }
 
+    override fun logout() {
+        clearToken()
+    }
+
     /**
      * Clears the currently cached token in order to prevent the next request from using it.
      * This forces the next request to call `loadTokens` before executing.

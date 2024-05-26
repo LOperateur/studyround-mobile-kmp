@@ -33,4 +33,6 @@ interface AuthService {
     suspend fun generateOtp(email: String, authType: AuthType, resend: Boolean): StudyRoundResponse<Otp>
 
     suspend fun validateOtp(otpId: Int, otp: String): StudyRoundResponse<PassToken>
+
+    fun logout()
 }

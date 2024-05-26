@@ -20,6 +20,7 @@ class RegSurveyServiceImpl(
         val response = httpClient.submitForm(
             formParameters = parameters {
                 append("occupation", "$occupation-$suffix")
+                append("profile_image_url", "x") // To prevent deleting the avatar
             }
         ) {
             method = HttpMethod.Put
