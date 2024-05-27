@@ -72,7 +72,7 @@ class SessionManagerImpl(
     }
 
     override suspend fun logout() {
-        // TODO: Ensure you also clear tokens
+        authService.logout()
         googleAuthProvider.logout()
         appPreferences.clear()
         credentialsManager.clearCredentials()
@@ -107,7 +107,10 @@ class SessionManagerImpl(
                         credentialsManager.saveCredentials(this)
                     }
                 }
-                else -> null
+                else -> {
+                    logout()
+                    null
+                }
             }
         }
     }

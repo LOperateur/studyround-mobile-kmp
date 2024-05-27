@@ -56,6 +56,8 @@ class RootViewModel(
     private fun signedOutNavigationPath() {
         screenModelScope.launch {
             if (appPreferences.isCarouselViewed) {
+                // TODO: Use local `hasSignedIn` variable to track if user is getting
+                //  logged out so as to show logged out alert banner.
                 _viewEffects.send(Navigate(RootDestination.Auth, true))
             } else {
                 _viewEffects.send(Navigate(RootDestination.Onboarding, true))
