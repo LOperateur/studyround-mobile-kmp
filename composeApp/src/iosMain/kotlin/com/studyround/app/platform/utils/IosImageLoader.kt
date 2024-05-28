@@ -10,7 +10,7 @@ import platform.Foundation.NSCachesDirectory
 import platform.Foundation.NSSearchPathForDirectoriesInDomains
 import platform.Foundation.NSUserDomainMask
 
-class IosImageLoader : SRImageLoader {
+class IosImageLoader : StudyRoundImageLoader {
     override fun generateImageLoader(): ImageLoader {
         return ImageLoader {
             components {

@@ -64,7 +64,7 @@ fun RegSurveyFormContent(
 
             DropdownInputField(
                 modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 32.dp),
-                text = viewState.occupationSelection?.resolvedLabel()
+                text = viewState.occupationSelection?.label()
                     ?: stringResource(Res.string.please_select_placeholder),
                 items = viewState.occupations.mapIndexed { index, it ->
                     DropdownItem(index, labelResource = it, value = it.getString())
@@ -96,7 +96,7 @@ fun RegSurveyFormContent(
                         if (viewState.isStudentSelection) {
                             DropdownInputField(
                                 modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
-                                text = viewState.gradeSelection?.resolvedLabel()
+                                text = viewState.gradeSelection?.label()
                                     ?: stringResource(Res.string.please_select_placeholder),
                                 items = viewState.grades.mapIndexed { index, it ->
                                     DropdownItem(index, labelResource = it, value = it.getString())

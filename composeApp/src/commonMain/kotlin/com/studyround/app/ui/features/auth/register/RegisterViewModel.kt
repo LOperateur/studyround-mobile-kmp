@@ -5,10 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import cafe.adriel.voyager.core.model.screenModelScope
-import com.studyround.app.auth.model.EmailAuthType
-import com.studyround.app.auth.session.SessionManager
-import com.studyround.app.service.data.resource.Resource
-import com.studyround.app.service.data.resource.windowedLoadDebounce
+import com.studyround.app.data.auth.model.EmailAuthType
+import com.studyround.app.data.auth.session.SessionManager
+import com.studyround.app.data.resource.Resource
+import com.studyround.app.data.resource.windowedLoadDebounce
 import com.studyround.app.ui.composables.alert.AlertBannerType
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import com.studyround.app.ui.viewmodel.WithEffects

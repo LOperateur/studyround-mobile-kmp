@@ -11,22 +11,18 @@ data class AppBarViewState(
 ) {
     val destinationMenuItems = listOf(
         DropdownItem(
-            0,
             labelResource = AppString(AppStrings.MENU_PROFILE),
             value = AppBarNavDestination.PROFILE,
         ),
         DropdownItem(
-            1,
             labelResource = AppString(AppStrings.MENU_RESULTS),
             value = AppBarNavDestination.RESULTS,
         ),
         DropdownItem(
-            2,
             labelResource = AppString(AppStrings.MENU_FAQS),
             value = AppBarNavDestination.FAQS,
         ),
         DropdownItem(
-            3,
             labelResource = AppString(AppStrings.MENU_TRANSACTIONS),
             value = AppBarNavDestination.TRANSACTIONS,
         ),

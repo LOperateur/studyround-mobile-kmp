@@ -3,7 +3,9 @@ package com.studyround.app.utils
 import androidx.compose.runtime.Composable
 import com.studyround.app.utils.StringResWrapper.PluralRes
 import com.studyround.app.utils.StringResWrapper.StringRes
+import org.jetbrains.compose.resources.PluralStringResource
 import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import studyround.composeapp.generated.resources.Res
 import studyround.composeapp.generated.resources.*
@@ -44,7 +46,7 @@ data class AppString(
         return dynamicText ?: run {
             when (val resource = appString?.stringRes) {
                 is StringRes -> org.jetbrains.compose.resources.getString(resource.resId, *args)
-                is PluralRes -> org.jetbrains.compose.resources.getString(resource.resId, quantity, *args)
+                is PluralRes -> org.jetbrains.compose.resources.getPluralString(resource.resId, quantity, *args)
                 else -> throw Exception("App String not defined")
             }
         }
@@ -65,7 +67,7 @@ data class AppString(
         return dynamicText ?: run {
             when (val resource = appString?.stringRes) {
                 is StringRes -> stringResource(resource.resId, *args)
-                is PluralRes -> stringResource(resource.resId, quantity, *args)
+                is PluralRes -> pluralStringResource(resource.resId, quantity, *args)
                 else -> throw Exception("App String not defined")
             }
         }
@@ -126,7 +128,7 @@ enum class AppStrings {
  */
 sealed class StringResWrapper {
     data class StringRes(val resId: StringResource) : StringResWrapper()
-    data class PluralRes(val resId: StringResource) : StringResWrapper()
+    data class PluralRes(val resId: PluralStringResource) : StringResWrapper()
 }
 
 /**

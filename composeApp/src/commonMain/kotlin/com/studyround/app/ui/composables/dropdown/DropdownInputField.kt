@@ -36,13 +36,13 @@ import studyround.composeapp.generated.resources.Res
 import studyround.composeapp.generated.resources.*
 
 data class DropdownItem<T : Any>(
-    private val index: Int, // To handle duplicates
-    val label: String = String(),
+    private val index: Int = 0, // Optional: To distinguish duplicates with identical labels
+    private val label: String = String(),
     val labelResource: AppString? = null,
     val value: T,
 ) {
     @Composable
-    fun resolvedLabel() = this.labelResource?.getString() ?: this.label
+    fun label() = this.labelResource?.getString() ?: this.label
 }
 
 @Composable
@@ -126,7 +126,7 @@ fun <T : Any> DropdownInputField(
                             onItemSelected(item)
                         }
                         .padding(vertical = 8.dp, horizontal = 16.dp),
-                    text = item.resolvedLabel(),
+                    text = item.label(),
                     style = StudyRoundTheme.typography.bodySmall,
                 )
             }

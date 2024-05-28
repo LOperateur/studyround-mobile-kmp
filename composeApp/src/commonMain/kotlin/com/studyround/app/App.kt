@@ -10,7 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.navigator.Navigator
-import com.studyround.app.storage.AppPreferences
+import com.studyround.app.data.storage.preferences.AppPreferences
 import com.studyround.app.ui.main.RootScreen
 import com.studyround.app.ui.theme.StudyRoundTheme
 import org.koin.compose.KoinContext

@@ -10,7 +10,7 @@ import com.seiko.imageloader.intercept.painterMemoryCacheConfig
 import com.seiko.imageloader.option.androidContext
 import okio.Path.Companion.toOkioPath
 
-class AndroidImageLoader(private val applicationContext: Context) : SRImageLoader {
+class AndroidImageLoader(private val applicationContext: Context) : StudyRoundImageLoader {
     override fun generateImageLoader(): ImageLoader {
         return ImageLoader {
             options {

@@ -17,7 +17,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.Navigator
 import com.seiko.imageloader.LocalImageLoader
-import com.studyround.app.platform.utils.SRImageLoader
+import com.studyround.app.platform.utils.StudyRoundImageLoader
 import com.studyround.app.ui.composables.alert.AlertBannerView
 import com.studyround.app.ui.composables.alert.AlertBannerViewModel
 import com.studyround.app.ui.composables.alert.AlertManager
@@ -41,7 +41,7 @@ class RootScreen : Screen {
 
         val viewState by viewModel.viewState.collectAsState()
 
-        val imageLoader = koinInject<SRImageLoader>()
+        val imageLoader = koinInject<StudyRoundImageLoader>()
 
         // Navigator for the children of the RootScreen
         var rootNavigator by remember { mutableStateOf<Navigator?>(null) }
