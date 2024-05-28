@@ -97,6 +97,8 @@ class AuthServiceImpl(
                 append("refresh_token", refreshToken)
             }
         ) {
+            // Mark as refresh token request (skip auth and refresh token cycle)
+            attributes.put(Auth.AuthCircuitBreaker, Unit)
             url { path("auth/refresh-token") }
         }
 
