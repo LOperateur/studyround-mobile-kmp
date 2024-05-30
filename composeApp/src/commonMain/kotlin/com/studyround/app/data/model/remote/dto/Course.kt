@@ -23,7 +23,7 @@ data class Course(
     @SerialName("private") val isPrivate: Boolean = false,
     @SerialName("publish_status") val publishStatus: PublishStatus? = null,
     @SerialName("purchase_status") val purchaseStatus: Map<SaleStatus, Boolean> = mapOf(),
-    @SerialName("rating") val rating: Double? = null,
+    @SerialName("rating") val rating: Float? = null,
     @SerialName("review_count") val reviewCount: Int? = null,
     @SerialName("sale_status") val saleStatus: List<SaleStatus> = listOf(),
     @SerialName("test") val isTest: Boolean = false,
@@ -57,12 +57,6 @@ enum class PublishStatus(value: String) {
     @SerialName("publish_status_published")
     PUBLISH_STATUS_PUBLISHED("publish_status_published"),
 }
-
-@Serializable
-data class Category(
-    @SerialName("id")val id: Long,
-    @SerialName("name")val name: String,
-)
 
 @Serializable
 enum class SaleStatus(value: String) {
