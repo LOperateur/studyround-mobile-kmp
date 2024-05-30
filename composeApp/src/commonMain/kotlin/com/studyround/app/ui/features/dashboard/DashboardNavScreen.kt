@@ -5,11 +5,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -29,10 +31,10 @@ import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
-import com.studyround.app.ui.composables.common.appbar.StudyRoundAppBar
 import com.studyround.app.ui.composables.common.StudyRoundBackground
 import com.studyround.app.ui.composables.common.StudyRoundTextLogo
 import com.studyround.app.ui.composables.common.appbar.AppBarViewModel
+import com.studyround.app.ui.composables.common.appbar.StudyRoundAppBar
 import com.studyround.app.ui.features.dashboard.courses.CoursesScreen
 import com.studyround.app.ui.features.dashboard.home.DashboardHomeScreen
 import com.studyround.app.ui.theme.StudyRoundTheme
@@ -74,40 +76,27 @@ class DashboardNavScreen : Screen {
                                     Modifier.fillMaxSize(),
                                     showGradientScrim = true,
                                 )
-                                Box(
-                                    modifier = Modifier
-                                        .padding(it)
-                                        .withNavBarPadding(usesBottomBar = !isExpanded)
-                                ) {
-                                    CurrentTab()
-                                }
+                                Box(modifier = Modifier.padding(it)) { CurrentTab() }
                             }
                         }
                     }
                 },
                 bottomBar = {
-                    if (!isExpanded) {
-                        Box(
-                            modifier = Modifier.background(color = StudyRoundTheme.colors.deviation_primary3_primary0)
-                        ) { BottomNavigationBar() }
+                    Box(
+                        modifier = Modifier
+                            .background(color = StudyRoundTheme.colors.deviation_primary3_primary0)
+                            .navigationBarsPadding()
+                    ) {
+                        if (!isExpanded) BottomNavigationBar() else Spacer(Modifier.fillMaxWidth())
                     }
                 }
             )
         }
     }
 
-    private fun Modifier.withNavBarPadding(usesBottomBar: Boolean): Modifier {
-        return if (!usesBottomBar) {
-            this.navigationBarsPadding()
-        } else {
-            this
-        }
-    }
-
     @Composable
     private fun BottomNavigationBar() {
         BottomNavigation(
-            modifier = Modifier.navigationBarsPadding(),
             backgroundColor = StudyRoundTheme.colors.deviation_primary3_primary0,
             contentColor = StudyRoundTheme.colors.white,
             elevation = 0.dp,
@@ -151,14 +140,14 @@ class DashboardNavScreen : Screen {
     @Composable
     private fun SideNavigationBar() {
         NavigationRail(
-            modifier = Modifier.fillMaxHeight().systemBarsPadding(),
+            modifier = Modifier.fillMaxHeight(),
             backgroundColor = StudyRoundTheme.colors.deviation_primary2_primary0,
             contentColor = StudyRoundTheme.colors.white,
             header = {
                 StudyRoundTextLogo(
                     modifier = Modifier.padding(
                         horizontal = 16.dp,
-                    ),
+                    ).statusBarsPadding(),
                     color = StudyRoundTheme.colors.white,
                 )
             },
