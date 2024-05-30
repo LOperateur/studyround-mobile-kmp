@@ -2,15 +2,23 @@ package com.studyround.app.ui.features.dashboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.NavigationRail
+import androidx.compose.material.NavigationRailItem
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -23,55 +31,89 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.studyround.app.ui.composables.common.appbar.StudyRoundAppBar
 import com.studyround.app.ui.composables.common.StudyRoundBackground
+import com.studyround.app.ui.composables.common.StudyRoundTextLogo
 import com.studyround.app.ui.composables.common.appbar.AppBarViewModel
 import com.studyround.app.ui.features.dashboard.courses.CoursesScreen
 import com.studyround.app.ui.features.dashboard.home.DashboardHomeScreen
 import com.studyround.app.ui.theme.StudyRoundTheme
+import com.studyround.app.ui.utils.isTabletLandscapeMode
 import org.jetbrains.compose.resources.painterResource
 import studyround.composeapp.generated.resources.*
 
 class DashboardNavScreen : Screen {
 
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     @Composable
     override fun Content() {
         // val homeNavigator = LocalNavigator.currentOrThrow
         val appBarViewModel = getScreenModel<AppBarViewModel>()
+        val windowSizeClass = calculateWindowSizeClass()
+
+        val isExpanded = windowSizeClass.isTabletLandscapeMode()
 
         TabNavigator(DashboardHomeScreen()) {
             val tabNavigator = LocalTabNavigator.current
 
             Scaffold(
                 // Note: Scaffold automatically applies topBar padding to content
-                topBar = {
-                    StudyRoundAppBar(
-                        title = tabNavigator.current.options.title,
-                        viewModel = appBarViewModel,
-                    )
-                },
                 content = {
-                    StudyRoundBackground(Modifier.fillMaxSize(), showGradientScrim = true)
-                    Box(modifier = Modifier.padding(it)) {
-                        CurrentTab()
+                    Row {
+                        if (isExpanded) {
+                            SideNavigationBar()
+                        }
+
+                        Column {
+                            StudyRoundAppBar(
+                                title = tabNavigator.current.options.title,
+                                viewModel = appBarViewModel,
+                                hideLogo = isExpanded,
+                            )
+
+                            Box {
+                                StudyRoundBackground(
+                                    Modifier.fillMaxSize(),
+                                    showGradientScrim = true,
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .padding(it)
+                                        .withNavBarPadding(usesBottomBar = !isExpanded)
+                                ) {
+                                    CurrentTab()
+                                }
+                            }
+                        }
                     }
                 },
                 bottomBar = {
-                    Box(
-                        modifier = Modifier.background(
-                            color = StudyRoundTheme.colors.deviation_primary3_primary0
-                        )
-                    ) {
-                        BottomNavigation(
-                            modifier = Modifier.navigationBarsPadding(),
-                            backgroundColor = StudyRoundTheme.colors.deviation_primary3_primary0,
-                            contentColor = StudyRoundTheme.colors.white,
-                            elevation = 0.dp,
-                        ) {
-                            TabNavigationItem(DashboardHomeScreen())
-                            TabNavigationItem(CoursesScreen())
-                        }
+                    if (!isExpanded) {
+                        Box(
+                            modifier = Modifier.background(color = StudyRoundTheme.colors.deviation_primary3_primary0)
+                        ) { BottomNavigationBar() }
                     }
                 }
             )
+        }
+    }
+
+    private fun Modifier.withNavBarPadding(usesBottomBar: Boolean): Modifier {
+        return if (!usesBottomBar) {
+            this.navigationBarsPadding()
+        } else {
+            this
+        }
+    }
+
+    @Composable
+    private fun BottomNavigationBar() {
+        BottomNavigation(
+            modifier = Modifier.navigationBarsPadding(),
+            backgroundColor = StudyRoundTheme.colors.deviation_primary3_primary0,
+            contentColor = StudyRoundTheme.colors.white,
+            elevation = 0.dp,
+        ) {
+            TabNavigationItem(DashboardHomeScreen())
+            TabNavigationItem(CoursesScreen())
         }
     }
 
@@ -81,6 +123,58 @@ class DashboardNavScreen : Screen {
         val isSelected = tabNavigator.current.key == tab.key
 
         BottomNavigationItem(
+            selected = isSelected,
+            onClick = { tabNavigator.current = tab },
+            label = {
+                Text(
+                    text = tab.options.title,
+                    style = StudyRoundTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
+                    color = if (isSelected)
+                        StudyRoundTheme.colors.deviation_secondary1_secondary3
+                    else
+                        StudyRoundTheme.colors.white,
+                )
+            },
+            icon = {
+                Icon(
+                    painter = tab.options.icon ?: painterResource(Res.drawable.ic_close),
+                    contentDescription = tab.options.title,
+                    tint = if (isSelected)
+                        StudyRoundTheme.colors.deviation_secondary1_secondary3
+                    else
+                        StudyRoundTheme.colors.white,
+                )
+            }
+        )
+    }
+
+    @Composable
+    private fun SideNavigationBar() {
+        NavigationRail(
+            modifier = Modifier.fillMaxHeight().systemBarsPadding(),
+            backgroundColor = StudyRoundTheme.colors.deviation_primary2_primary0,
+            contentColor = StudyRoundTheme.colors.white,
+            header = {
+                StudyRoundTextLogo(
+                    modifier = Modifier.padding(
+                        horizontal = 16.dp,
+                    ),
+                    color = StudyRoundTheme.colors.white,
+                )
+            },
+            elevation = 0.dp,
+        ) {
+            SideNavigationItem(DashboardHomeScreen())
+            SideNavigationItem(CoursesScreen())
+        }
+    }
+
+    @Composable
+    private fun SideNavigationItem(tab: Tab) {
+        val tabNavigator = LocalTabNavigator.current
+        val isSelected = tabNavigator.current.key == tab.key
+
+        NavigationRailItem(
             selected = isSelected,
             onClick = { tabNavigator.current = tab },
             label = {

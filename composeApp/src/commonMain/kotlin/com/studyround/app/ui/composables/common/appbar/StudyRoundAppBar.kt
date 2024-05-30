@@ -42,6 +42,7 @@ fun StudyRoundAppBar(
     textColor: Color = StudyRoundTheme.colors.deviation_tone4_tone5,
     modifier: Modifier = Modifier,
     viewModel: AppBarViewModel,
+    hideLogo: Boolean = false,
     onBackPressed: (() -> Unit)? = null,
     onNavDestinationClicked: (AppBarNavDestination) -> Unit = {},
 ) {
@@ -87,11 +88,13 @@ fun StudyRoundAppBar(
                     )
                 }
             } else {
-                Image(
-                    modifier = Modifier.size(36.dp),
-                    painter = painterResource(Res.drawable.studyround_logo),
-                    contentDescription = "Logo",
-                )
+                if (!hideLogo) {
+                    Image(
+                        modifier = Modifier.size(36.dp),
+                        painter = painterResource(Res.drawable.studyround_logo),
+                        contentDescription = "Logo",
+                    )
+                }
             }
 
             Text(
