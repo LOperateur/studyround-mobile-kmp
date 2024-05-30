@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
@@ -71,7 +70,7 @@ fun StudyRoundAppBar(
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth().statusBarsPadding()
+                .fillMaxWidth()
                 .background(color = StudyRoundTheme.colors.deviation_white_primary0)
                 // TODO: statusBarsPadding() doesn't work on iOS landscape. See if this is changed in future.
                 .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Top))
