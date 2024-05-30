@@ -36,6 +36,7 @@ import com.studyround.app.ui.composables.buttons.LinkTextButton
 import com.studyround.app.ui.composables.buttons.SecondaryButton
 import com.studyround.app.ui.theme.StudyRoundTheme
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import studyround.composeapp.generated.resources.*
 
 @Composable
@@ -60,7 +61,7 @@ fun CategorisedCoursesRow(
 
             LinkTextButton(
                 modifier = Modifier.padding(end = 8.dp),
-                text = "View more >>",
+                text = stringResource(Res.string.view_more_link),
                 textColor = StudyRoundTheme.colors.deviation_primary1_primary4,
                 showUnderline = false,
             ) { viewAllClicked() }
@@ -125,7 +126,7 @@ private fun CourseCard(course: Course, viewCourseClicked: (Course) -> Unit) {
             Spacer(modifier = Modifier.height(12.dp))
 
             SecondaryButton(
-                text = "Take session",
+                text = stringResource(Res.string.take_session),
                 isSmallSize = true,
             ) { viewCourseClicked(course) }
         }
