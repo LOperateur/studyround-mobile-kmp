@@ -9,12 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.studyround.app.data.model.remote.dto.Category
+import com.studyround.app.data.model.remote.dto.Course
 import com.studyround.app.ui.features.dashboard.widgets.CategorisedCoursesRow
 
 @Composable
 fun CategorisedCoursesContent(
     modifier: Modifier = Modifier,
     categories: List<Category>,
+    viewCoursesInCategoryClicked: (Category) -> Unit,
+    viewCourseClicked: (Course) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -26,8 +29,8 @@ fun CategorisedCoursesContent(
             CategorisedCoursesRow(
                 categoryTitle = it.name,
                 courses = it.courses.orEmpty(),
-                viewAllClicked = {},
-                viewCourseClicked = {},
+                viewAllClicked = { viewCoursesInCategoryClicked(it) },
+                viewCourseClicked = viewCourseClicked,
             )
         }
     }
