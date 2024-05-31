@@ -1,5 +1,6 @@
 package com.studyround.app.ui.features.dashboard
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,9 +12,11 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.BottomNavigation
@@ -36,7 +39,6 @@ import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.studyround.app.ui.composables.common.StudyRoundBackground
-import com.studyround.app.ui.composables.common.StudyRoundTextLogo
 import com.studyround.app.ui.composables.common.appbar.AppBarViewModel
 import com.studyround.app.ui.composables.common.appbar.StudyRoundAppBar
 import com.studyround.app.ui.features.dashboard.courses.CoursesScreen
@@ -60,7 +62,7 @@ class DashboardNavScreen : Screen {
         TabNavigator(DashboardHomeScreen()) {
             val tabNavigator = LocalTabNavigator.current
 
-            Scaffold(//modifier = Modifier.systemBarsPadding(),
+            Scaffold(
                 // Note: Scaffold automatically applies topBar padding to content
                 content = {
                     Row {
@@ -148,17 +150,22 @@ class DashboardNavScreen : Screen {
             backgroundColor = StudyRoundTheme.colors.deviation_primary2_primary0,
             contentColor = StudyRoundTheme.colors.white,
             header = {
-                StudyRoundTextLogo(
-                    modifier = Modifier.padding(
-                        horizontal = 16.dp,
-                    ).windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Top)),
-                    color = StudyRoundTheme.colors.white,
+                Image(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Top))
+                        .size(36.dp),
+                    painter = painterResource(Res.drawable.studyround_logo),
+                    contentDescription = "Logo",
                 )
             },
             elevation = 0.dp,
         ) {
+            Spacer(Modifier.weight(1f))
             SideNavigationItem(DashboardHomeScreen())
+            Spacer(Modifier.height(24.dp))
             SideNavigationItem(CoursesScreen())
+            Spacer(Modifier.weight(1f))
         }
     }
 
