@@ -112,7 +112,7 @@ internal object StudyRoundColors {
         override val tone5 = Color(0xFF_0A0A0A)
         override val tone6 = black
 
-        override val primary0 = Color(0xFF_00ABB4)
+        override val primary0 = Color(0xFF_50EAEC)
         override val primary1 = Color(0xFF_018184) // Primary
         override val primary2 = Color(0xFF_055F5B)
         override val primary3 = Color(0xFF_002E2F)
@@ -166,7 +166,7 @@ internal object StudyRoundColors {
         override val primary1 = Color(0xFF_002E2F) // Primary
         override val primary2 = Color(0xFF_055F5B)
         override val primary3 = Color(0xFF_018184)
-        override val primary4 = Color(0xFF_00ABB4)
+        override val primary4 = Color(0xFF_50EAEC)
 
         override val secondary0 = Color(0xFF_AA4221)
         override val secondary1 = Color(0xFF_E1582D) // Secondary

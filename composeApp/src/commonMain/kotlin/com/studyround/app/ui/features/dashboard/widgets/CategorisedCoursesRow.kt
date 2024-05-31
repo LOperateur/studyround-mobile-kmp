@@ -38,6 +38,7 @@ import com.studyround.app.ui.theme.StudyRoundTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import studyround.composeapp.generated.resources.*
+import kotlin.math.roundToInt
 
 @Composable
 fun CategorisedCoursesRow(
@@ -97,7 +98,7 @@ private fun CourseCard(course: Course, viewCourseClicked: (Course) -> Unit) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.3f))
+                .background(Color.Black.copy(alpha = 0.4f))
                 .padding(8.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -140,7 +141,7 @@ private fun RatingBar(rating: Float) {
             Icon(
                 painter = painterResource(Res.drawable.ic_star),
                 contentDescription = null,
-                tint = if (index < rating.toInt())
+                tint = if (index < rating.roundToInt())
                     StudyRoundTheme.colors.tertiary
                 else
                     StudyRoundTheme.colors.gray,
