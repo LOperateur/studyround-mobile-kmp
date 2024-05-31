@@ -14,6 +14,8 @@ import com.studyround.app.platform.utils.Platform
 import com.studyround.app.platform.utils.StudyRoundImageLoader
 import com.studyround.app.data.storage.Preferences
 import com.studyround.app.data.storage.StudyRoundDatabase
+import com.studyround.app.platform.utils.AndroidPlatformFileProvider
+import com.studyround.app.platform.utils.PlatformFileProvider
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
 import okhttp3.OkHttpClient
@@ -44,11 +46,13 @@ actual val platformModule = module {
 
     single<CredentialManager> { CredentialManager.create(androidContext()) }
 
+    single<PlatformFileProvider> { AndroidPlatformFileProvider(androidContext()) }
+
     single<GoogleAuthProvider> { AndroidGoogleAuthProvider(get()) }
 
     single<HttpClientEngine> { OkHttp.create { preconfigured = OkHttpClient().newBuilder().build() } }
 
-    single<StudyRoundImageLoader> { AndroidImageLoader(androidContext()) }
+    single<StudyRoundImageLoader> { AndroidImageLoader(androidContext(), get()) }
 
-    single<StudyRoundDatabase> { Database.createRoomDatabase(androidContext()) }
+    single<StudyRoundDatabase> { Database.createRoomDatabase(androidContext(), get()) }
 }

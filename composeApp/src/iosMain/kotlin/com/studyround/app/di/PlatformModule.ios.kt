@@ -10,8 +10,10 @@ import com.studyround.app.platform.IosApplicationComponent
 import com.studyround.app.platform.auth.GoogleAuthProvider
 import com.studyround.app.platform.utils.IosImageLoader
 import com.studyround.app.platform.utils.IosPlatform
+import com.studyround.app.platform.utils.IosPlatformFileProvider
 import com.studyround.app.platform.utils.NetworkHelper
 import com.studyround.app.platform.utils.Platform
+import com.studyround.app.platform.utils.PlatformFileProvider
 import com.studyround.app.platform.utils.StudyRoundImageLoader
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.darwin.Darwin
@@ -31,9 +33,11 @@ actual val platformModule = module {
 
     single<GoogleAuthProvider> { get<IosApplicationComponent>().googleAuthProvider }
 
+    single<PlatformFileProvider> { IosPlatformFileProvider() }
+
     single<HttpClientEngine> { Darwin.create() }
 
-    single<StudyRoundImageLoader> { IosImageLoader() }
+    single<StudyRoundImageLoader> { IosImageLoader(get()) }
 
-    single<StudyRoundDatabase> { Database.createRoomDatabase() }
+    single<StudyRoundDatabase> { Database.createRoomDatabase(get()) }
 }

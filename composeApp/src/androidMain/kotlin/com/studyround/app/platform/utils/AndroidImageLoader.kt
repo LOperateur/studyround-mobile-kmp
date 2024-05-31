@@ -8,9 +8,11 @@ import com.seiko.imageloader.intercept.bitmapMemoryCacheConfig
 import com.seiko.imageloader.intercept.imageMemoryCacheConfig
 import com.seiko.imageloader.intercept.painterMemoryCacheConfig
 import com.seiko.imageloader.option.androidContext
-import okio.Path.Companion.toOkioPath
 
-class AndroidImageLoader(private val applicationContext: Context) : StudyRoundImageLoader {
+class AndroidImageLoader(
+    private val applicationContext: Context,
+    private val provider: PlatformFileProvider,
+) : StudyRoundImageLoader {
     override fun generateImageLoader(): ImageLoader {
         return ImageLoader {
             options {
@@ -33,7 +35,7 @@ class AndroidImageLoader(private val applicationContext: Context) : StudyRoundIm
                     maxSize(100)
                 }
                 diskCacheConfig {
-                    directory(applicationContext.cacheDir.resolve("image_cache").toOkioPath())
+                    directory(provider.getImageCachePath("image_cache"))
                     maxSizeBytes(256L * 1024 * 1024) // 256MB
                 }
             }
