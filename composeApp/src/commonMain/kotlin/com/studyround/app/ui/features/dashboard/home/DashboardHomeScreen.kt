@@ -22,7 +22,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import studyround.composeapp.generated.resources.*
 
-class DashboardHomeScreen(val boolean: Boolean = true) : Tab {
+class DashboardHomeScreen : Tab {
 
     @Composable
     override fun Content() {
@@ -35,7 +35,7 @@ class DashboardHomeScreen(val boolean: Boolean = true) : Tab {
             vm.viewEffects.collect { effect ->
                 when (effect) {
                     is NavigateToCourse -> {
-                        dashboardTabNavigator.current = CoursesScreen()
+                        dashboardTabNavigator. current = CoursesScreen()
                     }
 
                     is NavigateToCoursesInCategory -> {

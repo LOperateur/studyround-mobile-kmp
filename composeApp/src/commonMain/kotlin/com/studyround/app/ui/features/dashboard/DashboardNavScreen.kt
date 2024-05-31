@@ -165,7 +165,7 @@ class DashboardNavScreen : Screen {
             SideNavigationItem(DashboardHomeScreen())
             Spacer(Modifier.height(24.dp))
             SideNavigationItem(CoursesScreen())
-            Spacer(Modifier.weight(1f))
+            Spacer(Modifier.weight(1.2f))
         }
     }
 
