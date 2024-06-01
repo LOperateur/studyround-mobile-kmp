@@ -70,6 +70,7 @@ interface Colors {
     val deviation_primary1_white: Color // Icons, Contrast Text
     val deviation_tone4_tone5: Color // Text
     val deviation_primary1_primary4: Color // Link Text
+    val deviation_primary0_primary4: Color // Bright accent Text
     val deviation_tone1_primary1: Color // Main Background
     val deviation_primary2_primary0: Color // Green Background
     val deviation_white_primary0: Color // TextField Background, App Top Bar
@@ -111,7 +112,7 @@ internal object StudyRoundColors {
         override val tone5 = Color(0xFF_0A0A0A)
         override val tone6 = black
 
-        override val primary0 = Color(0xFF_00ABB4)
+        override val primary0 = Color(0xFF_50EAEC)
         override val primary1 = Color(0xFF_018184) // Primary
         override val primary2 = Color(0xFF_055F5B)
         override val primary3 = Color(0xFF_002E2F)
@@ -129,6 +130,7 @@ internal object StudyRoundColors {
         override val deviation_primary1_white = primary1
         override val deviation_tone4_tone5 = tone4
         override val deviation_primary1_primary4 = primary1
+        override val deviation_primary0_primary4 = primary0
         override val deviation_tone1_primary1 = tone1
         override val deviation_primary2_primary0 = primary2
         override val deviation_white_primary0 = white
@@ -164,7 +166,7 @@ internal object StudyRoundColors {
         override val primary1 = Color(0xFF_002E2F) // Primary
         override val primary2 = Color(0xFF_055F5B)
         override val primary3 = Color(0xFF_018184)
-        override val primary4 = Color(0xFF_00ABB4)
+        override val primary4 = Color(0xFF_50EAEC)
 
         override val secondary0 = Color(0xFF_AA4221)
         override val secondary1 = Color(0xFF_E1582D) // Secondary
@@ -178,6 +180,7 @@ internal object StudyRoundColors {
         override val deviation_primary1_white = white
         override val deviation_tone4_tone5 = tone5
         override val deviation_primary1_primary4 = primary4
+        override val deviation_primary0_primary4 = primary4
         override val deviation_tone1_primary1 = primary1
         override val deviation_primary2_primary0 = primary0
         override val deviation_white_primary0 = primary0

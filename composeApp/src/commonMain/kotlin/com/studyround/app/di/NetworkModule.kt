@@ -3,6 +3,8 @@ package com.studyround.app.di
 import com.studyround.app.data.auth.session.SessionManager
 import com.studyround.app.data.service.auth.AuthService
 import com.studyround.app.data.service.auth.AuthServiceImpl
+import com.studyround.app.data.service.dashboard.DashboardService
+import com.studyround.app.data.service.dashboard.DashboardServiceImpl
 import com.studyround.app.data.service.survey.RegSurveyService
 import com.studyround.app.data.service.survey.RegSurveyServiceImpl
 import com.studyround.app.platform.utils.Platform
@@ -83,4 +85,5 @@ val networkModule = module {
 
     single<AuthService> { AuthServiceImpl(get()) }
     single<RegSurveyService> { RegSurveyServiceImpl(get()) }
+    single<DashboardService> { DashboardServiceImpl(get()) }
 }

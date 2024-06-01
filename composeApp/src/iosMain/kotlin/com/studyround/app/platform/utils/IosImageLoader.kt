@@ -5,12 +5,8 @@ import com.seiko.imageloader.component.setupDefaultComponents
 import com.seiko.imageloader.intercept.bitmapMemoryCacheConfig
 import com.seiko.imageloader.intercept.imageMemoryCacheConfig
 import com.seiko.imageloader.intercept.painterMemoryCacheConfig
-import okio.Path.Companion.toPath
-import platform.Foundation.NSCachesDirectory
-import platform.Foundation.NSSearchPathForDirectoriesInDomains
-import platform.Foundation.NSUserDomainMask
 
-class IosImageLoader : StudyRoundImageLoader {
+class IosImageLoader(private val provider: PlatformFileProvider) : StudyRoundImageLoader {
     override fun generateImageLoader(): ImageLoader {
         return ImageLoader {
             components {
@@ -30,18 +26,10 @@ class IosImageLoader : StudyRoundImageLoader {
                     maxSize(100)
                 }
                 diskCacheConfig {
-                    directory(getCacheDir().toPath().resolve("image_cache"))
+                    directory(provider.getImageCachePath("image_cache"))
                     maxSizeBytes(256L * 1024 * 1024) // 256MB
                 }
             }
         }
-    }
-
-    private fun getCacheDir(): String {
-        return NSSearchPathForDirectoriesInDomains(
-            NSCachesDirectory,
-            NSUserDomainMask,
-            true,
-        ).first() as String
     }
 }

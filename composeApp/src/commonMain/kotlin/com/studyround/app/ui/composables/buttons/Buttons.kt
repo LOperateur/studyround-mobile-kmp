@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.studyround.app.ui.theme.StudyRoundTheme
@@ -34,6 +35,7 @@ fun PrimaryButton(
     modifier: Modifier = Modifier,
     text: String,
     textPadding: PaddingValues = PaddingValues(horizontal = 4.dp),
+    isSmallSize: Boolean = false,
     showLoading: Boolean = false,
     enabled: Boolean = true,
     iconStart: Painter? = null,
@@ -50,6 +52,7 @@ fun PrimaryButton(
                 StudyRoundTheme.colors.primary2,
             )
         ),
+        isSmallSize = isSmallSize,
         showLoading = showLoading,
         enabled = enabled,
         iconStart = iconStart,
@@ -63,6 +66,7 @@ fun SecondaryButton(
     modifier: Modifier = Modifier,
     text: String,
     textPadding: PaddingValues = PaddingValues(horizontal = 4.dp),
+    isSmallSize: Boolean = false,
     showLoading: Boolean = false,
     enabled: Boolean = true,
     iconStart: Painter? = null,
@@ -79,6 +83,7 @@ fun SecondaryButton(
                 StudyRoundTheme.colors.secondary3,
             )
         ),
+        isSmallSize = isSmallSize,
         showLoading = showLoading,
         enabled = enabled,
         iconStart = iconStart,
@@ -92,6 +97,7 @@ fun PrimaryOutlinedButton(
     modifier: Modifier = Modifier,
     text: String,
     textPadding: PaddingValues = PaddingValues(horizontal = 4.dp),
+    isSmallSize: Boolean = false,
     showLoading: Boolean = false,
     enabled: Boolean = true,
     iconStart: Painter? = null,
@@ -103,6 +109,7 @@ fun PrimaryOutlinedButton(
         text = text,
         textPadding = textPadding,
         color = StudyRoundTheme.colors.primary,
+        isSmallSize = isSmallSize,
         showLoading = showLoading,
         enabled = enabled,
         iconStart = iconStart,
@@ -116,6 +123,7 @@ fun SecondaryOutlinedButton(
     modifier: Modifier = Modifier,
     text: String,
     textPadding: PaddingValues = PaddingValues(horizontal = 4.dp),
+    isSmallSize: Boolean = false,
     showLoading: Boolean = false,
     enabled: Boolean = true,
     iconStart: Painter? = null,
@@ -127,6 +135,7 @@ fun SecondaryOutlinedButton(
         text = text,
         textPadding = textPadding,
         color = StudyRoundTheme.colors.secondary,
+        isSmallSize = isSmallSize,
         showLoading = showLoading,
         enabled = enabled,
         iconStart = iconStart,
@@ -162,6 +171,8 @@ fun LinkTextButton(
     }
 }
 
+// TODO: Consider using Gradient button with same colours
+//  There's also the possibility of creating a Tertiary Gradient Button too.
 @Composable
 fun PlainButton(
     modifier: Modifier = Modifier,
@@ -256,6 +267,7 @@ private fun BasicGradientButton(
     text: String,
     textPadding: PaddingValues,
     brush: Brush,
+    isSmallSize: Boolean = false,
     showLoading: Boolean = false,
     enabled: Boolean = true,
     iconStart: Painter? = null,
@@ -263,7 +275,7 @@ private fun BasicGradientButton(
     onClick: (text: String) -> Unit,
 ) {
     GradientButton(
-        modifier = modifier.defaultMinSize(minHeight = 42.dp),
+        modifier = modifier.defaultMinSize(minHeight = if (isSmallSize) 36.dp else 42.dp),
         shape = RoundedCornerShape(24.dp),
         brush = brush,
         enabled = enabled,
@@ -272,11 +284,13 @@ private fun BasicGradientButton(
             disabledContentColor = StudyRoundTheme.colors.black.copy(alpha = 0.5f),
             disabledBackgroundColor = StudyRoundTheme.colors.gray,
         ),
+        contentPadding = if (isSmallSize) SmallContentPadding else ButtonDefaults.ContentPadding,
         onClick = { if (!showLoading) onClick(text) },
     ) {
         ButtonContent(
             text = text,
             textPadding = textPadding,
+            isSmallSize = isSmallSize,
             showLoading = showLoading,
             loadingColor = StudyRoundTheme.colors.white,
             iconStart = iconStart,
@@ -291,6 +305,7 @@ private fun BasicOutlinedButton(
     text: String,
     textPadding: PaddingValues,
     color: Color,
+    isSmallSize: Boolean = false,
     showLoading: Boolean = false,
     enabled: Boolean = true,
     iconStart: Painter? = null,
@@ -298,7 +313,7 @@ private fun BasicOutlinedButton(
     onClick: (text: String) -> Unit,
 ) {
     OutlinedButton(
-        modifier = modifier.defaultMinSize(minHeight = 42.dp),
+        modifier = modifier.defaultMinSize(minHeight = if (isSmallSize) 36.dp else 42.dp),
         shape = RoundedCornerShape(24.dp),
         enabled = enabled,
         border = BorderStroke(1.dp, if (enabled) color else StudyRoundTheme.colors.gray),
@@ -307,11 +322,13 @@ private fun BasicOutlinedButton(
             backgroundColor = Color.Transparent,
             disabledContentColor = StudyRoundTheme.colors.gray,
         ),
+        contentPadding = if (isSmallSize) SmallContentPadding else ButtonDefaults.ContentPadding,
         onClick = { if (!showLoading) onClick(text) },
     ) {
         ButtonContent(
             text = text,
             textPadding = textPadding,
+            isSmallSize = isSmallSize,
             showLoading = showLoading,
             loadingColor = color,
             iconStart = iconStart,
@@ -324,6 +341,7 @@ private fun BasicOutlinedButton(
 private fun ButtonContent(
     text: String,
     textPadding: PaddingValues,
+    isSmallSize: Boolean = false,
     showLoading: Boolean = false,
     loadingColor: Color,
     iconStart: Painter? = null,
@@ -331,10 +349,13 @@ private fun ButtonContent(
 ) {
     val textAlpha = if (showLoading) 0f else 1f
 
+    val iconPaddingDp = if (isSmallSize) 6.dp else 12.dp
+    val iconSizeDp = if (isSmallSize) 18.dp else 24.dp
+
     iconStart?.let {
         Image(
             painter = it,
-            modifier = Modifier.padding(end = 12.dp).size(24.dp),
+            modifier = Modifier.padding(end = iconPaddingDp).size(iconSizeDp),
             contentDescription = null,
         )
     }
@@ -345,11 +366,13 @@ private fun ButtonContent(
         Text(
             text = text,
             modifier = Modifier.padding(textPadding).alpha(textAlpha),
+            style = if (isSmallSize) StudyRoundTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold)
+            else StudyRoundTheme.typography.bodySmall
         )
 
         if (showLoading) {
             CircularProgressIndicator(
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier.size(iconSizeDp),
                 strokeWidth = 2.dp,
                 color = loadingColor,
             )
@@ -359,10 +382,15 @@ private fun ButtonContent(
     iconEnd?.let {
         Image(
             painter = it,
-            modifier = Modifier.padding(start = 12.dp).size(24.dp),
+            modifier = Modifier.padding(start = iconPaddingDp).size(iconSizeDp),
             contentDescription = null,
         )
     }
 }
 
 // endregion
+
+private val SmallContentPadding = PaddingValues(
+    horizontal = 8.dp,
+    vertical = 0.dp,
+)
