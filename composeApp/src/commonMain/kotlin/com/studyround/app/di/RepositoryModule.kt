@@ -18,5 +18,11 @@ val repositoryModule = module {
             get<StudyRoundDatabase>().userDao(),
         )
     }
-    single<DashboardRepository> { DashboardRepositoryImpl(get()) }
+    single<DashboardRepository> {
+        DashboardRepositoryImpl(
+            get(),
+            get<StudyRoundDatabase>().categoryDao(),
+            get<StudyRoundDatabase>().courseDao(),
+        )
+    }
 }

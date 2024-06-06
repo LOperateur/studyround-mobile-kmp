@@ -1,9 +1,9 @@
 package com.studyround.app.data.repository.dashboard
 
-import com.studyround.app.data.model.remote.dto.Category
-import com.studyround.app.data.model.remote.dto.Course
 import com.studyround.app.data.model.remote.dto.User
 import com.studyround.app.data.resource.Resource
+import com.studyround.app.domain.model.Category
+import com.studyround.app.domain.model.Course
 import kotlinx.coroutines.flow.Flow
 
 interface DashboardRepository {
