@@ -8,8 +8,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.studyround.app.data.model.remote.dto.Category
-import com.studyround.app.data.model.remote.dto.Course
+import com.studyround.app.domain.model.Category
+import com.studyround.app.domain.model.Course
 import com.studyround.app.ui.features.dashboard.widgets.CategorisedCoursesRow
 
 @Composable
@@ -28,7 +28,7 @@ fun CategorisedCoursesContent(
         categories.forEach {
             CategorisedCoursesRow(
                 categoryTitle = it.name,
-                courses = it.courses.orEmpty(),
+                courses = it.coursesInCategory,
                 viewAllClicked = { viewCoursesInCategoryClicked(it) },
                 viewCourseClicked = viewCourseClicked,
             )

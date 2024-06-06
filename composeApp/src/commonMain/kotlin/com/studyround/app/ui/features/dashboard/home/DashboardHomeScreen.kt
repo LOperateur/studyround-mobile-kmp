@@ -35,7 +35,7 @@ class DashboardHomeScreen : Tab {
             vm.viewEffects.collect { effect ->
                 when (effect) {
                     is NavigateToCourse -> {
-                        dashboardTabNavigator. current = CoursesScreen()
+                        dashboardTabNavigator.current = CoursesScreen()
                     }
 
                     is NavigateToCoursesInCategory -> {
@@ -47,21 +47,22 @@ class DashboardHomeScreen : Tab {
 
         Box(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center,
         ) {
             if (viewState.loading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(64.dp),
-                    strokeWidth = 4.dp,
-                    color = StudyRoundTheme.colors.deviation_primary1_white,
-                )
-            } else {
-                CategorisedCoursesContent(
-                    categories = viewState.categorisedCourses,
-                    viewCoursesInCategoryClicked = { eventProcessor(ViewCategoryClicked(it)) },
-                    viewCourseClicked = { eventProcessor(CourseClicked(it)) },
-                )
+                Box(modifier = Modifier.matchParentSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(64.dp),
+                        strokeWidth = 4.dp,
+                        color = StudyRoundTheme.colors.deviation_primary1_white,
+                    )
+                }
             }
+
+            CategorisedCoursesContent(
+                categories = viewState.categorisedCourses,
+                viewCoursesInCategoryClicked = { eventProcessor(ViewCategoryClicked(it)) },
+                viewCourseClicked = { eventProcessor(CourseClicked(it)) },
+            )
         }
     }
 

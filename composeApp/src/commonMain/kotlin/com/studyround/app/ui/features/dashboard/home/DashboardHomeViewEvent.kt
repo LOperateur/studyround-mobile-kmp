@@ -1,7 +1,7 @@
 package com.studyround.app.ui.features.dashboard.home
 
-import com.studyround.app.data.model.remote.dto.Category
-import com.studyround.app.data.model.remote.dto.Course
+import com.studyround.app.domain.model.Category
+import com.studyround.app.domain.model.Course
 
 sealed interface DashboardHomeViewEvent
 
