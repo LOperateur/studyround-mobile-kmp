@@ -3,6 +3,8 @@ package com.studyround.app.data.model.remote.dto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+typealias UserDto = User
+
 @Serializable
 data class User(
     @SerialName("id") val id: Long,

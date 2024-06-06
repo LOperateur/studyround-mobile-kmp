@@ -3,6 +3,8 @@ package com.studyround.app.data.model.local.dto
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+typealias UserEntity = User
+
 @Entity
 data class User(
     @PrimaryKey val id: Long,
