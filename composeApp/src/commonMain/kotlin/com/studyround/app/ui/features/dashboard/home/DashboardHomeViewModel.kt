@@ -51,7 +51,7 @@ class DashboardHomeViewModel(
     }
 
     private suspend fun fetchCategorisedCourses() {
-        dashboardRepository.fetchCategorisedCourses().windowedLoadDebounce().collect {
+        dashboardRepository.fetchCategorisedCourses().windowedLoadDebounce(100L).collect {
             when (it) {
                 is Resource.Loading -> {
                     _viewState.update { state -> state.copy(loading = true) }

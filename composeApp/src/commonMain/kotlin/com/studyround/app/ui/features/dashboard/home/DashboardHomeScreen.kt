@@ -1,7 +1,11 @@
 package com.studyround.app.ui.features.dashboard.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -48,7 +52,7 @@ class DashboardHomeScreen : Tab {
         Box(
             modifier = Modifier.fillMaxSize(),
         ) {
-            if (viewState.loading) {
+            if (viewState.loadingWithoutData) {
                 Box(modifier = Modifier.matchParentSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(64.dp),
@@ -56,13 +60,28 @@ class DashboardHomeScreen : Tab {
                         color = StudyRoundTheme.colors.deviation_primary1_white,
                     )
                 }
+            } else if (viewState.loadingWithData) {
+                Box(modifier = Modifier.matchParentSize(), contentAlignment = Alignment.TopEnd) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                            .size(16.dp),
+                        strokeWidth = 2.dp,
+                        color = StudyRoundTheme.colors.deviation_primary1_white,
+                    )
+                }
             }
 
-            CategorisedCoursesContent(
-                categories = viewState.categorisedCourses,
-                viewCoursesInCategoryClicked = { eventProcessor(ViewCategoryClicked(it)) },
-                viewCourseClicked = { eventProcessor(CourseClicked(it)) },
-            )
+            AnimatedVisibility(
+                visible = !viewState.loadingWithoutData,
+                enter = fadeIn(animationSpec = tween(750)),
+            ) {
+                CategorisedCoursesContent(
+                    categories = viewState.categorisedCourses,
+                    viewCoursesInCategoryClicked = { eventProcessor(ViewCategoryClicked(it)) },
+                    viewCourseClicked = { eventProcessor(CourseClicked(it)) },
+                )
+            }
         }
     }
 
