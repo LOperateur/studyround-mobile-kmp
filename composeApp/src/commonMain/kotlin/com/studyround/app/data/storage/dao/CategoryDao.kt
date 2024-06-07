@@ -11,10 +11,10 @@ import com.studyround.app.data.model.local.update.CategorisedCourseListDataUpdat
 
 @Dao
 interface CategoryDao {
-    @Query("SELECT * FROM Category ORDER BY localOrder ASC LIMIT 5")
+    @Query("SELECT * FROM Category ORDER BY localOrder ASC NULLS LAST LIMIT 5")
     suspend fun getTopCategories(): List<CategoryEntity>
 
-    @Query("SELECT * FROM Course WHERE id IN (:courseIds) ORDER BY localOrder ASC, localTimestamp DESC")
+    @Query("SELECT * FROM Course WHERE id IN (:courseIds) ORDER BY localOrder ASC NULLS LAST, localTimestamp DESC")
     suspend fun getCoursesByIds(courseIds: List<Long>): List<CourseEntity>
 
     @Query("UPDATE Category SET localOrder = NULL")
