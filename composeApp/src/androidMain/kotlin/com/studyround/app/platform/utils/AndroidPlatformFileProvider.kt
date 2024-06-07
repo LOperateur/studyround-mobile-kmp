@@ -14,8 +14,4 @@ class AndroidPlatformFileProvider(private val context: Context) : PlatformFilePr
         return dbFile.absolutePath
     }
 
-    override fun getHttpCacheDirectory(): String {
-        TODO("Not yet implemented")
-    }
-
 }
