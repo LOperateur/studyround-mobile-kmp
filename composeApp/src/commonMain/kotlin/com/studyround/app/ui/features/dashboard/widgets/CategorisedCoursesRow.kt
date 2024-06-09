@@ -31,7 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.seiko.imageloader.rememberImagePainter
-import com.studyround.app.data.model.remote.dto.Course
+import com.studyround.app.domain.model.Course
 import com.studyround.app.ui.composables.buttons.LinkTextButton
 import com.studyround.app.ui.composables.buttons.SecondaryButton
 import com.studyround.app.ui.theme.StudyRoundTheme
@@ -104,7 +104,7 @@ private fun CourseCard(course: Course, viewCourseClicked: (Course) -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = course.title.orEmpty(),
+                text = course.title,
                 maxLines = 2,
                 style = StudyRoundTheme.typography.titleExtraSmall.copy(fontWeight = FontWeight.SemiBold),
                 color = StudyRoundTheme.colors.white,
@@ -114,12 +114,12 @@ private fun CourseCard(course: Course, viewCourseClicked: (Course) -> Unit) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            RatingBar(rating = course.rating ?: 0f)
+            RatingBar(rating = course.rating)
 
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = course.formattedPrice.orEmpty(),
+                text = course.formattedPrice,
                 style = StudyRoundTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
                 color = StudyRoundTheme.colors.deviation_primary0_primary4,
             )

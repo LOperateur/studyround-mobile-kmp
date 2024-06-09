@@ -6,6 +6,4 @@ interface PlatformFileProvider {
     fun getImageCachePath(imageCacheName: String): Path
 
     fun getDatabasePath(dbFileName: String): String
-
-    fun getHttpCacheDirectory(): String
 }

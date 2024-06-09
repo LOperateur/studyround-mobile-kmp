@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -37,6 +38,7 @@ fun PrimaryButton(
     textPadding: PaddingValues = PaddingValues(horizontal = 4.dp),
     isSmallSize: Boolean = false,
     showLoading: Boolean = false,
+    tintIcons: Boolean = false,
     enabled: Boolean = true,
     iconStart: Painter? = null,
     iconEnd: Painter? = null,
@@ -54,6 +56,7 @@ fun PrimaryButton(
         ),
         isSmallSize = isSmallSize,
         showLoading = showLoading,
+        tintIcons = tintIcons,
         enabled = enabled,
         iconStart = iconStart,
         iconEnd = iconEnd,
@@ -68,6 +71,7 @@ fun SecondaryButton(
     textPadding: PaddingValues = PaddingValues(horizontal = 4.dp),
     isSmallSize: Boolean = false,
     showLoading: Boolean = false,
+    tintIcons: Boolean = false,
     enabled: Boolean = true,
     iconStart: Painter? = null,
     iconEnd: Painter? = null,
@@ -85,6 +89,7 @@ fun SecondaryButton(
         ),
         isSmallSize = isSmallSize,
         showLoading = showLoading,
+        tintIcons = tintIcons,
         enabled = enabled,
         iconStart = iconStart,
         iconEnd = iconEnd,
@@ -99,6 +104,7 @@ fun PrimaryOutlinedButton(
     textPadding: PaddingValues = PaddingValues(horizontal = 4.dp),
     isSmallSize: Boolean = false,
     showLoading: Boolean = false,
+    tintIcons: Boolean = false,
     enabled: Boolean = true,
     iconStart: Painter? = null,
     iconEnd: Painter? = null,
@@ -111,6 +117,7 @@ fun PrimaryOutlinedButton(
         color = StudyRoundTheme.colors.primary,
         isSmallSize = isSmallSize,
         showLoading = showLoading,
+        tintIcons = tintIcons,
         enabled = enabled,
         iconStart = iconStart,
         iconEnd = iconEnd,
@@ -125,6 +132,7 @@ fun SecondaryOutlinedButton(
     textPadding: PaddingValues = PaddingValues(horizontal = 4.dp),
     isSmallSize: Boolean = false,
     showLoading: Boolean = false,
+    tintIcons: Boolean = false,
     enabled: Boolean = true,
     iconStart: Painter? = null,
     iconEnd: Painter? = null,
@@ -137,6 +145,7 @@ fun SecondaryOutlinedButton(
         color = StudyRoundTheme.colors.secondary,
         isSmallSize = isSmallSize,
         showLoading = showLoading,
+        tintIcons = tintIcons,
         enabled = enabled,
         iconStart = iconStart,
         iconEnd = iconEnd,
@@ -181,6 +190,7 @@ fun PlainButton(
     backgroundColor: Color,
     textColor: Color,
     showLoading: Boolean = false,
+    tintIcons: Boolean = false,
     enabled: Boolean = true,
     iconStart: Painter? = null,
     iconEnd: Painter? = null,
@@ -202,7 +212,8 @@ fun PlainButton(
             text = text,
             textPadding = textPadding,
             showLoading = showLoading,
-            loadingColor = textColor,
+            tintIcons = tintIcons,
+            contentColor = textColor,
             iconStart = iconStart,
             iconEnd = iconEnd,
         )
@@ -269,6 +280,7 @@ private fun BasicGradientButton(
     brush: Brush,
     isSmallSize: Boolean = false,
     showLoading: Boolean = false,
+    tintIcons: Boolean = false,
     enabled: Boolean = true,
     iconStart: Painter? = null,
     iconEnd: Painter? = null,
@@ -292,7 +304,8 @@ private fun BasicGradientButton(
             textPadding = textPadding,
             isSmallSize = isSmallSize,
             showLoading = showLoading,
-            loadingColor = StudyRoundTheme.colors.white,
+            tintIcons = tintIcons,
+            contentColor = StudyRoundTheme.colors.white,
             iconStart = iconStart,
             iconEnd = iconEnd,
         )
@@ -307,6 +320,7 @@ private fun BasicOutlinedButton(
     color: Color,
     isSmallSize: Boolean = false,
     showLoading: Boolean = false,
+    tintIcons: Boolean = false,
     enabled: Boolean = true,
     iconStart: Painter? = null,
     iconEnd: Painter? = null,
@@ -330,7 +344,8 @@ private fun BasicOutlinedButton(
             textPadding = textPadding,
             isSmallSize = isSmallSize,
             showLoading = showLoading,
-            loadingColor = color,
+            tintIcons = tintIcons,
+            contentColor = color,
             iconStart = iconStart,
             iconEnd = iconEnd,
         )
@@ -343,7 +358,8 @@ private fun ButtonContent(
     textPadding: PaddingValues,
     isSmallSize: Boolean = false,
     showLoading: Boolean = false,
-    loadingColor: Color,
+    tintIcons: Boolean = false,
+    contentColor: Color,
     iconStart: Painter? = null,
     iconEnd: Painter? = null,
 ) {
@@ -356,6 +372,7 @@ private fun ButtonContent(
         Image(
             painter = it,
             modifier = Modifier.padding(end = iconPaddingDp).size(iconSizeDp),
+            colorFilter = if (tintIcons) ColorFilter.tint(contentColor) else null,
             contentDescription = null,
         )
     }
@@ -365,16 +382,17 @@ private fun ButtonContent(
     ) {
         Text(
             text = text,
+            color = contentColor,
             modifier = Modifier.padding(textPadding).alpha(textAlpha),
             style = if (isSmallSize) StudyRoundTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold)
-            else StudyRoundTheme.typography.bodySmall
+            else StudyRoundTheme.typography.bodySmall,
         )
 
         if (showLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.size(iconSizeDp),
                 strokeWidth = 2.dp,
-                color = loadingColor,
+                color = contentColor,
             )
         }
     }
@@ -383,6 +401,7 @@ private fun ButtonContent(
         Image(
             painter = it,
             modifier = Modifier.padding(start = iconPaddingDp).size(iconSizeDp),
+            colorFilter = if (tintIcons) ColorFilter.tint(contentColor) else null,
             contentDescription = null,
         )
     }

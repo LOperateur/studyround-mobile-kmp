@@ -1,11 +1,11 @@
 package com.studyround.app.data.mapper.dto_entity
 
+import com.studyround.app.data.model.local.dto.UserEntity
 import com.studyround.app.data.model.local.dto.UserType
-import com.studyround.app.data.model.remote.dto.User
+import com.studyround.app.data.model.remote.dto.UserDto
 
-// TODO: Rename DTOs and Entities appropriately
-fun User.toEntity(): com.studyround.app.data.model.local.dto.User {
-    return com.studyround.app.data.model.local.dto.User(
+fun UserDto.toEntity(): UserEntity {
+    return UserEntity(
         id = id,
         username = username,
         email = email,

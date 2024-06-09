@@ -47,28 +47,32 @@ class DashboardHomeViewModel(
                     _viewEffects.send(NavigateToCoursesInCategory(event.category))
                 }
             }
+
+            is RetryLoadClicked -> {
+                screenModelScope.launch { fetchCategorisedCourses() }
+            }
         }
     }
 
     private suspend fun fetchCategorisedCourses() {
-        dashboardRepository.fetchCategorisedCourses().windowedLoadDebounce().collect {
+        dashboardRepository.fetchCategorisedCourses().windowedLoadDebounce(100L).collect {
             when (it) {
                 is Resource.Loading -> {
-                    _viewState.update { state -> state.copy(loading = true) }
+                    _viewState.update { state -> state.copy(loading = true, error = false) }
                 }
 
                 is Resource.Success -> {
                     _viewState.update { state ->
                         state.copy(
                             loading = false,
+                            error = false,
                             categorisedCourses = it.data,
                         )
                     }
                 }
 
                 is Resource.Error -> {
-                    // TODO: Research on how to handle errors on this screen
-                    _viewState.update { state -> state.copy(loading = false) }
+                    _viewState.update { state -> state.copy(loading = false, error = true) }
                 }
             }
         }

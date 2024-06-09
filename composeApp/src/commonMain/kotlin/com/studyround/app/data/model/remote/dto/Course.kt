@@ -3,6 +3,8 @@ package com.studyround.app.data.model.remote.dto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+typealias CourseDto = Course
+
 @Serializable
 data class Course(
     @SerialName("id") val id: Long,
@@ -51,7 +53,7 @@ enum class CourseStatus(val value: String) {
 }
 
 @Serializable
-enum class PublishStatus(value: String) {
+enum class PublishStatus(val value: String) {
     @SerialName("publish_status_draft")
     PUBLISH_STATUS_DRAFT("publish_status_draft"),
     @SerialName("publish_status_published")
@@ -59,7 +61,7 @@ enum class PublishStatus(value: String) {
 }
 
 @Serializable
-enum class SaleStatus(value: String) {
+enum class SaleStatus(val value: String) {
     @SerialName("sale_status_free")
     SALE_STATUS_FREE("sale_status_free"),
     @SerialName("sale_status_explanations")
@@ -67,6 +69,8 @@ enum class SaleStatus(value: String) {
     @SerialName("sale_status_paid")
     SALE_STATUS_PAID("sale_status_paid"),
 }
+
+typealias InstructionsDto = Instructions
 
 @Serializable
 data class Instructions(
@@ -77,6 +81,8 @@ data class Instructions(
     @SerialName("session_time") val sessionTime: Int? = null,
     @SerialName("user_limit") val userLimit: Int? = null,
 )
+
+typealias TestStatisticsDto = TestStatistics
 
 @Serializable
 data class TestStatistics(

@@ -77,6 +77,34 @@ fun <T> wrappedResourceFlow(initialData: T? = null, resource: suspend () -> Stud
 }.catchErrorsAsResource(initialData)
 
 /**
+ * Extension function to map the data in a Resource.
+ *
+ * @param T The type of the original data.
+ * @param R The type of the transformed data.
+ * @param transform A function that transforms the data from type T to type R.
+ * @return A Resource containing the transformed data of type R.
+ */
+inline fun <T, R> Resource<T>.mapData(transform: (T) -> R): Resource<R> {
+    return when (this) {
+        is Resource.Success -> Resource.Success(transform(data), message)
+        is Resource.Error -> Resource.Error(data?.let { transform(it) }, cause)
+        is Resource.Loading -> Resource.Loading(data?.let { transform(it) })
+    }
+}
+
+/**
+ * Extension function to map the data in a list within a Resource.
+ *
+ * @param T The type of the original data in the list.
+ * @param R The type of the transformed data in the list.
+ * @param transform A function that transforms the data from type T to type R.
+ * @return A Resource containing the transformed list data of type R.
+ */
+inline fun <T, R> Resource<List<T>>.mapListData(transform: (T) -> R): Resource<List<R>> {
+    return this.mapData { list -> list.map(transform) }
+}
+
+/**
  * Delays emissions of [Resource.Loading] by a duration of [loadingWindow].  If a [Resource.Success]
  * or [Resource.Error] is emitted within the given window, the loading resource will not be emitted
  * downstream.  If the loading window expires before another item is emitted, any items that come

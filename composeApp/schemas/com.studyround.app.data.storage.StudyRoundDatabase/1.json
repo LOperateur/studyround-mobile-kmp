@@ -1,0 +1,326 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "484e0ee2ff97c4ddadb975fa9f4a9333",
+    "entities": [
+      {
+        "tableName": "User",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `email` TEXT NOT NULL, `username` TEXT, `firstName` TEXT, `lastName` TEXT, `otherName` TEXT, `about` TEXT, `country` TEXT, `creator` INTEGER NOT NULL, `dateOfBirth` TEXT, `occupation` TEXT, `proAccount` INTEGER NOT NULL, `profileImageUrl` TEXT, `userType` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "username",
+            "columnName": "username",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "firstName",
+            "columnName": "firstName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastName",
+            "columnName": "lastName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "otherName",
+            "columnName": "otherName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "about",
+            "columnName": "about",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "country",
+            "columnName": "country",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "creator",
+            "columnName": "creator",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateOfBirth",
+            "columnName": "dateOfBirth",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "occupation",
+            "columnName": "occupation",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "proAccount",
+            "columnName": "proAccount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "profileImageUrl",
+            "columnName": "profileImageUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "userType",
+            "columnName": "userType",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "Course",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `about` TEXT, `categoryIds` TEXT, `courseStatus` TEXT, `creatorId` INTEGER, `currency` TEXT NOT NULL, `formattedPrice` TEXT NOT NULL, `imageUrl` TEXT, `includedQuestionYears` TEXT, `lastPublishDate` TEXT, `numExplanations` INTEGER, `numQuestions` INTEGER, `isPlaceholderCourse` INTEGER NOT NULL, `price` TEXT, `isPrivate` INTEGER, `publishStatus` TEXT, `purchaseStatus` TEXT, `rating` REAL NOT NULL, `reviewCount` INTEGER, `saleStatus` TEXT NOT NULL, `isTest` INTEGER NOT NULL, `testExpiration` TEXT, `title` TEXT NOT NULL, `userReviewId` INTEGER, `version` INTEGER NOT NULL, `localOrder` INTEGER, `localTimestamp` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "about",
+            "columnName": "about",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "categoryIds",
+            "columnName": "categoryIds",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "courseStatus",
+            "columnName": "courseStatus",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "creatorId",
+            "columnName": "creatorId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "currency",
+            "columnName": "currency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "formattedPrice",
+            "columnName": "formattedPrice",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imageUrl",
+            "columnName": "imageUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "includedQuestionYears",
+            "columnName": "includedQuestionYears",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastPublishDate",
+            "columnName": "lastPublishDate",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "numExplanations",
+            "columnName": "numExplanations",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "numQuestions",
+            "columnName": "numQuestions",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "isPlaceholderCourse",
+            "columnName": "isPlaceholderCourse",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "price",
+            "columnName": "price",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isPrivate",
+            "columnName": "isPrivate",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "publishStatus",
+            "columnName": "publishStatus",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "purchaseStatus",
+            "columnName": "purchaseStatus",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "rating",
+            "columnName": "rating",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reviewCount",
+            "columnName": "reviewCount",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "saleStatus",
+            "columnName": "saleStatus",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isTest",
+            "columnName": "isTest",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "testExpiration",
+            "columnName": "testExpiration",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userReviewId",
+            "columnName": "userReviewId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "version",
+            "columnName": "version",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "localOrder",
+            "columnName": "localOrder",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "localTimestamp",
+            "columnName": "localTimestamp",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "Category",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `courseIds` TEXT, `localOrder` INTEGER, `localTimestamp` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "courseIds",
+            "columnName": "courseIds",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "localOrder",
+            "columnName": "localOrder",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "localTimestamp",
+            "columnName": "localTimestamp",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "Review",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `rating` INTEGER NOT NULL, `review` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rating",
+            "columnName": "rating",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "review",
+            "columnName": "review",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '484e0ee2ff97c4ddadb975fa9f4a9333')"
+    ]
+  }
+}

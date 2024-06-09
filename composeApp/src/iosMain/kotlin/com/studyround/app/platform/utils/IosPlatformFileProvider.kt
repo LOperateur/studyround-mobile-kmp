@@ -16,10 +16,6 @@ class IosPlatformFileProvider : PlatformFileProvider {
         return "${documentsDirectory()}/$dbFileName"
     }
 
-    override fun getHttpCacheDirectory(): String {
-        TODO("Not yet implemented")
-    }
-
     private fun documentsDirectory(): String {
         return NSSearchPathForDirectoriesInDomains(
             directory = NSDocumentDirectory,

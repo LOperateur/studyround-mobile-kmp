@@ -21,6 +21,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "composeApp"
             isStatic = true
+            binaryOption("bundleId", "com.operator.studyround")
         }
     }
 
