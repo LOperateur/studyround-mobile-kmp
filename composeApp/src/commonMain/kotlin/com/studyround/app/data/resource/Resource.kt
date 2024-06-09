@@ -71,9 +71,7 @@ fun <T> resourceFlow(initialData: T? = null, resource: suspend () -> T) = flow {
  * @see resourceFlow
  */
 fun <T> wrappedResourceFlow(initialData: T? = null, resource: suspend () -> StudyRoundResponse<T>) = flow {
-
     emit(Resource.Loading(initialData))
-
     val response = resource()
     emit(Resource.Success(response.dataOrThrow, message = response.message))
 }.catchErrorsAsResource(initialData)
