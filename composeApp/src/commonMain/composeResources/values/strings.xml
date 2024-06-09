@@ -67,4 +67,6 @@
     <string name="menu_transactions">Transactions</string>
     <string name="take_session">Take session</string>
     <string name="view_more_link">View more >></string>
+    <string name="retry_prompt">Retry</string>
+    <string name="fetch_courses_network_error">Unable to fetch courses. \nPlease check your network connection.</string>
 </resources>
