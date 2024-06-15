@@ -30,6 +30,8 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
@@ -63,6 +65,9 @@ class DashboardNavScreen : Screen {
             val tabNavigator = LocalTabNavigator.current
 
             Scaffold(
+                modifier = Modifier.windowInsetsPadding(
+                    WindowInsets.systemBars.only(WindowInsetsSides.Start + WindowInsetsSides.End)
+                ),
                 // Note: Scaffold automatically applies topBar padding to content
                 content = {
                     Row {
@@ -70,7 +75,7 @@ class DashboardNavScreen : Screen {
                             SideNavigationBar()
                         }
 
-                        Column {
+                        Column(Modifier.clip(RectangleShape)) {
                             StudyRoundAppBar(
                                 title = tabNavigator.current.options.title,
                                 viewModel = appBarViewModel,
