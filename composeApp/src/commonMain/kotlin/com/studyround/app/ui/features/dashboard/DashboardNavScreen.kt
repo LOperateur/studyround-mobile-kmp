@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
@@ -65,8 +66,9 @@ class DashboardNavScreen : Screen {
             val tabNavigator = LocalTabNavigator.current
 
             Scaffold(
+                // Adjust nav bar paddings for devices that put left/right nav bars in landscape
                 modifier = Modifier.windowInsetsPadding(
-                    WindowInsets.systemBars.only(WindowInsetsSides.Start + WindowInsetsSides.End)
+                    WindowInsets.navigationBars.only(WindowInsetsSides.Start + WindowInsetsSides.End)
                 ),
                 // Note: Scaffold automatically applies topBar padding to content
                 content = {
@@ -75,7 +77,7 @@ class DashboardNavScreen : Screen {
                             SideNavigationBar()
                         }
 
-                        Column(Modifier.clip(RectangleShape)) {
+                        Column(modifier = Modifier.clip(RectangleShape)) {
                             StudyRoundAppBar(
                                 title = tabNavigator.current.options.title,
                                 viewModel = appBarViewModel,
