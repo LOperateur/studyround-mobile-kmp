@@ -37,7 +37,7 @@ interface CategoryDao {
     }
 
     @Transaction
-    suspend fun reorderAndUpdateCategories(categories: List<CategoryEntity>) {
+    suspend fun updateAndReorderCategories(categories: List<CategoryEntity>) {
         resetCategoryOrdering()
         updateCategories(categories)
 
