@@ -13,8 +13,9 @@ data class CourseListDataUpdate(
     val title: String,
     val rating: Float,
     val imageUrl: String?,
+    val creatorId: Long?,
     val currency: String,
-    val formattedPrice: String?,
+    val formattedPrice: String,
     val isPlaceholderCourse: Boolean,
     val isTest: Boolean,
     val version: Int,
@@ -23,12 +24,13 @@ data class CourseListDataUpdate(
     val localTimestamp: LocalDateTime,
 ) {
     companion object {
-        fun from(courseEntity: CourseEntity, order: Int) : CourseListDataUpdate {
+        fun from(courseEntity: CourseEntity, order: Int): CourseListDataUpdate {
             return CourseListDataUpdate(
                 id = courseEntity.id,
                 title = courseEntity.title,
                 rating = courseEntity.rating,
                 imageUrl = courseEntity.imageUrl,
+                creatorId = courseEntity.creatorId,
                 currency = courseEntity.currency,
                 formattedPrice = courseEntity.formattedPrice,
                 isPlaceholderCourse = courseEntity.isPlaceholderCourse,
