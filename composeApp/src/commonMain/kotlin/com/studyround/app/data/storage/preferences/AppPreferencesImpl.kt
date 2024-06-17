@@ -2,7 +2,7 @@ package com.studyround.app.data.storage.preferences
 
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.set
-import com.studyround.app.data.model.local.dto.User
+import com.studyround.app.data.model.local.dto.UserEntity
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -23,7 +23,7 @@ class AppPreferencesImpl(private val settings: ObservableSettings) : AppPreferen
         get() = settings.getStringOrNull(KEY_AVATAR_URL)
 
     // Save user profile data
-    override fun saveProfile(user: User) {
+    override fun saveProfile(user: UserEntity) {
         settings[KEY_USER_ID] = user.id
         settings[KEY_EMAIL] = user.email
 

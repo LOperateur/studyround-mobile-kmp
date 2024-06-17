@@ -1,6 +1,6 @@
 package com.studyround.app.data.storage.preferences
 
-import com.studyround.app.data.model.local.dto.User
+import com.studyround.app.data.model.local.dto.UserEntity
 import kotlinx.coroutines.flow.Flow
 
 interface AppPreferences {
@@ -12,7 +12,7 @@ interface AppPreferences {
 
     val avatarUrl: String?
 
-    fun saveProfile(user: User)
+    fun saveProfile(user: UserEntity)
 
     val darkMode: Boolean?
     fun observeDarkMode(): Flow<Boolean?>
