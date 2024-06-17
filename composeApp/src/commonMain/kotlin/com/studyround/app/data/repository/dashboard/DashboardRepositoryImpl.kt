@@ -3,7 +3,9 @@ package com.studyround.app.data.repository.dashboard
 import com.studyround.app.data.mapper.dto_domain.toDomain
 import com.studyround.app.data.mapper.dto_entity.toEntity
 import com.studyround.app.data.mapper.entity_domain.toDomain
+import com.studyround.app.data.model.local.update.CourseListDataUpdate
 import com.studyround.app.data.model.remote.dto.CategoryDto
+import com.studyround.app.data.model.remote.dto.CourseDto
 import com.studyround.app.data.model.remote.dto.User
 import com.studyround.app.data.resource.Resource
 import com.studyround.app.data.resource.mapListData
@@ -43,10 +45,21 @@ class DashboardRepositoryImpl(
         }
     }
 
-    override fun fetchCourses(page: Int): Flow<Resource<List<Course>>> {
-        return wrappedResourceFlow {
-            dashboardService.fetchCourses(page)
-        }.map { resource -> resource.mapListData { it.toDomain() } }
+    override fun fetchCourses(page: Int, limit: Int): Flow<Resource<List<Course>>> {
+        val localDataFlow = resourceFlow { courseDao.getCoursesWithCreator(limit) }
+            .map { resource -> resource.mapListData { it.toDomain() } }
+
+        val remoteDataFlow = wrappedResourceFlow { dashboardService.fetchCourses(page) }
+            .onEach { if (it is Resource.Success) saveFetchedCourses(it.data) }
+            .map { resource -> resource.mapListData { it.toDomain() } }
+
+        return flow {
+            // Fetch data locally only on first page
+            if (page == 1) localDataFlow.filter { it !is Resource.Error }.collect { emit(it) }
+
+            // Fetch remote
+            remoteDataFlow.collect { emit(it) }
+        }
     }
 
     override fun fetchEnrolledCourses(page: Int): Flow<Resource<List<Course>>> {
@@ -62,9 +75,17 @@ class DashboardRepositoryImpl(
     }
 
     private suspend fun saveTopCategories(data: List<CategoryDto>) {
-        categoryDao.reorderAndUpdateCategories(
+        categoryDao.updateAndReorderCategories(
             data.mapIndexed { index, category ->
                 category.toEntity(index)
+            }
+        )
+    }
+
+    private suspend fun saveFetchedCourses(data: List<CourseDto>) {
+        courseDao.updateAndReorderCourseList(
+            data.mapIndexed { index, course ->
+                CourseListDataUpdate.from(course.toEntity(), index)
             }
         )
     }
