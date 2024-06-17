@@ -5,9 +5,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.androidx.room)
     alias(libs.plugins.ksp)
-//    alias(libs.plugins.google.services)
+    alias(libs.plugins.room)
+    // alias(libs.plugins.google.services)
 }
 
 kotlin {
@@ -57,6 +57,8 @@ kotlin {
             implementation(libs.voyager.koin)
             implementation(libs.voyager.transitions)
             implementation(libs.voyager.tabNavigator)
+
+            implementation(libs.androidx.paging.common)
 
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
@@ -174,9 +176,6 @@ android {
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
     }
-
-    // TODO: Keep an eye on when to remove this with every AS update
-    task("testClasses")
 }
 
 dependencies {

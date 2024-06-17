@@ -6,7 +6,7 @@ android-compileSdk = "34"
 android-targetSdk = "34"
 androidx-security = "1.1.0-alpha06"
 androidx-splashscreen = "1.0.1"
-appcompat = "1.6.1"
+appcompat = "1.7.0"
 compose-plugin = "1.6.10"
 compose-compiler = "1.5.14"
 core-ktx = "1.13.1"
@@ -28,8 +28,9 @@ ksp = "1.9.24-1.0.20"
 ktor = "2.3.11"
 material-window-size = "0.3.1"
 multiplatform-settings = "1.1.1"
-room = "2.7.0-alpha03"
-sqlite = "2.5.0-alpha03"
+paging = "3.3.0"
+room = "2.7.0-alpha04"
+sqlite = "2.5.0-alpha04"
 turbine = "1.0.0"
 voyager = "1.0.0"
 
@@ -95,6 +96,9 @@ multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", vers
 # Firebase
 #firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 
+# Paging
+androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "paging" }
+
 # Room DB
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
@@ -120,4 +124,4 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-androidx-room = { id = "androidx.room", version.ref = "room" }
+room = { id = "androidx.room", version.ref = "room" }
