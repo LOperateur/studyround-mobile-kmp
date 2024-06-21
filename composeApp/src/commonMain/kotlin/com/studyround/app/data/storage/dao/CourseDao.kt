@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Upsert
 import com.studyround.app.data.model.local.dto.CategoryEntity
 import com.studyround.app.data.model.local.dto.CourseEntity
 import com.studyround.app.data.model.local.dto.ReviewEntity
@@ -26,7 +27,7 @@ interface CourseDao {
     @Query("UPDATE Course SET localOrder = NULL")
     suspend fun resetCourseOrdering()
 
-    @Insert(entity = CourseEntity::class, onConflict = OnConflictStrategy.REPLACE)
+    @Upsert(entity = CourseEntity::class)
     suspend fun updateCourseList(courses: List<CourseListDataUpdate>)
 
     @Query("SELECT * FROM Category WHERE id IN (:courseIds) ORDER BY localOrder ASC NULLS LAST, localTimestamp DESC")
@@ -35,7 +36,7 @@ interface CourseDao {
     @Query("SELECT * FROM User WHERE id = :id LIMIT 1")
     suspend fun getCourseCreator(id: Long): UserEntity?
 
-    @Insert(entity = UserEntity::class, onConflict = OnConflictStrategy.REPLACE)
+    @Upsert(entity = UserEntity::class)
     suspend fun updateCourseCreator(user: UserProfileDataUpdate)
 
     @Query("SELECT * FROM Review WHERE id = :userReviewId LIMIT 1")
@@ -63,13 +64,17 @@ interface CourseDao {
     }
 
     @Transaction
-    suspend fun updateAndReorderCourseList(courses: List<CourseListDataUpdate>) {
+    suspend fun updateAndReorderCourseList(courses: List<CourseEntity>) {
+        val courseUpdates = courses.mapIndexed { index, course ->
+            CourseListDataUpdate.from(course, index)
+        }
+
         resetCourseOrdering()
-        updateCourseList(courses)
+        updateCourseList(courseUpdates)
 
         // Also save some basic user profile data alongside
         courses.forEach { course ->
-            val creator = course.creatorId?.let { getCourseCreator(it) }
+            val creator = course.creator
             creator?.let { updateCourseCreator(UserProfileDataUpdate.from(it)) }
         }
     }

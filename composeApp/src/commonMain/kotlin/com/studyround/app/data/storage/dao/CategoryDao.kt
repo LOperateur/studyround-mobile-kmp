@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Upsert
 import com.studyround.app.data.model.local.dto.CategoryEntity
 import com.studyround.app.data.model.local.dto.CourseEntity
 import com.studyround.app.data.model.local.update.CategorisedCourseListDataUpdate
@@ -23,7 +24,7 @@ interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateCategories(categories: List<CategoryEntity>)
 
-    @Insert(entity = CourseEntity::class, onConflict = OnConflictStrategy.REPLACE)
+    @Upsert(entity = CourseEntity::class)
     suspend fun updateCategorisedCourses(courses: List<CategorisedCourseListDataUpdate>)
 
     @Transaction

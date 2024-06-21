@@ -84,9 +84,7 @@ class DashboardRepositoryImpl(
 
     private suspend fun saveFetchedCourses(data: List<CourseDto>) {
         courseDao.updateAndReorderCourseList(
-            data.mapIndexed { index, course ->
-                CourseListDataUpdate.from(course.toEntity(), index)
-            }
+            data.map { it.toEntity() }
         )
     }
 }
