@@ -78,7 +78,7 @@ internal class StudyRoundTypography(
     )
 
     override val titleExtraSmall = baseStyle.copy(
-        fontSize = 20.sp,
+        fontSize = 18.sp,
         lineHeight = 24.sp,
         fontWeight = FontWeight.Bold,
     )
