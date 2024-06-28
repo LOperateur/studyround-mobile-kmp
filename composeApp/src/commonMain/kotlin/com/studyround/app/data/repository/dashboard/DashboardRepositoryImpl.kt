@@ -3,7 +3,6 @@ package com.studyround.app.data.repository.dashboard
 import com.studyround.app.data.mapper.dto_domain.toDomain
 import com.studyround.app.data.mapper.dto_entity.toEntity
 import com.studyround.app.data.mapper.entity_domain.toDomain
-import com.studyround.app.data.model.local.update.CourseListDataUpdate
 import com.studyround.app.data.model.remote.dto.CategoryDto
 import com.studyround.app.data.model.remote.dto.CourseDto
 import com.studyround.app.data.model.remote.dto.User
@@ -50,7 +49,7 @@ class DashboardRepositoryImpl(
             .map { resource -> resource.mapListData { it.toDomain() } }
 
         val remoteDataFlow = wrappedResourceFlow { dashboardService.fetchCourses(page) }
-            .onEach { if (it is Resource.Success) saveFetchedCourses(it.data) }
+            .onEach { if (it is Resource.Success) saveFetchedCourses(it.data, page, limit) }
             .map { resource -> resource.mapListData { it.toDomain() } }
 
         return flow {
@@ -82,9 +81,10 @@ class DashboardRepositoryImpl(
         )
     }
 
-    private suspend fun saveFetchedCourses(data: List<CourseDto>) {
+    private suspend fun saveFetchedCourses(data: List<CourseDto>, page: Int, limit: Int) {
         courseDao.updateAndReorderCourseList(
-            data.map { it.toEntity() }
+            courses = data.map { it.toEntity() },
+            offset = (page - 1) * limit,
         )
     }
 }

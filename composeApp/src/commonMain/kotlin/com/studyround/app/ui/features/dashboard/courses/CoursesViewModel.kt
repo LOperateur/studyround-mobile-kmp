@@ -20,7 +20,16 @@ class CoursesViewModel(
         get() = _viewState.asStateFlow()
 
     override fun processEvent(event: CoursesViewEvent) {
+        when (event) {
+            LoadMoreClicked -> {
+                if (viewState.value.canLoadMore)
+                    fetchCourses(viewState.value.latestPage + 1)
+            }
 
+            RetryLoadTriggered -> {
+                fetchCourses(viewState.value.latestPage)
+            }
+        }
     }
 
     init {
@@ -28,8 +37,10 @@ class CoursesViewModel(
     }
 
     private fun fetchCourses(page: Int) {
+        val perPageLimit = 12
+
         screenModelScope.launch {
-            dashboardRepository.fetchCourses(page).windowedLoadDebounce().collect {
+            dashboardRepository.fetchCourses(page, perPageLimit).windowedLoadDebounce().collect {
                 when (it) {
                     is Resource.Loading -> {
                         if (page == 1) {
@@ -44,18 +55,33 @@ class CoursesViewModel(
                     }
 
                     is Resource.Success -> {
+                        val total = it.pageData?.total ?: 0
+                        val pageCount = ((total - 1).coerceAtLeast(0) / perPageLimit) + 1
+
                         if (page == 1) {
+                            val isDataAlreadyPresent = viewState.value.courses.isNotEmpty()
                             _viewState.update { state ->
                                 state.copy(
                                     loading = false,
                                     error = false,
                                     courses = it.data,
                                     latestPage = page,
+                                    pageCount = pageCount,
                                     hasFetchedCourses = true,
+                                    networkFetchComplete = isDataAlreadyPresent,
                                 )
                             }
                         } else {
-                            // Todo: Paginate
+                            val courses = viewState.value.courses
+                            _viewState.update { state ->
+                                state.copy(
+                                    loadingMore = false,
+                                    loadMoreError = false,
+                                    courses = courses + it.data,
+                                    latestPage = page,
+                                    pageCount = pageCount,
+                                )
+                            }
                         }
                     }
 

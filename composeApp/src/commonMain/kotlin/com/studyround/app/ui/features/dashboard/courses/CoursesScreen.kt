@@ -89,7 +89,7 @@ class CoursesScreen : Tab {
                             tintIcons = true,
                             iconEnd = painterResource(Res.drawable.ic_reload),
                         ) {
-                            eventProcessor(RetryLoadClicked)
+                            eventProcessor(RetryLoadTriggered)
                         }
                     }
                 }
@@ -130,10 +130,11 @@ class CoursesScreen : Tab {
             ) {
                 CourseListContent(
                     courses = viewState.courses,
-                    canLoadMoreCourses = viewState.networkFetchComplete,
+                    canLoadMoreCourses = viewState.canLoadMore,
                     isLoadingMoreCourses = viewState.loadingMore,
+                    loadMoreError = viewState.loadMoreError,
                     openCourseClicked = {},
-                    loadMoreClicked = {},
+                    loadMoreClicked = { eventProcessor(LoadMoreClicked) },
                 )
             }
         }

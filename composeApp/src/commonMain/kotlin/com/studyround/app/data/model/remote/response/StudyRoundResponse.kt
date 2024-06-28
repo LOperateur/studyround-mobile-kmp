@@ -9,6 +9,9 @@ data class StudyRoundResponse<T>(
     private val data: T? = null,
     private val errors: List<StudyRoundError>? = null,
     val message: String? = null,
+    val page: Int? = null,
+    @SerialName("page_size") val pageSize: Int? = null,
+    val total: Int? = null,
 ) {
     val assertNoErrors: StudyRoundResponse<T>
         get() {

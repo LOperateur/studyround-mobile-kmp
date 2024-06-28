@@ -64,12 +64,14 @@ interface CourseDao {
     }
 
     @Transaction
-    suspend fun updateAndReorderCourseList(courses: List<CourseEntity>) {
+    suspend fun updateAndReorderCourseList(courses: List<CourseEntity>, offset: Int) {
         val courseUpdates = courses.mapIndexed { index, course ->
-            CourseListDataUpdate.from(course, index)
+            CourseListDataUpdate.from(course, index + offset)
         }
 
-        resetCourseOrdering()
+        val shouldReorder = offset == 0 // On first page
+
+        if (shouldReorder) resetCourseOrdering() // TODO: Courses may become too many in future
         updateCourseList(courseUpdates)
 
         // Also save some basic user profile data alongside

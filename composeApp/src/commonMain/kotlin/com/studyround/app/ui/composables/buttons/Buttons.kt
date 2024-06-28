@@ -50,8 +50,8 @@ fun PrimaryButton(
         textPadding = textPadding,
         brush = Brush.horizontalGradient(
             colors = listOf(
-                StudyRoundTheme.colors.primary1,
-                StudyRoundTheme.colors.primary2,
+                StudyRoundTheme.colors.button_deviation_primary1_primary2,
+                StudyRoundTheme.colors.button_deviation_primary2_primary3,
             )
         ),
         isSmallSize = isSmallSize,
@@ -114,7 +114,7 @@ fun PrimaryOutlinedButton(
         modifier = modifier,
         text = text,
         textPadding = textPadding,
-        color = StudyRoundTheme.colors.primary,
+        color = StudyRoundTheme.colors.button_deviation_primary2_primary3,
         isSmallSize = isSmallSize,
         showLoading = showLoading,
         tintIcons = tintIcons,

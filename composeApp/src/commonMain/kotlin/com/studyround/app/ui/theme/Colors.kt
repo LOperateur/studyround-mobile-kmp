@@ -79,6 +79,10 @@ interface Colors {
     val deviation_white_tone5: Color // 'White' Surface
     val deviation_secondary1_secondary3: Color // Default Secondary colour
     val deviation_white_dullWhite: Color
+
+    // Primary button deviations
+    val button_deviation_primary1_primary2: Color
+    val button_deviation_primary2_primary3: Color
 }
 
 internal object StudyRoundColors {
@@ -139,6 +143,9 @@ internal object StudyRoundColors {
         override val deviation_white_tone5 = white
         override val deviation_secondary1_secondary3 = secondary1
         override val deviation_white_dullWhite = white
+
+        override val button_deviation_primary1_primary2 = primary1
+        override val button_deviation_primary2_primary3 = primary2
     }
 
     @Immutable
@@ -189,5 +196,8 @@ internal object StudyRoundColors {
         override val deviation_white_tone5 = tone5
         override val deviation_secondary1_secondary3 = secondary3
         override val deviation_white_dullWhite = white.copy(alpha = 0.6f)
+
+        override val button_deviation_primary1_primary2 = primary2
+        override val button_deviation_primary2_primary3 = primary3
     }
 }
