@@ -35,9 +35,13 @@ fun CourseListItem(
             .clip(shape = RoundedCornerShape(8.dp))
             .clickable { onCourseClicked() }
             .background(color = StudyRoundTheme.colors.deviation_tone1_primary1)
-            .padding(16.dp)
+            .padding(16.dp),
+        contentAlignment = Alignment.Center,
     ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             Image(
                 modifier = Modifier
                     .size(72.dp)
