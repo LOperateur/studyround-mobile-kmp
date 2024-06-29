@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -121,6 +122,13 @@ fun StudyRoundAppBar(
                     modifier = Modifier.size(32.dp),
                     placeholderPainter = painterResource(Res.drawable.ic_avatar),
                     placeholderTint = StudyRoundTheme.colors.gray,
+                    onLoading = {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(24.dp),
+                            color = StudyRoundTheme.colors.white,
+                            strokeWidth = 2.dp,
+                        )
+                    },
                 )
 
                 DropdownMenu(

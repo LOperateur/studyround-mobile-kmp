@@ -1,6 +1,5 @@
 package com.studyround.app.ui.features.dashboard.widgets
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,8 +17,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.seiko.imageloader.rememberImagePainter
 import com.studyround.app.domain.model.Course
+import com.studyround.app.ui.composables.common.RemoteImage
 import com.studyround.app.ui.composables.modifiers.neuSurface
 import com.studyround.app.ui.theme.StudyRoundTheme
 
@@ -42,13 +41,13 @@ fun CourseListItem(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(
+            RemoteImage(
                 modifier = Modifier
                     .size(72.dp)
                     .align(Alignment.CenterVertically)
-                    .clip(RoundedCornerShape(8.dp)),
-                painter = rememberImagePainter(course.imageUrl.orEmpty()), // Todo: Loading spinner
-                contentDescription = course.title,
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(color = StudyRoundTheme.colors.deviation_tone4_tone5.copy(alpha = 0.1f)),
+                url = course.imageUrl.orEmpty(),
                 contentScale = ContentScale.Crop,
             )
 
