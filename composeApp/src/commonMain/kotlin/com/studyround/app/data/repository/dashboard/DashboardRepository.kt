@@ -9,7 +9,11 @@ import kotlinx.coroutines.flow.Flow
 interface DashboardRepository {
     fun fetchCategorisedCourses(): Flow<Resource<List<Category>>>
 
-    fun fetchCourses(page: Int, limit: Int = 12): Flow<Resource<List<Course>>>
+    fun fetchCourses(
+        page: Int,
+        limit: Int = 12,
+        refresh: Boolean = false,
+    ): Flow<Resource<List<Course>>>
 
     fun fetchEnrolledCourses(page: Int): Flow<Resource<List<Course>>>
 

@@ -44,7 +44,7 @@ class DashboardRepositoryImpl(
         }
     }
 
-    override fun fetchCourses(page: Int, limit: Int): Flow<Resource<List<Course>>> {
+    override fun fetchCourses(page: Int, limit: Int, refresh: Boolean): Flow<Resource<List<Course>>> {
         val localDataFlow = resourceFlow { courseDao.getCoursesWithCreator(limit) }
             .map { resource -> resource.mapListData { it.toDomain() } }
 
@@ -53,8 +53,9 @@ class DashboardRepositoryImpl(
             .map { resource -> resource.mapListData { it.toDomain() } }
 
         return flow {
-            // Fetch data locally only on first page
-            if (page == 1) localDataFlow.filter { it !is Resource.Error }.collect { emit(it) }
+            // Fetch data locally only on first page and for non-refresh requests
+            if (page == 1 && !refresh)
+                localDataFlow.filter { it !is Resource.Error }.collect { emit(it) }
 
             // Fetch remote
             remoteDataFlow.collect { emit(it) }
