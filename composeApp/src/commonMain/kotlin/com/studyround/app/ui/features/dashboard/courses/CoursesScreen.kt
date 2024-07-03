@@ -48,16 +48,6 @@ class CoursesScreen : Tab {
                         color = StudyRoundTheme.colors.deviation_primary1_white,
                     )
                 }
-            } else if (viewState.loadingWithData) {
-                Box(modifier = Modifier.matchParentSize(), contentAlignment = Alignment.TopEnd) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp, vertical = 8.dp)
-                            .size(16.dp),
-                        strokeWidth = 2.dp,
-                        color = StudyRoundTheme.colors.deviation_primary1_white,
-                    )
-                }
             }
 
             // Error
@@ -135,6 +125,8 @@ class CoursesScreen : Tab {
                     loadMoreError = viewState.loadMoreError,
                     openCourseClicked = {},
                     loadMoreClicked = { eventProcessor(LoadMoreClicked) },
+                    isRefreshingCourses = viewState.refreshLoading || viewState.loadingWithData,
+                    listRefreshed = { eventProcessor(RefreshTriggered) }
                 )
             }
         }

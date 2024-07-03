@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeightIn
@@ -24,8 +25,11 @@ import androidx.compose.material.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -35,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import com.studyround.app.domain.model.Course
 import com.studyround.app.ui.composables.buttons.SecondaryButton
+import com.studyround.app.ui.composables.common.PullRefreshContainer
 import com.studyround.app.ui.features.dashboard.widgets.CourseListItem
 import com.studyround.app.ui.theme.StudyRoundTheme
 import com.studyround.app.ui.utils.isAtLeastMediumWidth
@@ -54,6 +59,8 @@ fun CourseListContent(
     loadMoreError: Boolean,
     openCourseClicked: (Course) -> Unit,
     loadMoreClicked: () -> Unit,
+    isRefreshingCourses: Boolean,
+    listRefreshed: () -> Unit,
 ) {
     val windowSizeClass = calculateWindowSizeClass()
 
@@ -66,51 +73,63 @@ fun CourseListContent(
     val heightList = remember(gridColumnCount) { mutableStateMapOf<Int, Dp>() }
     val density = LocalDensity.current
 
-    LazyVerticalGrid(
-        modifier = modifier,
-        columns = GridCells.Fixed(gridColumnCount),
-        verticalArrangement = Arrangement.spacedBy(24.dp),
-        horizontalArrangement = Arrangement.spacedBy(24.dp),
-        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 24.dp),
+    PullRefreshContainer(
+        modifier = modifier.fillMaxSize(),
+        isRefreshing = isRefreshingCourses,
+        onRefreshTriggered = listRefreshed,
     ) {
-        itemsIndexed(courses) { index, course ->
-            CourseListItem(
-                course = course,
-                modifier = Modifier
-                    .requiredHeightIn(min = heightList[index / gridColumnCount] ?: 0.dp)
-                    .onGloballyPositioned {
-                        with(density) {
-                            heightList[index / gridColumnCount] =
-                                max(
-                                    it.size.height.toDp(),
-                                    heightList[index / gridColumnCount] ?: 0.dp,
-                                )
-                        }
-                    },
-            ) {
-                openCourseClicked(course)
-            }
-        }
-
-        item(span = { GridItemSpan(gridColumnCount) }) {
-            AnimatedVisibility(
-                modifier = Modifier.fillMaxWidth().animateContentSize().padding(bottom = 24.dp),
-                visible = canLoadMoreCourses,
-                enter = fadeIn(),
-                exit = fadeOut(),
-            ) {
-                Box(contentAlignment = Alignment.Center) {
-                    if (isLoadingMoreCourses) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.padding(8.dp).size(32.dp),
-                            strokeWidth = 2.dp,
-                            color = StudyRoundTheme.colors.deviation_primary1_white,
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(gridColumnCount),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+            horizontalArrangement = Arrangement.spacedBy(24.dp),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 24.dp),
+        ) {
+            itemsIndexed(courses) { index, course ->
+                CourseListItem(
+                    course = course,
+                    modifier = Modifier
+                        .requiredHeightIn(
+                            min = if (gridColumnCount > 1)
+                                heightList[index / gridColumnCount] ?: 0.dp
+                            else
+                                0.dp
                         )
-                    } else if (loadMoreError) {
-                        ErrorLoadingMore { loadMoreClicked() }
-                    } else {
-                        SecondaryButton(text = stringResource(Res.string.load_more_prompt)) {
-                            loadMoreClicked()
+                        .onGloballyPositioned {
+                            if (gridColumnCount > 1) {
+                                with(density) {
+                                    heightList[index / gridColumnCount] =
+                                        max(
+                                            it.size.height.toDp(),
+                                            heightList[index / gridColumnCount] ?: 0.dp,
+                                        )
+                                }
+                            }
+                        },
+                ) {
+                    openCourseClicked(course)
+                }
+            }
+
+            item(span = { GridItemSpan(gridColumnCount) }) {
+                AnimatedVisibility(
+                    modifier = Modifier.fillMaxWidth().animateContentSize().padding(bottom = 24.dp),
+                    visible = canLoadMoreCourses,
+                    enter = fadeIn(),
+                    exit = fadeOut(),
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        if (isLoadingMoreCourses) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.padding(8.dp).size(32.dp),
+                                strokeWidth = 2.dp,
+                                color = StudyRoundTheme.colors.deviation_primary1_white,
+                            )
+                        } else if (loadMoreError) {
+                            ErrorLoadingMore { loadMoreClicked() }
+                        } else {
+                            SecondaryButton(text = stringResource(Res.string.load_more_prompt)) {
+                                loadMoreClicked()
+                            }
                         }
                     }
                 }

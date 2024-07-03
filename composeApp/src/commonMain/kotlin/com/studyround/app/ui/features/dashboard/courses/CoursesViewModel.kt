@@ -5,6 +5,7 @@ import com.studyround.app.data.repository.dashboard.DashboardRepository
 import com.studyround.app.data.resource.Resource
 import com.studyround.app.data.resource.windowedLoadDebounce
 import com.studyround.app.ui.viewmodel.UdfViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,80 +30,101 @@ class CoursesViewModel(
             RetryLoadTriggered -> {
                 fetchCourses(viewState.value.latestPage)
             }
+
+            RefreshTriggered -> {
+                fetchCourses(1, true)
+            }
         }
     }
+
+    private var fetchJob: Job? = null
 
     init {
         fetchCourses(1)
     }
 
-    private fun fetchCourses(page: Int) {
+    private fun fetchCourses(page: Int, isRefresh: Boolean = false) {
+        var fetchCount = 0
         val perPageLimit = 12
 
-        screenModelScope.launch {
-            dashboardRepository.fetchCourses(page, perPageLimit).windowedLoadDebounce().collect {
-                when (it) {
-                    is Resource.Loading -> {
-                        if (page == 1) {
-                            _viewState.update { state ->
-                                state.copy(loading = true, error = false)
-                            }
-                        } else {
-                            _viewState.update { state ->
-                                state.copy(loadingMore = true, loadMoreError = false)
-                            }
-                        }
-                    }
+        if (fetchJob != null && fetchJob?.isActive == true) return
 
-                    is Resource.Success -> {
-                        val total = it.pageData?.total ?: 0
-                        val pageCount = ((total - 1).coerceAtLeast(0) / perPageLimit) + 1
-
-                        if (page == 1) {
-                            val isDataAlreadyPresent = viewState.value.courses.isNotEmpty()
-                            _viewState.update { state ->
-                                state.copy(
-                                    loading = false,
-                                    error = false,
-                                    courses = it.data,
-                                    latestPage = page,
-                                    pageCount = pageCount,
-                                    hasFetchedCourses = true,
-                                    networkFetchComplete = isDataAlreadyPresent,
-                                )
-                            }
-                        } else {
-                            val courses = viewState.value.courses
-                            _viewState.update { state ->
-                                state.copy(
-                                    loadingMore = false,
-                                    loadMoreError = false,
-                                    courses = courses + it.data,
-                                    latestPage = page,
-                                    pageCount = pageCount,
-                                )
-                            }
-                        }
-                    }
-
-                    is Resource.Error -> {
-                        if (page == 1) {
-                            if (viewState.value.courses.isEmpty()) {
+        fetchJob = screenModelScope.launch {
+            dashboardRepository.fetchCourses(page, perPageLimit, isRefresh)
+                .windowedLoadDebounce(
+                    loadingWindow = if (isRefresh) 0 else 200L
+                ).collect {
+                    when (it) {
+                        is Resource.Loading -> {
+                            if (page == 1) {
                                 _viewState.update { state ->
-                                    state.copy(loading = false, error = true)
+                                    state.copy(
+                                        loading = true,
+                                        refreshLoading = isRefresh,
+                                        error = false
+                                    )
                                 }
                             } else {
-                                _viewState.update { state -> state.copy(loading = false) }
-                                // Todo: Send alert
+                                _viewState.update { state ->
+                                    state.copy(loadingMore = true, loadMoreError = false)
+                                }
                             }
-                        } else {
-                            _viewState.update { state ->
-                                state.copy(loadingMore = false, loadMoreError = true)
+                        }
+
+                        is Resource.Success -> {
+                            ++fetchCount
+                            val total = it.pageData?.total ?: 0
+                            val pageCount = ((total - 1).coerceAtLeast(0) / perPageLimit) + 1
+
+                            if (page == 1) {
+                                _viewState.update { state ->
+                                    state.copy(
+                                        loading = false,
+                                        refreshLoading = false,
+                                        error = false,
+                                        courses = it.data,
+                                        latestPage = page,
+                                        pageCount = pageCount,
+                                        hasFetchedCourses = true,
+                                        networkFetchComplete = fetchCount > 1 || isRefresh,
+                                    )
+                                }
+                            } else {
+                                val courses = viewState.value.courses
+                                _viewState.update { state ->
+                                    state.copy(
+                                        loadingMore = false,
+                                        loadMoreError = false,
+                                        courses = courses + it.data,
+                                        latestPage = page,
+                                        pageCount = pageCount,
+                                    )
+                                }
+                            }
+                        }
+
+                        is Resource.Error -> {
+                            if (page == 1) {
+                                if (viewState.value.courses.isEmpty()) {
+                                    _viewState.update { state ->
+                                        state.copy(
+                                            loading = false,
+                                            refreshLoading = false,
+                                            error = true
+                                        )
+                                    }
+                                } else {
+                                    _viewState.update { state -> state.copy(loading = false) }
+                                    // Todo: Send alert
+                                }
+                            } else {
+                                _viewState.update { state ->
+                                    state.copy(loadingMore = false, loadMoreError = true)
+                                }
                             }
                         }
                     }
                 }
-            }
         }
     }
 }

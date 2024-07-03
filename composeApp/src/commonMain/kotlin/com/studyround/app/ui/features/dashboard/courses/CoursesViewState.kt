@@ -4,6 +4,7 @@ import com.studyround.app.domain.model.Course
 
 data class CoursesViewState(
     val loading: Boolean = false,
+    val refreshLoading: Boolean = false,
     val courses: List<Course> = listOf(),
     val error: Boolean = false,
     val hasFetchedCourses: Boolean = false,

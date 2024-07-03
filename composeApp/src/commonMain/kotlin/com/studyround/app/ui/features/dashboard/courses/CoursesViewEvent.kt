@@ -5,3 +5,5 @@ sealed interface CoursesViewEvent
 data object RetryLoadTriggered: CoursesViewEvent
 
 data object LoadMoreClicked: CoursesViewEvent
+
+data object RefreshTriggered: CoursesViewEvent
