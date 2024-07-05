@@ -7,7 +7,7 @@ import com.studyround.app.domain.model.Course
 import kotlinx.coroutines.flow.Flow
 
 interface DashboardRepository {
-    fun fetchCategorisedCourses(): Flow<Resource<List<Category>>>
+    fun fetchCategorisedCourses(refresh: Boolean = false): Flow<Resource<List<Category>>>
 
     fun fetchCourses(
         page: Int,

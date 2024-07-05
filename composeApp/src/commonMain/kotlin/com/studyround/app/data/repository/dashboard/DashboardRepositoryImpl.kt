@@ -27,7 +27,7 @@ class DashboardRepositoryImpl(
     private val courseDao: CourseDao,
 ) : DashboardRepository {
 
-    override fun fetchCategorisedCourses(): Flow<Resource<List<Category>>> {
+    override fun fetchCategorisedCourses(refresh: Boolean): Flow<Resource<List<Category>>> {
         val localDataFlow = resourceFlow { categoryDao.getTopCategoriesWithCourses() }
             .map { resource -> resource.mapListData { it.toDomain() } }
 
@@ -36,8 +36,8 @@ class DashboardRepositoryImpl(
             .map { resource -> resource.mapListData { it.toDomain() } }
 
         return flow {
-            // Fetch locally saved data
-            localDataFlow.filter { it !is Resource.Error }.collect { emit(it) }
+            // Fetch locally saved data for non-refresh requests
+            if (!refresh) localDataFlow.filter { it !is Resource.Error }.collect { emit(it) }
 
             // Fetch remote data while updating local
             remoteDataFlow.collect { emit(it) }

@@ -114,7 +114,12 @@ class CoursesViewModel(
                                         )
                                     }
                                 } else {
-                                    _viewState.update { state -> state.copy(loading = false) }
+                                    _viewState.update { state ->
+                                        state.copy(
+                                            loading = false,
+                                            refreshLoading = false,
+                                        )
+                                    }
                                     // Todo: Send alert
                                 }
                             } else {

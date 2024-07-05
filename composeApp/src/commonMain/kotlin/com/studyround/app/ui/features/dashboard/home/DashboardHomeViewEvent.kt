@@ -9,4 +9,4 @@ data class CourseClicked(val course: Course): DashboardHomeViewEvent
 
 data class ViewCategoryClicked(val category: Category): DashboardHomeViewEvent
 
-data object RetryLoadClicked: DashboardHomeViewEvent
+data class RetryLoadTriggered(val isRefresh: Boolean): DashboardHomeViewEvent

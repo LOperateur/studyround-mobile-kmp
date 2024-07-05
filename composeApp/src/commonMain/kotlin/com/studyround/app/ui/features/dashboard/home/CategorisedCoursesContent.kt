@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.studyround.app.domain.model.Category
 import com.studyround.app.domain.model.Course
+import com.studyround.app.ui.composables.common.PullRefreshContainer
 import com.studyround.app.ui.features.dashboard.widgets.CategorisedCoursesRow
 
 @Composable
@@ -18,20 +19,28 @@ fun CategorisedCoursesContent(
     categories: List<Category>,
     viewCoursesInCategoryClicked: (Category) -> Unit,
     viewCourseClicked: (Course) -> Unit,
+    isRefreshingCourses: Boolean,
+    listRefreshed: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
-    Column(
-        modifier = modifier.verticalScroll(scrollState).padding(vertical = 24.dp),
-        verticalArrangement = Arrangement.spacedBy(36.dp),
+    PullRefreshContainer(
+        modifier = modifier,
+        isRefreshing = isRefreshingCourses,
+        onRefreshTriggered = listRefreshed,
     ) {
-        categories.forEach {
-            CategorisedCoursesRow(
-                categoryTitle = it.name,
-                courses = it.coursesInCategory,
-                viewAllClicked = { viewCoursesInCategoryClicked(it) },
-                viewCourseClicked = viewCourseClicked,
-            )
+        Column(
+            modifier = Modifier.verticalScroll(scrollState).padding(vertical = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(36.dp),
+        ) {
+            categories.forEach {
+                CategorisedCoursesRow(
+                    categoryTitle = it.name,
+                    courses = it.coursesInCategory,
+                    viewAllClicked = { viewCoursesInCategoryClicked(it) },
+                    viewCourseClicked = viewCourseClicked,
+                )
+            }
         }
     }
 }
