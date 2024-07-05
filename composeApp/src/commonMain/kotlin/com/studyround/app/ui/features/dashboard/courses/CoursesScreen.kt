@@ -13,6 +13,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import com.studyround.app.ui.composables.alert.LocalAlertManager
 import com.studyround.app.ui.composables.buttons.PrimaryButton
 import com.studyround.app.ui.theme.StudyRoundTheme
 import org.jetbrains.compose.resources.painterResource
@@ -38,6 +40,21 @@ class CoursesScreen : Tab {
             val vm = getScreenModel<CoursesViewModel>()
             val viewState by vm.viewState.collectAsState()
             val eventProcessor = vm::processEvent
+
+            val alertManager = LocalAlertManager.current
+
+            LaunchedEffect(Unit) {
+                vm.viewEffects.collect { effect ->
+                    when (effect) {
+                        is ShowAlert -> {
+                            alertManager.show(
+                                effect.message.loadString(),
+                                effect.type,
+                            )
+                        }
+                    }
+                }
+            }
 
             // Loading
             if (viewState.loadingWithoutData) {
