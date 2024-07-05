@@ -55,7 +55,7 @@ class DashboardHomeViewModel(
     }
 
     private suspend fun fetchCategorisedCourses(isRefresh: Boolean = false) {
-        dashboardRepository.fetchCategorisedCourses().windowedLoadDebounce(
+        dashboardRepository.fetchCategorisedCourses(isRefresh).windowedLoadDebounce(
             loadingWindow = if (isRefresh) 0 else 100L
         ).collect {
             when (it) {
