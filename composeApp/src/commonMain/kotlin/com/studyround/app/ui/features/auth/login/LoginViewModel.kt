@@ -8,6 +8,7 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import com.studyround.app.data.auth.model.EmailAuthType
 import com.studyround.app.data.auth.model.GoogleAuthType
 import com.studyround.app.data.auth.session.SessionManager
+import com.studyround.app.data.error.renderedErrorMessage
 import com.studyround.app.data.model.remote.request.AuthType
 import com.studyround.app.platform.ui.PlatformContext
 import com.studyround.app.data.repository.auth.AuthRepository
@@ -239,7 +240,7 @@ class LoginViewModel(
                     }
                     _viewEffects.send(
                         ShowAlert(
-                            message = AppString.textOrError(it.cause.message),
+                            message = it.cause.renderedErrorMessage(),
                             type = AlertBannerType.Error,
                         )
                     )
@@ -329,7 +330,7 @@ class LoginViewModel(
                         }
                         _viewEffects.send(
                             ShowAlert(
-                                message = AppString.textOrError(it.cause.message),
+                                message = it.cause.renderedErrorMessage(),
                                 type = AlertBannerType.Error,
                             )
                         )

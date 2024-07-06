@@ -20,6 +20,7 @@ sealed class Resource<T> {
     data class Success<T>(
         override val data: T,
         val message: String? = null,
+        val pageData: PageData? = null,
     ) : Resource<T>()
 
     data class Loading<T>(
@@ -63,8 +64,7 @@ fun <T> resourceFlow(initialData: T? = null, resource: suspend () -> T) = flow {
 
 /**
  * Similar to [resourceFlow] but the executed [resource] is wrapped in a [StudyRoundResponse] in
- * order to pass an optional message. Good for single-data requests which are usually accompanied
- * by a message.
+ * order to pass an optional message or other metadata like pagination data.
  *
  * @param initialData The initial data provided in the loading resource, or in the error resource
  * if an exception is thrown.
@@ -73,7 +73,13 @@ fun <T> resourceFlow(initialData: T? = null, resource: suspend () -> T) = flow {
 fun <T> wrappedResourceFlow(initialData: T? = null, resource: suspend () -> StudyRoundResponse<T>) = flow {
     emit(Resource.Loading(initialData))
     val response = resource()
-    emit(Resource.Success(response.dataOrThrow, message = response.message))
+    emit(
+        Resource.Success(
+            response.dataOrThrow,
+            message = response.message,
+            pageData = PageData.fromStudyRoundResponse(response),
+        )
+    )
 }.catchErrorsAsResource(initialData)
 
 /**
@@ -86,7 +92,7 @@ fun <T> wrappedResourceFlow(initialData: T? = null, resource: suspend () -> Stud
  */
 inline fun <T, R> Resource<T>.mapData(transform: (T) -> R): Resource<R> {
     return when (this) {
-        is Resource.Success -> Resource.Success(transform(data), message)
+        is Resource.Success -> Resource.Success(transform(data), message, pageData)
         is Resource.Error -> Resource.Error(data?.let { transform(it) }, cause)
         is Resource.Loading -> Resource.Loading(data?.let { transform(it) })
     }

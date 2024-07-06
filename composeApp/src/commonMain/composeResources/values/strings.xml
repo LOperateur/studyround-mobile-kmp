@@ -69,4 +69,8 @@
     <string name="view_more_link">View more >></string>
     <string name="retry_prompt">Retry</string>
     <string name="fetch_courses_network_error">Unable to fetch courses. \nPlease check your network connection.</string>
+    <string name="empty_courses_text">No courses found</string>
+    <string name="load_more_prompt">Load more</string>
+    <string name="more_courses_fetch_error">Error fetching courses</string>
+    <string name="no_connectivity_error">Unable to connect</string>
 </resources>

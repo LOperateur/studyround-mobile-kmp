@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.seiko.imageloader.model.ImageAction
 import com.seiko.imageloader.rememberImageSuccessPainter
@@ -23,6 +24,7 @@ fun RemoteImage(
     modifier: Modifier = Modifier,
     placeholderPainter: Painter? = null,
     placeholderTint: Color = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
+    contentScale: ContentScale = ContentScale. Fit,
     onLoading: (@Composable () -> Unit)? = { DefaultLoader() },
 ) {
     AutoSizeBox(
@@ -34,6 +36,7 @@ fun RemoteImage(
                 Image(
                     rememberImageSuccessPainter(action),
                     modifier = Modifier.fillMaxSize(),
+                    contentScale = contentScale,
                     contentDescription = "Avatar",
                 )
             }
@@ -69,7 +72,7 @@ fun RemoteImage(
 private fun DefaultLoader() {
     CircularProgressIndicator(
         modifier = Modifier.size(24.dp),
-        color = StudyRoundTheme.colors.white,
+        color = StudyRoundTheme.colors.deviation_primary1_white,
         strokeWidth = 2.dp,
     )
 }

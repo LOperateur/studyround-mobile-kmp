@@ -1,6 +1,7 @@
 package com.studyround.app.ui.features.auth.otp
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.studyround.app.data.error.renderedErrorMessage
 import com.studyround.app.data.model.remote.request.AuthType
 import com.studyround.app.data.repository.auth.AuthRepository
 import com.studyround.app.data.resource.Resource
@@ -152,7 +153,7 @@ class OtpViewModel(
                         }
                         _viewEffects.send(
                             ShowAlert(
-                                message = AppString.textOrError(it.cause.message),
+                                message = it.cause.renderedErrorMessage(),
                                 type = AlertBannerType.Error,
                             )
                         )
@@ -189,7 +190,7 @@ class OtpViewModel(
                         }
                         _viewEffects.send(
                             ShowAlert(
-                                message = AppString.textOrError(it.cause.message),
+                                message = it.cause.renderedErrorMessage(),
                                 type = AlertBannerType.Error,
                             )
                         )

@@ -4,6 +4,7 @@ import com.studyround.app.domain.model.Category
 
 data class DashboardHomeViewState(
     val loading: Boolean = false,
+    val refreshLoading: Boolean = false,
     val categorisedCourses: List<Category> = listOf(),
     val error: Boolean = false,
 ) {

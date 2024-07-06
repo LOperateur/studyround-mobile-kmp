@@ -67,16 +67,6 @@ class DashboardHomeScreen : Tab {
                         color = StudyRoundTheme.colors.deviation_primary1_white,
                     )
                 }
-            } else if (viewState.loadingWithData) {
-                Box(modifier = Modifier.matchParentSize(), contentAlignment = Alignment.TopEnd) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp, vertical = 8.dp)
-                            .size(16.dp),
-                        strokeWidth = 2.dp,
-                        color = StudyRoundTheme.colors.deviation_primary1_white,
-                    )
-                }
             }
 
             AnimatedVisibility(
@@ -107,7 +97,7 @@ class DashboardHomeScreen : Tab {
                             tintIcons = true,
                             iconEnd = painterResource(Res.drawable.ic_reload),
                         ) {
-                            eventProcessor(RetryLoadClicked)
+                            eventProcessor(RetryLoadTriggered(isRefresh = false))
                         }
                     }
                 }
@@ -121,6 +111,8 @@ class DashboardHomeScreen : Tab {
                     categories = viewState.categorisedCourses,
                     viewCoursesInCategoryClicked = { eventProcessor(ViewCategoryClicked(it)) },
                     viewCourseClicked = { eventProcessor(CourseClicked(it)) },
+                    isRefreshingCourses = viewState.refreshLoading || viewState.loadingWithData,
+                    listRefreshed = { eventProcessor(RetryLoadTriggered(isRefresh = true)) },
                 )
             }
         }

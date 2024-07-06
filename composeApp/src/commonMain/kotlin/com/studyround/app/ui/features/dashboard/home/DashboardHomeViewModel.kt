@@ -48,23 +48,32 @@ class DashboardHomeViewModel(
                 }
             }
 
-            is RetryLoadClicked -> {
-                screenModelScope.launch { fetchCategorisedCourses() }
+            is RetryLoadTriggered -> {
+                screenModelScope.launch { fetchCategorisedCourses(event.isRefresh) }
             }
         }
     }
 
-    private suspend fun fetchCategorisedCourses() {
-        dashboardRepository.fetchCategorisedCourses().windowedLoadDebounce(100L).collect {
+    private suspend fun fetchCategorisedCourses(isRefresh: Boolean = false) {
+        dashboardRepository.fetchCategorisedCourses(isRefresh).windowedLoadDebounce(
+            loadingWindow = if (isRefresh) 0 else 100L
+        ).collect {
             when (it) {
                 is Resource.Loading -> {
-                    _viewState.update { state -> state.copy(loading = true, error = false) }
+                    _viewState.update { state ->
+                        state.copy(
+                            loading = true,
+                            refreshLoading = isRefresh,
+                            error = false,
+                        )
+                    }
                 }
 
                 is Resource.Success -> {
                     _viewState.update { state ->
                         state.copy(
                             loading = false,
+                            refreshLoading = false,
                             error = false,
                             categorisedCourses = it.data,
                         )
@@ -72,7 +81,13 @@ class DashboardHomeViewModel(
                 }
 
                 is Resource.Error -> {
-                    _viewState.update { state -> state.copy(loading = false, error = true) }
+                    _viewState.update { state ->
+                        state.copy(
+                            loading = false,
+                            refreshLoading = false,
+                            error = true,
+                        )
+                    }
                 }
             }
         }

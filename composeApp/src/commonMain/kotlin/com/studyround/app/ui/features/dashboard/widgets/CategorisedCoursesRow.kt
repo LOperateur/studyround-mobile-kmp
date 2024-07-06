@@ -109,6 +109,7 @@ private fun CourseCard(course: Course, viewCourseClicked: (Course) -> Unit) {
                 style = StudyRoundTheme.typography.titleExtraSmall.copy(fontWeight = FontWeight.SemiBold),
                 color = StudyRoundTheme.colors.white,
                 textAlign = TextAlign.Center,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.fillMaxWidth(),
             )
 

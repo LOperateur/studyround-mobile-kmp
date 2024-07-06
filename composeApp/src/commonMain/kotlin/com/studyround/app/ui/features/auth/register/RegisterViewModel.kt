@@ -7,6 +7,7 @@ import androidx.compose.runtime.snapshotFlow
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.studyround.app.data.auth.model.EmailAuthType
 import com.studyround.app.data.auth.session.SessionManager
+import com.studyround.app.data.error.renderedErrorMessage
 import com.studyround.app.data.resource.Resource
 import com.studyround.app.data.resource.windowedLoadDebounce
 import com.studyround.app.ui.composables.alert.AlertBannerType
@@ -184,7 +185,7 @@ class RegisterViewModel(
                     }
                     _viewEffects.send(
                         ShowAlert(
-                            message = AppString.textOrError(it.cause.message),
+                            message = it.cause.renderedErrorMessage(),
                             type = AlertBannerType.Error,
                         )
                     )

@@ -4,6 +4,7 @@ import com.studyround.app.data.mapper.dto_domain.toDomain
 import com.studyround.app.data.mapper.dto_entity.toEntity
 import com.studyround.app.data.mapper.entity_domain.toDomain
 import com.studyround.app.data.model.remote.dto.CategoryDto
+import com.studyround.app.data.model.remote.dto.CourseDto
 import com.studyround.app.data.model.remote.dto.User
 import com.studyround.app.data.resource.Resource
 import com.studyround.app.data.resource.mapListData
@@ -26,7 +27,7 @@ class DashboardRepositoryImpl(
     private val courseDao: CourseDao,
 ) : DashboardRepository {
 
-    override fun fetchCategorisedCourses(): Flow<Resource<List<Category>>> {
+    override fun fetchCategorisedCourses(refresh: Boolean): Flow<Resource<List<Category>>> {
         val localDataFlow = resourceFlow { categoryDao.getTopCategoriesWithCourses() }
             .map { resource -> resource.mapListData { it.toDomain() } }
 
@@ -35,18 +36,30 @@ class DashboardRepositoryImpl(
             .map { resource -> resource.mapListData { it.toDomain() } }
 
         return flow {
-            // Fetch locally saved data
-            localDataFlow.filter { it !is Resource.Error }.collect { emit(it) }
+            // Fetch locally saved data for non-refresh requests
+            if (!refresh) localDataFlow.filter { it !is Resource.Error }.collect { emit(it) }
 
             // Fetch remote data while updating local
             remoteDataFlow.collect { emit(it) }
         }
     }
 
-    override fun fetchCourses(page: Int): Flow<Resource<List<Course>>> {
-        return wrappedResourceFlow {
-            dashboardService.fetchCourses(page)
-        }.map { resource -> resource.mapListData { it.toDomain() } }
+    override fun fetchCourses(page: Int, limit: Int, refresh: Boolean): Flow<Resource<List<Course>>> {
+        val localDataFlow = resourceFlow { courseDao.getCoursesWithCreator(limit) }
+            .map { resource -> resource.mapListData { it.toDomain() } }
+
+        val remoteDataFlow = wrappedResourceFlow { dashboardService.fetchCourses(page) }
+            .onEach { if (it is Resource.Success) saveFetchedCourses(it.data, page, limit) }
+            .map { resource -> resource.mapListData { it.toDomain() } }
+
+        return flow {
+            // Fetch data locally only on first page and for non-refresh requests
+            if (page == 1 && !refresh)
+                localDataFlow.filter { it !is Resource.Error }.collect { emit(it) }
+
+            // Fetch remote
+            remoteDataFlow.collect { emit(it) }
+        }
     }
 
     override fun fetchEnrolledCourses(page: Int): Flow<Resource<List<Course>>> {
@@ -62,10 +75,17 @@ class DashboardRepositoryImpl(
     }
 
     private suspend fun saveTopCategories(data: List<CategoryDto>) {
-        categoryDao.reorderAndUpdateCategories(
+        categoryDao.updateAndReorderCategories(
             data.mapIndexed { index, category ->
                 category.toEntity(index)
             }
+        )
+    }
+
+    private suspend fun saveFetchedCourses(data: List<CourseDto>, page: Int, limit: Int) {
+        courseDao.updateAndReorderCourseList(
+            courses = data.map { it.toEntity() },
+            offset = (page - 1) * limit,
         )
     }
 }
