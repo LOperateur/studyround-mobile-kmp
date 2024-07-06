@@ -1,14 +1,21 @@
 package com.studyround.app.di
 
 import com.studyround.app.data.auth.session.SessionManager
+import com.studyround.app.data.error.AppError
+import com.studyround.app.data.error.StudyRoundException
 import com.studyround.app.data.service.auth.AuthService
 import com.studyround.app.data.service.auth.AuthServiceImpl
 import com.studyround.app.data.service.dashboard.DashboardService
 import com.studyround.app.data.service.dashboard.DashboardServiceImpl
 import com.studyround.app.data.service.survey.RegSurveyService
 import com.studyround.app.data.service.survey.RegSurveyServiceImpl
+import com.studyround.app.platform.utils.ConnectivityException
 import com.studyround.app.platform.utils.Platform
 import io.ktor.client.HttpClient
+import io.ktor.client.network.sockets.ConnectTimeoutException
+import io.ktor.client.network.sockets.SocketTimeoutException
+import io.ktor.client.plugins.HttpRequestTimeoutException
+import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerTokens
@@ -65,6 +72,19 @@ val networkModule = module {
                 }
             }
 
+            HttpResponseValidator {
+                handleResponseExceptionWithRequest { exception, _ ->
+                    if (exception.isNetworkException()) {
+                        throw StudyRoundException(AppError.CONNECTIVITY_ERROR)
+                    } else {
+                        throw StudyRoundException(
+                            message = exception.message,
+                            cause = exception.cause,
+                        )
+                    }
+                }
+            }
+
             defaultRequest {
                 url(get<Platform>().baseApiUrl)
                 header("App", "studyround")
@@ -86,4 +106,14 @@ val networkModule = module {
     single<AuthService> { AuthServiceImpl(get()) }
     single<RegSurveyService> { RegSurveyServiceImpl(get()) }
     single<DashboardService> { DashboardServiceImpl(get()) }
+}
+
+private fun Throwable.isNetworkException(): Boolean {
+    return when (this) {
+        is ConnectivityException,
+        is HttpRequestTimeoutException,
+        is ConnectTimeoutException,
+        is SocketTimeoutException -> true
+        else -> false
+    }
 }

@@ -96,6 +96,7 @@ enum class AppStrings {
     NO_OCCUPATION_ERROR,
     GENERIC_BLANK_DATA_ERROR,
     SOMETHING_WRONG,
+    NO_CONNECTIVITY,
 
     // Prompts/Text
     EMAIL_CONFIRMATION,
@@ -152,6 +153,7 @@ private val AppStrings.stringRes: StringResWrapper
         AppStrings.NO_OCCUPATION_ERROR -> StringRes(Res.string.no_occupation_error)
         AppStrings.GENERIC_BLANK_DATA_ERROR -> StringRes(Res.string.generic_blank_data_error)
         AppStrings.SOMETHING_WRONG -> StringRes(Res.string.something_wrong)
+        AppStrings.NO_CONNECTIVITY -> StringRes(Res.string.no_connectivity_error)
 
         AppStrings.EMAIL_CONFIRMATION -> StringRes(Res.string.email_verification)
         AppStrings.OTP_VERIFICATION -> StringRes(Res.string.otp_confirmation)

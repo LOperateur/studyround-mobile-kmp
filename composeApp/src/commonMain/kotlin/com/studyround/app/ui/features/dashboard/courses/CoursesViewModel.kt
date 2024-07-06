@@ -1,14 +1,13 @@
 package com.studyround.app.ui.features.dashboard.courses
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.studyround.app.data.error.renderedErrorMessage
 import com.studyround.app.data.repository.dashboard.DashboardRepository
 import com.studyround.app.data.resource.Resource
 import com.studyround.app.data.resource.windowedLoadDebounce
 import com.studyround.app.ui.composables.alert.AlertBannerType
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import com.studyround.app.ui.viewmodel.WithEffects
-import com.studyround.app.utils.AppString
-import com.studyround.app.utils.AppStrings
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -132,7 +131,7 @@ class CoursesViewModel(
                                     }
                                     _viewEffects.send(
                                         ShowAlert(
-                                             message = AppString(AppStrings.SOMETHING_WRONG),
+                                            message = it.cause.renderedErrorMessage(),
                                             type = AlertBannerType.Error,
                                         )
                                     )
