@@ -76,12 +76,9 @@ val networkModule = module {
                 handleResponseExceptionWithRequest { exception, _ ->
                     if (exception.isNetworkException()) {
                         throw StudyRoundException(AppError.CONNECTIVITY_ERROR)
-                    } else {
-                        throw StudyRoundException(
-                            message = exception.message,
-                            cause = exception.cause,
-                        )
                     }
+
+                    // We're not using expectSuccess=true so ResponseExceptions won't be caught here
                 }
             }
 
