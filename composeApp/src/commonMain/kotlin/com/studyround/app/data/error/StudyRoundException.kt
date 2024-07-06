@@ -6,7 +6,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 class StudyRoundException(
-    val error: StudyRoundError = AppError.GENERIC_ERROR
+    val error: StudyRoundError = AppError.GENERIC_ERROR,
+    override val message: String? = null, // For logging purposes
+    override val cause: Throwable? = null, // For logging purposes
 ) : Exception()
 
 sealed interface StudyRoundError
