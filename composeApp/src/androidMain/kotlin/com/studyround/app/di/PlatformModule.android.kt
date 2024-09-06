@@ -1,6 +1,7 @@
 package com.studyround.app.di
 
 import androidx.credentials.CredentialManager
+import androidx.room.RoomDatabase
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.SharedPreferencesSettings
 import com.studyround.app.data.storage.Database
@@ -54,5 +55,5 @@ actual val platformModule = module {
 
     single<StudyRoundImageLoader> { AndroidImageLoader(androidContext(), get()) }
 
-    single<StudyRoundDatabase> { Database.createRoomDatabase(androidContext(), get()) }
+    single<RoomDatabase.Builder<StudyRoundDatabase>> { Database.createRoomDatabase(androidContext(), get()) }
 }

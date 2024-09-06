@@ -1,5 +1,6 @@
 package com.studyround.app.di
 
+import androidx.room.RoomDatabase
 import com.russhwolf.settings.ExperimentalSettingsImplementation
 import com.russhwolf.settings.KeychainSettings
 import com.russhwolf.settings.NSUserDefaultsSettings
@@ -39,5 +40,5 @@ actual val platformModule = module {
 
     single<StudyRoundImageLoader> { IosImageLoader(get()) }
 
-    single<StudyRoundDatabase> { Database.createRoomDatabase(get()) }
+    single<RoomDatabase.Builder<StudyRoundDatabase>> { Database.createRoomDatabase(get()) }
 }
