@@ -35,7 +35,9 @@ abstract class StudyRoundDatabase : RoomDatabase() {
 
 // The Room compiler generates the `actual` implementations.
 @Suppress("NO_ACTUAL_FOR_EXPECT")
-expect object AppDatabaseConstructor : RoomDatabaseConstructor<StudyRoundDatabase>
+expect object AppDatabaseConstructor : RoomDatabaseConstructor<StudyRoundDatabase> {
+    override fun initialize(): StudyRoundDatabase
+}
 
 fun getRoomDatabase(
     builder: RoomDatabase.Builder<StudyRoundDatabase>
