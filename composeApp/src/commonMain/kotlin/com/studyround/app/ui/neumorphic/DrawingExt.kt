@@ -8,8 +8,12 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.toArgb
-import com.studyround.app.platform.ui.setBlurMaskFilter
-import com.studyround.app.platform.ui.setStrokePaintStyleMode
+import com.studyround.app.platform.ui.setNativeBlurMaskFilter
+import com.studyround.app.platform.ui.setNativeColor
+import com.studyround.app.platform.ui.setNativeIsAntiAlias
+import com.studyround.app.platform.ui.setNativeIsDither
+import com.studyround.app.platform.ui.setNativeStrokePaintStyleMode
+import com.studyround.app.platform.ui.setNativeStrokeWidth
 import com.studyround.app.ui.neumorphic.shape.CornerShape
 import com.studyround.app.ui.neumorphic.shape.NeuShape
 import com.studyround.app.ui.neumorphic.shape.Oval
@@ -39,12 +43,10 @@ private fun ContentDrawScope.drawBlurredBackground(
             return@drawIntoCanvas
 
         val paint = Paint().also { p ->
-            p.asFrameworkPaint().also { nativePaint ->
-                nativePaint.isAntiAlias = true
-                nativePaint.isDither = true
-                nativePaint.color = color
-            }
-            p.setBlurMaskFilter(blurRadius)
+            p.setNativeIsAntiAlias(true)
+            p.setNativeIsDither(true)
+            p.setNativeColor(color)
+            p.setNativeBlurMaskFilter(blurRadius)
         }
 
         val backgroundOffset = when (lightSource) {
@@ -101,13 +103,11 @@ private fun ContentDrawScope.drawForeground(
         val strokeWidth = elevation * .95f
 
         val paint = Paint().also { p ->
-            p.asFrameworkPaint().also { nativePaint ->
-                nativePaint.isAntiAlias = true
-                nativePaint.color = color
-                nativePaint.strokeWidth = strokeWidth
-            }
-            p.setStrokePaintStyleMode()
-            p.setBlurMaskFilter(blurRadius)
+            p.setNativeIsAntiAlias(true)
+            p.setNativeColor(color)
+            p.setNativeStrokeWidth(strokeWidth)
+            p.setNativeStrokePaintStyleMode()
+            p.setNativeBlurMaskFilter(blurRadius)
         }
 
         val backgroundOffset = when (lightSource) {
