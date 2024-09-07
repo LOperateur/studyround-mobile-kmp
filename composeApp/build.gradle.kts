@@ -63,8 +63,6 @@ kotlin {
 
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
-
-//            implementation("org.jetbrains.skiko:skiko:0.7.90")
         }
 
         androidMain.dependencies {
@@ -177,9 +175,7 @@ android {
 }
 
 dependencies {
-    // Android
     add("kspAndroid", libs.androidx.room.compiler)
-    // iOS
     add("kspIosSimulatorArm64", libs.androidx.room.compiler)
     add("kspIosX64", libs.androidx.room.compiler)
     add("kspIosArm64", libs.androidx.room.compiler)
