@@ -8,7 +8,6 @@ actual fun Paint.setNativeBlurMaskFilter(blurRadius: Float) {
 }
 
 actual fun Paint.setNativeStrokePaintStyleMode() {
-    this.asFrameworkPaint().isDither
     this.asFrameworkPaint().style = android.graphics.Paint.Style.STROKE
 }
 
