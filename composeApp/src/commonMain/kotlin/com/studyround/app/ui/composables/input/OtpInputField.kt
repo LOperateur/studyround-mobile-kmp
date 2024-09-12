@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -14,16 +13,15 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -32,12 +30,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.studyround.app.platform.ui.isBackspaceKeyEvent
 import com.studyround.app.ui.theme.StudyRoundTheme
 import org.jetbrains.compose.resources.painterResource
 import studyround.composeapp.generated.resources.Res
 import studyround.composeapp.generated.resources.ic_backspace
 
+// TODO: Change this to use a TextDecorator in the near future.
 @Composable
 fun OtpInputField(
     modifier: Modifier = Modifier,
@@ -91,9 +89,6 @@ fun OtpInputField(
                                 onValueChange(otp.trimSpaces())
                             },
                             onDigitsPasted = {
-                                // TODO: Support paste tooltip for input field even when fields are filled
-                                //  Also migrate to BasicTextField2 to ensure last text field cursor
-                                //  comes after the digit, not before. Wait for Compose MP 1.7
                                 otp = it
                                 onValueChange(otp)
                                 focusRequesters[lastIndex].requestFocus()
@@ -159,9 +154,8 @@ private fun SingleOtpInput(
             .focusRequester(focusRequester)
             .size(60.dp)
             .onPreviewKeyEvent {
-                // TODO: Wait till when key event starts working on iOS
-                //  https://github.com/JetBrains/compose-multiplatform/issues/4331
-                if (digit == null && it.isBackspaceKeyEvent()) {
+                // FIXME: Backspace not recognized on iOS
+                if (digit == null && it.key == Key.Backspace) {
                     onEmptyBackspacePressed()
                     true
                 } else {

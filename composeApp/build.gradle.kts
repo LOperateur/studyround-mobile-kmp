@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
-    // alias(libs.plugins.room) // Temporary workaround: https://issuetracker.google.com/issues/343408758
+    alias(libs.plugins.room)
     // alias(libs.plugins.google.services)
 }
 
@@ -181,8 +181,6 @@ dependencies {
     add("kspIosArm64", libs.androidx.room.compiler)
 }
 
-// Temporary workaround: https://issuetracker.google.com/issues/343408758
-// room { schemaDirectory("$projectDir/schemas") }
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
+room {
+    schemaDirectory("$projectDir/schemas")
 }
