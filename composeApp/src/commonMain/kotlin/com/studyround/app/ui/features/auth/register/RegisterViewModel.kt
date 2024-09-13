@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.viewModelScope
 import com.studyround.app.data.auth.model.EmailAuthType
 import com.studyround.app.data.auth.session.SessionManager
 import com.studyround.app.data.error.renderedErrorMessage
@@ -76,7 +76,7 @@ class RegisterViewModel(
                     checkPasswordConfirmationValidity(registerTextFieldState.passwordConfirmationText)
 
                 if (isUsernameValid && isPasswordValid && isPasswordConfirmationValid) {
-                    screenModelScope.launch {
+                    viewModelScope.launch {
                         passToken?.let {
                             register(
                                 username = registerTextFieldState.usernameText,
@@ -98,7 +98,7 @@ class RegisterViewModel(
     }
 
     private fun displayLocalValidationErrors() {
-        screenModelScope.launch {
+        viewModelScope.launch {
             snapshotFlow { registerTextFieldState }
                 .collect {
                     with(it) {

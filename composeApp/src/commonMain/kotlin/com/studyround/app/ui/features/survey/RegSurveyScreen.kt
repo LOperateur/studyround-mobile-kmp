@@ -8,7 +8,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.studyround.app.ui.composables.alert.LocalAlertManager
@@ -17,13 +16,14 @@ import com.studyround.app.ui.features.survey.compact.CompactRegSurveyScreen
 import com.studyround.app.ui.features.survey.expanded.ExpandedRegSurveyScreen
 import com.studyround.app.ui.navigation.navigate
 import com.studyround.app.ui.utils.isTabletLandscapeMode
+import org.koin.compose.viewmodel.koinViewModel
 
 class RegSurveyScreen : Screen {
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     @Composable
     override fun Content() {
-        val vm = getScreenModel<RegSurveyViewModel>()
+        val vm = koinViewModel<RegSurveyViewModel>()
         val viewState by vm.viewState.collectAsState()
         val textFieldState = vm.registerTextFieldState
         val windowSizeClass = calculateWindowSizeClass()

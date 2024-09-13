@@ -36,7 +36,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -49,6 +48,7 @@ import com.studyround.app.ui.features.dashboard.home.DashboardHomeScreen
 import com.studyround.app.ui.theme.StudyRoundTheme
 import com.studyround.app.ui.utils.isTabletLandscapeMode
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 import studyround.composeapp.generated.resources.*
 
 class DashboardNavScreen : Screen {
@@ -57,7 +57,7 @@ class DashboardNavScreen : Screen {
     @Composable
     override fun Content() {
         // val homeNavigator = LocalNavigator.currentOrThrow
-        val appBarViewModel = getScreenModel<AppBarViewModel>()
+        val appBarViewModel = koinViewModel<AppBarViewModel>()
         val windowSizeClass = calculateWindowSizeClass()
 
         val isExpanded = windowSizeClass.isTabletLandscapeMode()

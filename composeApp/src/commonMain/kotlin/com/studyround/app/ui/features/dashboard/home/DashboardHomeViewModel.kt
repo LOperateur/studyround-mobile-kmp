@@ -1,6 +1,6 @@
 package com.studyround.app.ui.features.dashboard.home
 
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.viewModelScope
 import com.studyround.app.data.repository.dashboard.DashboardRepository
 import com.studyround.app.data.resource.Resource
 import com.studyround.app.data.resource.windowedLoadDebounce
@@ -29,7 +29,7 @@ class DashboardHomeViewModel(
         get() = _viewEffects.receiveAsFlow()
 
     init {
-        screenModelScope.launch {
+        viewModelScope.launch {
             fetchCategorisedCourses()
         }
     }
@@ -37,19 +37,19 @@ class DashboardHomeViewModel(
     override fun processEvent(event: DashboardHomeViewEvent) {
         when (event) {
             is CourseClicked -> {
-                screenModelScope.launch {
+                viewModelScope.launch {
                     _viewEffects.send(NavigateToCourse(event.course))
                 }
             }
 
             is ViewCategoryClicked -> {
-                screenModelScope.launch {
+                viewModelScope.launch {
                     _viewEffects.send(NavigateToCoursesInCategory(event.category))
                 }
             }
 
             is RetryLoadTriggered -> {
-                screenModelScope.launch { fetchCategorisedCourses(event.isRefresh) }
+                viewModelScope.launch { fetchCategorisedCourses(event.isRefresh) }
             }
         }
     }

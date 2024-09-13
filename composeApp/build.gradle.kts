@@ -30,6 +30,7 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
 
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -49,13 +50,15 @@ kotlin {
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.serialization.kotlinx.json)
 
+            implementation(libs.lifecycle.viewmodel)
+
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)
 
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.bottomSheetNavigator)
-            implementation(libs.voyager.koin)
+            implementation(libs.voyager.lifecycle.kmp)
             implementation(libs.voyager.transitions)
             implementation(libs.voyager.tabNavigator)
 
@@ -90,7 +93,8 @@ kotlin {
         }
 
         all {
-            languageSettings.optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
+            languageSettings.optIn("cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi")
+            languageSettings.optIn("org.koin.core.annotation.KoinExperimentalAPI")
         }
     }
 

@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.viewModelScope
 import com.studyround.app.data.auth.model.EmailAuthType
 import com.studyround.app.data.auth.model.GoogleAuthType
 import com.studyround.app.data.auth.session.SessionManager
@@ -92,7 +92,7 @@ class LoginViewModel(
                 val passwordValid = checkPasswordValidity(loginTextFieldState.passwordText)
 
                 if (idValid && passwordValid) {
-                    screenModelScope.launch {
+                    viewModelScope.launch {
                         loginEmail(
                             loginTextFieldState.emailUsernameText,
                             loginTextFieldState.passwordText,
@@ -105,7 +105,7 @@ class LoginViewModel(
                 hasAttemptedSignup = true
                 if (checkEmailValidity(loginTextFieldState.emailText)) {
                     if (_viewState.value.termsAccepted) {
-                        screenModelScope.launch {
+                        viewModelScope.launch {
                             generateOtp(
                                 email = loginTextFieldState.emailText,
                                 authType = AuthType.VERIFY_EMAIL,
@@ -123,12 +123,12 @@ class LoginViewModel(
             }
 
             is GoogleLoginClicked -> {
-                screenModelScope.launch { loginGoogle(event.context, false) }
+                viewModelScope.launch { loginGoogle(event.context, false) }
             }
 
             is GoogleSignupClicked -> {
                 if (_viewState.value.termsAccepted) {
-                    screenModelScope.launch { loginGoogle(event.context, true) }
+                    viewModelScope.launch { loginGoogle(event.context, true) }
                 } else {
                     _viewEffects.trySend(
                         ShowAlert(
@@ -148,7 +148,7 @@ class LoginViewModel(
     }
 
     private fun displayLocalValidationErrors() {
-        screenModelScope.launch {
+        viewModelScope.launch {
             snapshotFlow { loginTextFieldState }
                 .collect {
                     with(it) {

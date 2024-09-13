@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
@@ -31,13 +30,14 @@ import com.studyround.app.ui.features.dashboard.courses.CoursesScreen
 import com.studyround.app.ui.theme.StudyRoundTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import studyround.composeapp.generated.resources.*
 
 class DashboardHomeScreen : Tab {
 
     @Composable
     override fun Content() {
-        val vm = getScreenModel<DashboardHomeViewModel>()
+        val vm = koinViewModel<DashboardHomeViewModel>()
         val viewState by vm.viewState.collectAsState()
         val eventProcessor = vm::processEvent
         val dashboardTabNavigator = LocalTabNavigator.current

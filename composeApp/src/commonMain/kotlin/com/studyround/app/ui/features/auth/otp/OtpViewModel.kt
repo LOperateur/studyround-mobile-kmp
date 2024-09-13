@@ -1,6 +1,6 @@
 package com.studyround.app.ui.features.auth.otp
 
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.viewModelScope
 import com.studyround.app.data.error.renderedErrorMessage
 import com.studyround.app.data.model.remote.request.AuthType
 import com.studyround.app.data.repository.auth.AuthRepository
@@ -40,7 +40,7 @@ class OtpViewModel(
     private var email: String? = null
 
     init {
-        screenModelScope.launch {
+        viewModelScope.launch {
             while (true) {
                 delay(1.seconds)
                 val secondsLeft = viewState.value.resendOtpWaitSeconds
@@ -67,7 +67,7 @@ class OtpViewModel(
 
             OtpSubmitted -> {
                 if (viewState.value.otpText.filter { it.isDigit() }.length < 4) {
-                    screenModelScope.launch {
+                    viewModelScope.launch {
                         _viewEffects.send(
                             ShowAlert(
                                 message = AppString(AppStrings.OTP_LIMIT_ERROR),
@@ -77,7 +77,7 @@ class OtpViewModel(
                     }
                 } else {
                     // Verify and Navigate
-                    screenModelScope.launch {
+                    viewModelScope.launch {
                         otpId?.let {
                             validateOtp(it, viewState.value.otpText)
                         } ?: run {
@@ -93,7 +93,7 @@ class OtpViewModel(
             }
 
             ResendOtpClicked -> {
-                screenModelScope.launch {
+                viewModelScope.launch {
                     email?.let {
                         resendOtp(
                             email = it,
