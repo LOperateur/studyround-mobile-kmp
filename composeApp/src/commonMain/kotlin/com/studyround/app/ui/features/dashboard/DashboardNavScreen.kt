@@ -18,7 +18,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -57,7 +57,6 @@ class DashboardNavScreen : Screen {
     @Composable
     override fun Content() {
         // val homeNavigator = LocalNavigator.currentOrThrow
-        val appBarViewModel = koinViewModel<AppBarViewModel>()
         val windowSizeClass = calculateWindowSizeClass()
 
         val isExpanded = windowSizeClass.isTabletLandscapeMode()
@@ -80,7 +79,6 @@ class DashboardNavScreen : Screen {
                         Column(modifier = Modifier.clip(RectangleShape)) {
                             StudyRoundAppBar(
                                 title = tabNavigator.current.options.title,
-                                viewModel = appBarViewModel,
                                 hideLogo = isExpanded,
                             )
 
@@ -160,7 +158,7 @@ class DashboardNavScreen : Screen {
                 Image(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
-                        .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Top))
+                        .statusBarsPadding()
                         .size(36.dp),
                     painter = painterResource(Res.drawable.studyround_logo),
                     contentDescription = "Logo",

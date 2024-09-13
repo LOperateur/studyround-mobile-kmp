@@ -8,16 +8,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.DropdownMenu
@@ -35,24 +31,29 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import co.touchlab.kermit.Logger
 import com.studyround.app.ui.composables.common.RemoteImage
 import com.studyround.app.ui.composables.dropdown.DropdownItem
 import com.studyround.app.ui.theme.StudyRoundTheme
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 import studyround.composeapp.generated.resources.*
 
 @Composable
 fun StudyRoundAppBar(
+    modifier: Modifier = Modifier,
+    viewModel: AppBarViewModel = koinViewModel<AppBarViewModel>(),
     title: String,
     textColor: Color = StudyRoundTheme.colors.deviation_tone4_tone5,
-    modifier: Modifier = Modifier,
-    viewModel: AppBarViewModel,
     hideLogo: Boolean = false,
     onBackPressed: (() -> Unit)? = null,
     onNavDestinationClicked: (AppBarNavDestination) -> Unit = {},
 ) {
     val viewState by viewModel.viewState.collectAsState()
     val eventProcessor = viewModel::processEvent
+
+    Logger.e(LocalViewModelStoreOwner.current?.viewModelStore?.keys().toString())
 
     LaunchedEffect(Unit) {
         viewModel.viewEffects.collect { effect ->
@@ -73,8 +74,7 @@ fun StudyRoundAppBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = StudyRoundTheme.colors.deviation_white_primary0)
-                // TODO: statusBarsPadding() doesn't work on iOS landscape. See if this is changed in future.
-                .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Top))
+                .statusBarsPadding()
                 .padding(
                     vertical = 8.dp,
                     horizontal = 16.dp,
