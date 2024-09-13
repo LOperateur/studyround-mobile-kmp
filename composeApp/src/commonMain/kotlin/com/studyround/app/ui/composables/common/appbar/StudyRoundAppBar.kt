@@ -31,8 +31,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
-import co.touchlab.kermit.Logger
 import com.studyround.app.ui.composables.common.RemoteImage
 import com.studyround.app.ui.composables.dropdown.DropdownItem
 import com.studyround.app.ui.theme.StudyRoundTheme
@@ -52,8 +50,6 @@ fun StudyRoundAppBar(
 ) {
     val viewState by viewModel.viewState.collectAsState()
     val eventProcessor = viewModel::processEvent
-
-    Logger.e(LocalViewModelStoreOwner.current?.viewModelStore?.keys().toString())
 
     LaunchedEffect(Unit) {
         viewModel.viewEffects.collect { effect ->

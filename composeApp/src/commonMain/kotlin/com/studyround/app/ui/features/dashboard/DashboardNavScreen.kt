@@ -41,14 +41,12 @@ import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.studyround.app.ui.composables.common.StudyRoundBackground
-import com.studyround.app.ui.composables.common.appbar.AppBarViewModel
 import com.studyround.app.ui.composables.common.appbar.StudyRoundAppBar
 import com.studyround.app.ui.features.dashboard.courses.CoursesScreen
 import com.studyround.app.ui.features.dashboard.home.DashboardHomeScreen
 import com.studyround.app.ui.theme.StudyRoundTheme
 import com.studyround.app.ui.utils.isTabletLandscapeMode
 import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.viewmodel.koinViewModel
 import studyround.composeapp.generated.resources.*
 
 class DashboardNavScreen : Screen {
