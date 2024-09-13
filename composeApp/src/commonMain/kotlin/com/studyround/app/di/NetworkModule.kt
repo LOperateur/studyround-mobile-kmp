@@ -114,6 +114,8 @@ val networkModule = module {
     single<DashboardService> { DashboardServiceImpl(get()) }
 }
 
+// ConnectivityException is a Platform-specific typealias
+@Suppress("USELESS_IS_CHECK")
 private fun Throwable.isNetworkException(): Boolean {
     return when (this) {
         is ConnectivityException,

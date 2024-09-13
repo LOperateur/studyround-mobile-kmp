@@ -1,36 +1,35 @@
 [versions]
-activity-compose = "1.9.0"
-agp = "8.2.2"
+activity-compose = "1.9.2"
+agp = "8.5.0"
 android-minSdk = "24"
 android-compileSdk = "34"
 android-targetSdk = "34"
 androidx-security = "1.1.0-alpha06"
 androidx-splashscreen = "1.0.1"
 appcompat = "1.7.0"
-compose-plugin = "1.6.11"
-compose-compiler = "1.5.14"
+compose-plugin = "1.7.0-beta02"
 core-ktx = "1.13.1"
 credentials = "1.2.2"
 firebase-bom = "32.6.0"
 google-services = "4.4.0"
 googleid = "1.1.1"
 imageLoader = "1.7.8"
-jetpack-compose-bom = "2024.06.00"
+jetpack-compose-bom = "2024.09.01"
 kamel = "0.9.4"
 kermit = "2.0.2"
 koin = "3.5.3"
 koin-compose = "1.1.2"
-kotlin = "1.9.24"
+kotlin = "2.0.20"
 kotlinx-coroutines = "1.8.0"
 kotlinx-datetime = "0.6.0"
 kotlinx-serialization = "1.6.3"
-ksp = "1.9.24-1.0.20"
+ksp = "2.0.20-1.0.25"
 ktor = "2.3.11"
 material-window-size = "0.3.1"
 multiplatform-settings = "1.1.1"
-paging = "3.3.0"
-room = "2.7.0-alpha04"
-sqlite = "2.5.0-alpha04"
+paging = "3.3.2"
+room = "2.7.0-alpha07"
+sqlite = "2.5.0-alpha07"
 turbine = "1.0.0"
 voyager = "1.0.0"
 
@@ -117,11 +116,12 @@ voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voy
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-#google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
+#google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }

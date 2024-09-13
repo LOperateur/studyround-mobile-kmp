@@ -5,11 +5,12 @@ import com.studyround.app.data.auth.email.EmailAuthProviderImpl
 import com.studyround.app.data.auth.session.SessionManager
 import com.studyround.app.data.auth.session.SessionManagerImpl
 import com.studyround.app.data.storage.StudyRoundDatabase
-import com.studyround.app.utils.NetworkListener
-import com.studyround.app.data.storage.preferences.AppPreferences
-import com.studyround.app.data.storage.preferences.AppPreferencesImpl
 import com.studyround.app.data.storage.credentials.CredentialsManager
 import com.studyround.app.data.storage.credentials.SecureCredentialsManager
+import com.studyround.app.data.storage.getRoomDatabase
+import com.studyround.app.data.storage.preferences.AppPreferences
+import com.studyround.app.data.storage.preferences.AppPreferencesImpl
+import com.studyround.app.utils.NetworkListener
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -23,6 +24,9 @@ val commonModule = module {
         )
     }
     single<EmailAuthProvider> { EmailAuthProviderImpl(get()) }
+
+    single<StudyRoundDatabase> { getRoomDatabase(get()) }
+
     single<SessionManager> {
         SessionManagerImpl(
             get(),
