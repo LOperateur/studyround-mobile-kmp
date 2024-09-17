@@ -1,6 +1,6 @@
 package com.studyround.app.ui.features.dashboard.courses
 
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.viewModelScope
 import com.studyround.app.data.error.renderedErrorMessage
 import com.studyround.app.data.repository.dashboard.DashboardRepository
 import com.studyround.app.data.resource.Resource
@@ -58,7 +58,7 @@ class CoursesViewModel(
 
         if (fetchJob != null && fetchJob?.isActive == true) return
 
-        fetchJob = screenModelScope.launch {
+        fetchJob = viewModelScope.launch {
             dashboardRepository.fetchCourses(page, perPageLimit, isRefresh)
                 .windowedLoadDebounce(
                     loadingWindow = if (isRefresh) 0 else 200L

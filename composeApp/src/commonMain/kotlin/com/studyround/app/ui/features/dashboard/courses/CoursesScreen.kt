@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.studyround.app.ui.composables.alert.LocalAlertManager
@@ -30,6 +29,7 @@ import com.studyround.app.ui.composables.buttons.PrimaryButton
 import com.studyround.app.ui.theme.StudyRoundTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import studyround.composeapp.generated.resources.*
 
 class CoursesScreen : Tab {
@@ -37,7 +37,7 @@ class CoursesScreen : Tab {
     @Composable
     override fun Content() {
         Box(modifier = Modifier.fillMaxSize()) {
-            val vm = getScreenModel<CoursesViewModel>()
+            val vm = koinViewModel<CoursesViewModel>()
             val viewState by vm.viewState.collectAsState()
             val eventProcessor = vm::processEvent
 

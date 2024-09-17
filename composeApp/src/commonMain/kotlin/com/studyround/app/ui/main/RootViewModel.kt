@@ -1,9 +1,9 @@
 package com.studyround.app.ui.main
 
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.viewModelScope
 import com.studyround.app.data.auth.session.SessionManager
-import com.studyround.app.platform.utils.Platform
 import com.studyround.app.data.storage.preferences.AppPreferences
+import com.studyround.app.platform.utils.Platform
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import com.studyround.app.ui.viewmodel.WithEffects
 import kotlinx.coroutines.channels.Channel
@@ -29,7 +29,7 @@ class RootViewModel(
     override val viewEffects: Flow<RootViewEffect> = _viewEffects.receiveAsFlow()
 
     init {
-        screenModelScope.launch {
+        viewModelScope.launch {
             delay(platform.splashScreenDelay)
             sessionManager.isSignedIn.collect { signedIn ->
                 if (signedIn) {
@@ -44,7 +44,7 @@ class RootViewModel(
     override fun processEvent(event: RootViewEvent) {}
 
     private fun signedInNavigationPath() {
-        screenModelScope.launch {
+        viewModelScope.launch {
             if (appPreferences.shouldDisplaySurveyScreen) {
                 _viewEffects.send(Navigate(RootDestination.RegSurvey, true))
             } else {
@@ -54,7 +54,7 @@ class RootViewModel(
     }
 
     private fun signedOutNavigationPath() {
-        screenModelScope.launch {
+        viewModelScope.launch {
             if (appPreferences.isCarouselViewed) {
                 // TODO: Use local `hasSignedIn` variable to track if user is getting
                 //  logged out so as to show logged out alert banner.

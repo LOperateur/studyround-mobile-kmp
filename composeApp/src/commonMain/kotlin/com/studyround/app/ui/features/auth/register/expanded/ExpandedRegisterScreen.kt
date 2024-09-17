@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.studyround.app.ui.composables.buttons.CircularIconButton
 import com.studyround.app.ui.composables.common.StudyRoundBackground
 import com.studyround.app.ui.composables.common.StudyRoundTextLogo
+import com.studyround.app.ui.composables.modifiers.localSystemBarsPadding
 import com.studyround.app.ui.features.auth.register.RegisterClicked
 import com.studyround.app.ui.features.auth.register.RegisterFormContent
 import com.studyround.app.ui.features.auth.register.RegisterTextFieldState
@@ -50,7 +50,7 @@ fun ExpandedRegisterScreen(
         )
     }
 
-    Box(modifier = Modifier.fillMaxSize().systemBarsPadding().imePadding()) {
+    Box(modifier = Modifier.fillMaxSize().localSystemBarsPadding().imePadding()) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Column(
                 modifier = Modifier.weight(0.5f)

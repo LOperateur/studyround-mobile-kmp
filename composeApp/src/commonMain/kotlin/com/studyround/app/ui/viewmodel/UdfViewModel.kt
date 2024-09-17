@@ -1,13 +1,13 @@
 package com.studyround.app.ui.viewmodel
 
-import cafe.adriel.voyager.core.model.ScreenModel
+import androidx.lifecycle.ViewModel
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.random.Random
 import kotlin.random.nextInt
 
-abstract class UdfViewModel<STATE_T, EVENT_T> : ScreenModel {
+abstract class UdfViewModel<STATE_T, EVENT_T> : ViewModel() {
 
     private val id = Random.nextInt(10_000..99_999).toString()
 
@@ -19,9 +19,9 @@ abstract class UdfViewModel<STATE_T, EVENT_T> : ScreenModel {
 
     abstract fun processEvent(event: EVENT_T)
 
-    override fun onDispose() {
-        super.onDispose()
-        Logger.d(tag = TAG, messageString = " << dispose [$id][${this::class.simpleName}]")
+    override fun onCleared() {
+        super.onCleared()
+        Logger.d(tag = TAG, messageString = " << clear [$id][${this::class.simpleName}]")
     }
 
     companion object {

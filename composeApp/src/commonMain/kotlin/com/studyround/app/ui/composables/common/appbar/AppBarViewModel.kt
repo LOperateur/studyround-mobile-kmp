@@ -1,6 +1,6 @@
 package com.studyround.app.ui.composables.common.appbar
 
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.viewModelScope
 import com.studyround.app.data.storage.preferences.AppPreferences
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import com.studyround.app.ui.viewmodel.WithEffects
@@ -36,7 +36,7 @@ class AppBarViewModel(
     override val viewEffects: Flow<AppBarViewEffect> = _viewEffects.receiveAsFlow()
 
     init {
-        screenModelScope.launch {
+        viewModelScope.launch {
             observeTheme()
         }
     }

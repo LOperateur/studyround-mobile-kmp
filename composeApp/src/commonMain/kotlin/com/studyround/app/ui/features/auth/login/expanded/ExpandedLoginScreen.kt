@@ -15,13 +15,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.studyround.app.ui.composables.common.StudyRoundBackground
 import com.studyround.app.ui.composables.common.StudyRoundTextLogo
+import com.studyround.app.ui.composables.modifiers.localSystemBarsPadding
 import com.studyround.app.ui.features.auth.login.LoginTextFieldState
 import com.studyround.app.ui.features.auth.login.LoginViewEvent
 import com.studyround.app.ui.features.auth.login.LoginViewState
@@ -50,7 +50,7 @@ fun ExpandedLoginScreen(
         )
     }
 
-    Box(modifier = Modifier.fillMaxSize().systemBarsPadding().imePadding()) {
+    Box(modifier = Modifier.fillMaxSize().localSystemBarsPadding().imePadding()) {
         Row {
             // Left side
             Box(modifier = Modifier.weight(0.5f)) {

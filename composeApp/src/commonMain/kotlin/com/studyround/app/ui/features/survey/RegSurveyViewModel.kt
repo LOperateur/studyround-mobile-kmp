@@ -3,7 +3,7 @@ package com.studyround.app.ui.features.survey
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.viewModelScope
 import com.studyround.app.data.error.renderedErrorMessage
 import com.studyround.app.data.repository.survey.RegSurveyRepository
 import com.studyround.app.data.resource.Resource
@@ -84,7 +84,7 @@ class RegSurveyViewModel(
                     return
                 }
 
-                screenModelScope.launch {
+                viewModelScope.launch {
                     submitSurvey(
                         occupation = occupation,
                         suffix = suffix,

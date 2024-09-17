@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import cafe.adriel.voyager.jetpack.ProvideNavigatorLifecycleKMPSupport
 import cafe.adriel.voyager.navigator.Navigator
 import com.studyround.app.data.storage.preferences.AppPreferences
 import com.studyround.app.ui.main.RootScreen
@@ -24,7 +25,9 @@ fun App(prefs: AppPreferences = koinInject()) {
 
         StudyRoundTheme(darkTheme = darkModeState ?: isSystemInDarkTheme()) {
             Surface {
-                Navigator(RootScreen())
+                ProvideNavigatorLifecycleKMPSupport {
+                    Navigator(RootScreen())
+                }
             }
         }
 

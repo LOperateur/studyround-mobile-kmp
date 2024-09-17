@@ -14,7 +14,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.Navigator
 import com.seiko.imageloader.LocalImageLoader
 import com.studyround.app.platform.utils.StudyRoundImageLoader
@@ -22,11 +21,13 @@ import com.studyround.app.ui.composables.alert.AlertBannerView
 import com.studyround.app.ui.composables.alert.AlertBannerViewModel
 import com.studyround.app.ui.composables.alert.AlertManager
 import com.studyround.app.ui.composables.alert.LocalAlertManager
+import com.studyround.app.ui.composables.modifiers.provideLocalWindowInsets
 import com.studyround.app.ui.composables.transitions.RootScreenSplashTransition
 import com.studyround.app.ui.features.splash.SplashScreen
 import com.studyround.app.ui.navigation.navigate
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 import studyround.composeapp.generated.resources.Res
 import studyround.composeapp.generated.resources.force_update_prompt
 
@@ -34,9 +35,9 @@ class RootScreen : Screen {
 
     @Composable
     override fun Content() {
-        val viewModel = getScreenModel<RootViewModel>()
+        val viewModel = koinViewModel<RootViewModel>()
 
-        val alertBannerViewModel = getScreenModel<AlertBannerViewModel>()
+        val alertBannerViewModel = koinViewModel<AlertBannerViewModel>()
         val alertManager = AlertManager(alertBannerViewModel::processEvent)
 
         val viewState by viewModel.viewState.collectAsState()
@@ -52,6 +53,7 @@ class RootScreen : Screen {
         CompositionLocalProvider(
             LocalAlertManager provides alertManager,
             LocalImageLoader provides remember { imageLoader.generateImageLoader() },
+            *provideLocalWindowInsets(),
         ) {
             Navigator(screen = SplashScreen { splashMonitor.isSplashScreenShowing = false }) {
                 rootNavigator = it
