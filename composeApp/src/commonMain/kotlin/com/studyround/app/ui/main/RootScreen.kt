@@ -21,6 +21,7 @@ import com.studyround.app.ui.composables.alert.AlertBannerView
 import com.studyround.app.ui.composables.alert.AlertBannerViewModel
 import com.studyround.app.ui.composables.alert.AlertManager
 import com.studyround.app.ui.composables.alert.LocalAlertManager
+import com.studyround.app.ui.composables.modifiers.provideLocalWindowInsets
 import com.studyround.app.ui.composables.transitions.RootScreenSplashTransition
 import com.studyround.app.ui.features.splash.SplashScreen
 import com.studyround.app.ui.navigation.navigate
@@ -52,6 +53,7 @@ class RootScreen : Screen {
         CompositionLocalProvider(
             LocalAlertManager provides alertManager,
             LocalImageLoader provides remember { imageLoader.generateImageLoader() },
+            *provideLocalWindowInsets(),
         ) {
             Navigator(screen = SplashScreen { splashMonitor.isSplashScreenShowing = false }) {
                 rootNavigator = it
