@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.studyround.app.data.auth.model.EmailAuthType
 import com.studyround.app.data.auth.session.SessionManager
@@ -11,6 +12,7 @@ import com.studyround.app.data.error.renderedErrorMessage
 import com.studyround.app.data.resource.Resource
 import com.studyround.app.data.resource.windowedLoadDebounce
 import com.studyround.app.ui.composables.alert.AlertBannerType
+import com.studyround.app.ui.features.auth.AuthDestination
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import com.studyround.app.ui.viewmodel.WithEffects
 import com.studyround.app.utils.AppString
@@ -27,6 +29,7 @@ import kotlinx.coroutines.launch
 
 class RegisterViewModel(
     private val sessionManager: SessionManager,
+    savedStateHandle: SavedStateHandle,
 ) : UdfViewModel<RegisterViewState, RegisterViewEvent>(), WithEffects<RegisterViewEffect> {
 
     private val _viewState = MutableStateFlow(RegisterViewState())
@@ -44,10 +47,11 @@ class RegisterViewModel(
     private var passToken: String? = null
 
     init {
+        initArgs(passToken = savedStateHandle[AuthDestination.Register.PASS_TOKEN])
         displayLocalValidationErrors()
     }
 
-    fun initArgs(passToken: String? = null) {
+    private fun initArgs(passToken: String? = null) {
         this.passToken = passToken
     }
 
