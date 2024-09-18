@@ -26,6 +26,7 @@ class RegSurveyRepositoryImpl(
             if (it is Resource.Success) {
                 it.data.toEntity().let { user ->
                     appPreferences.saveProfile(user)
+                    appPreferences.setShouldDisplaySurveyScreen(false)
                     userDao.insertUser(user)
                 }
             }
