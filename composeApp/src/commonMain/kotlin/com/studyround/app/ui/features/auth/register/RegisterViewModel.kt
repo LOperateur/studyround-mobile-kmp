@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
-import androidx.lifecycle.SavedStateHandle
+import androidx.core.bundle.Bundle
 import androidx.lifecycle.viewModelScope
 import com.studyround.app.data.auth.model.EmailAuthType
 import com.studyround.app.data.auth.session.SessionManager
@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 
 class RegisterViewModel(
     private val sessionManager: SessionManager,
-    savedStateHandle: SavedStateHandle,
+    args: Bundle,
 ) : UdfViewModel<RegisterViewState, RegisterViewEvent>(), WithEffects<RegisterViewEffect> {
 
     private val _viewState = MutableStateFlow(RegisterViewState())
@@ -47,7 +47,7 @@ class RegisterViewModel(
     private var passToken: String? = null
 
     init {
-        initArgs(passToken = savedStateHandle[AuthDestination.Register.PASS_TOKEN])
+        initArgs(passToken = args.getString(AuthDestination.Register.PASS_TOKEN))
         displayLocalValidationErrors()
     }
 
