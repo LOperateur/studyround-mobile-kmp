@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.SavedStateHandle
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -26,9 +25,7 @@ class OtpScreen(private val args: Map<String, Any>) : Screen {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     @Composable
     override fun Content() {
-        val vm = koinViewModel<OtpViewModel>(parameters = {
-            parametersOf(SavedStateHandle.createHandle(null, args.mapToBundle()))
-        })
+        val vm = koinViewModel<OtpViewModel>(parameters = { parametersOf(args.mapToBundle()) } )
         val viewState by vm.viewState.collectAsState()
         val windowSizeClass = calculateWindowSizeClass()
 

@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.SavedStateHandle
 import cafe.adriel.voyager.core.screen.Screen
 import com.studyround.app.ui.composables.alert.LocalAlertManager
 import com.studyround.app.ui.features.auth.register.compact.CompactRegisterScreen
@@ -22,9 +21,7 @@ class RegisterScreen(private val args: Map<String, Any>) : Screen {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     @Composable
     override fun Content() {
-        val vm = koinViewModel<RegisterViewModel>(parameters = {
-            parametersOf(SavedStateHandle.createHandle(null, args.mapToBundle()))
-        })
+        val vm = koinViewModel<RegisterViewModel>(parameters = { parametersOf(args.mapToBundle()) } )
         val viewState by vm.viewState.collectAsState()
         val textFieldState = vm.registerTextFieldState
         val windowSizeClass = calculateWindowSizeClass()

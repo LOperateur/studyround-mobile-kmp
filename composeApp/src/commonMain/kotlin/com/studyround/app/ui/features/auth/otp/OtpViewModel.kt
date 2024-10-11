@@ -1,6 +1,6 @@
 package com.studyround.app.ui.features.auth.otp
 
-import androidx.lifecycle.SavedStateHandle
+import androidx.core.bundle.Bundle
 import androidx.lifecycle.viewModelScope
 import com.studyround.app.data.error.renderedErrorMessage
 import com.studyround.app.data.model.remote.request.AuthType
@@ -28,7 +28,7 @@ import kotlin.time.Duration.Companion.seconds
 
 class OtpViewModel(
     private val authRepository: AuthRepository,
-    savedStateHandle: SavedStateHandle,
+    args: Bundle,
 ) : UdfViewModel<OtpViewState, OtpViewEvent>(), WithEffects<OtpViewEffect> {
 
     private val _viewState = MutableStateFlow(OtpViewState())
@@ -43,9 +43,9 @@ class OtpViewModel(
 
     init {
         initArgs(
-            otpId = savedStateHandle[AuthDestination.OTP.OTP_ID],
-            isForgotPassword = savedStateHandle[AuthDestination.OTP.FORGOT_PASSWORD],
-            email = savedStateHandle[AuthDestination.OTP.EMAIL],
+            otpId = args.getInt(AuthDestination.OTP.OTP_ID, 0),
+            isForgotPassword = args.getBoolean(AuthDestination.OTP.FORGOT_PASSWORD, false),
+            email = args.getString(AuthDestination.OTP.EMAIL),
         )
 
         viewModelScope.launch {
@@ -61,10 +61,10 @@ class OtpViewModel(
         }
     }
 
-    private fun initArgs(otpId: Int?, isForgotPassword: Boolean?, email: String? = null) {
-        this.otpId = otpId
+    private fun initArgs(otpId: Int, isForgotPassword: Boolean, email: String?) {
+        this.otpId = if (otpId > 0) otpId else null
         this.email = email
-        _viewState.update { it.copy(isForgotPassword = isForgotPassword ?: false) }
+        _viewState.update { it.copy(isForgotPassword = isForgotPassword) }
     }
 
     override fun processEvent(event: OtpViewEvent) {
