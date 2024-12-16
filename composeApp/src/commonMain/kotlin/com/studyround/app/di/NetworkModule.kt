@@ -87,7 +87,9 @@ val networkModule = module {
                         )
                     }
 
-                    // We're not using expectSuccess=true so ResponseExceptions won't be caught here
+                    // NOTE: You can also use validateResponse here as well. 
+                    // However, if you're using expectSuccess=true, then ResponseExceptions 
+                    // won't be caught while using validateResponse.
                 }
             }
 
