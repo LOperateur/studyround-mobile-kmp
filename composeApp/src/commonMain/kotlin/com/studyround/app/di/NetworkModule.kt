@@ -86,11 +86,15 @@ val networkModule = module {
                             cause = exception.cause,
                         )
                     }
-
-                    // NOTE: You can also use validateResponse here as well. 
-                    // However, if you're using expectSuccess=true, then ResponseExceptions 
-                    // won't be caught while using validateResponse.
                 }
+                
+                // NOTE: You can also use validateResponse here as well. 
+                // However, if you're using expectSuccess=true, then ResponseExceptions 
+                // won't be caught while using validateResponse.
+                // More info: 
+                // https://youtrack.jetbrains.com/issue/KTOR-1616
+                // https://youtrack.jetbrains.com/issue/KTOR-1412 
+                // https://youtrack.jetbrains.com/issue/KTOR-1703
             }
 
             defaultRequest {
