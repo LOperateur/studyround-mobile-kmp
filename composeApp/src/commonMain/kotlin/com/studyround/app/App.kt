@@ -7,10 +7,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.jetpack.ProvideNavigatorLifecycleKMPSupport
-import cafe.adriel.voyager.navigator.Navigator
 import com.studyround.app.data.storage.preferences.AppPreferences
 import com.studyround.app.ui.main.RootScreen
 import com.studyround.app.ui.theme.StudyRoundTheme
@@ -21,12 +19,11 @@ import org.koin.compose.koinInject
 fun App(prefs: AppPreferences = koinInject()) {
     KoinContext {
         var darkMode by remember { mutableStateOf(prefs.darkMode) }
-        val darkModeState by rememberUpdatedState(darkMode)
 
-        StudyRoundTheme(darkTheme = darkModeState ?: isSystemInDarkTheme()) {
+        StudyRoundTheme(darkTheme = darkMode ?: isSystemInDarkTheme()) {
             Surface {
                 ProvideNavigatorLifecycleKMPSupport {
-                    Navigator(RootScreen())
+                    RootScreen()
                 }
             }
         }

@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.screen.Screen
 import com.studyround.app.platform.ui.DynamicSystemBarColors
 import com.studyround.app.platform.ui.splashAnimationAlpha
 import com.studyround.app.ui.theme.StudyRoundTheme
@@ -20,31 +19,28 @@ import org.jetbrains.compose.resources.painterResource
 import studyround.composeapp.generated.resources.Res
 import studyround.composeapp.generated.resources.studyround_logo
 
-class SplashScreen(val onSplashRemoved: () -> Unit) : Screen {
-    @Composable
-    override fun Content() {
-        DynamicSystemBarColors(
-            dynamicStatusBarColor = StudyRoundTheme.colors.deviation_primary3_primary1,
-            dynamicNavBarColor = StudyRoundTheme.colors.deviation_primary3_primary1,
-            statusBarColor = StudyRoundTheme.colors.deviation_primary3_primary0,
-            navBarColor = StudyRoundTheme.colors.deviation_primary3_primary0,
+@Composable
+fun SplashScreen(onSplashRemoved: () -> Unit) {
+    DynamicSystemBarColors(
+        dynamicStatusBarColor = StudyRoundTheme.colors.deviation_primary3_primary1,
+        dynamicNavBarColor = StudyRoundTheme.colors.deviation_primary3_primary1,
+        statusBarColor = StudyRoundTheme.colors.deviation_primary3_primary0,
+        navBarColor = StudyRoundTheme.colors.deviation_primary3_primary0,
+    )
+
+    Box(
+        modifier = Modifier.fillMaxSize()
+            .background(color = StudyRoundTheme.colors.deviation_primary3_primary1),
+        contentAlignment = Alignment.Center,
+    ) {
+        KamelImage(
+            modifier = Modifier.size(138.dp).alpha(splashAnimationAlpha()),
+            resource = Resource.Success(painterResource(Res.drawable.studyround_logo)),
+            contentDescription = "Logo",
         )
+    }
 
-        Box(
-            modifier = Modifier.fillMaxSize()
-                .background(color = StudyRoundTheme.colors.deviation_primary3_primary1),
-            contentAlignment = Alignment.Center,
-        ) {
-
-            KamelImage(
-                modifier = Modifier.size(138.dp).alpha(splashAnimationAlpha()),
-                resource = Resource.Success(painterResource(Res.drawable.studyround_logo)),
-                contentDescription = "Logo",
-            )
-        }
-
-        DisposableEffect(Unit) {
-            onDispose { onSplashRemoved() }
-        }
+    DisposableEffect(Unit) {
+        onDispose { onSplashRemoved() }
     }
 }

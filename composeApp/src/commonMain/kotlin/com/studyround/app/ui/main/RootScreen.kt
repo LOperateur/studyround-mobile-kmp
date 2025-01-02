@@ -10,11 +10,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.Navigator
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.seiko.imageloader.LocalImageLoader
 import com.studyround.app.platform.utils.StudyRoundImageLoader
 import com.studyround.app.ui.composables.alert.AlertBannerView
@@ -22,66 +23,96 @@ import com.studyround.app.ui.composables.alert.AlertBannerViewModel
 import com.studyround.app.ui.composables.alert.AlertManager
 import com.studyround.app.ui.composables.alert.LocalAlertManager
 import com.studyround.app.ui.composables.modifiers.provideLocalWindowInsets
-import com.studyround.app.ui.composables.transitions.RootScreenSplashTransition
+import com.studyround.app.ui.composables.transitions.rootScreenPopEnterTransition
+import com.studyround.app.ui.composables.transitions.rootScreenPopExitTransition
+import com.studyround.app.ui.composables.transitions.rootScreenSplashEnterTransition
+import com.studyround.app.ui.composables.transitions.rootScreenSplashExitTransition
+import com.studyround.app.ui.features.auth.AuthScreen
+import com.studyround.app.ui.features.home.HomeScreen
 import com.studyround.app.ui.features.splash.SplashScreen
-import com.studyround.app.ui.navigation.navigate
+import com.studyround.app.ui.features.survey.RegSurveyScreen
+import com.studyround.app.ui.navigation.navigateToRoute
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import studyround.composeapp.generated.resources.Res
 import studyround.composeapp.generated.resources.force_update_prompt
 
-class RootScreen : Screen {
+@Composable
+fun RootScreen() {
+    val viewModel = koinViewModel<RootViewModel>()
 
-    @Composable
-    override fun Content() {
-        val viewModel = koinViewModel<RootViewModel>()
+    val alertBannerViewModel = koinViewModel<AlertBannerViewModel>()
+    val alertManager = AlertManager(alertBannerViewModel::processEvent)
 
-        val alertBannerViewModel = koinViewModel<AlertBannerViewModel>()
-        val alertManager = AlertManager(alertBannerViewModel::processEvent)
+    val viewState by viewModel.viewState.collectAsState()
 
-        val viewState by viewModel.viewState.collectAsState()
+    val imageLoader = koinInject<StudyRoundImageLoader>()
 
-        val imageLoader = koinInject<StudyRoundImageLoader>()
+    // Nav controller for the children of RootScreen's NavHost
+    val rootNavController: NavHostController = rememberNavController()
 
-        // Navigator for the children of the RootScreen
-        var rootNavigator by remember { mutableStateOf<Navigator?>(null) }
+    // Used to monitor the splash screen to control the provided transition
+    val splashMonitor by remember { mutableStateOf(SplashMonitor(true)) }
 
-        // Used to monitor the splash screen to control the provided transition
-        val splashMonitor by remember { mutableStateOf(SplashMonitor(true)) }
-
-        CompositionLocalProvider(
-            LocalAlertManager provides alertManager,
-            LocalImageLoader provides remember { imageLoader.generateImageLoader() },
-            *provideLocalWindowInsets(),
+    CompositionLocalProvider(
+        LocalAlertManager provides alertManager,
+        LocalImageLoader provides remember { imageLoader.generateImageLoader() },
+        *provideLocalWindowInsets(),
+    ) {
+        NavHost(
+            navController = rootNavController,
+            startDestination = RootDestination.Splash,
+            modifier = Modifier.fillMaxSize(),
+            enterTransition = { rootScreenSplashEnterTransition(splashMonitor) },
+            exitTransition = { rootScreenSplashExitTransition(splashMonitor) },
+            popEnterTransition = { rootScreenPopEnterTransition },
+            popExitTransition = { rootScreenPopExitTransition },
         ) {
-            Navigator(screen = SplashScreen { splashMonitor.isSplashScreenShowing = false }) {
-                rootNavigator = it
-                RootScreenSplashTransition(it, splashMonitor)
+            composable<RootDestination.Splash> {
+                SplashScreen(
+                    onSplashRemoved = { splashMonitor.isSplashScreenShowing = false },
+                )
             }
-        }
+            composable<RootDestination.Onboarding> {
 
-        AlertBannerView(alertBannerViewModel)
-
-        if (!viewState.showForceUpgradeScreen) {
-            LaunchedEffect(viewModel.viewEffects) {
-                viewModel.viewEffects.collect { effect ->
-                    when (effect) {
-                        is Navigate -> {
-                            rootNavigator.navigate(
-                                RootRouteMap(effect.destination).getScreen(),
-                                effect.replace,
-                            )
-                        }
+            }
+            composable<RootDestination.Auth> {
+                AuthScreen()
+            }
+            composable<RootDestination.Home> {
+                HomeScreen()
+            }
+            composable<RootDestination.RegSurvey> {
+                RegSurveyScreen(
+                    onNavigateHome = {
+                        rootNavController.navigateToRoute(
+                            RootDestination.Home,
+                            true,
+                        )
                     }
-                }
-            }
-        } else {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = stringResource(Res.string.force_update_prompt))
+                )
             }
         }
     }
 
-    data class SplashMonitor(var isSplashScreenShowing: Boolean)
+    AlertBannerView(alertBannerViewModel)
+
+    if (!viewState.showForceUpgradeScreen) {
+        LaunchedEffect(viewModel.viewEffects) {
+            viewModel.viewEffects.collect { effect ->
+                when (effect) {
+                    is Navigate<*> -> {
+                        rootNavController.navigateToRoute(effect.destination, effect.replace)
+                    }
+                }
+            }
+        }
+    } else {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text(text = stringResource(Res.string.force_update_prompt))
+        }
+    }
 }
+
+data class SplashMonitor(var isSplashScreenShowing: Boolean)
