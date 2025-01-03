@@ -5,7 +5,9 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.ui.unit.IntOffset
@@ -26,7 +28,7 @@ fun rootScreenSplashEnterTransition(splashMonitor: SplashMonitor): EnterTransiti
 
 fun rootScreenSplashExitTransition(splashMonitor: SplashMonitor): ExitTransition {
     return if (splashMonitor.isSplashScreenShowing) {
-        ExitTransition.None
+        fadeOut(animationSpec = tween(0))
     } else {
         slideOutHorizontally(
             spring(
