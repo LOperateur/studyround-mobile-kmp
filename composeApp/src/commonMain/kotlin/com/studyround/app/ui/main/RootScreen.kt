@@ -29,6 +29,7 @@ import com.studyround.app.ui.composables.transitions.rootScreenSplashEnterTransi
 import com.studyround.app.ui.composables.transitions.rootScreenSplashExitTransition
 import com.studyround.app.ui.features.auth.AuthScreen
 import com.studyround.app.ui.features.home.HomeScreen
+import com.studyround.app.ui.features.onboarding.OnboardingCarouselScreen
 import com.studyround.app.ui.features.splash.SplashScreen
 import com.studyround.app.ui.features.survey.RegSurveyScreen
 import com.studyround.app.ui.navigation.navigateToRoute
@@ -75,7 +76,7 @@ fun RootScreen() {
                 )
             }
             composable<RootDestination.Onboarding> {
-
+                OnboardingCarouselScreen()
             }
             composable<RootDestination.Auth> {
                 AuthScreen()
