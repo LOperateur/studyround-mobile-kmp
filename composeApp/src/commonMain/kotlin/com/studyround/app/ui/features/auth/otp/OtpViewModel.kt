@@ -2,6 +2,7 @@ package com.studyround.app.ui.features.auth.otp
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.studyround.app.data.error.renderedErrorMessage
 import com.studyround.app.data.model.remote.request.AuthType
 import com.studyround.app.data.repository.auth.AuthRepository
@@ -9,7 +10,6 @@ import com.studyround.app.data.resource.Resource
 import com.studyround.app.data.resource.windowedLoadDebounce
 import com.studyround.app.ui.composables.alert.AlertBannerType
 import com.studyround.app.ui.features.auth.AuthDestination
-import com.studyround.app.ui.features.auth.AuthDestination.Register.Companion.PASS_TOKEN
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import com.studyround.app.ui.viewmodel.WithEffects
 import com.studyround.app.utils.AppString
@@ -42,11 +42,13 @@ class OtpViewModel(
     private var email: String? = null
 
     init {
-        initArgs(
-            otpId = savedStateHandle[AuthDestination.OTP.OTP_ID],
-            isForgotPassword = savedStateHandle[AuthDestination.OTP.FORGOT_PASSWORD],
-            email = savedStateHandle[AuthDestination.OTP.EMAIL],
-        )
+        with(savedStateHandle.toRoute<AuthDestination.OTP>()) {
+            initArgs(
+                otpId = this.otpId,
+                isForgotPassword = this.isForgotPassword,
+                email = this.email,
+            )
+        }
 
         viewModelScope.launch {
             while (true) {
@@ -149,8 +151,8 @@ class OtpViewModel(
                         )
                         _viewEffects.send(
                             Navigate(
-                                AuthDestination.Register(mapOf(PASS_TOKEN to it.data.passToken)),
-                                true
+                                destination = AuthDestination.Register(it.data.passToken),
+                                shouldReplace = true,
                             )
                         )
                     }

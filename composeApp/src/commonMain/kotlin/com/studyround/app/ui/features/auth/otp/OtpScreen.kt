@@ -7,71 +7,56 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.SavedStateHandle
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.studyround.app.ui.composables.alert.LocalAlertManager
-import com.studyround.app.ui.features.auth.AuthRouteMap
+import com.studyround.app.ui.features.auth.AuthDestination
 import com.studyround.app.ui.features.auth.otp.compact.CompactOtpScreen
 import com.studyround.app.ui.features.auth.otp.expanded.ExpandedOtpScreen
-import com.studyround.app.ui.navigation.navigate
 import com.studyround.app.ui.utils.isTabletLandscapeMode
-import com.studyround.app.utils.mapToBundle
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.parameter.parametersOf
 
-class OtpScreen(private val args: Map<String, Any>) : Screen {
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Composable
+fun OtpScreen(
+    onNavigate: (destination: AuthDestination, shouldReplace: Boolean) -> Unit,
+    onGoBack: () -> Unit,
+) {
+    val vm = koinViewModel<OtpViewModel>()
+    val viewState by vm.viewState.collectAsState()
+    val windowSizeClass = calculateWindowSizeClass()
 
-    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-    @Composable
-    override fun Content() {
-        val vm = koinViewModel<OtpViewModel>(parameters = {
-            parametersOf(SavedStateHandle.createHandle(null, args.mapToBundle()))
-        })
-        val viewState by vm.viewState.collectAsState()
-        val windowSizeClass = calculateWindowSizeClass()
+    val alertManager = LocalAlertManager.current
+    val isExpanded = windowSizeClass.isTabletLandscapeMode()
 
-        val authNavigator = LocalNavigator.currentOrThrow
-        val alertManager = LocalAlertManager.current
-        val isExpanded = windowSizeClass.isTabletLandscapeMode()
-
-        LaunchedEffect(Unit) {
-            vm.viewEffects.collect { effect ->
-                when (effect) {
-                    is ShowAlert -> {
-                        alertManager.show(
-                            effect.message.loadString(),
-                            effect.type,
-                        )
-                    }
-
-                    is Navigate -> {
-                        authNavigator.navigate(
-                            AuthRouteMap(effect.destination).getScreen(),
-                            effect.shouldReplace,
-                        )
-                    }
-
-                    GoBack -> {
-                        authNavigator.pop()
-                    }
+    LaunchedEffect(Unit) {
+        vm.viewEffects.collect { effect ->
+            when (effect) {
+                is ShowAlert -> {
+                    alertManager.show(
+                        effect.message.loadString(),
+                        effect.type,
+                    )
                 }
+
+                is Navigate<*> -> {
+                    onNavigate(effect.destination, effect.shouldReplace)
+                }
+
+                GoBack -> { onGoBack() }
             }
         }
+    }
 
-        Box {
-            if (isExpanded) {
-                ExpandedOtpScreen(
-                    viewState = viewState,
-                    eventProcessor = vm::processEvent,
-                )
-            } else {
-                CompactOtpScreen(
-                    viewState = viewState,
-                    eventProcessor = vm::processEvent,
-                )
-            }
+    Box {
+        if (isExpanded) {
+            ExpandedOtpScreen(
+                viewState = viewState,
+                eventProcessor = vm::processEvent,
+            )
+        } else {
+            CompactOtpScreen(
+                viewState = viewState,
+                eventProcessor = vm::processEvent,
+            )
         }
     }
 }

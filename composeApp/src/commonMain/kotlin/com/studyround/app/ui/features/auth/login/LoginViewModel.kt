@@ -16,9 +16,6 @@ import com.studyround.app.data.resource.Resource
 import com.studyround.app.data.resource.windowedLoadDebounce
 import com.studyround.app.ui.composables.alert.AlertBannerType
 import com.studyround.app.ui.features.auth.AuthDestination
-import com.studyround.app.ui.features.auth.AuthDestination.OTP.Companion.EMAIL
-import com.studyround.app.ui.features.auth.AuthDestination.OTP.Companion.FORGOT_PASSWORD
-import com.studyround.app.ui.features.auth.AuthDestination.OTP.Companion.OTP_ID
 import com.studyround.app.utils.isValidEmail
 import com.studyround.app.utils.isValidUsername
 import com.studyround.app.ui.viewmodel.UdfViewModel
@@ -312,15 +309,13 @@ class LoginViewModel(
                         )
                         _viewEffects.send(
                             Navigate(
-                                AuthDestination.OTP(
-                                    mapOf(
-                                        OTP_ID to it.data.otpId,
-                                        FORGOT_PASSWORD to false,
-                                        EMAIL to email,
-                                    )
+                                destination = AuthDestination.OTP(
+                                    otpId = it.data.otpId,
+                                    isForgotPassword = false,
+                                    email = email,
                                 ),
-                                false,
-                            )
+                                shouldReplace = false,
+                            ),
                         )
                     }
 
