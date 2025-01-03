@@ -102,7 +102,7 @@ fun RootScreen() {
         LaunchedEffect(viewModel.viewEffects) {
             viewModel.viewEffects.collect { effect ->
                 when (effect) {
-                    is Navigate<*> -> {
+                    is Navigate -> {
                         rootNavController.navigateToRoute(effect.destination, effect.replace)
                     }
                 }

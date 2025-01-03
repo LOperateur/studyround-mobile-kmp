@@ -12,4 +12,4 @@ data class ShowAlert(
     val args: Array<Any> = arrayOf(),
 ) : LoginViewEffect
 
-data class Navigate<T : AuthDestination>(val destination: T, val shouldReplace: Boolean) : LoginViewEffect
+data class Navigate(val destination: AuthDestination, val shouldReplace: Boolean) : LoginViewEffect

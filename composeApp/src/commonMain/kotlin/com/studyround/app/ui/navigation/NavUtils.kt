@@ -64,10 +64,7 @@ fun Navigator?.navigatePush(destination: Screen) {
  * @param route The [Destination] to navigate to.
  * @param shouldReplace Flag to replace the current screen or push
  */
-inline fun <reified T : Destination> NavController.navigateToRoute(
-    route: T,
-    shouldReplace: Boolean = false,
-) {
+fun <T : Destination> NavController.navigateToRoute(route: T, shouldReplace: Boolean = false) {
     if (shouldReplace) {
         navigateReplace(route)
     } else {
@@ -83,7 +80,7 @@ inline fun <reified T : Destination> NavController.navigateToRoute(
  *
  * @param route The [Destination] to replace the current screen with.
  */
-inline fun <reified T : Destination> NavController.navigateReplace(route: T) {
+fun <T : Destination> NavController.navigateReplace(route: T) {
     val currentDestination = this.currentBackStackEntry?.destination
     val isCurrentRoute = currentDestination?.hasRoute(route::class) == true
 
@@ -107,7 +104,7 @@ inline fun <reified T : Destination> NavController.navigateReplace(route: T) {
  *
  * @param route The [Destination] to be pushed onto the navigation stack.
  */
-inline fun <reified T : Destination> NavController.navigatePush(route: T) {
+fun <T : Destination> NavController.navigatePush(route: T) {
     val currentDestination = this.currentBackStackEntry?.destination
     val isCurrentRoute = currentDestination?.hasRoute(route::class) == true
 
@@ -150,7 +147,7 @@ fun <T : Destination, R : Destination> NavController.navigateTabs(route: T, home
  * @return A new instance of this entry's [NavDestination.route] as an object of type [T]
  */
 @OptIn(InternalSerializationApi::class)
-inline fun <reified T : Any> NavBackStackEntry.toRoute(kClass: KClass<out T>): T {
+fun <T : Any> NavBackStackEntry.toRoute(kClass: KClass<out T>): T {
     val bundle = arguments ?: Bundle()
     val typeMap = destination.arguments.mapValues { it.value.type }
     return kClass.serializer().decodeArguments(bundle, typeMap)

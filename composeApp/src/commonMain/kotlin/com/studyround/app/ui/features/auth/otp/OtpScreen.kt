@@ -37,7 +37,7 @@ fun OtpScreen(
                     )
                 }
 
-                is Navigate<*> -> {
+                is Navigate -> {
                     onNavigate(effect.destination, effect.shouldReplace)
                 }
 

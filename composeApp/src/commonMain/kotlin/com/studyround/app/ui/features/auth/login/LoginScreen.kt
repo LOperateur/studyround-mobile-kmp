@@ -38,7 +38,7 @@ fun LoginScreen(
                     )
                 }
 
-                is Navigate<*> -> {
+                is Navigate -> {
                     onNavigate(effect.destination, effect.shouldReplace)
                 }
             }
