@@ -51,21 +51,18 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
 
             implementation(libs.lifecycle.viewmodel)
+            implementation(libs.navigation.compose)
 
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)
 
-            implementation(libs.voyager.navigator)
-            implementation(libs.voyager.bottomSheetNavigator)
-            implementation(libs.voyager.lifecycle.kmp)
-            implementation(libs.voyager.transitions)
-            implementation(libs.voyager.tabNavigator)
-
             implementation(libs.androidx.paging.common)
 
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
+
+            implementation(libs.alert.banner)
         }
 
         androidMain.dependencies {
@@ -93,7 +90,6 @@ kotlin {
         }
 
         all {
-            languageSettings.optIn("cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi")
             languageSettings.optIn("org.koin.core.annotation.KoinExperimentalAPI")
         }
     }

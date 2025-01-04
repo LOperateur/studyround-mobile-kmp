@@ -1,11 +1,14 @@
 package com.studyround.app.ui.features.dashboard.courses
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.studyround.app.data.error.renderedErrorMessage
 import com.studyround.app.data.repository.dashboard.DashboardRepository
 import com.studyround.app.data.resource.Resource
 import com.studyround.app.data.resource.windowedLoadDebounce
 import com.studyround.app.ui.composables.alert.AlertBannerType
+import com.studyround.app.ui.features.dashboard.DashboardDestination
 import com.studyround.app.ui.viewmodel.UdfViewModel
 import com.studyround.app.ui.viewmodel.WithEffects
 import kotlinx.coroutines.Job
@@ -20,6 +23,7 @@ import kotlinx.coroutines.launch
 
 class CoursesViewModel(
     private val dashboardRepository: DashboardRepository,
+    savedStateHandle: SavedStateHandle,
 ) : UdfViewModel<CoursesViewState, CoursesViewEvent>(), WithEffects<CoursesViewEffect> {
 
     private val _viewState = MutableStateFlow(CoursesViewState())
@@ -28,6 +32,17 @@ class CoursesViewModel(
 
     private val _viewEffects = Channel<CoursesViewEffect>(Channel.BUFFERED)
     override val viewEffects: Flow<CoursesViewEffect> = _viewEffects.receiveAsFlow()
+
+    init {
+        with(savedStateHandle.toRoute<DashboardDestination.Courses>()) {
+            _viewState.update {
+                it.copy(
+                    selectedCourseId = this.selectedCourseId,
+                    selectedCategoryId = this.selectedCategoryId,
+                )
+            }
+        }
+    }
 
     override fun processEvent(event: CoursesViewEvent) {
         when (event) {

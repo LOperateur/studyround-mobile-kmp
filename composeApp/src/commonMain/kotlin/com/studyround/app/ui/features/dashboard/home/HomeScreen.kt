@@ -1,4 +1,4 @@
-package com.studyround.app.ui.features.dashboard.courses
+package com.studyround.app.ui.features.dashboard.home
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -21,7 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.studyround.app.ui.composables.alert.LocalAlertManager
+import com.studyround.app.domain.model.Category
+import com.studyround.app.domain.model.Course
 import com.studyround.app.ui.composables.buttons.PrimaryButton
 import com.studyround.app.ui.theme.StudyRoundTheme
 import org.jetbrains.compose.resources.painterResource
@@ -30,28 +31,31 @@ import org.koin.compose.viewmodel.koinViewModel
 import studyround.composeapp.generated.resources.*
 
 @Composable
-fun CoursesScreen() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        val vm = koinViewModel<CoursesViewModel>()
-        val viewState by vm.viewState.collectAsState()
-        val eventProcessor = vm::processEvent
+fun HomeScreen(
+    onNavigateToCourse: (Course) -> Unit,
+    onNavigateToCourseCategory: (Category) -> Unit,
+) {
+    val vm = koinViewModel<HomeViewModel>()
+    val viewState by vm.viewState.collectAsState()
+    val eventProcessor = vm::processEvent
 
-        val alertManager = LocalAlertManager.current
+    LaunchedEffect(Unit) {
+        vm.viewEffects.collect { effect ->
+            when (effect) {
+                is NavigateToCourse -> {
+                    onNavigateToCourse(effect.course)
+                }
 
-        LaunchedEffect(Unit) {
-            vm.viewEffects.collect { effect ->
-                when (effect) {
-                    is ShowAlert -> {
-                        alertManager.show(
-                            effect.message.loadString(),
-                            effect.type,
-                        )
-                    }
+                is NavigateToCoursesInCategory -> {
+                    onNavigateToCourseCategory(effect.category)
                 }
             }
         }
+    }
 
-        // Loading
+    Box(
+        modifier = Modifier.fillMaxSize(),
+    ) {
         if (viewState.loadingWithoutData) {
             Box(modifier = Modifier.matchParentSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator(
@@ -62,10 +66,9 @@ fun CoursesScreen() {
             }
         }
 
-        // Error
         AnimatedVisibility(
             modifier = Modifier.matchParentSize(),
-            visible = viewState.error,
+            visible = viewState.errorWithoutData,
             enter = fadeIn(animationSpec = tween(750)),
             exit = fadeOut(animationSpec = tween(750)),
         ) {
@@ -91,54 +94,22 @@ fun CoursesScreen() {
                         tintIcons = true,
                         iconEnd = painterResource(Res.drawable.ic_reload),
                     ) {
-                        eventProcessor(RetryLoadTriggered)
+                        eventProcessor(RetryLoadTriggered(isRefresh = false))
                     }
                 }
             }
         }
 
-        // Empty
         AnimatedVisibility(
-            modifier = Modifier.matchParentSize(),
-            visible = viewState.showEmptyState,
+            visible = viewState.hasData,
             enter = fadeIn(animationSpec = tween(750)),
-            exit = fadeOut(animationSpec = tween(750)),
         ) {
-            Box(modifier = Modifier.matchParentSize(), contentAlignment = Alignment.Center) {
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Icon(
-                        modifier = Modifier.padding(8.dp).size(72.dp).alpha(0.5f),
-                        painter = painterResource(Res.drawable.ic_folder),
-                        tint = StudyRoundTheme.colors.deviation_tone4_tone5,
-                        contentDescription = "",
-                    )
-                    Text(
-                        text = stringResource(Res.string.empty_courses_text),
-                        style = StudyRoundTheme.typography.labelMedium,
-                        textAlign = TextAlign.Center,
-                    )
-                }
-            }
-        }
-
-        // Content
-        AnimatedVisibility(
-            visible = viewState.courses.isNotEmpty(),
-            enter = fadeIn(animationSpec = tween(750)),
-            exit = fadeOut(animationSpec = tween(750)),
-        ) {
-            CourseListContent(
-                courses = viewState.courses,
-                canLoadMoreCourses = viewState.canLoadMore,
-                isLoadingMoreCourses = viewState.loadingMore,
-                loadMoreError = viewState.loadMoreError,
-                openCourseClicked = {},
-                loadMoreClicked = { eventProcessor(LoadMoreClicked) },
+            CategorisedCoursesContent(
+                categories = viewState.categorisedCourses,
+                viewCoursesInCategoryClicked = { eventProcessor(ViewCategoryClicked(it)) },
+                viewCourseClicked = { eventProcessor(CourseClicked(it)) },
                 isRefreshingCourses = viewState.refreshLoading || viewState.loadingWithData,
-                listRefreshed = { eventProcessor(RefreshTriggered) }
+                listRefreshed = { eventProcessor(RetryLoadTriggered(isRefresh = true)) },
             )
         }
     }

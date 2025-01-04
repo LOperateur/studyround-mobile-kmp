@@ -7,66 +7,57 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.studyround.app.ui.composables.alert.LocalAlertManager
-import com.studyround.app.ui.features.auth.AuthRouteMap
+import com.studyround.app.ui.features.auth.AuthDestination
 import com.studyround.app.ui.features.auth.login.compact.CompactLoginScreen
 import com.studyround.app.ui.features.auth.login.expanded.ExpandedLoginScreen
-import com.studyround.app.ui.navigation.navigate
 import com.studyround.app.ui.utils.isTabletLandscapeMode
 import org.koin.compose.viewmodel.koinViewModel
 
-class LoginScreen : Screen {
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Composable
+fun LoginScreen(
+    onNavigate: (destination: AuthDestination, shouldReplace: Boolean) -> Unit,
+) {
+    val vm = koinViewModel<LoginViewModel>()
+    val viewState by vm.viewState.collectAsState()
+    val textFieldState = vm.loginTextFieldState
 
-    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-    @Composable
-    override fun Content() {
-        val vm = koinViewModel<LoginViewModel>()
-        val viewState by vm.viewState.collectAsState()
-        val textFieldState = vm.loginTextFieldState
+    val alertManager = LocalAlertManager.current
+    val windowSizeClass = calculateWindowSizeClass()
 
-        val alertManager = LocalAlertManager.current
-        val authNavigator = LocalNavigator.currentOrThrow
-        val windowSizeClass = calculateWindowSizeClass()
+    val isExpanded = windowSizeClass.isTabletLandscapeMode()
 
-        val isExpanded = windowSizeClass.isTabletLandscapeMode()
+    LaunchedEffect(Unit) {
+        vm.viewEffects.collect { effect ->
+            when (effect) {
+                is ShowAlert -> {
+                    alertManager.show(
+                        effect.message.loadString(*effect.args),
+                        effect.type,
+                    )
+                }
 
-        LaunchedEffect(Unit) {
-            vm.viewEffects.collect { effect ->
-                when (effect) {
-                    is ShowAlert -> {
-                        alertManager.show(
-                            effect.message.loadString(*effect.args),
-                            effect.type,
-                        )
-                    }
-
-                    is Navigate -> {
-                        authNavigator.navigate(
-                            AuthRouteMap(effect.destination).getScreen(),
-                            effect.shouldReplace,
-                        )
-                    }
+                is Navigate -> {
+                    onNavigate(effect.destination, effect.shouldReplace)
                 }
             }
         }
+    }
 
-        Box {
-            if (isExpanded) {
-                ExpandedLoginScreen(
-                    viewState = viewState,
-                    textFieldState = textFieldState,
-                    eventProcessor = vm::processEvent,
-                )
-            } else {
-                CompactLoginScreen(
-                    viewState = viewState,
-                    textFieldState = textFieldState,
-                    eventProcessor = vm::processEvent,
-                )
-            }
+    Box {
+        if (isExpanded) {
+            ExpandedLoginScreen(
+                viewState = viewState,
+                textFieldState = textFieldState,
+                eventProcessor = vm::processEvent,
+            )
+        } else {
+            CompactLoginScreen(
+                viewState = viewState,
+                textFieldState = textFieldState,
+                eventProcessor = vm::processEvent,
+            )
         }
     }
 }

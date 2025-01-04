@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.studyround.app.data.auth.model.EmailAuthType
 import com.studyround.app.data.auth.session.SessionManager
 import com.studyround.app.data.error.renderedErrorMessage
@@ -47,7 +48,7 @@ class RegisterViewModel(
     private var passToken: String? = null
 
     init {
-        initArgs(passToken = savedStateHandle[AuthDestination.Register.PASS_TOKEN])
+        initArgs(passToken = savedStateHandle.toRoute<AuthDestination.Register>().passToken)
         displayLocalValidationErrors()
     }
 
