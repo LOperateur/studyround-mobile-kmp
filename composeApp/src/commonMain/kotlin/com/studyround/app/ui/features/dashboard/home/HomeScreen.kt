@@ -33,11 +33,11 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import studyround.composeapp.generated.resources.*
 
-class DashboardHomeScreen : Tab {
+class HomeScreen : Tab {
 
     @Composable
     override fun Content() {
-        val vm = koinViewModel<DashboardHomeViewModel>()
+        val vm = koinViewModel<HomeViewModel>()
         val viewState by vm.viewState.collectAsState()
         val eventProcessor = vm::processEvent
         val dashboardTabNavigator = LocalTabNavigator.current

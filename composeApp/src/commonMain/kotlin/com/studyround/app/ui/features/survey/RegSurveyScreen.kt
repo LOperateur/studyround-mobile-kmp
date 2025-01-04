@@ -16,7 +16,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun RegSurveyScreen(
-    onNavigateHome: () -> Unit,
+    onNavigateToMainSection: () -> Unit,
 ) {
     val vm = koinViewModel<RegSurveyViewModel>()
     val viewState by vm.viewState.collectAsState()
@@ -36,7 +36,7 @@ fun RegSurveyScreen(
                     )
                 }
 
-                NavigateHome -> { onNavigateHome() }
+                NavigateToMain -> { onNavigateToMainSection() }
             }
         }
     }

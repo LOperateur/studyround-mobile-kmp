@@ -7,4 +7,4 @@ sealed interface RegSurveyViewEffect
 
 data class ShowAlert(val message: AppString, val type: AlertBannerType) : RegSurveyViewEffect
 
-data object NavigateHome : RegSurveyViewEffect
+data object NavigateToMain : RegSurveyViewEffect

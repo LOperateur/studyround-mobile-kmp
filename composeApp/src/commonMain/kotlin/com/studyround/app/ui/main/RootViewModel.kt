@@ -48,7 +48,7 @@ class RootViewModel(
             if (appPreferences.shouldDisplaySurveyScreen) {
                 _viewEffects.send(Navigate(RootDestination.RegSurvey, true))
             } else {
-                _viewEffects.send(Navigate(RootDestination.Home, true))
+                _viewEffects.send(Navigate(RootDestination.Main, true))
             }
         }
     }

@@ -42,13 +42,13 @@ import com.studyround.app.ui.composables.modifiers.LocalNavigationBarsWindowInse
 import com.studyround.app.ui.composables.modifiers.localNavigationBarsPadding
 import com.studyround.app.ui.composables.modifiers.localStatusBarsPadding
 import com.studyround.app.ui.features.dashboard.courses.CoursesScreen
-import com.studyround.app.ui.features.dashboard.home.DashboardHomeScreen
+import com.studyround.app.ui.features.dashboard.home.HomeScreen
 import com.studyround.app.ui.theme.StudyRoundTheme
 import com.studyround.app.ui.utils.isTabletLandscapeMode
 import org.jetbrains.compose.resources.painterResource
 import studyround.composeapp.generated.resources.*
 
-class DashboardNavScreen : Screen {
+class DashboardScreen : Screen {
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     @Composable
@@ -58,7 +58,7 @@ class DashboardNavScreen : Screen {
 
         val isExpanded = windowSizeClass.isTabletLandscapeMode()
 
-        TabNavigator(DashboardHomeScreen()) {
+        TabNavigator(HomeScreen()) {
             val tabNavigator = LocalTabNavigator.current
 
             Scaffold(
@@ -109,7 +109,7 @@ class DashboardNavScreen : Screen {
             contentColor = StudyRoundTheme.colors.white,
             elevation = 0.dp,
         ) {
-            TabNavigationItem(DashboardHomeScreen())
+            TabNavigationItem(HomeScreen())
             TabNavigationItem(CoursesScreen())
         }
     }
@@ -164,7 +164,7 @@ class DashboardNavScreen : Screen {
             elevation = 0.dp,
         ) {
             Spacer(Modifier.weight(1f))
-            SideNavigationItem(DashboardHomeScreen())
+            SideNavigationItem(HomeScreen())
             Spacer(Modifier.height(24.dp))
             SideNavigationItem(CoursesScreen())
             Spacer(Modifier.weight(1.2f))

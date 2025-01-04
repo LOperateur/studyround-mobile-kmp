@@ -15,17 +15,17 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class DashboardHomeViewModel(
+class HomeViewModel(
     private val dashboardRepository: DashboardRepository,
-) : UdfViewModel<DashboardHomeViewState, DashboardHomeViewEvent>(),
-    WithEffects<DashboardHomeViewEffect> {
+) : UdfViewModel<HomeViewState, HomeViewEvent>(),
+    WithEffects<HomeViewEffect> {
 
-    private val _viewState = MutableStateFlow(DashboardHomeViewState())
-    override val viewState: StateFlow<DashboardHomeViewState>
+    private val _viewState = MutableStateFlow(HomeViewState())
+    override val viewState: StateFlow<HomeViewState>
         get() = _viewState.asStateFlow()
 
-    private val _viewEffects = Channel<DashboardHomeViewEffect>(Channel.BUFFERED)
-    override val viewEffects: Flow<DashboardHomeViewEffect>
+    private val _viewEffects = Channel<HomeViewEffect>(Channel.BUFFERED)
+    override val viewEffects: Flow<HomeViewEffect>
         get() = _viewEffects.receiveAsFlow()
 
     init {
@@ -34,7 +34,7 @@ class DashboardHomeViewModel(
         }
     }
 
-    override fun processEvent(event: DashboardHomeViewEvent) {
+    override fun processEvent(event: HomeViewEvent) {
         when (event) {
             is CourseClicked -> {
                 viewModelScope.launch {

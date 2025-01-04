@@ -28,7 +28,7 @@ import com.studyround.app.ui.composables.transitions.rootScreenPopExitTransition
 import com.studyround.app.ui.composables.transitions.rootScreenSplashEnterTransition
 import com.studyround.app.ui.composables.transitions.rootScreenSplashExitTransition
 import com.studyround.app.ui.features.auth.AuthScreen
-import com.studyround.app.ui.features.home.HomeScreen
+import com.studyround.app.ui.features.main.MainScreen
 import com.studyround.app.ui.features.onboarding.OnboardingCarouselScreen
 import com.studyround.app.ui.features.splash.SplashScreen
 import com.studyround.app.ui.features.survey.RegSurveyScreen
@@ -81,14 +81,14 @@ fun RootScreen() {
             composable<RootDestination.Auth> {
                 AuthScreen()
             }
-            composable<RootDestination.Home> {
-                HomeScreen()
+            composable<RootDestination.Main> {
+                MainScreen()
             }
             composable<RootDestination.RegSurvey> {
                 RegSurveyScreen(
-                    onNavigateHome = {
+                    onNavigateToMainSection = {
                         rootNavController.navigateToRoute(
-                            RootDestination.Home,
+                            RootDestination.Main,
                             true,
                         )
                     }

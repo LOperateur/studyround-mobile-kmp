@@ -111,7 +111,7 @@ class RegSurveyViewModel(
                                 type = AlertBannerType.Success,
                             )
                         )
-                        _viewEffects.send(NavigateHome)
+                        _viewEffects.send(NavigateToMain)
                     }
 
                     is Resource.Error -> {
