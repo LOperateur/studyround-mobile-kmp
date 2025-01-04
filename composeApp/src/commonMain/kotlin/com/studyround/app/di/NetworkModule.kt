@@ -86,9 +86,18 @@ val networkModule = module {
                             cause = exception.cause,
                         )
                     }
-
-                    // We're not using expectSuccess=true so ResponseExceptions won't be caught here
                 }
+
+                // NOTE 1: We're not using expectSuccess=true so ResponseExceptions won't be caught here
+                // Only other kinds of Exceptions will be. ResponseExceptions are handled with assertNoErrors.
+                
+                // NOTE 2: You can also use validateResponse here as well. 
+                // However, if you're using expectSuccess=true, then  
+                // validateResponse won't be triggered.
+                // More info: 
+                // https://youtrack.jetbrains.com/issue/KTOR-1616
+                // https://youtrack.jetbrains.com/issue/KTOR-1412 
+                // https://youtrack.jetbrains.com/issue/KTOR-1703
             }
 
             defaultRequest {
