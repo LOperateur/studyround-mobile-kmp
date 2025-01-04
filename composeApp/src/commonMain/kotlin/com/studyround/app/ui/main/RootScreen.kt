@@ -22,7 +22,6 @@ import com.studyround.app.ui.composables.alert.AlertBannerView
 import com.studyround.app.ui.composables.alert.AlertBannerViewModel
 import com.studyround.app.ui.composables.alert.AlertManager
 import com.studyround.app.ui.composables.alert.LocalAlertManager
-import com.studyround.app.ui.composables.modifiers.provideLocalWindowInsets
 import com.studyround.app.ui.composables.transitions.rootScreenPopEnterTransition
 import com.studyround.app.ui.composables.transitions.rootScreenPopExitTransition
 import com.studyround.app.ui.composables.transitions.rootScreenSplashEnterTransition
@@ -59,7 +58,6 @@ fun RootScreen() {
     CompositionLocalProvider(
         LocalAlertManager provides alertManager,
         LocalImageLoader provides remember { imageLoader.generateImageLoader() },
-        *provideLocalWindowInsets(),
     ) {
         NavHost(
             navController = rootNavController,

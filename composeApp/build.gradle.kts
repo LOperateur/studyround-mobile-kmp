@@ -57,12 +57,6 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)
 
-            implementation(libs.voyager.navigator)
-            implementation(libs.voyager.bottomSheetNavigator)
-            implementation(libs.voyager.lifecycle.kmp)
-            implementation(libs.voyager.transitions)
-            implementation(libs.voyager.tabNavigator)
-
             implementation(libs.androidx.paging.common)
 
             implementation(libs.androidx.room.runtime)
@@ -96,7 +90,6 @@ kotlin {
         }
 
         all {
-            languageSettings.optIn("cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi")
             languageSettings.optIn("org.koin.core.annotation.KoinExperimentalAPI")
         }
     }

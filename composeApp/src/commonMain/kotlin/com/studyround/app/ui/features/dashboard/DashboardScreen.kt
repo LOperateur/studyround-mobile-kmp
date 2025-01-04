@@ -10,14 +10,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -47,9 +51,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.studyround.app.ui.composables.common.StudyRoundBackground
 import com.studyround.app.ui.composables.common.appbar.StudyRoundAppBar
-import com.studyround.app.ui.composables.modifiers.LocalNavigationBarsWindowInsets
-import com.studyround.app.ui.composables.modifiers.localNavigationBarsPadding
-import com.studyround.app.ui.composables.modifiers.localStatusBarsPadding
 import com.studyround.app.ui.features.dashboard.courses.CoursesScreen
 import com.studyround.app.ui.features.dashboard.home.HomeScreen
 import com.studyround.app.ui.navigation.navigateToTab
@@ -87,7 +88,7 @@ fun DashboardScreen() {
     Scaffold(
         // Adjust nav bar paddings for devices that put left/right nav bars in landscape
         modifier = Modifier.windowInsetsPadding(
-            LocalNavigationBarsWindowInsets.current.only(WindowInsetsSides.Start + WindowInsetsSides.End)
+            WindowInsets.navigationBars.only(WindowInsetsSides.Start + WindowInsetsSides.End)
         ),
         // Note: Scaffold automatically applies topBar padding to content
         content = {
@@ -120,7 +121,7 @@ fun DashboardScreen() {
             Box(
                 modifier = Modifier
                     .background(color = StudyRoundTheme.colors.deviation_primary3_primary0)
-                    .localNavigationBarsPadding()
+                    .navigationBarsPadding()
             ) {
                 if (!isExpanded) {
                     BottomNavigationBar(currentDestination) {
@@ -230,7 +231,7 @@ private fun SideNavigationBar(
             Image(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
-                    .localStatusBarsPadding()
+                    .statusBarsPadding()
                     .size(36.dp),
                 painter = painterResource(Res.drawable.studyround_logo),
                 contentDescription = "Logo",

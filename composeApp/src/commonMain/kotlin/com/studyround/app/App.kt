@@ -8,7 +8,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import cafe.adriel.voyager.jetpack.ProvideNavigatorLifecycleKMPSupport
 import com.studyround.app.data.storage.preferences.AppPreferences
 import com.studyround.app.ui.main.RootScreen
 import com.studyround.app.ui.theme.StudyRoundTheme
@@ -22,9 +21,7 @@ fun App(prefs: AppPreferences = koinInject()) {
 
         StudyRoundTheme(darkTheme = darkMode ?: isSystemInDarkTheme()) {
             Surface {
-                ProvideNavigatorLifecycleKMPSupport {
-                    RootScreen()
-                }
+                RootScreen()
             }
         }
 

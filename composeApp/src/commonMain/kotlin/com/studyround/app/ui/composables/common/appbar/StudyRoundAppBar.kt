@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.DropdownMenu
@@ -32,7 +33,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.studyround.app.ui.composables.common.RemoteImage
 import com.studyround.app.ui.composables.dropdown.DropdownItem
-import com.studyround.app.ui.composables.modifiers.localStatusBarsPadding
 import com.studyround.app.ui.theme.StudyRoundTheme
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -70,7 +70,7 @@ fun StudyRoundAppBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = StudyRoundTheme.colors.deviation_white_primary0)
-                .localStatusBarsPadding()
+                .statusBarsPadding()
                 .padding(
                     vertical = 8.dp,
                     horizontal = 16.dp,
