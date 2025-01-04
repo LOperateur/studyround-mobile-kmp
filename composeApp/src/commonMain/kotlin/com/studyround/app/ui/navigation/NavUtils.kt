@@ -5,6 +5,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.serialization.decodeArguments
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.serializer
@@ -36,7 +37,7 @@ fun <T : Destination> NavController.navigateToRoute(route: T, shouldReplace: Boo
  * @param route The [Destination] to replace the current screen with.
  */
 fun <T : Destination> NavController.navigateReplace(route: T) {
-    val currentDestination = this.currentBackStackEntry?.destination
+    val currentDestination = currentBackStackEntry?.destination
     val isCurrentRoute = currentDestination?.hasRoute(route::class) == true
 
     if (!isCurrentRoute) {
@@ -60,7 +61,7 @@ fun <T : Destination> NavController.navigateReplace(route: T) {
  * @param route The [Destination] to be pushed onto the navigation stack.
  */
 fun <T : Destination> NavController.navigatePush(route: T) {
-    val currentDestination = this.currentBackStackEntry?.destination
+    val currentDestination = currentBackStackEntry?.destination
     val isCurrentRoute = currentDestination?.hasRoute(route::class) == true
 
     if (!isCurrentRoute) {
@@ -69,20 +70,24 @@ fun <T : Destination> NavController.navigatePush(route: T) {
 }
 
 /**
- * Pop everything off to the [homeRoute] (primary tab) before navigating to the destination [route].
+ * Pop everything off to the start Destination (primary tab) before navigating to the destination [route].
  *
  * This should be used when navigating between tabs on the dashboard. It ensures that
- * all destinations would have a back reference to the [homeRoute] ensuring that a back press navigation
+ * all destinations would have a back reference to the start destination ensuring that a back press navigation
  * from the root of any tab navigates to the primary tab.
  *
  * All destinations that are popped will have their state saved, and the target destination's state
  * will be restored (if available) when performing navigation.
  *
+ * @param resetState Clears any saved state associated with this [route] before navigation.
+ *
  */
-fun <T : Destination, R : Destination> NavController.navigateTabs(route: T, homeRoute: R) {
+fun <T : Destination> NavController.navigateToTab(route: T, resetState: Boolean = false) {
+    if (resetState) clearBackStack(route)
+
     // Navigate to tab route
     navigate(route) {
-        popUpTo(homeRoute) {
+        popUpTo(requireNotNull(graph.findStartDestination().route)) {
             this.saveState = true
         }
         // Avoid multiple copies of the same destination when
