@@ -28,6 +28,7 @@ kotlinx-serialization = "1.6.3"
 ksp = "2.0.20-1.0.25"
 ktor = "2.3.11"
 material-window-size = "0.3.1"
+material-navigation = "1.7.0-beta02"
 multiplatform-settings = "1.1.1"
 paging = "3.3.5"
 room = "2.7.0-alpha10"
@@ -116,6 +117,7 @@ turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 # Navigation
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
+material-navigation = { module = "org.jetbrains.compose.material:material-navigation", version.ref = "material-navigation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

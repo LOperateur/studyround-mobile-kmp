@@ -21,8 +21,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.studyround.app.ui.composables.alert.LocalAlertManager
 import com.studyround.app.ui.composables.buttons.PrimaryButton
+import com.studyround.app.ui.features.dashboard.courses.details.CourseDetailsBottomSheet
+import com.studyround.app.ui.navigation.ModalBottomSheetNavHost
+import com.studyround.app.ui.navigation.bottomSheet
+import com.studyround.app.ui.navigation.navigateToRoute
+import com.studyround.app.ui.navigation.rememberBottomSheetNavigator
 import com.studyround.app.ui.theme.StudyRoundTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -38,6 +45,11 @@ fun CoursesScreen() {
 
         val alertManager = LocalAlertManager.current
 
+        val bottomSheetNavigator = rememberBottomSheetNavigator(skipHalfExpanded = true)
+
+        // Nav controller for the children of CoursesScreen's NavHost
+        val coursesNavController: NavHostController = rememberNavController(bottomSheetNavigator)
+
         LaunchedEffect(Unit) {
             vm.viewEffects.collect { effect ->
                 when (effect) {
@@ -48,6 +60,16 @@ fun CoursesScreen() {
                         )
                     }
                 }
+            }
+        }
+
+        LaunchedEffect(viewState.selectedCourseId) {
+            viewState.selectedCourseId?.let {
+                coursesNavController.navigateToRoute(
+                    CoursesBottomSheetDestination.CourseDetailsSheet(
+                        courseId = it
+                    )
+                )
             }
         }
 
@@ -140,6 +162,15 @@ fun CoursesScreen() {
                 isRefreshingCourses = viewState.refreshLoading || viewState.loadingWithData,
                 listRefreshed = { eventProcessor(RefreshTriggered) }
             )
+        }
+
+        ModalBottomSheetNavHost(
+            navController = coursesNavController,
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            bottomSheet<CoursesBottomSheetDestination.CourseDetailsSheet> {
+                CourseDetailsBottomSheet()
+            }
         }
     }
 }
