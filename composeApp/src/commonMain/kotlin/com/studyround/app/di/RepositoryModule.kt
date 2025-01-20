@@ -2,6 +2,8 @@ package com.studyround.app.di
 
 import com.studyround.app.data.repository.auth.AuthRepository
 import com.studyround.app.data.repository.auth.AuthRepositoryImpl
+import com.studyround.app.data.repository.course.CoursesRepository
+import com.studyround.app.data.repository.course.CoursesRepositoryImpl
 import com.studyround.app.data.repository.dashboard.DashboardRepository
 import com.studyround.app.data.repository.dashboard.DashboardRepositoryImpl
 import com.studyround.app.data.repository.survey.RegSurveyRepository
@@ -23,6 +25,11 @@ val repositoryModule = module {
             get(),
             get<StudyRoundDatabase>().categoryDao(),
             get<StudyRoundDatabase>().courseDao(),
+        )
+    }
+    single<CoursesRepository> {
+        CoursesRepositoryImpl(
+            get<StudyRoundDatabase>().courseDao()
         )
     }
 }

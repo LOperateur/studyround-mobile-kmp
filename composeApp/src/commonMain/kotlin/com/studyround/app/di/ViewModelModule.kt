@@ -6,6 +6,7 @@ import com.studyround.app.ui.features.auth.login.LoginViewModel
 import com.studyround.app.ui.features.auth.otp.OtpViewModel
 import com.studyround.app.ui.features.auth.register.RegisterViewModel
 import com.studyround.app.ui.features.dashboard.courses.CoursesViewModel
+import com.studyround.app.ui.features.dashboard.courses.details.CourseDetailsViewModel
 import com.studyround.app.ui.features.dashboard.home.HomeViewModel
 import com.studyround.app.ui.features.survey.RegSurveyViewModel
 import com.studyround.app.ui.main.RootViewModel
@@ -22,4 +23,5 @@ val viewModelModule = module {
     viewModelOf(::AppBarViewModel)
     viewModelOf(::HomeViewModel)
     viewModelOf(::CoursesViewModel)
+    viewModelOf(::CourseDetailsViewModel)
 }
