@@ -91,7 +91,7 @@ fun LazyItemScope.AlertBannerWrapper(
     }
 
     AnimatedVisibility(
-        modifier = Modifier.animateItemPlacement(),
+        modifier = Modifier.animateItem(),
         visible = alertState.visible,
         enter = slideInVertically(
             animationSpec = spring(
