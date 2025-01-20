@@ -59,17 +59,14 @@ fun CoursesScreen() {
                             effect.type,
                         )
                     }
+                    is Navigate -> {
+                        coursesNavController.navigateToRoute(
+                            CoursesBottomSheetDestination.CourseDetailsSheet(
+                                courseId = effect.courseId
+                            )
+                        )
+                    }
                 }
-            }
-        }
-
-        LaunchedEffect(viewState.selectedCourseId) {
-            viewState.selectedCourseId?.let {
-                coursesNavController.navigateToRoute(
-                    CoursesBottomSheetDestination.CourseDetailsSheet(
-                        courseId = it
-                    )
-                )
             }
         }
 
@@ -157,7 +154,7 @@ fun CoursesScreen() {
                 canLoadMoreCourses = viewState.canLoadMore,
                 isLoadingMoreCourses = viewState.loadingMore,
                 loadMoreError = viewState.loadMoreError,
-                openCourseClicked = {},
+                openCourseClicked = { eventProcessor(CourseClicked(it.id)) },
                 loadMoreClicked = { eventProcessor(LoadMoreClicked) },
                 isRefreshingCourses = viewState.refreshLoading || viewState.loadingWithData,
                 listRefreshed = { eventProcessor(RefreshTriggered) }
@@ -169,7 +166,9 @@ fun CoursesScreen() {
             modifier = Modifier.fillMaxSize(),
         ) {
             bottomSheet<CoursesBottomSheetDestination.CourseDetailsSheet> {
-                CourseDetailsBottomSheet()
+                CourseDetailsBottomSheet {
+                    coursesNavController.navigateUp()
+                }
             }
         }
     }

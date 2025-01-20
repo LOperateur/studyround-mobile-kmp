@@ -36,10 +36,11 @@ class CoursesViewModel(
     init {
         with(savedStateHandle.toRoute<DashboardDestination.Courses>()) {
             _viewState.update {
-                it.copy(
-                    selectedCourseId = this.selectedCourseId,
-                    selectedCategoryId = this.selectedCategoryId,
-                )
+                it.copy(selectedCategoryId = this.selectedCategoryId,)
+            }
+
+            this.selectedCourseId?.let {
+                viewModelScope.launch { _viewEffects.send(Navigate(it)) }
             }
         }
     }
@@ -57,6 +58,12 @@ class CoursesViewModel(
 
             RefreshTriggered -> {
                 fetchCourses(1, true)
+            }
+
+            is CourseClicked -> {
+                viewModelScope.launch {
+                    _viewEffects.send(Navigate(event.courseId))
+                }
             }
         }
     }

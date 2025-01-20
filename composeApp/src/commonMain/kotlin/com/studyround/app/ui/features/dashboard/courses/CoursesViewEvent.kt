@@ -7,3 +7,5 @@ data object RetryLoadTriggered: CoursesViewEvent
 data object LoadMoreClicked: CoursesViewEvent
 
 data object RefreshTriggered: CoursesViewEvent
+
+data class CourseClicked(val courseId: Long): CoursesViewEvent

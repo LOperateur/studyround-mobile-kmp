@@ -10,7 +10,6 @@ data class CoursesViewState(
     val hasFetchedCourses: Boolean = false,
     private val networkFetchComplete: Boolean = false, // Determines if the "Load more" button shows
 
-    val selectedCourseId: Long? = null,
     val selectedCategoryId: Long? = null,
 
     // Pagination

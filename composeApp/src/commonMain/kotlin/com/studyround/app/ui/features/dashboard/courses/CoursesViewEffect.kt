@@ -6,3 +6,5 @@ import com.studyround.app.utils.AppString
 sealed interface CoursesViewEffect
 
 data class ShowAlert(val message: AppString, val type: AlertBannerType) : CoursesViewEffect
+
+data class Navigate(val courseId: Long) : CoursesViewEffect

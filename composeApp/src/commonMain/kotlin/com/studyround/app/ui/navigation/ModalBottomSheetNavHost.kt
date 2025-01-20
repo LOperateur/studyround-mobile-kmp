@@ -3,11 +3,13 @@ package com.studyround.app.ui.navigation
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.SpringSpec
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.navigation.BottomSheetNavigator
 import androidx.compose.material.navigation.ModalBottomSheetLayout
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -50,15 +52,17 @@ fun ModalBottomSheetNavHost(
     }
 
     // Create the Modal Bottom Sheet Layout with the provided BottomSheetNavigator
-    ModalBottomSheetLayout(
-        bottomSheetNavigator = navController.navigatorProvider[BottomSheetNavigator::class],
-        sheetShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
-    ) {
-        NavHost(
-            modifier = modifier,
-            navController = navController,
-            graph = navGraph,
-        )
+    CompositionLocalProvider(LocalElevationOverlay provides null) {
+        ModalBottomSheetLayout(
+            bottomSheetNavigator = navController.navigatorProvider[BottomSheetNavigator::class],
+            sheetShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
+        ) {
+            NavHost(
+                modifier = modifier,
+                navController = navController,
+                graph = navGraph,
+            )
+        }
     }
 }
 
