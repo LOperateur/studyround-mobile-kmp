@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import androidx.room.RoomWarnings
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 
 typealias CourseEntity = Course
 
@@ -20,7 +20,7 @@ data class Course(
     val formattedPrice: String,
     val imageUrl: String?,
     val includedQuestionYears: List<String>?,
-    val lastPublishDate: LocalDateTime?,
+    val lastPublishDate: Instant?,
     val numExplanations: Int?,
     val numQuestions: Int?,
     val isPlaceholderCourse: Boolean,
@@ -32,12 +32,12 @@ data class Course(
     val reviewCount: Int?,
     val saleStatus: List<SaleStatus>,
     val isTest: Boolean,
-    val testExpiration: LocalDateTime?,
+    val testExpiration: Instant?,
     val title: String,
     val userReviewId: Long?,
     val version: Int,
     val localOrder: Int?,
-    val localTimestamp: LocalDateTime,
+    val localTimestamp: Instant,
 ) {
     // Derived fields
     @Ignore var categories: List<CategoryEntity>? = null

@@ -3,6 +3,7 @@ package com.studyround.app.data.mapper.entity_domain
 import com.studyround.app.data.model.local.dto.CourseEntity
 import com.studyround.app.domain.model.Course
 import com.studyround.app.domain.model.SaleStatus
+import com.studyround.app.utils.DateTimeHelper.toCurrentLocalDateTime
 
 fun CourseEntity.toDomain(): Course {
     return Course(
@@ -20,12 +21,12 @@ fun CourseEntity.toDomain(): Course {
         numQuestions = numQuestions ?: 0,
         price = price,
         isPrivate = isPrivate ?: false,
-        purchaseStatus = purchaseStatus?.mapKeys { SaleStatus.valueOf(it.key.value.uppercase()) }.orEmpty(),
+        purchaseStatus = purchaseStatus?.mapKeys { SaleStatus.valueOf(it.key.name) }.orEmpty(),
         rating = rating,
         reviewCount = reviewCount ?: 0,
-        saleStatus = saleStatus.map { SaleStatus.valueOf(it.value.uppercase()) },
+        saleStatus = saleStatus.map { SaleStatus.valueOf(it.name) },
         isTest = isTest,
-        testExpiration = testExpiration,
+        testExpiration = testExpiration?.toCurrentLocalDateTime(),
         title = title,
         userReview = userReview?.toDomain(),
     )

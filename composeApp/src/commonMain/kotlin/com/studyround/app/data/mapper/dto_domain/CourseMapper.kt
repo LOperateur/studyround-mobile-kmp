@@ -5,9 +5,10 @@ import com.studyround.app.data.model.remote.dto.InstructionsDto
 import com.studyround.app.domain.model.Course
 import com.studyround.app.domain.model.Instructions
 import com.studyround.app.domain.model.SaleStatus
-import com.studyround.app.utils.DateTimeHelper.getCurrentDateTimeUTC
-import com.studyround.app.utils.DateTimeHelper.serverDateTimeFormat
-import kotlinx.datetime.LocalDateTime
+import com.studyround.app.utils.DateTimeHelper.dateTimeFormat
+import com.studyround.app.utils.DateTimeHelper.getCurrentLocalDateTime
+import com.studyround.app.utils.DateTimeHelper.toCurrentLocalDateTime
+import kotlinx.datetime.Instant
 
 fun CourseDto.toDomain(): Course {
     return Course(
@@ -25,12 +26,12 @@ fun CourseDto.toDomain(): Course {
         numQuestions = numQuestions ?: 0,
         price = price.orEmpty(),
         isPrivate = isPrivate,
-        purchaseStatus = purchaseStatus.mapKeys { SaleStatus.valueOf(it.key.value.uppercase()) },
+        purchaseStatus = purchaseStatus.mapKeys { SaleStatus.valueOf(it.key.name) },
         rating = rating ?: 0f,
         reviewCount = reviewCount ?: 0,
-        saleStatus = saleStatus.map { SaleStatus.valueOf(it.value.uppercase()) },
+        saleStatus = saleStatus.map { SaleStatus.valueOf(it.name) },
         isTest = isTest,
-        testExpiration = testExpiration?.let { LocalDateTime.parse(it, serverDateTimeFormat) } ?: getCurrentDateTimeUTC(),
+        testExpiration = testExpiration?.let { Instant.parse(it, dateTimeFormat).toCurrentLocalDateTime() } ?: getCurrentLocalDateTime(),
         title = title.orEmpty(),
         userReview = userReview?.toDomain(),
     )

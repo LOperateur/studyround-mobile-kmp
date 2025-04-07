@@ -19,6 +19,6 @@ fun UserDto.toEntity(): UserEntity {
         occupation = occupation,
         proAccount = proAccount,
         profileImageUrl = profileImageUrl,
-        userType = UserType.valueOf(userType.value.uppercase()),
+        userType = UserType.valueOf(userType.name),
     )
 }

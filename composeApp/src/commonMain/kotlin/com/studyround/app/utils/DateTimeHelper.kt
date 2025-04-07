@@ -1,28 +1,32 @@
 package com.studyround.app.utils
 
 import kotlinx.datetime.Clock
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.format.char
+import kotlinx.datetime.format.DateTimeComponents
+import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
 object DateTimeHelper {
-    val dbDateTimeFormat = LocalDateTime.Format {
-        date(LocalDate.Formats.ISO)
-        char(' ')
-        time(LocalTime.Formats.ISO)
+//    val dateTimeFormat = LocalDateTime.Format {
+//        date(LocalDate.Formats.ISO)
+//        char('T')
+//        time(LocalTime.Formats.ISO)
+//        char('Z')
+//    }
+
+    val dateTimeFormat = DateTimeComponents.Formats.ISO_DATE_TIME_OFFSET
+
+    fun getCurrentLocalDateTime(): LocalDateTime {
+        return Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
     }
 
-    val serverDateTimeFormat = LocalDateTime.Format {
-        date(LocalDate.Formats.ISO)
-        char('T')
-        time(LocalTime.Formats.ISO)
-        char('Z')
+    fun Instant.toCurrentLocalDateTime(): LocalDateTime {
+        return this.toLocalDateTime(TimeZone.currentSystemDefault())
     }
 
-    fun getCurrentDateTimeUTC(): LocalDateTime {
-        return Clock.System.now().toLocalDateTime(TimeZone.UTC)
+    fun LocalDateTime.toInstant(): Instant {
+        return this.toInstant(TimeZone.currentSystemDefault())
     }
 }

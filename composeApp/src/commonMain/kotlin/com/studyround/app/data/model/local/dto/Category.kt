@@ -3,7 +3,7 @@ package com.studyround.app.data.model.local.dto
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 
 typealias CategoryEntity = Category
 
@@ -13,7 +13,7 @@ data class Category(
     val name: String,
     val courseIds: List<Long>?,
     val localOrder: Int?,
-    val localTimestamp: LocalDateTime,
+    val localTimestamp: Instant,
 ) {
     // Derived fields
     @Ignore var courses: List<CourseEntity>? = null

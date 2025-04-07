@@ -2,8 +2,8 @@ package com.studyround.app.data.model.local.update
 
 import com.studyround.app.data.model.local.dto.CourseEntity
 import com.studyround.app.data.model.local.dto.SaleStatus
-import com.studyround.app.utils.DateTimeHelper
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 
 /**
  * Partial update data class for courses fetched in a list
@@ -21,7 +21,7 @@ data class CourseListDataUpdate(
     val version: Int,
     val saleStatus: List<SaleStatus>,
     val localOrder: Int?,
-    val localTimestamp: LocalDateTime,
+    val localTimestamp: Instant,
 ) {
     companion object {
         fun from(courseEntity: CourseEntity, order: Int): CourseListDataUpdate {
@@ -38,7 +38,7 @@ data class CourseListDataUpdate(
                 version = courseEntity.version,
                 saleStatus = courseEntity.saleStatus,
                 localOrder = order,
-                localTimestamp = DateTimeHelper.getCurrentDateTimeUTC(),
+                localTimestamp = Clock.System.now(),
             )
         }
     }

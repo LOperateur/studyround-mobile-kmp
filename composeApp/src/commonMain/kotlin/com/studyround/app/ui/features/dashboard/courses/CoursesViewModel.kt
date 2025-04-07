@@ -33,6 +33,8 @@ class CoursesViewModel(
     private val _viewEffects = Channel<CoursesViewEffect>(Channel.BUFFERED)
     override val viewEffects: Flow<CoursesViewEffect> = _viewEffects.receiveAsFlow()
 
+    private var fetchJob: Job? = null
+
     init {
         with(savedStateHandle.toRoute<DashboardDestination.Courses>()) {
             _viewState.update {
@@ -43,6 +45,8 @@ class CoursesViewModel(
                 viewModelScope.launch { _viewEffects.send(Navigate(it)) }
             }
         }
+
+        fetchCourses(1)
     }
 
     override fun processEvent(event: CoursesViewEvent) {
@@ -66,12 +70,6 @@ class CoursesViewModel(
                 }
             }
         }
-    }
-
-    private var fetchJob: Job? = null
-
-    init {
-        fetchCourses(1)
     }
 
     private fun fetchCourses(page: Int, isRefresh: Boolean = false) {

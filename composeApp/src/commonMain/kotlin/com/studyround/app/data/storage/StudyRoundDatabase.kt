@@ -9,7 +9,7 @@ import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.studyround.app.data.model.local.dto.CategoryEntity
 import com.studyround.app.data.model.local.dto.CourseEntity
 import com.studyround.app.data.model.local.dto.ReviewEntity
-import com.studyround.app.data.model.local.dto.User
+import com.studyround.app.data.model.local.dto.UserEntity
 import com.studyround.app.data.storage.converters.StudyRoundConverters
 import com.studyround.app.data.storage.dao.CategoryDao
 import com.studyround.app.data.storage.dao.CourseDao
@@ -21,7 +21,7 @@ internal const val DATABASE_FILE_NAME = "studyround.db"
 
 @Database(
     entities = [
-        User::class, CourseEntity::class, CategoryEntity::class, ReviewEntity::class,
+        UserEntity::class, CourseEntity::class, CategoryEntity::class, ReviewEntity::class,
     ],
     version = 1
 )
