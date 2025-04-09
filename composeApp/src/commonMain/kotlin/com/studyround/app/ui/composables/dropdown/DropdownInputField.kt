@@ -37,7 +37,7 @@ import studyround.composeapp.generated.resources.*
 
 data class DropdownItem<T : Any>(
     private val index: Int = 0, // Optional: To distinguish duplicates with identical labels
-    private val label: String = String(),
+    private val label: String = "",
     val labelResource: AppString? = null,
     val value: T,
 ) {

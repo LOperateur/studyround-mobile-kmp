@@ -1,15 +1,8 @@
 package com.studyround.app.ui.navigation
 
-import androidx.core.bundle.Bundle
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.serialization.decodeArguments
-import kotlinx.serialization.InternalSerializationApi
-import kotlinx.serialization.serializer
-import kotlin.reflect.KClass
 
 /**
  * Navigates to the given destination screen.
@@ -96,19 +89,4 @@ fun <T : Destination> NavController.navigateToTab(route: T, resetState: Boolean 
         // Restore state when re-selecting a previously selected item
         this.restoreState = true
     }
-}
-
-/**
- * Returns route as an object of type [T]
- *
- * Extrapolates arguments from [NavBackStackEntry.arguments] and recreates object [T]
- *
- * @param [T] the entry's [NavDestination.route] as a [KClass]
- * @return A new instance of this entry's [NavDestination.route] as an object of type [T]
- */
-@OptIn(InternalSerializationApi::class)
-fun <T : Any> NavBackStackEntry.toRoute(kClass: KClass<out T>): T {
-    val bundle = arguments ?: Bundle()
-    val typeMap = destination.arguments.mapValues { it.value.type }
-    return kClass.serializer().decodeArguments(bundle, typeMap)
 }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.navigation.bottomSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -27,7 +28,6 @@ import com.studyround.app.ui.composables.alert.LocalAlertManager
 import com.studyround.app.ui.composables.buttons.PrimaryButton
 import com.studyround.app.ui.features.dashboard.courses.details.CourseDetailsBottomSheet
 import com.studyround.app.ui.navigation.ModalBottomSheetNavHost
-import com.studyround.app.ui.navigation.bottomSheet
 import com.studyround.app.ui.navigation.navigateToRoute
 import com.studyround.app.ui.navigation.rememberBottomSheetNavigator
 import com.studyround.app.ui.theme.StudyRoundTheme
